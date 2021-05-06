@@ -45,6 +45,7 @@ class ChatInvitation (BusinessObject):
         self._is_accepted = value
 
     def switch_accepted(self):
+        "Den Status umkehren"
         if self._is_accepted is True:
             self._is_accepted = False
         else:
@@ -54,7 +55,7 @@ class ChatInvitation (BusinessObject):
 
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in einen StudyGroup"""
+        """Umwandeln eines Python dict() in einer ChatInvitation"""
         obj = ChatInvitation()
         obj.set_id(dictionary["id"])
         obj.set_source_user(dictionary["source_user"])
