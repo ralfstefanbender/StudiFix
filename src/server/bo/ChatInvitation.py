@@ -1,4 +1,4 @@
-from src.server.bo.BusinessObject import BusinessObject
+from src.server.bo import BusinessObject
 
 class ChatInvitation (BusinessObject):
 
@@ -58,6 +58,7 @@ class ChatInvitation (BusinessObject):
         """Umwandeln eines Python dict() in einer ChatInvitation"""
         obj = ChatInvitation()
         obj.set_id(dictionary["id"])
+        obj.set_creation_date(dictionary["creation_date"])
         obj.set_source_user(dictionary["source_user"])
         obj.set_target_user(dictionary["target_user"])
         obj.set_chat_id(dictionary["chat_id"])
