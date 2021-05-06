@@ -1,7 +1,7 @@
-from src.server.bo import BusinessObject as bo
+from src.server.bo import NamedBusinessObject as bo
 
 
-class User(bo.BusinessObject):
+class User(bo.NamedBusinessObject):
 
     def __init__(self):
         super().__init__()
@@ -74,6 +74,8 @@ class User(bo.BusinessObject):
         """Umwandeln eines Python dict() in einen User()."""
         obj = User()
         obj.set_id(dictionary["id"])
+        obj.set_creation_date(dictionary["creation_date"])
+        obj.set_name(dictionary["name"])
         obj.set_google_id(dictionary["google_id"])
         obj.set_first_name(dictionary["first_name"])
         obj.set_last_name(dictionary["last_name"])

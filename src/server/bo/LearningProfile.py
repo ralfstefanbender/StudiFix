@@ -1,7 +1,7 @@
-from src.server.bo import BusinessObject as bo
+from src.server.bo import NamedBusinessObject as bo
 
 
-class LearningProfile(bo.BusinessObject):
+class LearningProfile(bo.NamedBusinessObject):
 
     def __init__(self):
         super().__init__()
@@ -46,6 +46,8 @@ class LearningProfile(bo.BusinessObject):
         """Umwandeln eines Python dict() in einen User()."""
         obj = LearningProfile()
         obj.set_id(dictionary["id"])
+        obj.set_creation_date(dictionary["creation_date"])
+        obj.set_name(dictionary["name"])
         obj.set_frequency(dictionary["frequency"])
         obj.set_studystate(dictionary["studystate"])
         obj.set_extroversion(dictionary["extroversion"])
