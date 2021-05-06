@@ -54,4 +54,3 @@ class StudyGroup (BusinessObject):
         obj.set_chat_id(dictionary["chat_id"])
         obj.set_semester(dictionary["semester"])
         return obj
-        
