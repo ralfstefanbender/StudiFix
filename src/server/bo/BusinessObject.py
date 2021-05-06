@@ -10,7 +10,7 @@ class BusinessObject(ABC):
     def get_id(self):
         return self._id
 
-    def set_id(self,value):
+    def set_id(self, value):
         self._id = value
 
     def get_creation_date(self):
