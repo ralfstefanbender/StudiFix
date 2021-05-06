@@ -1,6 +1,6 @@
-from src.server.bo.BusinessObject import BusinessObject
+from src.server.bo import NamedBusinessObject
 
-class StudyGroup (BusinessObject):
+class StudyGroup (NamedBusinessObject):
 
     "Realisierung der StudyGroup"
 
@@ -49,6 +49,8 @@ class StudyGroup (BusinessObject):
         """Umwandeln eines Python dict() in einen StudyGroup"""
         obj = StudyGroup()
         obj.set_id(dictionary["id"])
+        obj.set_creation_date(dictionary["creation_date"])
+        obj.set_name(dictionary["name"])
         obj.set_learning_profile_id(dictionary["learning_profile_id"])
         obj.set_group_name(dictionary["group_name"])
         obj.set_chat_id(dictionary["chat_id"])
