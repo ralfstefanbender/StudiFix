@@ -99,7 +99,7 @@ nbo = api.inherit('NamedBusinessObject', bo, {
 chatinvitation = api.inherit('ChatInvitation', bo, {
     'source_user':fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
     'target_user':fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
- ?  'chat_id':fields.Integer(attribute='_chat_id', description='Chat id des Chats'),
+   'chat_id':fields.Integer(attribute='_chat_id', description='Chat id des Chats'),
     'is_accepted':fields.Boolean(attribute='_is_accepted', description='Akzeptierte Chateinladungen')
 })
 
@@ -111,8 +111,8 @@ chatmessage = api.inherit('ChatMessage', bo, {
 
 groupinvitation = api.inherit('GroupInvitation', bo, {
     'study_group_id':fields.Integer(attribute='_study_group_id', description='Unique Id der Gruppe'),
-  ? 'source_user':fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
-  ? 'target_user':fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
+    'source_user':fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
+    'target_user':fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
     'is_accepted':fields.Boolean(attribute='_is_accepted', description='Akzeptiert')
 })
 
@@ -121,12 +121,12 @@ learningprofile = api.inherit('LearningProfile', nbo, {
     'studystate':fields.Integer(attribute='_studystate', description='on oder offline'),
     'extroversion':fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
     'profile_id':fields.Integer(attribute='_profile_id', description='profile id'),
-    'prev_knowledge':fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse'),
+    'prev_knowledge':fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse')
 })
 
 studygroup = api.inherit('StudyGroup', nbo, {
-   ?'group_name':fields.(attribute='_semester', description='Gruppenname'),
-   ?'chat_id':fields.Integer(attribute='_chat_id', description='Chat id ')
+    'group_name':fields.String(attribute='_semester', description='Gruppenname'),
+    'chat_id':fields.Integer(attribute='_chat_id', description='Chat id '),
     'semester':fields.Integer(attribute='_semester', description='Semester')
 })
 
