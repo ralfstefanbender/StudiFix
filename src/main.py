@@ -141,15 +141,3 @@ user = api.api.inherit('User', nbo, {
     'semester':fields.Integer(attribute='_semester', description='Semester'),
     'degree_course':fields.String(attribute='_degree_course', description='Studiengang')
 })
-
-
-
-
-
-
-
-
-
-
-
-
