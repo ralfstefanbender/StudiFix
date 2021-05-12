@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-
+from datetime import datetime
 
 class BusinessObject(ABC):
 
     def __init__(self):
         self._id = 0
-        self._creation_date = 0
+        self._creation_date = datetime.now()
 
     def get_id(self):
         return self._id
