@@ -6,12 +6,12 @@ class User(bo.NamedBusinessObject):
     def __init__(self):
         super().__init__()
         self._google_id = ""
-        self._first_name = ""
-        self._last_name = ""
+        self._firstname = ""
+        self._lastname = ""
         self._email = ""
-        self._lerntyp = 0  # Lerntypen sind kategorisiert nach Nummern
+        self._learntyp = 0  # Lerntypen sind kategorisiert nach Nummern
         self._adress = ""
-        self._interest = []
+        self._interest = 0
         self._semester = 0
         self._degree_course = ""
                 
@@ -21,17 +21,17 @@ class User(bo.NamedBusinessObject):
     def set_google_id(self, value):
         self._google_id = value
     
-    def get_first_name(self):
-        return self._first_name
+    def get_firstname(self):
+        return self._firstname
     
-    def set_first_name(self, value):
-        self._first_name = value
+    def set_firstname(self, value):
+        self._firstname = value
 
-    def get_last_name(self):
-        return self._last_name
+    def get_lastname(self):
+        return self._lastname
 
-    def set_last_name(self, value):
-        self._last_name = value
+    def set_lastname(self, value):
+        self._lastname = value
 
     def get_email(self):
         return self._email
@@ -39,11 +39,11 @@ class User(bo.NamedBusinessObject):
     def set_email(self, value):
         self._email = value
 
-    def get_lerntyp(self):
-        return self._lerntyp
+    def get_learntyp(self):
+        return self._learntyp
 
-    def set_lerntyp(self, value):
-        self._lerntyp = value
+    def set_learntyp(self, value):
+        self._learntyp = value
 
     def get_adress(self):
         return self._adress
