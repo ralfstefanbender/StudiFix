@@ -17,35 +17,25 @@ class UserMapper(Mapper):
         result = []
 
         if len(tuples) == 1:
-            for (id, firstname, lastname, adress, semester, degree_course, interest,
-                 learntyp, email, google_id, creation_date) in tuples:
+            for (id, firstname, lastname, adress, email, google_id, creation_date) in tuples:
 
                 user = User()
                 user.set_id(id)
                 user.set_firstname(firstname)
                 user.set_lastname(lastname)
                 user.set_adress(adress)
-                user.set_semester(semester)
-                user.set_degree_course(degree_course)
-                user.set_interest(interest)
-                user.set_learntyp(learntyp)
                 user.set_email(email)
                 user.set_google_id(google_id)
                 user.set_creation_date(creation_date)
                 result = user
         else:
-            for (id, firstname, lastname, adress, semester, degree_course, interest,
-                 learntyp, email, google_id, creation_date) in tuples:
+            for (id, firstname, lastname, adress, email, google_id, creation_date) in tuples:
 
                 user = User()
                 user.set_id(id)
                 user.set_firstname(firstname)
                 user.set_lastname(lastname)
                 user.set_adress(adress)
-                user.set_semester(semester)
-                user.set_degree_course(degree_course)
-                user.set_interest(interest)
-                user.set_learntyp(learntyp)
                 user.set_email(email)
                 user.set_google_id(google_id)
                 user.set_creation_date(creation_date)
@@ -74,7 +64,7 @@ class UserMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, firstname, lastname, adress, semester, degree_course, interest, learntyp, email, " \
+        command = "SELECT id, firstname, lastname, adress, email, " \
                   "google_id, creation_date FROM user WHERE email LIKE '{}' ".format(email)
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -96,7 +86,7 @@ class UserMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, firstname, lastname, adress, semester, degree_course, interest, learntyp, email, " \
+        command = "SELECT id, firstname, lastname, adress, email, " \
                   "google_id, creation_date FROM user WHERE google_id LIKE '{}' ".format(google_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -117,12 +107,64 @@ class UserMapper(Mapper):
 
         return result
 
+    def find_user_by_firstname(self, firstname):
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, firstname, lastname, adress, email, " \
+                  "google_id, creation_date FROM user WHERE firstname LIKE '{}' ".format(firstname)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        """Haben wir einen Tuple gefunden ? -> ja BO bauen -> nein nix zurück geben. """
+        if len(tuples) != 0:
+            try:
+                result = self.build_bo(tuples)
+            except IndexError:
+                """Falls kein User mit dem angegebenen Vornamen gefunden werden konnte,
+                wird hier None als Rückgabewert deklariert"""
+                result = None
+        else:
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    def find_user_by_lastname(self, lastname):
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, firstname, lastname, adress, email, " \
+                  "google_id, creation_date FROM user WHERE lastname LIKE '{}' ".format(lastname)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        """Haben wir einen Tuple gefunden ? -> ja BO bauen -> nein nix zurück geben. """
+        if len(tuples) != 0:
+            try:
+                result = self.build_bo(tuples)
+            except IndexError:
+                """Falls kein User mit der angegebenenm Nachnamen gefunden werden konnte,
+                wird hier None als Rückgabewert deklariert"""
+                result = None
+        else:
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
     def find_by_id(self, id):
 
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, firstname, lastname, adress, semester, degree_course, interest, learntyp, email," \
+        command = "SELECT id, firstname, lastname, adress, email," \
                   " google_id, creation_date FROM user WHERE id LIKE '{}' ".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -151,10 +193,9 @@ class UserMapper(Mapper):
             else:
                 user.set_id(maxid[0]+1)
 
-        command = "INSERT INTO user (id, firstname, lastname, adress, semester, degree_course, interest, learntyp," \
-                  "email, google_id, creation_date) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')"\
-                .format(user.get_id(), user.get_firstname(), user.get_lastname(), user.get_adress(), user.get_semester()
-                        , user.get_degree_course(), user.get_interest(), user.get_learntyp(), user.get_email(),
+        command = "INSERT INTO user (id, firstname, lastname, adress," \
+                  "email, google_id, creation_date) VALUES ('{}','{}','{}','{}','{}','{}','{}')"\
+                .format(user.get_id(), user.get_firstname(), user.get_lastname(), user.get_adress(), user.get_email(),
                         user.get_google_id(), user.get_creation_date())
         cursor.execute(command)
 
@@ -164,12 +205,11 @@ class UserMapper(Mapper):
     def update(self, user):
 
         cursor = self._cnx.cursor()
-        command = "UPDATE user SET firstname = ('{}'), lastname = ('{}'), adress = ('{}'), semester = ('{}')," \
-                  " degree_course = ('{}'), interest = ('{}'), learntyp = ('{}'), email = ('{}'), google_id = ('{}'),"\
+        command = "UPDATE user SET firstname = ('{}'), lastname = ('{}'), adress = ('{}')," \
+                  " email = ('{}'), google_id = ('{}'),"\
                   " creation_date = ('{}'),"\
                   "WHERE id = ('{}')"\
-            .format(user.get_firstname(), user.get_lastname(), user.get_adress(), user.get_semester(),
-                    user.get_degree_course(), user.get_interest(), user.get_learntyp(), user.get_email(),
+            .format(user.get_firstname(), user.get_lastname(), user.get_adress(), user.get_email(),
                     user.get_google_id(), user.get_creation_date(), user.get_id())
         cursor.execute(command)
 
