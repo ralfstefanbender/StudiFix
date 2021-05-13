@@ -74,7 +74,8 @@ class UserMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, firstname, lastname, adress, semester, degree_course, interest, learntyp, email, google_id, creation_date FROM user WHERE email LIKE '{}' ".format(email)
+        command = "SELECT id, firstname, lastname, adress, semester, degree_course, interest, learntyp, email, " \
+                  "google_id, creation_date FROM user WHERE email LIKE '{}' ".format(email)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -95,7 +96,8 @@ class UserMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, firstname, lastname, adress, semester, degree_course, interest, learntyp, email, google_id, creation_date FROM user WHERE google_id LIKE '{}' ".format(google_id)
+        command = "SELECT id, firstname, lastname, adress, semester, degree_course, interest, learntyp, email, " \
+                  "google_id, creation_date FROM user WHERE google_id LIKE '{}' ".format(google_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
