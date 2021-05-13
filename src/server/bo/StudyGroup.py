@@ -9,7 +9,6 @@ class StudyGroup (NamedBusinessObject):
         self._learning_profile_id = int
         self._group_name = ""
         self._chat_id = ""
-        self._semester = int
 
 
     def get_group_name(self):
@@ -35,14 +34,6 @@ class StudyGroup (NamedBusinessObject):
     def set_chat_id(self, chat_id):
         "Festlegen einer Chat-ID"
         self._chat_id = chat_id
-
-    def get_semester(self):
-        "Auslesen des Semesters"
-        return self._semester
-
-    def set_semester(self, semester):
-        "Festlegen eines Semesters"
-        self._semester = semester
 
     @staticmethod
     def from_dict(dictionary=dict()):
