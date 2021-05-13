@@ -145,6 +145,10 @@ CREATE TABLE `learning_profile` (
   `extroversion` int NOT NULL,
   `study_state` int NOT NULL,
   `frequency` int NOT NULL,
+  `learntyp` int NOT NULL,
+  `semester` int NOT NULL,
+  `interest` varchar(45) NOT NULL,
+  `degree_course` varchar(45) NOT NULL,
   `creation_date` datetime NOT NULL,
   KEY `FK_user_idx` (`id`),
   CONSTRAINT `FK_learning_profile_group` FOREIGN KEY (`id`) REFERENCES `studygroup` (`id`),
@@ -171,7 +175,6 @@ DROP TABLE IF EXISTS `studygroup`;
 CREATE TABLE `studygroup` (
   `id` int NOT NULL,
   `name` varchar(45) NOT NULL,
-  `semester` int NOT NULL,
   `creation_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -198,10 +201,6 @@ CREATE TABLE `user` (
   `firstname` varchar(45) NOT NULL,
   `lastname` varchar(45) NOT NULL,
   `adress` varchar(45) NOT NULL,
-  `semester` int NOT NULL,
-  `degree_course` varchar(45) NOT NULL,
-  `interest` int NOT NULL,
-  `learntyp` int NOT NULL,
   `email` varchar(100) NOT NULL,
   `google_id` varchar(100) NOT NULL,
   `creation_date` datetime NOT NULL,
@@ -227,4 +226,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-12 12:34:43
+-- Dump completed on 2021-05-13 11:42:08
