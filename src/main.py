@@ -99,7 +99,7 @@ nbo = api.inherit('NamedBusinessObject', bo, {
 chatinvitation = api.inherit('ChatInvitation', bo, {
     'source_user':fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
     'target_user':fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
-   'chat_id':fields.Integer(attribute='_chat_id', description='Chat id des Chats'),
+    'chat_id':fields.Integer(attribute='_chat_id', description='Chat id des Chats'),
     'is_accepted':fields.Boolean(attribute='_is_accepted', description='Akzeptierte Chateinladungen')
 })
 
@@ -125,6 +125,7 @@ learningprofile = api.inherit('LearningProfile', nbo, {
 })
 
 studygroup = api.inherit('StudyGroup', nbo, {
+    'learning_profile_id':fields.Integer(attribute='_learning_profile_id', description='FK Learningprofile id'),
     'group_name':fields.String(attribute='_semester', description='Gruppenname'),
     'chat_id':fields.Integer(attribute='_chat_id', description='Chat id '),
     'semester':fields.Integer(attribute='_semester', description='Semester')
