@@ -16,6 +16,10 @@ __pycache__/
 # C extensions
 *.so
 
+
+.Mapper
+
+
 # Distribution / packaging
 .Python
 build/
