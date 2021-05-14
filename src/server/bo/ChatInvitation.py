@@ -8,7 +8,7 @@ class ChatInvitation (BusinessObject):
         super().__init__()
         self._source_user = None
         self._target_user = None
-        self._chat_id = ""
+        self._chat_id = int
         self._is_accepted = False
 
 
