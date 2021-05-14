@@ -23,7 +23,7 @@ class User(bo.NamedBusinessObject):
     def set_firstname(self, value):
         self._firstname = value
 
-    def get_lastname(self):
+    def get_last_name(self):
         return self._lastname
 
     def set_lastname(self, value):
@@ -50,8 +50,8 @@ class User(bo.NamedBusinessObject):
         obj.set_creation_date(dictionary["creation_date"])
         obj.set_name(dictionary["name"])
         obj.set_google_id(dictionary["google_id"])
-        obj.set_first_name(dictionary["firstname"])
-        obj.set_last_name(dictionary["lastname"])
+        obj.set_firstname(dictionary["firstname"])
+        obj.set_lastname(dictionary["lastname"])
         obj.set_email(dictionary["email"])
         obj.set_adress(dictionary["adress"])
         return obj

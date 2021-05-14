@@ -76,7 +76,7 @@ von Namespace könnte etwa sein, unterschiedliche API-Version voneinander zu tre
 Abwärtskompatibilität (vgl. Lehrveranstaltungen zu Software Engineering) zu gewährleisten. Dies ließe
 sich z.B. umsetzen durch /bank/v1, /bank/v2 usw."""
 
-StudiFix = api.namespace('StudiFix', description='Funktionen des StudiFix')
+studifix = api.namespace('StudiFix', description='Funktionen des StudiFix')
 
 
 
@@ -134,3 +134,142 @@ user = api.api.inherit('User', nbo, {
     'email':fields.String(attribute='_email', description='Email des Profilinhabers'),
     'adress':fields.String(attribute='_adress', description='Adresse des Profilinhabers')
 })
+
+
+@studifix.route('/user')
+@studifix.response(500, 'when server has problems')
+class UserListOperations(Resource):
+    """Reading out all user objects.
+    If no user objects are available, an empty sequence is returned."""
+    @studifix.marshal_list_with(user)
+    def get(self):
+        adm = Administration()
+        users = adm.get_all_users()
+        return users
+
+    @studifix.marshal_with(user, code=200)
+    @studifix.expect(user)  # We expect a user object from the client side.
+    def post(self):
+        """Create a new user object. We take the data sent by the client as a suggestion.
+        For example, assigning the ID is not the responsibility of the client.
+        Even if the client should assign an ID in the proposal, so
+        it is up to the administration (business logic) to have a correct ID
+        to forgive. * The corrected object will eventually be returned. *"""
+        adm = Administration()
+        prpl = User.from_dict(api.payload)
+        """Check the references for valid values before using them."""
+        if prpl is not None:
+            """We only use the attributes of student of the proposal for generation
+            of a user object. The object created by the server is authoritative and
+            is also returned to the client."""
+            s = adm.create_user(prpl.get_google_id(), prpl.get_first_name(), prpl.get_lastname(),
+                                prpl.get_email(), prpl.get_adress())
+
+            return s, 200
+        else:
+            """When it comes down to it, we don't give anything back and throw a server error."""
+            return '', 500
+
+
+@studifix.route('/user/<int:id>')
+@studifix.response(500, 'when server has problems')
+class UserOperations(Resource):
+    @studifix.marshal_with(user)
+    def get(self, id):
+        """reading out a specific userobject.
+           The object to be read is determined by the '' id '' in the URI."""
+        adm = Administration()
+        single_user = adm.get_id(id)
+        return single_user
+
+    @studifix.marshal_with(user)
+    @studifix.expect(user, validate=True)  # We expect a user object from the client side.
+    def put(self, id):
+        """ Update of a specific user object.
+        The relevant id is the id provided by the URI and thus as a method parameter
+        is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
+        student object."""
+        adm = Administration()
+        user = User.from_dict(api.payload)
+        print('main aufruf')
+
+        if user is not None:
+            """This sets the id of the user object to be overwritten (see update)."""
+            user.set_id(id)
+            adm.update_user(user)
+            return '', 200
+        else:
+            """When it comes down to it, we don't give anything back and throw a server error."""
+            return '', 500
+
+    def delete(self, id):
+        """Deletion of a specific user object.
+        The object to be deleted is determined by the '' id '' in the URI."""
+        adm = Administration()
+        single_user= adm.get_user_by_id(id)
+        adm.delete_user(single_user)
+        return '', 200
+
+
+@studifix.route('/user/<string:lastname>')
+@studifix.response(500, 'when server has problems')
+class UserNameOperations(Resource):
+    @studifix.marshal_with(user)
+    def get(self, lastname):
+        """Reading out user objects that are determined by the lastname.
+        The objects to be read out are determined by '' name '' in the URI."""
+        adm = Administration()
+        user = adm.get_user_by_lastname(lastname)
+        return user
+
+@studifix.route('/user/<string:firstname>')
+@studifix.response(500, 'when server has problems')
+class UserFirstNameOperations(Resource):
+    @studifix.marshal_with(user)
+    def get(self, firstname):
+        """Reading out user objects that are determined by the lastname.
+        The objects to be read out are determined by '' name '' in the URI."""
+        adm = Administration()
+        user = adm.get_user_by_firstname(firstname)
+        return user
+
+
+@studifix.route('/user-by-mail/<string:email>')
+@studifix.response(500, 'when server has problems')
+class UserMailOperations(Resource):
+    @studifix.marshal_with(user)
+    def get(self, email):
+        """Reading out student objects that are determined by the E-Mail.
+        The objects to be read out are determined by '' mail '' in the URI."""
+        adm = Administration()
+        users = adm.get_user_by_mail(email)
+        return users
+
+
+@studifix.route('/user-by-google-id/<string:google_id>')
+@studifix.response(500, 'when server has problems')
+class UserGoogleOperations(Resource):
+    @studifix.marshal_with(user)
+    def get(self, google_id):
+        """Reading out student objects that are determined by the google id.
+        The objects to be read out are determined by '' google_id '' in the URI."""
+        adm = Administration()
+        users = adm.get_user_by_google_id(google_id)
+        return users
+
+
+
+
+"""
+Nachdem wir nun sämtliche Resourcen definiert haben, die wir via REST bereitstellen möchten,
+müssen nun die App auch tatsächlich zu starten.
+
+Diese Zeile ist leider nicht Teil der Flask-Doku! In jener Doku wird von einem Start via Kommandozeile ausgegangen.
+Dies ist jedoch für uns in der Entwicklungsumgebung wenig komfortabel. Deshlab kommt es also schließlich zu den 
+folgenden Zeilen. 
+
+**ACHTUNG:** Diese Zeile wird nur in der lokalen Entwicklungsumgebung ausgeführt und hat in der Cloud keine Wirkung!
+"""
+if __name__ == '__main__':
+    app.run(debug=True)
+
