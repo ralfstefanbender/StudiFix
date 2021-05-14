@@ -89,7 +89,7 @@ StudiFix = api.namespace('StudiFix', description='Funktionen des StudiFix')
 
 bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Unique id of a business object'),
-    'creation_date': fields.String(attribute='_creation_date', description='creation date of a business object')
+    'creation_date': fields.DateTime(attribute='_creation_date', description='creation date of a business object')
 })
 
 nbo = api.inherit('NamedBusinessObject', bo, {
@@ -121,14 +121,17 @@ learningprofile = api.inherit('LearningProfile', nbo, {
     'studystate':fields.Integer(attribute='_studystate', description='on oder offline'),
     'extroversion':fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
     'profile_id':fields.Integer(attribute='_profile_id', description='profile id'),
-    'prev_knowledge':fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse')
+    'prev_knowledge':fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse'),
+    'lerntyp':fields.Integer(attribute='_lerntyp', description='Lerntypdes Profilinhabers'),
+    'interest': fields.List(attribute='_interest', description='Interessen des Profilinhabers'),
+    'semester': fields.Integer(attribute='_semester', description='Semester'),
+    'degree_course':fields.String(attribute='_degree_course', description='Studiengang')
 })
 
 studygroup = api.inherit('StudyGroup', nbo, {
     'learning_profile_id':fields.Integer(attribute='_learning_profile_id', description='FK Learningprofile id'),
     'group_name':fields.String(attribute='_semester', description='Gruppenname'),
-    'chat_id':fields.Integer(attribute='_chat_id', description='Chat id '),
-    'semester':fields.Integer(attribute='_semester', description='Semester')
+    'chat_id':fields.Integer(attribute='_chat_id', description='Chat id ')
 })
 
 user = api.api.inherit('User', nbo, {
@@ -136,9 +139,5 @@ user = api.api.inherit('User', nbo, {
     'first_name':fields.String(attribute='_first_name', description='Vorname des Profilinhabers'),
     'last_name':fields.String(attribute='_last_name', description='Nachname des Profilinhabers'),
     'email':fields.String(attribute='_email', description='Email des Profilinhabers'),
-    'lerntyp':fields.Integer(attribute='_lerntyp', description='Lerntypdes Profilinhabers'),
-    'adress':fields.String(attribute='_adress', description='Adresse des Profilinhabers'),
-    'interest':fields.List(attribute='_interest', description='Interessen des Profilinhabers'),
-    'semester':fields.Integer(attribute='_semester', description='Semester'),
-    'degree_course':fields.String(attribute='_degree_course', description='Studiengang')
+    'adress':fields.String(attribute='_adress', description='Adresse des Profilinhabers')
 })
