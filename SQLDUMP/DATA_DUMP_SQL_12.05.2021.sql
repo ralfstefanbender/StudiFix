@@ -28,8 +28,7 @@ CREATE TABLE `chat` (
   `id` int NOT NULL,
   `name` varchar(45) NOT NULL,
   `creation_date` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `FK_chat_group` FOREIGN KEY (`id`) REFERENCES `studygroup` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -56,10 +55,10 @@ CREATE TABLE `chat_invitaion` (
   `chat_id` int NOT NULL,
   `target_user` int NOT NULL,
   `source_user` int NOT NULL,
-  PRIMARY KEY (`id`),
   KEY `FK_source_user_chat_idx` (`source_user`),
   KEY `FK_target_user_chat_idx` (`target_user`),
-  CONSTRAINT `FK_chat` FOREIGN KEY (`id`) REFERENCES `chat` (`id`),
+  KEY `FK_chat_idx` (`chat_id`),
+  CONSTRAINT `FK_chat` FOREIGN KEY (`chat_id`) REFERENCES `chat` (`id`),
   CONSTRAINT `FK_source_user_chat` FOREIGN KEY (`source_user`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_target_user_chat` FOREIGN KEY (`target_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -85,8 +84,12 @@ CREATE TABLE `chat_message` (
   `id` int NOT NULL,
   `text` varchar(200) NOT NULL,
   `creation_date` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `FK_chat_message` FOREIGN KEY (`id`) REFERENCES `chat` (`id`)
+  `chat_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  KEY `FK_chat_message_idx` (`chat_id`),
+  KEY `FK_message_user_idx` (`user_id`),
+  CONSTRAINT `FK_chat_message` FOREIGN KEY (`chat_id`) REFERENCES `chat` (`id`),
+  CONSTRAINT `FK_message_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -113,10 +116,10 @@ CREATE TABLE `group_invitation` (
   `study_group_id` int NOT NULL,
   `target_user` int NOT NULL,
   `source_user` int NOT NULL,
-  PRIMARY KEY (`id`),
   KEY `FK_source_user_group_idx` (`source_user`),
   KEY `FK_target_user_group_idx` (`target_user`),
-  CONSTRAINT `FK_group` FOREIGN KEY (`id`) REFERENCES `studygroup` (`id`),
+  KEY `FK_group_idx` (`study_group_id`),
+  CONSTRAINT `FK_group` FOREIGN KEY (`study_group_id`) REFERENCES `studygroup` (`id`),
   CONSTRAINT `FK_source_user_group` FOREIGN KEY (`source_user`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_target_user_group` FOREIGN KEY (`target_user`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -145,6 +148,10 @@ CREATE TABLE `learning_profile` (
   `extroversion` int NOT NULL,
   `study_state` int NOT NULL,
   `frequency` int NOT NULL,
+  `learntyp` int NOT NULL,
+  `semester` int NOT NULL,
+  `interest` varchar(45) NOT NULL,
+  `degree_course` varchar(45) NOT NULL,
   `creation_date` datetime NOT NULL,
   KEY `FK_user_idx` (`id`),
   CONSTRAINT `FK_learning_profile_group` FOREIGN KEY (`id`) REFERENCES `studygroup` (`id`),
@@ -170,10 +177,15 @@ DROP TABLE IF EXISTS `studygroup`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `studygroup` (
   `id` int NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `semester` int NOT NULL,
+  `group_name` varchar(45) NOT NULL,
   `creation_date` datetime NOT NULL,
-  PRIMARY KEY (`id`)
+  `learning_profil_id` int NOT NULL,
+  `chat_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_group_chat_idx` (`chat_id`),
+  KEY `FK_group_lp_idx` (`learning_profil_id`),
+  CONSTRAINT `FK_group_chat` FOREIGN KEY (`chat_id`) REFERENCES `chat` (`id`),
+  CONSTRAINT `FK_group_lp` FOREIGN KEY (`learning_profil_id`) REFERENCES `learning_profile` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -198,10 +210,6 @@ CREATE TABLE `user` (
   `firstname` varchar(45) NOT NULL,
   `lastname` varchar(45) NOT NULL,
   `adress` varchar(45) NOT NULL,
-  `semester` int NOT NULL,
-  `degree_course` varchar(45) NOT NULL,
-  `interest` int NOT NULL,
-  `learntyp` int NOT NULL,
   `email` varchar(100) NOT NULL,
   `google_id` varchar(100) NOT NULL,
   `creation_date` datetime NOT NULL,
@@ -227,4 +235,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-12 12:34:43
+-- Dump completed on 2021-05-13 12:42:18

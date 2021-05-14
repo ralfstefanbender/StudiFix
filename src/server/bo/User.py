@@ -9,11 +9,7 @@ class User(bo.NamedBusinessObject):
         self._firstname = ""
         self._lastname = ""
         self._email = ""
-        self._learntyp = 0  # Lerntypen sind kategorisiert nach Nummern
         self._adress = ""
-        self._interest = 0
-        self._semester = 0
-        self._degree_course = ""
                 
     def get_google_id(self):
         return self._google_id
@@ -39,35 +35,12 @@ class User(bo.NamedBusinessObject):
     def set_email(self, value):
         self._email = value
 
-    def get_learntyp(self):
-        return self._learntyp
-
-    def set_learntyp(self, value):
-        self._learntyp = value
-
     def get_adress(self):
         return self._adress
 
     def set_adress(self, value):
         self._adress = value
 
-    def get_interest(self):
-        return self._interest
-
-    def set_interest(self, value):
-        self._interest = value
-
-    def get_semester(self):
-        return self._semester
-
-    def set_semester(self, value):
-        self._semester = value
-
-    def get_degree_course(self):
-        return self._degree_course
-
-    def set_degree_course(self, value):
-        self._degree_course = value
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -77,12 +50,8 @@ class User(bo.NamedBusinessObject):
         obj.set_creation_date(dictionary["creation_date"])
         obj.set_name(dictionary["name"])
         obj.set_google_id(dictionary["google_id"])
-        obj.set_first_name(dictionary["first_name"])
-        obj.set_last_name(dictionary["last_name"])
+        obj.set_first_name(dictionary["firstname"])
+        obj.set_last_name(dictionary["lastname"])
         obj.set_email(dictionary["email"])
-        obj.set_lerntyp(dictionary["lerntyp"])
         obj.set_adress(dictionary["adress"])
-        obj.set_interest(dictionary["interest"])
-        obj.set_semester(dictionary["semester"])
-        obj.set_degree_course(dictionary["degree_course"])
         return obj
