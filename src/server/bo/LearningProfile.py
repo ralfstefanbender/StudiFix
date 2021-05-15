@@ -6,7 +6,7 @@ class LearningProfile(bo.NamedBusinessObject):
     def __init__(self):
         super().__init__()
         self._frequency = 0
-        self._studystate = 0
+        self._study_state = 0
         self._extroversion = 0
         self._prev_knowledge = 0
         self._learntyp = 0  # Lerntypen sind kategorisiert nach Nummern
@@ -20,11 +20,11 @@ class LearningProfile(bo.NamedBusinessObject):
     def set_frequency(self, value):
         self._frequency = value
 
-    def get_studystate(self):
-        return self._studystate
+    def get_study_state(self):
+        return self._study_state
 
-    def set_studystate(self, value):
-        self._studystate = value
+    def set_study_state(self, value):
+        self._study_state = value
 
     def get_extroversion(self):
         return self._extroversion
@@ -70,7 +70,7 @@ class LearningProfile(bo.NamedBusinessObject):
         obj.set_creation_date(dictionary["creation_date"])
         obj.set_name(dictionary["name"])
         obj.set_frequency(dictionary["frequency"])
-        obj.set_studystate(dictionary["studystate"])
+        obj.set_study_state(dictionary["study_state"])
         obj.set_extroversion(dictionary["extroversion"])
         obj.set_prev_knowledge(dictionary["prev_knowledge"])
         obj.set_learntyp(dictionary["learntyp"])
