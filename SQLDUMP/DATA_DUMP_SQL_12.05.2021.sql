@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS `chat_invitaion`;
 CREATE TABLE `chat_invitaion` (
   `id` int NOT NULL,
   `creation_date` datetime NOT NULL,
-  `accepted` tinyint NOT NULL,
+  `is_accepted` tinyint NOT NULL,
   `chat_id` int NOT NULL,
   `target_user` int NOT NULL,
   `source_user` int NOT NULL,
@@ -240,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-15 16:43:45
+-- Dump completed on 2021-05-15 16:48:38
