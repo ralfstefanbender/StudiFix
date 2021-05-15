@@ -578,16 +578,169 @@ class GroupInvitationNameOperations(Resource):
         return groupinvitation
 
 
+#-----StudyGroup---------
+
+@studifix.route('/studygroup')
+@studifix.response(500, 'when server has problems')
+class StudyGroupListOperations(Resource):
+    """Reading out all user objects.
+    If no user objects are available, an empty sequence is returned."""
+    @studifix.marshal_list_with(studygroup)
+    def get(self):
+        adm = Administration()
+        studygroups = adm.get_all_studygroup()
+        return studygroups
+
+    @studifix.marshal_with(studygroup, code=200)
+    @studifix.expect(studygroup)  # We expect a user object from the client side.
+    def post(self):
+        """Create a new user object. We take the data sent by the client as a suggestion.
+        For example, assigning the ID is not the responsibility of the client.
+        Even if the client should assign an ID in the proposal, so
+        it is up to the administration (business logic) to have a correct ID
+        to forgive. * The corrected object will eventually be returned. *"""
+        adm = Administration()
+        prpl = StudyGroup.from_dict(api.payload)
+        """Check the references for valid values before using them."""
+        if prpl is not None:
+            """We only use the attributes of student of the proposal for generation
+            of a user object. The object created by the server is authoritative and
+            is also returned to the client."""
+            s = adm.create_studygroup(prpl.get_get_learning_profile_id(), prpl.get_name(), prpl.get_chat_id())
+
+            return s, 200
+        else:
+            """When it comes down to it, we don't give anything back and throw a server error."""
+            return '', 500
 
 
+@studifix.route('/studygroup/<int:id>')
+@studifix.response(500, 'when server has problems')
+class StudyGroupOperations(Resource):
+    @studifix.marshal_with(user)
+    def get(self, id):
+        """reading out a specific userobject.
+           The object to be read is determined by the '' id '' in the URI."""
+        adm = Administration()
+        single_studygroup = adm.get_id(id)
+        return single_studygroup
+
+    @studifix.marshal_with(studygroup)
+    @studifix.expect(studygroup, validate=True)  # We expect a user object from the client side.
+    def put(self, id):
+        """ Update of a specific user object.
+        The relevant id is the id provided by the URI and thus as a method parameter
+        is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
+        student object."""
+        adm = Administration()
+        studygroup = StudyGroup.from_dict(api.payload)
+        print('main aufruf')
+
+        if studygroup is not None:
+            """This sets the id of the user object to be overwritten (see update)."""
+            studygroup.set_id(id)
+            adm.update_studygroup(studygroup)
+            return '', 200
+        else:
+            """When it comes down to it, we don't give anything back and throw a server error."""
+            return '', 500
+
+    def delete(self, id):
+        """Deletion of a specific user object.
+        The object to be deleted is determined by the '' id '' in the URI."""
+        adm = Administration()
+        single_studygroup= adm.get_studygroup_by_id(id)
+        adm.delete_studygroup(single_studygroup)
+        return '', 200
 
 
+@studifix.route('/studygroup/<string:name>')
+@studifix.response(500, 'when server has problems')
+class StudyGroupOperations(Resource):
+    @studifix.marshal_with(studygroup)
+    def get(self, name):
+        """Reading out user objects that are determined by the lastname.
+        The objects to be read out are determined by '' name '' in the URI."""
+        adm = Administration()
+        studygroup = adm.get_studygroup_by_name(name)
+        return studygroup
+
+#-------LearningProfile---------
 
 
+@studifix.route('/learningprofile')
+@studifix.response(500, 'when server has problems')
+class LearningProfileListOperations(Resource):
+    """Reading out all user objects.
+    If no user objects are available, an empty sequence is returned."""
+    @studifix.marshal_list_with(learningprofile)
+    def get(self):
+        adm = Administration()
+        learningprofiles = adm.get_all_learningprofiles()
+        return learningprofiles
+
+    @studifix.marshal_with(learningprofile, code=200)
+    @studifix.expect(learningprofile)  # We expect a user object from the client side.
+    def post(self):
+        """Create a new user object. We take the data sent by the client as a suggestion.
+        For example, assigning the ID is not the responsibility of the client.
+        Even if the client should assign an ID in the proposal, so
+        it is up to the administration (business logic) to have a correct ID
+        to forgive. * The corrected object will eventually be returned. *"""
+        adm = Administration()
+        prpl = LearningProfile.from_dict(api.payload)
+        """Check the references for valid values before using them."""
+        if prpl is not None:
+            """We only use the attributes of student of the proposal for generation
+            of a user object. The object created by the server is authoritative and
+            is also returned to the client."""
+            s = adm.create_learningprofile(prpl.get_studystate(), prpl.get_extroversion(), prpl.get_prev_knowledge(),
+                                prpl.get_learntyp(), prpl.get_interest(), prpl.get_semester(), prpl.get_degree_course())
+
+            return s, 200
+        else:
+            """When it comes down to it, we don't give anything back and throw a server error."""
+            return '', 500
 
 
+@studifix.route('/learningprofile/<int:id>')
+@studifix.response(500, 'when server has problems')
+class LearningProfileOperations(Resource):
+    @studifix.marshal_with(learningprofile)
+    def get(self, id):
+        """reading out a specific userobject.
+           The object to be read is determined by the '' id '' in the URI."""
+        adm = Administration()
+        single_learningprofile = adm.get_id(id)
+        return single_learningprofile
 
+    @studifix.marshal_with(learningprofile)
+    @studifix.expect(learningprofile, validate=True)  # We expect a user object from the client side.
+    def put(self, id):
+        """ Update of a specific user object.
+        The relevant id is the id provided by the URI and thus as a method parameter
+        is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
+        student object."""
+        adm = Administration()
+        learningprofile = LearningProfile.from_dict(api.payload)
+        print('main aufruf')
 
+        if learningprofile is not None:
+            """This sets the id of the user object to be overwritten (see update)."""
+            learningprofile.set_id(id)
+            adm.update_learningprofile(learningprofile)
+            return '', 200
+        else:
+            """When it comes down to it, we don't give anything back and throw a server error."""
+            return '', 500
+
+    def delete(self, id):
+        """Deletion of a specific user object.
+        The object to be deleted is determined by the '' id '' in the URI."""
+        adm = Administration()
+        single_learningprofile= adm.get_learningprofile_by_id(id)
+        adm.delete_learningprofile(single_learningprofile)
+        return '', 200
 
 
 
