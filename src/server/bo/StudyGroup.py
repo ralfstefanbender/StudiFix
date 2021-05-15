@@ -1,19 +1,19 @@
-from src.server.bo import NamedBusinessObject
+from src.server.bo import NamedBusinessObject as bo
 
-class StudyGroup (NamedBusinessObject):
+
+class StudyGroup(bo.NamedBusinessObject):
 
     "Realisierung der StudyGroup"
 
     def __init__(self):
         super().__init__()
-        self._learning_profile_id = int
+        self._learning_profile_id = 0
         self._group_name = ""
-        self._chat_id = ""
-
+        self._chat_id = 0
 
     def get_group_name(self):
         "Auslesen des Gruppennamens"
-        return  self._group_name
+        return self._group_name
 
     def set_group_name(self, group_name):
         "Festlegen eines Gruppennamens"
@@ -23,7 +23,7 @@ class StudyGroup (NamedBusinessObject):
         "Auselesn der zugrhörigen Lernprofil-ID"
         return self._learning_profile_id
 
-    def set_learning_profile_id(self,learning_profile_id):
+    def set_learning_profile_id(self, learning_profile_id):
         "Festlegen einer Lernprofil-ID"
         self._learning_profile_id = learning_profile_id
 
@@ -45,5 +45,4 @@ class StudyGroup (NamedBusinessObject):
         obj.set_learning_profile_id(dictionary["learning_profile_id"])
         obj.set_group_name(dictionary["group_name"])
         obj.set_chat_id(dictionary["chat_id"])
-        obj.set_semester(dictionary["semester"])
         return obj
