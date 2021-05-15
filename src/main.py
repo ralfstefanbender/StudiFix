@@ -162,7 +162,7 @@ class UserListOperations(Resource):
         prpl = User.from_dict(api.payload)
         """Check the references for valid values before using them."""
         if prpl is not None:
-            """We only use the attributes of student of the proposal for generation
+            """We only use the attributes of  user of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
             s = adm.create_user(prpl.get_google_id(), prpl.get_first_name(), prpl.get_lastname(),
@@ -242,7 +242,7 @@ class UserFirstNameOperations(Resource):
 class UserMailOperations(Resource):
     @studifix.marshal_with(user)
     def get(self, email):
-        """Reading out student objects that are determined by the E-Mail.
+        """Reading out user objects that are determined by the E-Mail.
         The objects to be read out are determined by '' mail '' in the URI."""
         adm = Administration()
         users = adm.get_user_by_mail(email)
@@ -254,7 +254,7 @@ class UserMailOperations(Resource):
 class UserGoogleOperations(Resource):
     @studifix.marshal_with(user)
     def get(self, google_id):
-        """Reading out student objects that are determined by the google id.
+        """Reading out user objects that are determined by the google id.
         The objects to be read out are determined by '' google_id '' in the URI."""
         adm = Administration()
         users = adm.get_user_by_google_id(google_id)
@@ -266,7 +266,7 @@ class UserGoogleOperations(Resource):
 @studifix.route('/chatinvitation')
 @studifix.response(500, 'when server has problems')
 class ChatInvitationListOperations(Resource):
-    """Reading out all chats objects.
+    """Reading out all chatinvitation objects.
     If no user objects are available, an empty sequence is returned."""
     @studifix.marshal_list_with(chatinvitation)
     def get(self):
@@ -286,7 +286,7 @@ class ChatInvitationListOperations(Resource):
         prpl = ChatInvitation.from_dict(api.payload)
         """Check the references for valid values before using them."""
         if prpl is not None:
-            """We only use the attributes of student of the proposal for generation
+            """We only use the attributes of chatinvitation of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
             s = adm.create_chatinvitation(prpl.get_source_user(), prpl.get_target_user(), prpl.get_chat_id(),
@@ -303,7 +303,7 @@ class ChatInvitationListOperations(Resource):
 class ChatInvitationOperations(Resource):
     @studifix.marshal_with(chatinvitation)
     def get(self, id):
-        """reading out a specific chatinvitationobject.
+        """reading out a specific chatinvitation object.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
         single_chatinvitation = adm.get_id(id)
@@ -312,7 +312,7 @@ class ChatInvitationOperations(Resource):
     @studifix.marshal_with(chatinvitation)
     @studifix.expect(chatinvitation, validate=True)  # We expect a user object from the client side.
     def put(self, id):
-        """ Update of a specific user object.
+        """ Update of a specific chatinvitation object.
         The relevant id is the id provided by the URI and thus as a method parameter
         is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
         student object."""
@@ -321,7 +321,7 @@ class ChatInvitationOperations(Resource):
         print('main aufruf')
 
         if chatinvitation is not None:
-            """This sets the id of the user object to be overwritten (see update)."""
+            """This sets the id of the chatinvitation object to be overwritten (see update)."""
             chatinvitation.set_id(id)
             adm.update_chatinvitation(chatinvitation)
             return '', 200
@@ -330,7 +330,7 @@ class ChatInvitationOperations(Resource):
             return '', 500
 
     def delete(self, id):
-        """Deletion of a specific user object.
+        """Deletion of a specific chatinvitation object.
         The object to be deleted is determined by the '' id '' in the URI."""
         adm = Administration()
         single_chatinvitation= adm.get_chatinvitation_by_id(id)
@@ -343,7 +343,7 @@ class ChatInvitationOperations(Resource):
 @studifix.route('/chatmessage')
 @studifix.response(500, 'when server has problems')
 class ChatMessageListOperations(Resource):
-    """Reading out all chats objects.
+    """Reading out all chatmessage objects.
     If no user objects are available, an empty sequence is returned."""
     @studifix.marshal_list_with(chatmessage)
     def get(self):
@@ -354,7 +354,7 @@ class ChatMessageListOperations(Resource):
     @studifix.marshal_with(chatmessage, code=200)
     @studifix.expect(chatmessage)  # We expect a user object from the client side.
     def post(self):
-        """Create a new Chatinvitation object. We take the data sent by the client as a suggestion.
+        """Create a new chatmessage object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
         Even if the client should assign an ID in the proposal, so
         it is up to the administration (business logic) to have a correct ID
@@ -363,7 +363,7 @@ class ChatMessageListOperations(Resource):
         prpl = ChatMessage.from_dict(api.payload)
         """Check the references for valid values before using them."""
         if prpl is not None:
-            """We only use the attributes of student of the proposal for generation
+            """We only use the attributes of chatmessage of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
             chatmessage = adm.create_chatmessage(prpl.get_chat_id(), prpl.get_user_id(), prpl.get_text())
@@ -379,16 +379,16 @@ class ChatMessageListOperations(Resource):
 class ChatMessageOperations(Resource):
     @studifix.marshal_with(chatinvitation)
     def get(self, id):
-        """reading out a specific userobject.
+        """reading out a specific chatmessageobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
         single_chatmessage = adm.get_id(id)
         return single_chatmessage
 
     @studifix.marshal_with(chatmessage)
-    @studifix.expect(chatmessage, validate=True)  # We expect a user object from the client side.
+    @studifix.expect(chatmessage, validate=True)  # We expect a chatmessage object from the client side.
     def put(self, id):
-        """ Update of a specific user object.
+        """ Update of a specific chatmessage object.
         The relevant id is the id provided by the URI and thus as a method parameter
         is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
         student object."""
@@ -397,7 +397,7 @@ class ChatMessageOperations(Resource):
         print('main aufruf')
 
         if chatmessage is not None:
-            """This sets the id of the user object to be overwritten (see update)."""
+            """This sets the id of the chatmessage object to be overwritten (see update)."""
             chatmessage.set_id(id)
             adm.update_chatmessage(chatinvitation)
             return '', 200
@@ -406,7 +406,7 @@ class ChatMessageOperations(Resource):
             return '', 500
 
     def delete(self, id):
-        """Deletion of a specific user object.
+        """Deletion of a specific chatmessage object.
         The object to be deleted is determined by the '' id '' in the URI."""
         adm = Administration()
         single_chatmessage= adm.get_chatmessage_by_id(id)
@@ -419,7 +419,7 @@ class ChatMessageOperations(Resource):
 @studifix.route('/chat')
 @studifix.response(500, 'when server has problems')
 class ChatListOperations(Resource):
-    """Reading out all chats objects.
+    """Reading out all chat objects.
     If no user objects are available, an empty sequence is returned."""
     @studifix.marshal_list_with(chat)
     def get(self):
@@ -430,7 +430,7 @@ class ChatListOperations(Resource):
     @studifix.marshal_with(chat, code=200)
     @studifix.expect(chat)  # We expect a user object from the client side.
     def post(self):
-        """Create a new Chatinvitation object. We take the data sent by the client as a suggestion.
+        """Create a new Chat object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
         Even if the client should assign an ID in the proposal, so
         it is up to the administration (business logic) to have a correct ID
@@ -439,7 +439,7 @@ class ChatListOperations(Resource):
         prpl = Chat.from_dict(api.payload)
         """Check the references for valid values before using them."""
         if prpl is not None:
-            """We only use the attributes of student of the proposal for generation
+            """We only use the attributes of  of chat proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
             return prpl, 200
@@ -453,7 +453,7 @@ class ChatListOperations(Resource):
 class ChatOperations(Resource):
     @studifix.marshal_with(chat)
     def get(self, id):
-        """reading out a specific userobject.
+        """reading out a specific chatobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
         single_chat = adm.get_id(id)
@@ -462,7 +462,7 @@ class ChatOperations(Resource):
     @studifix.marshal_with(chat)
     @studifix.expect(chat, validate=True)  # We expect a user object from the client side.
     def put(self, id):
-        """ Update of a specific user object.
+        """ Update of a specific chat object.
         The relevant id is the id provided by the URI and thus as a method parameter
         is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
         student object."""
@@ -471,7 +471,7 @@ class ChatOperations(Resource):
         print('main aufruf')
 
         if chat is not None:
-            """This sets the id of the user object to be overwritten (see update)."""
+            """This sets the id of the chat object to be overwritten (see update)."""
             chat.set_id(id)
             adm.update_chat(chat)
             return '', 200
@@ -480,7 +480,7 @@ class ChatOperations(Resource):
             return '', 500
 
     def delete(self, id):
-        """Deletion of a specific user object.
+        """Deletion of a specific chat object.
         The object to be deleted is determined by the '' id '' in the URI."""
         adm = Administration()
         single_chat= adm.get_chat_by_id(id)
@@ -493,7 +493,7 @@ class ChatOperations(Resource):
 @studifix.route('/groupinvitation')
 @studifix.response(500, 'when server has problems')
 class GroupInvitationListOperations(Resource):
-    """Reading out all user objects.
+    """Reading out all groupinvitation objects.
     If no user objects are available, an empty sequence is returned."""
 
     @studifix.marshal_list_with(groupinvitation)
@@ -505,7 +505,7 @@ class GroupInvitationListOperations(Resource):
     @studifix.marshal_with(groupinvitation, code=200)
     @studifix.expect(groupinvitation)  # We expect a user object from the client side.
     def post(self):
-        """Create a new user object. We take the data sent by the client as a suggestion.
+        """Create a new groupinvitation object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
         Even if the client should assign an ID in the proposal, so
         it is up to the administration (business logic) to have a correct ID
@@ -514,7 +514,7 @@ class GroupInvitationListOperations(Resource):
         prpl = GroupInvitation.from_dict(api.payload)
         """Check the references for valid values before using them."""
         if prpl is not None:
-            """We only use the attributes of student of the proposal for generation
+            """We only use the attributes of groupinvitation of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
             s = adm.create_groupinvitation(prpl.get_study_group_id(), prpl.get_source_user(), prpl.get_target_user(),
@@ -531,7 +531,7 @@ class GroupInvitationListOperations(Resource):
 class GroupInvitationOperations(Resource):
     @studifix.marshal_with(groupinvitation)
     def get(self, id):
-        """reading out a specific userobject.
+        """reading out a specific groupinvitationobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
         single_groupinvitation = adm.get_id(id)
@@ -540,7 +540,7 @@ class GroupInvitationOperations(Resource):
     @studifix.marshal_with(groupinvitation)
     @studifix.expect(groupinvitation, validate=True)  # We expect a user object from the client side.
     def put(self, id):
-        """ Update of a specific user object.
+        """ Update of a specific groupinvitation object.
         The relevant id is the id provided by the URI and thus as a method parameter
         is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
         student object."""
@@ -549,7 +549,7 @@ class GroupInvitationOperations(Resource):
         print('main aufruf')
 
         if groupinvitation is not None:
-            """This sets the id of the user object to be overwritten (see update)."""
+            """This sets the id of the groupinvitation object to be overwritten (see update)."""
             groupinvitation.set_id(id)
             adm.update_groupinvitation(groupinvitation)
             return '', 200
@@ -558,7 +558,7 @@ class GroupInvitationOperations(Resource):
             return '', 500
 
     def delete(self, id):
-        """Deletion of a specific user object.
+        """Deletion of a specific groupinvitation object.
         The object to be deleted is determined by the '' id '' in the URI."""
         adm = Administration()
         single_groupinvitation= adm.get_user_by_id(id)
@@ -571,7 +571,7 @@ class GroupInvitationOperations(Resource):
 class GroupInvitationNameOperations(Resource):
     @studifix.marshal_with(user)
     def get(self, name):
-        """Reading out user objects that are determined by the lastname.
+        """Reading out groupinvitation objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
         adm = Administration()
         groupinvitation = adm.get_groupinvitation_by_name(name)
@@ -583,7 +583,7 @@ class GroupInvitationNameOperations(Resource):
 @studifix.route('/studygroup')
 @studifix.response(500, 'when server has problems')
 class StudyGroupListOperations(Resource):
-    """Reading out all user objects.
+    """Reading out all studygroup objects.
     If no user objects are available, an empty sequence is returned."""
     @studifix.marshal_list_with(studygroup)
     def get(self):
@@ -594,7 +594,7 @@ class StudyGroupListOperations(Resource):
     @studifix.marshal_with(studygroup, code=200)
     @studifix.expect(studygroup)  # We expect a user object from the client side.
     def post(self):
-        """Create a new user object. We take the data sent by the client as a suggestion.
+        """Create a new studygroup object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
         Even if the client should assign an ID in the proposal, so
         it is up to the administration (business logic) to have a correct ID
@@ -603,7 +603,7 @@ class StudyGroupListOperations(Resource):
         prpl = StudyGroup.from_dict(api.payload)
         """Check the references for valid values before using them."""
         if prpl is not None:
-            """We only use the attributes of student of the proposal for generation
+            """We only use the attributes of studygroup of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
             s = adm.create_studygroup(prpl.get_get_learning_profile_id(), prpl.get_name(), prpl.get_chat_id())
@@ -619,7 +619,7 @@ class StudyGroupListOperations(Resource):
 class StudyGroupOperations(Resource):
     @studifix.marshal_with(user)
     def get(self, id):
-        """reading out a specific userobject.
+        """reading out a specific studygroupobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
         single_studygroup = adm.get_id(id)
@@ -628,7 +628,7 @@ class StudyGroupOperations(Resource):
     @studifix.marshal_with(studygroup)
     @studifix.expect(studygroup, validate=True)  # We expect a user object from the client side.
     def put(self, id):
-        """ Update of a specific user object.
+        """ Update of a specific studygroup object.
         The relevant id is the id provided by the URI and thus as a method parameter
         is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
         student object."""
@@ -637,7 +637,7 @@ class StudyGroupOperations(Resource):
         print('main aufruf')
 
         if studygroup is not None:
-            """This sets the id of the user object to be overwritten (see update)."""
+            """This sets the id of the studygroup object to be overwritten (see update)."""
             studygroup.set_id(id)
             adm.update_studygroup(studygroup)
             return '', 200
@@ -646,7 +646,7 @@ class StudyGroupOperations(Resource):
             return '', 500
 
     def delete(self, id):
-        """Deletion of a specific user object.
+        """Deletion of a specific studygroup object.
         The object to be deleted is determined by the '' id '' in the URI."""
         adm = Administration()
         single_studygroup= adm.get_studygroup_by_id(id)
@@ -659,7 +659,7 @@ class StudyGroupOperations(Resource):
 class StudyGroupOperations(Resource):
     @studifix.marshal_with(studygroup)
     def get(self, name):
-        """Reading out user objects that are determined by the lastname.
+        """Reading out studygroup objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
         adm = Administration()
         studygroup = adm.get_studygroup_by_name(name)
@@ -671,7 +671,7 @@ class StudyGroupOperations(Resource):
 @studifix.route('/learningprofile')
 @studifix.response(500, 'when server has problems')
 class LearningProfileListOperations(Resource):
-    """Reading out all user objects.
+    """Reading out all learninprofile objects.
     If no user objects are available, an empty sequence is returned."""
     @studifix.marshal_list_with(learningprofile)
     def get(self):
@@ -682,7 +682,7 @@ class LearningProfileListOperations(Resource):
     @studifix.marshal_with(learningprofile, code=200)
     @studifix.expect(learningprofile)  # We expect a user object from the client side.
     def post(self):
-        """Create a new user object. We take the data sent by the client as a suggestion.
+        """Create a new learninprofile object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
         Even if the client should assign an ID in the proposal, so
         it is up to the administration (business logic) to have a correct ID
@@ -692,7 +692,7 @@ class LearningProfileListOperations(Resource):
         """Check the references for valid values before using them."""
         if prpl is not None:
             """We only use the attributes of student of the proposal for generation
-            of a user object. The object created by the server is authoritative and
+            of a learninprofile object. The object created by the server is authoritative and
             is also returned to the client."""
             s = adm.create_learningprofile(prpl.get_studystate(), prpl.get_extroversion(), prpl.get_prev_knowledge(),
                                 prpl.get_learntyp(), prpl.get_interest(), prpl.get_semester(), prpl.get_degree_course())
@@ -708,7 +708,7 @@ class LearningProfileListOperations(Resource):
 class LearningProfileOperations(Resource):
     @studifix.marshal_with(learningprofile)
     def get(self, id):
-        """reading out a specific userobject.
+        """reading out a specific learninprofileobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
         single_learningprofile = adm.get_id(id)
@@ -717,7 +717,7 @@ class LearningProfileOperations(Resource):
     @studifix.marshal_with(learningprofile)
     @studifix.expect(learningprofile, validate=True)  # We expect a user object from the client side.
     def put(self, id):
-        """ Update of a specific user object.
+        """ Update of a specific learninprofile object.
         The relevant id is the id provided by the URI and thus as a method parameter
         is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
         student object."""
@@ -726,7 +726,7 @@ class LearningProfileOperations(Resource):
         print('main aufruf')
 
         if learningprofile is not None:
-            """This sets the id of the user object to be overwritten (see update)."""
+            """This sets the id of the learninprofile object to be overwritten (see update)."""
             learningprofile.set_id(id)
             adm.update_learningprofile(learningprofile)
             return '', 200
@@ -735,7 +735,7 @@ class LearningProfileOperations(Resource):
             return '', 500
 
     def delete(self, id):
-        """Deletion of a specific user object.
+        """Deletion of a specific learninprofile object.
         The object to be deleted is determined by the '' id '' in the URI."""
         adm = Administration()
         single_learningprofile= adm.get_learningprofile_by_id(id)
