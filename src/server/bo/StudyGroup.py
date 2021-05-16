@@ -8,8 +8,8 @@ class StudyGroup(bo.NamedBusinessObject):
     def __init__(self):
         super().__init__()
         self._learning_profile_id = 0
-        self._group_name = ""
         self._chat_id = int
+
 
     def get_group_name(self):
         "Auslesen des Gruppennamens"
