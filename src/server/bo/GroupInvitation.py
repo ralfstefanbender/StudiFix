@@ -6,8 +6,8 @@ class GroupInvitation(bo.BusinessObject):
     def __init__(self):
         super().__init__()
         self._study_group_id = 0
-        self._source_user = ""
-        self._target_user = ""
+        self._source_user = None
+        self._target_user = None
         self._is_accepted = False
 
     def get_study_group_id(self):
@@ -28,10 +28,10 @@ class GroupInvitation(bo.BusinessObject):
     def set_target_user(self, value):
         self._target_user = value
 
-    def is_accepted(self):
+    def get_is_accepted(self):
         return self._is_accepted
 
-    def set_accepted(self, value):
+    def set_is_accepted(self, value):
         self._is_accepted = value
 
     def switch_accepted(self):
@@ -48,6 +48,6 @@ class GroupInvitation(bo.BusinessObject):
         obj.set_study_group_id(dictionary["study_group_id"])
         obj.set_source_user(dictionary["source_user"])
         obj.set_target_user(dictionary["target_user"])
-        obj.set_accepted(dictionary["accepted"])
+        obj.set_accepted(dictionary["is_accepted"])
 
         return obj
