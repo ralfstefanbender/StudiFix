@@ -7,7 +7,6 @@ class StudyGroup (NamedBusinessObject):
     def __init__(self):
         super().__init__()
         self._learning_profile_id = ()
-        self._group_name = ""
         self._chat_id = ""
         self._semester = ""
 
