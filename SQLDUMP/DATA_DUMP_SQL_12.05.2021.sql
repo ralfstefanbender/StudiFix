@@ -43,13 +43,13 @@ INSERT INTO `chat` VALUES (1,'Chati','2021-05-12 13:53:07'),(2,'Mathe Chat','202
 UNLOCK TABLES;
 
 --
--- Table structure for table `chat_invitaion`
+-- Table structure for table `chat_invitation`
 --
 
-DROP TABLE IF EXISTS `chat_invitaion`;
+DROP TABLE IF EXISTS `chat_invitation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `chat_invitaion` (
+CREATE TABLE `chat_invitation` (
   `id` int NOT NULL,
   `creation_date` datetime NOT NULL,
   `is_accepted` tinyint NOT NULL,
@@ -66,12 +66,12 @@ CREATE TABLE `chat_invitaion` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `chat_invitaion`
+-- Dumping data for table `chat_invitation`
 --
 
-LOCK TABLES `chat_invitaion` WRITE;
-/*!40000 ALTER TABLE `chat_invitaion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chat_invitaion` ENABLE KEYS */;
+LOCK TABLES `chat_invitation` WRITE;
+/*!40000 ALTER TABLE `chat_invitation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chat_invitation` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -240,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-15 16:48:38
+-- Dump completed on 2021-05-16 11:30:16
