@@ -337,6 +337,103 @@ class ChatInvitationOperations(Resource):
         adm.delete_chatinvitation(single_chatinvitation)
         return '', 200
 
+@studifix.route('/chatinvitation-by-target-user/<int:target_user>')
+@studifix.response(500, 'when server has problems')
+class ChatInvitationByTargetOperations(Resource):
+    @studifix.marshal_list_with(chatinvitation)
+    def get(self, target_user):
+        """Reading out chatinvitation objects that are determined by the target user.
+        The objects to be read out are determined by '' target_user'' in the URI."""
+        adm = Administration()
+        chatinvitation_target_user = adm.get_chatinvitation_by_target_user(target_user)
+        return chatinvitation_target_user
+
+
+@studifix.route('/chatinvitation-by-source-user/<int:source_user>')
+@studifix.response(500, 'when server has problems')
+class ChatInvitationBySourceOperations(Resource):
+    @studifix.marshal_list_with(chatinvitation)
+    def get(self, source_user):
+        """Reading out chatinvitation objects that are determined by the source user.
+        The objects to be read out are determined by '' source_user '' in the URI."""
+        adm = Administration()
+        chatinvitation_source_user = adm.get_chatinvitation_by_source_user(source_user)
+        return chatinvitation_source_user
+
+
+@studifix.route('/chatinvitation-accepted/<int:chat_id>')
+@studifix.response(500, 'when server has problems')
+class ChatInvitationsAcceptedOperations(Resource):
+    @studifix.marshal_list_with(chatinvitation)
+    def get(self, chat_id):
+        """Reading out chatinvitations from the CHAT that are determined by the accepted Chatinvitations.
+        The objects to be read out are determined by '' chat_id '' in the URI."""
+        adm = Administration()
+        chatinvitation_is_accepted = adm.get_chatinvitation_accepted_in_chat(chat_id)
+        return chatinvitation_is_accepted
+
+
+@studifix.route('/chatinvitation-pend-invites/')
+@studifix.response(500, 'when server has problems')
+class ChatInvitationsPendInvitesOperations(Resource):
+    @studifix.marshal_list_with(chatinvitation)
+    def get(self):
+        """Reading out all chatinvitation objects that are still pending."""
+        adm = Administration()
+        chatinvitation_pend_invites = adm.get_chatinvitation_pend_invites()
+        return chatinvitation_pend_invites
+
+
+@studifix.route('/chatinvitation-pend-invites-target/<int:target_user>')
+@studifix.response(500, 'when server has problems')
+class ChatInvitationsPendInvitesByTargetUserOperations(Resource):
+    @studifix.marshal_list_with(chatinvitation)
+    def get(self, target_user):
+        """Reading out chatinvitations objects that are pending determined by the target user.
+        The objects to be read out are determined by '' target_user '' in the URI."""
+        adm = Administration()
+        chatinvitation_pend_invites_target_user = adm.get_chatinvitation_pend_invites_by_target_user(target_user)
+        return chatinvitation_pend_invites_target_user
+
+
+@studifix.route('/chatinvitation-pend-invites-source/<int:source_user>')
+@studifix.response(500, 'when server has problems')
+class ChatInvitationsPendInvitesBySourceUserOperations(Resource):
+    @studifix.marshal_list_with(chatinvitation)
+    def get(self, source_user):
+        """Reading out chatinvitations objects that are pending determined by the source user.
+        The objects to be read out are determined by '' source_user '' in the URI."""
+        adm = Administration()
+        chatinvitation_pend_invites_source_user = adm.get_chatinvitation_pend_invites_by_source_user(source_user)
+        return chatinvitation_pend_invites_source_user
+
+
+@studifix.route('/chatinvitation-accepted-invites-source/<int:source_user>')
+@studifix.response(500, 'when server has problems')
+class ChatInvitationsAcceptedInvitesBySourceUserOperations(Resource):
+    @studifix.marshal_list_with(chatinvitation)
+    def get(self, source_user):
+        """Reading out chatinvitations objects that are accepted determined by the source_user.
+        The objects to be read out are determined by '' source_user '' in the URI."""
+        adm = Administration()
+        chatinvitation_accepted_invites_source_user = adm.get_chatinvitation_accepted_invites_by_source_user(source_user)
+        return chatinvitation_accepted_invites_source_user
+
+
+@studifix.route('/chatinvitation-accepted-invites-source/<int:target_user>')
+@studifix.response(500, 'when server has problems')
+class ChatInvitationsAcceptedInvitesByTargetUserOperations(Resource):
+    @studifix.marshal_list_with(chatinvitation)
+    def get(self, target_user):
+        """Reading out chatinvitations objects that are accepted determined by the target user.
+        The objects to be read out are determined by '' target_user '' in the URI."""
+        adm = Administration()
+        chatinvitation_accepted_invites_target_user = adm.get_chatinvitation_accepted_invites_by_target_user(target_user)
+        return chatinvitation_accepted_invites_target_user
+
+
+
+
 
 #---------Chatmessage--------
 
@@ -377,7 +474,7 @@ class ChatMessageListOperations(Resource):
 @studifix.route('/chatmessage/<int:id>')
 @studifix.response(500, 'when server has problems')
 class ChatMessageOperations(Resource):
-    @studifix.marshal_with(chatinvitation)
+    @studifix.marshal_with(chatmessage)
     def get(self, id):
         """reading out a specific chatmessageobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -413,6 +510,16 @@ class ChatMessageOperations(Resource):
         adm.delete_chatmessage(single_chatmessage)
         return '', 200
 
+@studifix.route('/chatmessage-chat-id/<int:chat_id>')
+@studifix.response(500, 'when server has problems')
+class ChatMessageOperations(Resource):
+    @studifix.marshal_list_with(chatmessage)
+    def get(self, chat_id):
+        """reading out a chatmessageobject by chat_id.
+           The object to be read is determined by the '' chat_id '' in the URI."""
+        adm = Administration()
+        chatmessage_by_chat_id = adm.get_chatmessage_by_chat_id(chat_id)
+        return chatmessage_by_chat_id
 
 #-------Chat-------
 
@@ -576,6 +683,127 @@ class GroupInvitationNameOperations(Resource):
         adm = Administration()
         groupinvitation = adm.get_groupinvitation_by_name(name)
         return groupinvitation
+
+
+
+@studifix.route('/groupinvitation-by-study-gtoup/<int:study_group_id>')
+@studifix.response(500, 'when server has problems')
+class ChatInvitationByTargetOperations(Resource):
+    @studifix.marshal_list_with(groupinvitation)
+    def get(self, study_group_id):
+        """Reading out groupinvitation objects that are determined by the study_group_id.
+        The objects to be read out are determined by '' target_user'' in the URI."""
+        adm = Administration()
+        groupinvitation_by_study_group = adm.get_groupinvitation_by_study_group_id(study_group_id)
+        return groupinvitation_by_study_group
+
+
+@studifix.route('/groupinvitation-by-target-user/<int:target_user>')
+@studifix.response(500, 'when server has problems')
+class GroupInvitationByTargetOperations(Resource):
+    @studifix.marshal_list_with(groupinvitation)
+    def get(self, target_user):
+        """Reading out groupinvitation objects that are determined by the target user.
+        The objects to be read out are determined by '' target_user '' in the URI."""
+        adm = Administration()
+        groupinvitation_target_user = adm.get_groupinvitation_by_target_user(target_user)
+        return groupinvitation_target_user
+
+
+
+@studifix.route('/groupinvitation-by-source-user/<int:source_user>')
+@studifix.response(500, 'when server has problems')
+class GroupInvitationBySourceOperations(Resource):
+    @studifix.marshal_list_with(groupinvitation)
+    def get(self, source_user):
+        """Reading out groupinvitation objects that are determined by the source user.
+        The objects to be read out are determined by '' source_user '' in the URI."""
+        adm = Administration()
+        groupinvitation_source_user = adm.get_groupinvitation_by_source_user(source_user)
+        return groupinvitation_source_user
+
+
+
+@studifix.route('/groupinvitation-pend-invites/<int:study_group_id>')
+@studifix.response(500, 'when server has problems')
+class GroupInvitationsPendInvitesByStudyGroupOperations(Resource):
+    @studifix.marshal_list_with(groupinvitation)
+    def get(self, study_group_id):
+        """Reading out all groupinvitation objects that are still pending by the study_group_id."""
+        adm = Administration()
+        groupinvitation_pend_invites_by_study_group = adm.get_groupinvitation_pend_invites_by_study_group(study_group_id)
+        return groupinvitation_pend_invites_by_study_group
+
+
+
+@studifix.route('/groupinvitation-accepted-by-study-group/<int:study_group_id>')
+@studifix.response(500, 'when server has problems')
+class GroupInvitationsAcceptedByStudyGroupOperations(Resource):
+    @studifix.marshal_list_with(groupinvitation)
+    def get(self, study_group_id):
+        """Reading out chatinvitations from the CHAT that are determined by the accepted Chatinvitations.
+        The objects to be read out are determined by '' chat_id '' in the URI."""
+        adm = Administration()
+        groupinvitation_is_accepted_by_study_group = adm.get_chatinvitation_accepted_by_study_group(study_group_id)
+        return groupinvitation_is_accepted_by_study_group
+
+
+@studifix.route('/groupinvitation-pend-invites-target/<int:target_user>')
+@studifix.response(500, 'when server has problems')
+class GroupInvitationsPendInvitesByTargetUserOperations(Resource):
+    @studifix.marshal_list_with(groupinvitation)
+    def get(self, target_user):
+        """Reading out groupinvitations objects that are pending determined by the target user.
+        The objects to be read out are determined by '' target_user '' in the URI."""
+        adm = Administration()
+        groupinvitation_pend_invites_target_user = adm.get_groupinvitation_pend_invites_by_target_user(target_user)
+        return groupinvitation_pend_invites_target_user
+
+
+@studifix.route('/groupinvitation-pend-invites-source/<int:source_user>')
+@studifix.response(500, 'when server has problems')
+class GroupInvitationsPendInvitesBySourceUserOperations(Resource):
+    @studifix.marshal_list_with(groupinvitation)
+    def get(self, source_user):
+        """Reading out chatinvitations objects that are pending determined by the source user.
+        The objects to be read out are determined by '' source_user '' in the URI."""
+        adm = Administration()
+        groupinvitation_pend_invites_source_user = adm.get_groupinvitation_pend_invites_by_source_user(source_user)
+        return groupinvitation_pend_invites_source_user
+
+
+@studifix.route('/groupinvitation-accepted-invites-source/<int:source_user>')
+@studifix.response(500, 'when server has problems')
+class GroupInvitationsAcceptedInvitesBySourceUserOperations(Resource):
+    @studifix.marshal_list_with(groupinvitation)
+    def get(self, source_user):
+        """Reading out groupinvitations objects that are accepted determined by the source_user.
+        The objects to be read out are determined by '' source_user '' in the URI."""
+        adm = Administration()
+        groupinvitation_accepted_invites_source_user = adm.get_groupinvitation_accepted_invites_by_source_user(source_user)
+        return groupinvitation_accepted_invites_source_user
+
+
+@studifix.route('/groupinvitation-accepted-invites-source/<int:target_user>')
+@studifix.response(500, 'when server has problems')
+class GroupInvitationsAcceptedInvitesByTargetUserOperations(Resource):
+    @studifix.marshal_list_with(groupinvitation)
+    def get(self, target_user):
+        """Reading out groupinvitations objects that are accepted determined by the target user.
+        The objects to be read out are determined by '' target_user '' in the URI."""
+        adm = Administration()
+        groupinvitation_accepted_invites_target_user = adm.get_groupinvitation_accepted_invites_by_target_user(target_user)
+        return groupinvitation_accepted_invites_target_user
+
+@studifix.route('/groupinvitation-pend-invites/')
+@studifix.response(500, 'when server has problems')
+class GroupInvitationsPendInvitesOperations(Resource):
+    @studifix.marshal_list_with(groupinvitation)
+    def get(self):
+        """Reading out all groupinvitation objects that are still pending."""
+        adm = Administration()
+        groupinvitation_pend_invites = adm.get_groupinvitation_pend_invites()
+        return groupinvitation_pend_invites
 
 
 #-----StudyGroup---------
