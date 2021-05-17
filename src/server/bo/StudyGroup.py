@@ -7,7 +7,6 @@ class StudyGroup(bo.NamedBusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._learning_profile_id = 0
         self._chat_id = int
 
 
@@ -18,14 +17,6 @@ class StudyGroup(bo.NamedBusinessObject):
     def set_group_name(self, group_name):
         "Festlegen eines Gruppennamens"
         self._group_name = group_name
-
-    def get_learning_profile_id(self):
-        "Auselesn der zugrhörigen Lernprofil-ID"
-        return self._learning_profile_id
-
-    def set_learning_profile_id(self, learning_profile_id):
-        "Festlegen einer Lernprofil-ID"
-        self._learning_profile_id = learning_profile_id
 
     def get_chat_id(self):
         "Auselesen der Chat-ID"
@@ -42,7 +33,6 @@ class StudyGroup(bo.NamedBusinessObject):
         obj.set_id(dictionary["id"])
         obj.set_creation_date(dictionary["creation_date"])
         obj.set_name(dictionary["name"])
-        obj.set_learning_profile_id(dictionary["learning_profile_id"])
         obj.set_group_name(dictionary["group_name"])
         obj.set_chat_id(dictionary["chat_id"])
         return obj

@@ -1,7 +1,7 @@
-from src.server.bo import NamedBusinessObject as bo
+from src.server.bo import BusinessObject as bo
 
 
-class User(bo.NamedBusinessObject):
+class User(bo.BusinessObject):
 
     def __init__(self):
         super().__init__()
