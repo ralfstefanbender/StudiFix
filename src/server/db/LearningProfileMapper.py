@@ -100,7 +100,7 @@ class LearningProfileMapper(Mapper):
         command = "SELECT id, name, prev_knowledge, extroversion, study_state, frequency," \
                   "learntyp, semester, interest, degree_course, creation_date, user_id," \
                   "study_group_id FROM learning_profile " \
-                  "WHERE id LIKE '{}' ".format(study_group_id)
+                  "WHERE study_group_id LIKE '{}' ".format(study_group_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -125,7 +125,7 @@ class LearningProfileMapper(Mapper):
         command = "SELECT id, name, prev_knowledge, extroversion, study_state, frequency," \
                   "learntyp, semester, interest, degree_course, creation_date, user_id," \
                   "study_group_id FROM learning_profile " \
-                  "WHERE id LIKE '{}' ".format(user_id)
+                  "WHERE user_id LIKE '{}' ".format(user_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -150,7 +150,7 @@ class LearningProfileMapper(Mapper):
         command = "SELECT id, name, prev_knowledge, extroversion, study_state, frequency," \
                   "learntyp, semester, interest, degree_course, creation_date, user_id," \
                   "study_group_id FROM learning_profile " \
-                  "WHERE id LIKE '{}' ".format(name)
+                  "WHERE name LIKE '{}' ".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -247,5 +247,7 @@ if (__name__ == "__main__"):
         learning_profile.set_learntyp(5)
         learning_profile.set_semester(6)
         learning_profile.set_degree_course("Wirtschaftsinformatik")
+        learning_profile.set_user_id(3)
+        learning_profile.set_study_group_id(1)
 
         mapper.insert(learning_profile)
