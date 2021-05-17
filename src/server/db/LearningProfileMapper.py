@@ -13,7 +13,7 @@ class LearningProfileMapper(Mapper):
 
         if len(tuples) == 1:
             for (id, name, prev_knowledge, extroversion, study_state, frequency,
-                 learntyp, semester, interest, degree_course, creation_date) in tuples:
+                 learntyp, semester, interest, degree_course, creation_date, user_id, study_group_id) in tuples:
                 learning_profile = LearningProfile()
                 learning_profile.set_id(id)
                 learning_profile.set_name(name)
@@ -26,11 +26,13 @@ class LearningProfileMapper(Mapper):
                 learning_profile.set_interest(interest)
                 learning_profile.set_degree_course(degree_course)
                 learning_profile.set_creation_date(creation_date)
+                learning_profile.set_user_id(user_id)
+                learning_profile.set_study_group_id(study_group_id)
                 result = learning_profile
 
         else:
             for (id, name, prev_knowledge, extroversion, study_state, frequency,
-                 learntyp, semester, interest, degree_course, creation_date) in tuples:
+                 learntyp, semester, interest, degree_course, creation_date, user_id, study_group_id) in tuples:
                 learning_profile = LearningProfile()
                 learning_profile.set_id(id)
                 learning_profile.set_name(name)
@@ -43,6 +45,8 @@ class LearningProfileMapper(Mapper):
                 learning_profile.set_interest(interest)
                 learning_profile.set_degree_course(degree_course)
                 learning_profile.set_creation_date(creation_date)
+                learning_profile.set_user_id(user_id)
+                learning_profile.set_study_group_id(study_group_id)
                 result.append(learning_profile)
 
         return result
@@ -69,7 +73,8 @@ class LearningProfileMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, name, prev_knowledge, extroversion, study_state, frequency," \
-                  "learntyp, semester, interest, degree_course, creation_date FROM learning_profile " \
+                  "learntyp, semester, interest, degree_course, creation_date, user_id," \
+                  "study_group_id FROM learning_profile " \
                   "WHERE id LIKE '{}' ".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -87,9 +92,79 @@ class LearningProfileMapper(Mapper):
 
         return result
 
-    def find_all_by_study_group_id(self, ):
-        "Wird noch besprochen in der Gruppe!!!"
-        pass
+    def find_all_by_study_group_id(self, study_group_id):
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, prev_knowledge, extroversion, study_state, frequency," \
+                  "learntyp, semester, interest, degree_course, creation_date, user_id," \
+                  "study_group_id FROM learning_profile " \
+                  "WHERE id LIKE '{}' ".format(study_group_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            result = self.build_bo(tuples)
+
+        except IndexError:
+            """Falls kein LearningProfile mit der angegebenen study_group_id gefunden werden konnte,
+                wird hier None als Rückgabewert deklariert"""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    def find_all_by_user_id(self, user_id):
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, prev_knowledge, extroversion, study_state, frequency," \
+                  "learntyp, semester, interest, degree_course, creation_date, user_id," \
+                  "study_group_id FROM learning_profile " \
+                  "WHERE id LIKE '{}' ".format(user_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            result = self.build_bo(tuples)
+
+        except IndexError:
+            """Falls kein LearningProfile mit der angegebenen user_id gefunden werden konnte,
+                wird hier None als Rückgabewert deklariert"""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    def find_by_name(self, name):
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, prev_knowledge, extroversion, study_state, frequency," \
+                  "learntyp, semester, interest, degree_course, creation_date, user_id," \
+                  "study_group_id FROM learning_profile " \
+                  "WHERE id LIKE '{}' ".format(name)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            result = self.build_bo(tuples)
+
+        except IndexError:
+
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
     def insert(self, learning_profile):
 
@@ -104,8 +179,8 @@ class LearningProfileMapper(Mapper):
                 learning_profile.set_id(maxid[0] + 1)
 
         command = "INSERT INTO learning_profile (id, name, prev_knowledge, extroversion, study_state, frequency," \
-                  "learntyp, semester, interest, degree_course, creation_date) VALUES " \
-                  "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
+                  "learntyp, semester, interest, degree_course, creation_date, user_id, study_group_id) VALUES " \
+                  "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
             .format(learning_profile.get_id(),
                     learning_profile.get_name(),
                     learning_profile.get_prev_knowledge(),
@@ -116,7 +191,9 @@ class LearningProfileMapper(Mapper):
                     learning_profile.get_semester(),
                     learning_profile.get_interest(),
                     learning_profile.get_degree_course(),
-                    learning_profile.get_creation_date())
+                    learning_profile.get_creation_date(),
+                    learning_profile.get_user_id(),
+                    learning_profile.get_study_group_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -129,7 +206,8 @@ class LearningProfileMapper(Mapper):
         cursor = self._cnx.cursor()
         command = "UPDATE learning_profile SET name = ('{}'), prev_knowledge = ('{}'), extroversion = ('{}')," \
                   " study_state = ('{}'), frequency = ('{}'), learntyp = ('{}'), semester = ('{}')," \
-                  " interest = ('{}'), degree_course = ('{}'), creation_date = ('{}')" \
+                  " interest = ('{}'), degree_course = ('{}'), creation_date = ('{}'), user_id = ('{}')," \
+                  "study_group_id = ('{}')" \
                   "WHERE id = ('{}')" \
             .format(learning_profile.get_id(),
                     learning_profile.get_name(),
@@ -141,7 +219,9 @@ class LearningProfileMapper(Mapper):
                     learning_profile.get_semester(),
                     learning_profile.get_interest(),
                     learning_profile.get_degree_course(),
-                    learning_profile.get_creation_date())
+                    learning_profile.get_creation_date(),
+                    learning_profile.get_user_id(),
+                    learning_profile.get_study_group_id())
         cursor.execute(command)
 
         self._cnx.commit()
