@@ -156,8 +156,13 @@ CREATE TABLE `learning_profile` (
   `interest` varchar(45) NOT NULL,
   `degree_course` varchar(45) NOT NULL,
   `creation_date` datetime NOT NULL,
+  `user_id` int DEFAULT NULL,
+  `study_group_id` int DEFAULT NULL,
   KEY `FK_user_idx` (`id`),
-  CONSTRAINT `FK_user` FOREIGN KEY (`id`) REFERENCES `user` (`id`)
+  KEY `FK_lp_user_idx` (`user_id`),
+  KEY `FK_lp_study_group_idx` (`study_group_id`),
+  CONSTRAINT `FK_lp_study_group` FOREIGN KEY (`study_group_id`) REFERENCES `studygroup` (`id`),
+  CONSTRAINT `FK_lp_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -167,7 +172,7 @@ CREATE TABLE `learning_profile` (
 
 LOCK TABLES `learning_profile` WRITE;
 /*!40000 ALTER TABLE `learning_profile` DISABLE KEYS */;
-INSERT INTO `learning_profile` VALUES (1,'Mathe','Mittelmäßig',4,3,5,4,5,'Algebrah','Mathematik','2021-11-28 10:56:35'),(2,'Informatik','Garkeine',2,3,4,5,6,'','Wirtschaftsinformatik','2021-05-15 16:41:13');
+INSERT INTO `learning_profile` VALUES (1,'Mathe','Mittelmäßig',4,3,5,4,5,'Algebrah','Mathematik','2021-11-28 10:56:35',NULL,NULL),(2,'Informatik','Garkeine',2,3,4,5,6,'','Wirtschaftsinformatik','2021-05-15 16:41:13',NULL,NULL);
 /*!40000 ALTER TABLE `learning_profile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,13 +187,10 @@ CREATE TABLE `studygroup` (
   `id` int NOT NULL,
   `group_name` varchar(45) NOT NULL,
   `creation_date` datetime NOT NULL,
-  `learning_profile_id` int NOT NULL,
   `chat_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_group_chat_idx` (`chat_id`),
-  KEY `FK_group_lp_idx` (`learning_profile_id`),
-  CONSTRAINT `FK_group_chat` FOREIGN KEY (`chat_id`) REFERENCES `chat` (`id`),
-  CONSTRAINT `FK_group_lp` FOREIGN KEY (`learning_profile_id`) REFERENCES `learning_profile` (`id`)
+  CONSTRAINT `FK_group_chat` FOREIGN KEY (`chat_id`) REFERENCES `chat` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -198,7 +200,7 @@ CREATE TABLE `studygroup` (
 
 LOCK TABLES `studygroup` WRITE;
 /*!40000 ALTER TABLE `studygroup` DISABLE KEYS */;
-INSERT INTO `studygroup` VALUES (1,'Studifix1','2021-05-15 13:34:50',1,1),(2,'Studifix1','2021-05-15 13:40:32',1,1),(3,'Studifix1','2021-05-15 13:41:07',1,1),(4,'Studifix1','2021-05-15 13:41:36',1,1),(5,'Studifix1','2021-05-15 16:40:31',1,1);
+INSERT INTO `studygroup` VALUES (1,'Studifix1','2021-05-15 13:34:50',1),(2,'Studifix1','2021-05-15 13:40:32',1),(3,'Studifix1','2021-05-15 13:41:07',1),(4,'Studifix1','2021-05-15 13:41:36',1),(5,'Studifix1','2021-05-15 16:40:31',1);
 /*!40000 ALTER TABLE `studygroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,4 +242,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-16 11:30:16
+-- Dump completed on 2021-05-17 12:51:30
