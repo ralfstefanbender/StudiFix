@@ -72,6 +72,10 @@ class Administration(object):
         user.set_adress(adress)
         user.set_id(1)
 
+        with UserMapper() as mapper:
+            return mapper.insert(user)
+
+
     def get_user_by_name(self, name):
         """Alle Benutzer mit Namen name auslesen."""
         with UserMapper() as mapper:
@@ -130,6 +134,9 @@ class Administration(object):
         learningprofile.set_degree_course(degree_course)
         learningprofile.set_id(1)
 
+        with LearningProfile() as mapper:
+            return mapper.insert(learningprofile)
+
     def get_learningprofile_by_name(self, name):
         with LearningProfileMapper() as mapper:
             return mapper.find_by_name(name)
@@ -169,6 +176,9 @@ class Administration(object):
         chatinvitation.set_chat_id(chat_id)
         chatinvitation.set_is_accepted(is_accepted)
         chatinvitation.set_id(1)
+
+        with ChatInvitationMapper() as mapper:
+            return mapper.insert(chatinvitation)
 
     def get_chatinvitation_by_id(self, number):
         with ChatInvitationMapper() as mapper:
@@ -216,3 +226,166 @@ class Administration(object):
         """Die gegebene chatinvitation aus unserem System löschen."""
         with ChatInvitationMapper() as mapper:
             mapper.delete(invite)
+
+    # StudyGroup Methoden
+    def create_studygroup (self, name, chat_id):
+        studygroup = StudyGroup()
+        studygroup.set_name(name)
+        studygroup.set_chat_id(chat_id)
+        studygroup.set_id(1)
+
+        with StudyGroupMapper() as mapper:
+            return mapper.insert(studygroup)
+
+    def get_studygroup_by_name(self, name):
+        with StudyGroupMapper() as mapper:
+            return mapper.find_by_group_name(name)
+
+    def get_studygroup_by_id(self, id):
+        with StudyGroupMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    def get_all_studygroups(self):
+        with StudyGroupMapper() as mapper:
+            return mapper.find_all()
+
+    def save_studygroup(self, studygroup):
+        with StudyGroupMapper() as mapper:
+            mapper.update(studygroup)
+
+    def delete_studygroup(self, studygroup):
+        with StudyGroupMapper() as mapper:
+            mapper.delete(studygroup)
+
+
+    # GroupInvitation Methoden
+
+    def create_groupinvitation(self, source_user, target_user, is_accepted):
+        groupinvitation = GroupInvitation()
+        groupinvitation.set_source_user(source_user)
+        groupinvitation.set_target_user(target_user)
+        groupinvitation.set_is_accepted(is_accepted)
+        groupinvitation.set_id(1)
+
+        with GroupInvitationMapper() as mapper:
+            return mapper.insert(groupinvitation)
+
+    def get_groupinvitation_by_id(self,id):
+        with GroupInvitationMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    def get_groupinvitations_by_source_user(self, source_user):
+        with GroupInvitationMapper() as mapper:
+            return mapper.find_all_group_invitations_by_source_user(source_user)
+
+    def get_groupinvitations_by_target_user(self, target_user):
+        with GroupInvitationMapper() as mapper:
+            return mapper.find_all_group_invitations_by_target_user(target_user)
+
+    def get_all_pend_groupinvites(self):
+        with GroupInvitationMapper() as mapper:
+            return mapper.find_all_pend_invites()
+
+    def get_pend_groupinvites_by_target_user(self, target_user):
+        with GroupInvitationMapper() as mapper:
+            return mapper.find_pend_invites_by_target_user(target_user)
+
+    def get_pend_groupinvites_by_source_user(self, source_user):
+        with GroupInvitationMapper() as mapper:
+            return mapper.find_pend_invites_by_source_user(source_user)
+
+    def get_accepted_groupinvites_by_source_user(self, source_user):
+        with GroupInvitationMapper() as mapper:
+            return mapper.find_accepted_invites_by_source_user(source_user)
+
+    def get_accepted_groupinvites_by_target_user(self, target_user):
+        with GroupInvitationMapper() as mapper:
+            return mapper.find_accepted_invites_by_target_user(target_user)
+
+    def get_all_groupinvitations(self):
+        """Alle Chatinvitations auslesen."""
+        with GroupInvitationMapper() as mapper:
+            return mapper.find_all()
+
+    def save_groupinvitation(self, group_invite):
+        """Die gegebene chatinvitation speichern."""
+        with GroupInvitationMapper() as mapper:
+            mapper.update(groupinvite)
+
+    def delete_groupinvitation(self, group_invite):
+        """Die gegebene chatinvitation aus unserem System löschen."""
+        with GroupInvitationMapper() as mapper:
+            mapper.delete(group_invite)
+
+
+    # ChatMessage Methoden
+    def create_chatmessage(self, chat_id, user_id, text):
+        chatmessage = ChatMessage()
+        chatmessage.set_chat_id(chat_id)
+        chatmessage.set_user_id(user_id)
+        chatmessage.set_text()
+        chat_message.set_id(1)
+
+        with ChatMessage() as mapper:
+            return mapper.insert(chatmessage)
+
+    def get_chatmessage_by_id(self,id):
+        with ChatMessageMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    def get_chatmessages_by_chat_id(self, chat_id):
+        with ChatMessageMapper() as mapper:
+            return mapper.find_all_by_chat_id(chat_id)
+
+    def get_all_chatmessages(self):
+        with ChatMessageMapper() as mapper:
+            return mapper.find_all()
+
+    def get_chatmessages_by_user_id(self,user_id):
+        with ChatMessageMapper() as mapper:
+            #### find by user_id fehlt? brauchen wir das?
+            # return mapper.find_all_by_user_id(user_id)
+
+    def save_chatmessage(self, chatmessage):
+        with ChatMessageMapper() as mapper:
+            mapper.update(chatmessage)
+
+    def delete_chatmessage(self, chatmessage):
+        with ChatMessageMapper() as mapper:
+            mapper.delete(chatmessage)
+
+    # Chat Methoden
+
+    def create_chat(self,name):
+        chat = Chat()
+        chat.set_name(name)
+        chat.set_id(1)
+
+        with ChatMapper() as mapper:
+            return mapper.insert(chat)
+
+    def get_chat_by_id(self, id):
+        with ChatMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    def get_chat_by_name(self, name):
+        with ChatMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def get_all_chats(self):
+        with ChatMapper() as mapper:
+            return mapper.find_all()
+
+    def save_chat(self, chat):
+        with ChatMapper() as mapper:
+            mapper.update(chat)
+
+    def delete_chat(self, chat):
+        with ChatMapper() as mapper:
+            mapper.delete(chat)
+
+
+
+
+
+
