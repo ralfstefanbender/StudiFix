@@ -111,14 +111,15 @@ groupinvitation = api.inherit('GroupInvitation', bo, {
 
 learningprofile = api.inherit('LearningProfile', nbo, {
     'frequency':fields.Integer(attribute='_frequency', description='Häufigkeit'),
-    'studystate':fields.Integer(attribute='_studystate', description='on oder offline'),
+    'study_state':fields.Integer(attribute='_study_state', description='on oder offline'),
     'extroversion':fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
     'profile_id':fields.Integer(attribute='_profile_id', description='profile id'),
     'prev_knowledge':fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse'),
     'lerntyp':fields.Integer(attribute='_lerntyp', description='Lerntypdes Profilinhabers'),
     'interest': fields.List(attribute='_interest', description='Interessen des Profilinhabers'),
     'semester': fields.Integer(attribute='_semester', description='Semester'),
-    'degree_course':fields.String(attribute='_degree_course', description='Studiengang')
+    'degree_course':fields.String(attribute='_degree_course', description='Studiengang'),
+
 })
 
 studygroup = api.inherit('StudyGroup', nbo, {
