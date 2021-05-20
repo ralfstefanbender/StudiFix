@@ -17,7 +17,7 @@ class UserMapper(Mapper):
         result = []
 
         if len(tuples) == 1:
-            for (id, firstname, lastname, adress, email, google_id, creation_date) in tuples:
+            for (id, firstname, lastname, adress, email, google_id, learning_profile_id, creation_date) in tuples:
 
                 user = User()
                 user.set_id(id)
@@ -26,10 +26,11 @@ class UserMapper(Mapper):
                 user.set_adress(adress)
                 user.set_email(email)
                 user.set_google_id(google_id)
+                user.set_learning_profile_id(learning_profile_id)
                 user.set_creation_date(creation_date)
                 result = user
         else:
-            for (id, firstname, lastname, adress, email, google_id, creation_date) in tuples:
+            for (id, firstname, lastname, adress, email, google_id, learning_profile_id, creation_date) in tuples:
 
                 user = User()
                 user.set_id(id)
@@ -38,6 +39,7 @@ class UserMapper(Mapper):
                 user.set_adress(adress)
                 user.set_email(email)
                 user.set_google_id(google_id)
+                user.set_learning_profile_id(learning_profile_id)
                 user.set_creation_date(creation_date)
                 result.append(user)
 
@@ -65,7 +67,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, firstname, lastname, adress, email, " \
-                  "google_id, creation_date FROM user WHERE email LIKE '{}' ".format(email)
+                  "google_id, learning_profile_id, creation_date FROM user WHERE email LIKE '{}' ".format(email)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -87,7 +89,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, firstname, lastname, adress, email, " \
-                  "google_id, creation_date FROM user WHERE google_id LIKE '{}' ".format(google_id)
+                  "google_id, learning_profile_id, creation_date FROM user WHERE google_id LIKE '{}' ".format(google_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -113,7 +115,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, firstname, lastname, adress, email, " \
-                  "google_id, creation_date FROM user WHERE firstname LIKE '{}' ".format(firstname)
+                  "google_id, learning_profile_id, creation_date FROM user WHERE firstname LIKE '{}' ".format(firstname)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -139,7 +141,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, firstname, lastname, adress, email, " \
-                  "google_id, creation_date FROM user WHERE lastname LIKE '{}' ".format(lastname)
+                  "google_id, learning_profile_id, creation_date FROM user WHERE lastname LIKE '{}' ".format(lastname)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -165,7 +167,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, firstname, lastname, adress, email," \
-                  " google_id, creation_date FROM user WHERE id LIKE '{}' ".format(id)
+                  " google_id, learning_profile_id, creation_date FROM user WHERE id LIKE '{}' ".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -173,6 +175,29 @@ class UserMapper(Mapper):
             result = self.build_bo(tuples)
         except IndexError:
             """Falls kein User mit der angegebenen id gefunden werden konnte,
+            wird hier None als Rückgabewert deklariert"""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    def find_user_by_learning_profile_id(self, learning_profile_id):
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, firstname, lastname, adress, email," \
+                  " google_id, learning_profile_id, creation_date FROM user " \
+                  "WHERE learning_profile_id LIKE '{}' ".format(learning_profile_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            result = self.build_bo(tuples)
+        except IndexError:
+            """Falls kein User mit der angegebenen learning_profile_id gefunden werden konnte,
             wird hier None als Rückgabewert deklariert"""
             result = None
 
@@ -194,9 +219,10 @@ class UserMapper(Mapper):
                 user.set_id(maxid[0]+1)
 
         command = "INSERT INTO user (id, firstname, lastname, adress," \
-                  "email, google_id, creation_date) VALUES ('{}','{}','{}','{}','{}','{}','{}')"\
+                  "email, google_id, learning_profile_id, creation_date) " \
+                  "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}')"\
                 .format(user.get_id(), user.get_firstname(), user.get_lastname(), user.get_adress(), user.get_email(),
-                        user.get_google_id(), user.get_creation_date())
+                        user.get_google_id(), user.get_learning_profile_id(), user.get_creation_date())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -206,11 +232,11 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "UPDATE user SET firstname = ('{}'), lastname = ('{}'), adress = ('{}')," \
-                  " email = ('{}'), google_id = ('{}'),"\
+                  " email = ('{}'), google_id = ('{}'), learning_profile_id = ('{}'),"\
                   " creation_date = ('{}'),"\
                   "WHERE id = ('{}')"\
             .format(user.get_firstname(), user.get_lastname(), user.get_adress(), user.get_email(),
-                    user.get_google_id(), user.get_creation_date(), user.get_id())
+                    user.get_google_id(), user.get_learning_profile_id(), user.get_creation_date(), user.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -232,7 +258,9 @@ if __name__ == "__main__":
     with UserMapper() as mapper:
         # Nach mapper jegliche Methode dieser Klasse
         user = User()
-        user.set_name("Hallo")
+        user.set_firstname("Hans")
+        user.set_lastname("Müller")
         user.set_google_id("dfasdfasdfasdf")
         user.set_email("dfasdfasdfasdf")
+        user.set_learning_profile_id(1)
         mapper.insert(user)
