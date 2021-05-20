@@ -13,8 +13,6 @@ class LearningProfile(bo.NamedBusinessObject):
         self._interest = ""
         self._semester = 0
         self._degree_course = ""
-        self._user_id = 0
-        self._study_group_id = 0
 
     def get_frequency(self):
         return self._frequency
@@ -64,17 +62,6 @@ class LearningProfile(bo.NamedBusinessObject):
     def set_degree_course(self, value):
         self._degree_course = value
 
-    def get_user_id(self):
-        return self._user_id
-
-    def set_user_id(self, value):
-        self._user_id = value
-
-    def get_study_group_id(self):
-        return self._study_group_id
-
-    def set_study_group_id(self, value):
-        self._study_group_id = value
 
 
     @staticmethod
@@ -92,6 +79,4 @@ class LearningProfile(bo.NamedBusinessObject):
         obj.set_interest(dictionary["interest"])
         obj.set_semester(dictionary["semester"])
         obj.set_degree_course(dictionary["degree_course"])
-        obj.set_user_id(dictionary["user_id"])
-        obj.set_study_group_id(dictionary["study_group_id"])
         return obj
