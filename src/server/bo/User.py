@@ -10,6 +10,7 @@ class User(bo.BusinessObject):
         self._lastname = ""
         self._email = ""
         self._adress = ""
+        self._learning_profile_id = 0
                 
     def get_google_id(self):
         return self._google_id
@@ -41,6 +42,11 @@ class User(bo.BusinessObject):
     def set_adress(self, value):
         self._adress = value
 
+    def get_learning_profile_id(self):
+        return self._learning_profile_id
+
+    def set_learning_profile_id(self, value):
+        self._learning_profile_id = value
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -48,10 +54,10 @@ class User(bo.BusinessObject):
         obj = User()
         obj.set_id(dictionary["id"])
         obj.set_creation_date(dictionary["creation_date"])
-        obj.set_name(dictionary["name"])
         obj.set_google_id(dictionary["google_id"])
         obj.set_firstname(dictionary["firstname"])
         obj.set_lastname(dictionary["lastname"])
         obj.set_email(dictionary["email"])
         obj.set_adress(dictionary["adress"])
+        obj.set_learning_profile_id(["learning_profile_id"])
         return obj
