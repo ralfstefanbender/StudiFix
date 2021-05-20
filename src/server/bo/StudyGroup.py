@@ -7,7 +7,7 @@ class StudyGroup(bo.NamedBusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._chat_id = int
+        self._chat_id = 0
         self._learning_profile_id = 0
 
 

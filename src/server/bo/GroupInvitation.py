@@ -48,6 +48,6 @@ class GroupInvitation(bo.BusinessObject):
         obj.set_study_group_id(dictionary["study_group_id"])
         obj.set_source_user(dictionary["source_user"])
         obj.set_target_user(dictionary["target_user"])
-        obj.set_accepted(dictionary["is_accepted"])
+        obj.set_is_accepted(dictionary["is_accepted"])
 
         return obj

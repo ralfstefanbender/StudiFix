@@ -113,10 +113,9 @@ learningprofile = api.inherit('LearningProfile', nbo, {
     'frequency':fields.Integer(attribute='_frequency', description='Häufigkeit'),
     'study_state':fields.Integer(attribute='_study_state', description='on oder offline'),
     'extroversion':fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
-    'profile_id':fields.Integer(attribute='_profile_id', description='profile id'),
     'prev_knowledge':fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse'),
     'lerntyp':fields.Integer(attribute='_lerntyp', description='Lerntypdes Profilinhabers'),
-    'interest': fields.List(attribute='_interest', description='Interessen des Profilinhabers'),
+    'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
     'semester': fields.Integer(attribute='_semester', description='Semester'),
     'degree_course':fields.String(attribute='_degree_course', description='Studiengang'),
 
@@ -124,16 +123,17 @@ learningprofile = api.inherit('LearningProfile', nbo, {
 
 studygroup = api.inherit('StudyGroup', nbo, {
     'learning_profile_id':fields.Integer(attribute='_learning_profile_id', description='FK Learningprofile id'),
-    'group_name':fields.String(attribute='_semester', description='Gruppenname'),
     'chat_id':fields.Integer(attribute='_chat_id', description='Chat id ')
+
 })
 
 user = api.api.inherit('User', nbo, {
     'google_id':fields.String(attribute='_google_id', description='Google Id des Profilinhabers'),
-    'first_name':fields.String(attribute='_first_name', description='Vorname des Profilinhabers'),
-    'last_name':fields.String(attribute='_last_name', description='Nachname des Profilinhabers'),
+    'firstname':fields.String(attribute='_firstname', description='Vorname des Profilinhabers'),
+    'lastname':fields.String(attribute='_lastname', description='Nachname des Profilinhabers'),
     'email':fields.String(attribute='_email', description='Email des Profilinhabers'),
-    'adress':fields.String(attribute='_adress', description='Adresse des Profilinhabers')
+    'adress':fields.String(attribute='_adress', description='Adresse des Profilinhabers'),
+    'learning_profile_id': fields.Integer(attribute='learning_profile_id', description='profile id'),
 })
 
 
@@ -167,7 +167,7 @@ class UserListOperations(Resource):
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
             s = adm.create_user(prpl.get_google_id(), prpl.get_first_name(), prpl.get_lastname(),
-                                prpl.get_email(), prpl.get_adress())
+                                prpl.get_email(), prpl.get_adress(), prpl.get_learning_profile_id())
 
             return s, 200
         else:
@@ -183,7 +183,7 @@ class UserOperations(Resource):
         """reading out a specific userobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_user = adm.get_id(id)
+        single_user = adm.get_user_by_id(id)
         return single_user
 
     @studifix.marshal_with(user)
@@ -246,7 +246,7 @@ class UserMailOperations(Resource):
         """Reading out user objects that are determined by the E-Mail.
         The objects to be read out are determined by '' mail '' in the URI."""
         adm = Administration()
-        users = adm.get_user_by_mail(email)
+        users = adm.get_user_by_email(email)
         return users
 
 
@@ -259,6 +259,18 @@ class UserGoogleOperations(Resource):
         The objects to be read out are determined by '' google_id '' in the URI."""
         adm = Administration()
         users = adm.get_user_by_google_id(google_id)
+        return users
+
+
+@studifix.route('/user-by-learning-profile-id/<int:learning_profile_id>')
+@studifix.response(500, 'when server has problems')
+class UserGoogleOperations(Resource):
+    @studifix.marshal_with(user)
+    def get(self, learning_profile_id):
+        """Reading out user objects that are determined by the google id.
+        The objects to be read out are determined by '' google_id '' in the URI."""
+        adm = Administration()
+        users = adm.get_user_by_learning_profile_id(learning_profile_id)
         return users
 
 
@@ -307,7 +319,7 @@ class ChatInvitationOperations(Resource):
         """reading out a specific chatinvitation object.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_chatinvitation = adm.get_id(id)
+        single_chatinvitation = adm.get_chatinvitation_by_id(id)
         return single_chatinvitation
 
     @studifix.marshal_with(chatinvitation)
@@ -346,7 +358,7 @@ class ChatInvitationByTargetOperations(Resource):
         """Reading out chatinvitation objects that are determined by the target user.
         The objects to be read out are determined by '' target_user'' in the URI."""
         adm = Administration()
-        chatinvitation_target_user = adm.get_chatinvitation_by_target_user(target_user)
+        chatinvitation_target_user = adm.get_all_invites_by_target_user(target_user)
         return chatinvitation_target_user
 
 
@@ -370,7 +382,7 @@ class ChatInvitationsAcceptedOperations(Resource):
         """Reading out chatinvitations from the CHAT that are determined by the accepted Chatinvitations.
         The objects to be read out are determined by '' chat_id '' in the URI."""
         adm = Administration()
-        chatinvitation_is_accepted = adm.get_chatinvitation_accepted_in_chat(chat_id)
+        chatinvitation_is_accepted = adm.get_all_accepted_user_in_chat(chat_id)
         return chatinvitation_is_accepted
 
 
@@ -381,7 +393,7 @@ class ChatInvitationsPendInvitesOperations(Resource):
     def get(self):
         """Reading out all chatinvitation objects that are still pending."""
         adm = Administration()
-        chatinvitation_pend_invites = adm.get_chatinvitation_pend_invites()
+        chatinvitation_pend_invites = adm.get_all_pend_invites()
         return chatinvitation_pend_invites
 
 
@@ -393,7 +405,7 @@ class ChatInvitationsPendInvitesByTargetUserOperations(Resource):
         """Reading out chatinvitations objects that are pending determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
         adm = Administration()
-        chatinvitation_pend_invites_target_user = adm.get_chatinvitation_pend_invites_by_target_user(target_user)
+        chatinvitation_pend_invites_target_user = adm.get_pend_invites_by_target_user(target_user)
         return chatinvitation_pend_invites_target_user
 
 
@@ -405,7 +417,7 @@ class ChatInvitationsPendInvitesBySourceUserOperations(Resource):
         """Reading out chatinvitations objects that are pending determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
         adm = Administration()
-        chatinvitation_pend_invites_source_user = adm.get_chatinvitation_pend_invites_by_source_user(source_user)
+        chatinvitation_pend_invites_source_user = adm.get_pend_groupinvites_by_source_user(source_user)
         return chatinvitation_pend_invites_source_user
 
 
@@ -417,7 +429,7 @@ class ChatInvitationsAcceptedInvitesBySourceUserOperations(Resource):
         """Reading out chatinvitations objects that are accepted determined by the source_user.
         The objects to be read out are determined by '' source_user '' in the URI."""
         adm = Administration()
-        chatinvitation_accepted_invites_source_user = adm.get_chatinvitation_accepted_invites_by_source_user(source_user)
+        chatinvitation_accepted_invites_source_user = adm.get_accepted_invites_by_source_user(source_user)
         return chatinvitation_accepted_invites_source_user
 
 
@@ -429,7 +441,7 @@ class ChatInvitationsAcceptedInvitesByTargetUserOperations(Resource):
         """Reading out chatinvitations objects that are accepted determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
         adm = Administration()
-        chatinvitation_accepted_invites_target_user = adm.get_chatinvitation_accepted_invites_by_target_user(target_user)
+        chatinvitation_accepted_invites_target_user = adm.get_accepted_invites_by_target_user(target_user)
         return chatinvitation_accepted_invites_target_user
 
 
@@ -480,7 +492,7 @@ class ChatMessageOperations(Resource):
         """reading out a specific chatmessageobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_chatmessage = adm.get_id(id)
+        single_chatmessage = adm.get_chatmessage_by_id(id)
         return single_chatmessage
 
     @studifix.marshal_with(chatmessage)
@@ -519,7 +531,7 @@ class ChatMessageOperations(Resource):
         """reading out a chatmessageobject by chat_id.
            The object to be read is determined by the '' chat_id '' in the URI."""
         adm = Administration()
-        chatmessage_by_chat_id = adm.get_chatmessage_by_chat_id(chat_id)
+        chatmessage_by_chat_id = adm.get_chatmessages_by_chat_id(chat_id)
         return chatmessage_by_chat_id
 
 #-------Chat-------
@@ -564,7 +576,7 @@ class ChatOperations(Resource):
         """reading out a specific chatobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_chat = adm.get_id(id)
+        single_chat = adm.get_chat_by_id(id)
         return single_chat
 
     @studifix.marshal_with(chat)
@@ -625,8 +637,7 @@ class GroupInvitationListOperations(Resource):
             """We only use the attributes of groupinvitation of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_groupinvitation(prpl.get_study_group_id(), prpl.get_source_user(), prpl.get_target_user(),
-                                prpl.is_accepted())
+            s = adm.create_groupinvitation(prpl.get_study_group_id(), prpl.get_source_user(), prpl.get_target_user(), prpl.get_is_accepted())
 
             return s, 200
         else:
@@ -642,7 +653,7 @@ class GroupInvitationOperations(Resource):
         """reading out a specific groupinvitationobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_groupinvitation = adm.get_id(id)
+        single_groupinvitation = adm.get_groupinvitation_by_id(id)
         return single_groupinvitation
 
     @studifix.marshal_with(groupinvitation)
@@ -707,7 +718,7 @@ class GroupInvitationByTargetOperations(Resource):
         """Reading out groupinvitation objects that are determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
         adm = Administration()
-        groupinvitation_target_user = adm.get_groupinvitation_by_target_user(target_user)
+        groupinvitation_target_user = adm.get_groupinvitations_by_target_user(target_user)
         return groupinvitation_target_user
 
 
@@ -720,7 +731,7 @@ class GroupInvitationBySourceOperations(Resource):
         """Reading out groupinvitation objects that are determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
         adm = Administration()
-        groupinvitation_source_user = adm.get_groupinvitation_by_source_user(source_user)
+        groupinvitation_source_user = adm.get_groupinvitations_by_source_user(source_user)
         return groupinvitation_source_user
 
 
@@ -757,7 +768,7 @@ class GroupInvitationsPendInvitesByTargetUserOperations(Resource):
         """Reading out groupinvitations objects that are pending determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
         adm = Administration()
-        groupinvitation_pend_invites_target_user = adm.get_groupinvitation_pend_invites_by_target_user(target_user)
+        groupinvitation_pend_invites_target_user = adm.get_pend_invites_by_target_user(target_user)
         return groupinvitation_pend_invites_target_user
 
 
@@ -769,7 +780,7 @@ class GroupInvitationsPendInvitesBySourceUserOperations(Resource):
         """Reading out chatinvitations objects that are pending determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
         adm = Administration()
-        groupinvitation_pend_invites_source_user = adm.get_groupinvitation_pend_invites_by_source_user(source_user)
+        groupinvitation_pend_invites_source_user = adm.get_pend_groupinvites_by_source_user(source_user)
         return groupinvitation_pend_invites_source_user
 
 
@@ -781,7 +792,7 @@ class GroupInvitationsAcceptedInvitesBySourceUserOperations(Resource):
         """Reading out groupinvitations objects that are accepted determined by the source_user.
         The objects to be read out are determined by '' source_user '' in the URI."""
         adm = Administration()
-        groupinvitation_accepted_invites_source_user = adm.get_groupinvitation_accepted_invites_by_source_user(source_user)
+        groupinvitation_accepted_invites_source_user = adm.get_accepted_invites_by_source_user(source_user)
         return groupinvitation_accepted_invites_source_user
 
 
@@ -793,7 +804,7 @@ class GroupInvitationsAcceptedInvitesByTargetUserOperations(Resource):
         """Reading out groupinvitations objects that are accepted determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
         adm = Administration()
-        groupinvitation_accepted_invites_target_user = adm.get_groupinvitation_accepted_invites_by_target_user(target_user)
+        groupinvitation_accepted_invites_target_user = adm.get_accepted_invites_by_target_user(target_user)
         return groupinvitation_accepted_invites_target_user
 
 @studifix.route('/groupinvitation-pend-invites/')
@@ -803,7 +814,7 @@ class GroupInvitationsPendInvitesOperations(Resource):
     def get(self):
         """Reading out all groupinvitation objects that are still pending."""
         adm = Administration()
-        groupinvitation_pend_invites = adm.get_groupinvitation_pend_invites()
+        groupinvitation_pend_invites = adm.get_all_pend_invites()
         return groupinvitation_pend_invites
 
 
@@ -817,7 +828,7 @@ class StudyGroupListOperations(Resource):
     @studifix.marshal_list_with(studygroup)
     def get(self):
         adm = Administration()
-        studygroups = adm.get_all_studygroup()
+        studygroups = adm.get_all_studygroups()
         return studygroups
 
     @studifix.marshal_with(studygroup, code=200)
@@ -835,7 +846,7 @@ class StudyGroupListOperations(Resource):
             """We only use the attributes of studygroup of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_studygroup(prpl.get_get_learning_profile_id(), prpl.get_name(), prpl.get_chat_id())
+            s = adm.create_studygroup(prpl.get_learning_profile_id(), prpl.get_chat_id())
 
             return s, 200
         else:
@@ -851,7 +862,7 @@ class StudyGroupOperations(Resource):
         """reading out a specific studygroupobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_studygroup = adm.get_id(id)
+        single_studygroup = adm.get_studygroup_by_id(id)
         return single_studygroup
 
     @studifix.marshal_with(studygroup)
@@ -892,6 +903,18 @@ class StudyGroupOperations(Resource):
         The objects to be read out are determined by '' name '' in the URI."""
         adm = Administration()
         studygroup = adm.get_studygroup_by_name(name)
+        return studygroup
+
+
+@studifix.route('/studygroup-by-learning-profile/<int:learning_profile_id>')
+@studifix.response(500, 'when server has problems')
+class StudyGroupLearningProfileOperations(Resource):
+    @studifix.marshal_with(studygroup)
+    def get(self, learning_profile):
+        """Reading out studygroup objects that are determined by the lastname.
+        The objects to be read out are determined by '' name '' in the URI."""
+        adm = Administration()
+        studygroup = adm.get_studygroup_by_learning_profile_id(learning_profile)
         return studygroup
 
 #-------LearningProfile---------
@@ -940,11 +963,11 @@ class LearningProfileOperations(Resource):
         """reading out a specific learninprofileobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_learningprofile = adm.get_id(id)
+        single_learningprofile = adm.get_learningprofile_by_id(id)
         return single_learningprofile
 
     @studifix.marshal_with(learningprofile)
-    @studifix.expect(learningprofile, validate=True)  # We expect a user object from the client side.
+    @studifix.expect(learningprofile, validate=True)  # We expect a learningprofile object from the client side.
     def put(self, id):
         """ Update of a specific learninprofile object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -972,7 +995,16 @@ class LearningProfileOperations(Resource):
         return '', 200
 
 
-
+@studifix.route('/learningprofile-by-name/<string:name>')
+@studifix.response(500, 'when server has problems')
+class LearningProfileByNameOperations(Resource):
+    @studifix.marshal_with(learningprofile)
+    def get(self, name):
+        """Reading out studygroup objects that are determined by the lastname.
+        The objects to be read out are determined by '' name '' in the URI."""
+        adm = Administration()
+        learningprofile = adm.get_learningprofile_by_name(name)
+        return learningprofile
 
 
 
