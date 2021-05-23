@@ -89,6 +89,10 @@ nbo = api.inherit('NamedBusinessObject', bo, {
     'name': fields.String(attribute='_name', description='name of a named business object')
 })
 
+chat = api.inherit('ChatInvitation', nbo, {
+
+})
+
 chatinvitation = api.inherit('ChatInvitation', bo, {
     'source_user':fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
     'target_user':fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
@@ -200,7 +204,7 @@ class UserOperations(Resource):
         if user is not None:
             """This sets the id of the user object to be overwritten (see update)."""
             user.set_id(id)
-            adm.update_user(user)
+            adm.save_user(user)
             return '', 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -336,7 +340,7 @@ class ChatInvitationOperations(Resource):
         if chatinvitation is not None:
             """This sets the id of the chatinvitation object to be overwritten (see update)."""
             chatinvitation.set_id(id)
-            adm.update_chatinvitation(chatinvitation)
+            adm.save_chatinvitation(chatinvitation)
             return '', 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -370,7 +374,7 @@ class ChatInvitationBySourceOperations(Resource):
         """Reading out chatinvitation objects that are determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
         adm = Administration()
-        chatinvitation_source_user = adm.get_chatinvitation_by_source_user(source_user)
+        chatinvitation_source_user = adm.get_all_invites_by_source_user(source_user)
         return chatinvitation_source_user
 
 
@@ -417,7 +421,7 @@ class ChatInvitationsPendInvitesBySourceUserOperations(Resource):
         """Reading out chatinvitations objects that are pending determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
         adm = Administration()
-        chatinvitation_pend_invites_source_user = adm.get_pend_groupinvites_by_source_user(source_user)
+        chatinvitation_pend_invites_source_user = adm.get_pend_invites_by_source_user(source_user)
         return chatinvitation_pend_invites_source_user
 
 
@@ -509,7 +513,7 @@ class ChatMessageOperations(Resource):
         if chatmessage is not None:
             """This sets the id of the chatmessage object to be overwritten (see update)."""
             chatmessage.set_id(id)
-            adm.update_chatmessage(chatinvitation)
+            adm.save_chatmessage(chatinvitation)
             return '', 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -522,6 +526,7 @@ class ChatMessageOperations(Resource):
         single_chatmessage= adm.get_chatmessage_by_id(id)
         adm.delete_chatmessage(single_chatmessage)
         return '', 200
+
 
 @studifix.route('/chatmessage-chat-id/<int:chat_id>')
 @studifix.response(500, 'when server has problems')
@@ -593,7 +598,7 @@ class ChatOperations(Resource):
         if chat is not None:
             """This sets the id of the chat object to be overwritten (see update)."""
             chat.set_id(id)
-            adm.update_chat(chat)
+            adm.save_chat(chat)
             return '', 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -670,7 +675,7 @@ class GroupInvitationOperations(Resource):
         if groupinvitation is not None:
             """This sets the id of the groupinvitation object to be overwritten (see update)."""
             groupinvitation.set_id(id)
-            adm.update_groupinvitation(groupinvitation)
+            adm.save_groupinvitation(groupinvitation)
             return '', 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -685,20 +690,7 @@ class GroupInvitationOperations(Resource):
         return '', 200
 
 
-@studifix.route('/groupinvitation/<string:name>')
-@studifix.response(500, 'when server has problems')
-class GroupInvitationNameOperations(Resource):
-    @studifix.marshal_with(user)
-    def get(self, name):
-        """Reading out groupinvitation objects that are determined by the lastname.
-        The objects to be read out are determined by '' name '' in the URI."""
-        adm = Administration()
-        groupinvitation = adm.get_groupinvitation_by_name(name)
-        return groupinvitation
-
-
-
-@studifix.route('/groupinvitation-by-study-gtoup/<int:study_group_id>')
+@studifix.route('/groupinvitation-by-study-group/<int:study_group_id>')
 @studifix.response(500, 'when server has problems')
 class ChatInvitationByTargetOperations(Resource):
     @studifix.marshal_list_with(groupinvitation)
@@ -722,7 +714,6 @@ class GroupInvitationByTargetOperations(Resource):
         return groupinvitation_target_user
 
 
-
 @studifix.route('/groupinvitation-by-source-user/<int:source_user>')
 @studifix.response(500, 'when server has problems')
 class GroupInvitationBySourceOperations(Resource):
@@ -733,7 +724,6 @@ class GroupInvitationBySourceOperations(Resource):
         adm = Administration()
         groupinvitation_source_user = adm.get_groupinvitations_by_source_user(source_user)
         return groupinvitation_source_user
-
 
 
 @studifix.route('/groupinvitation-pend-invites/<int:study_group_id>')
@@ -756,7 +746,7 @@ class GroupInvitationsAcceptedByStudyGroupOperations(Resource):
         """Reading out chatinvitations from the CHAT that are determined by the accepted Chatinvitations.
         The objects to be read out are determined by '' chat_id '' in the URI."""
         adm = Administration()
-        groupinvitation_is_accepted_by_study_group = adm.get_chatinvitation_accepted_by_study_group(study_group_id)
+        groupinvitation_is_accepted_by_study_group = adm.get_accepted_groupinvitation_by_study_group_id(study_group_id)
         return groupinvitation_is_accepted_by_study_group
 
 
@@ -879,7 +869,7 @@ class StudyGroupOperations(Resource):
         if studygroup is not None:
             """This sets the id of the studygroup object to be overwritten (see update)."""
             studygroup.set_id(id)
-            adm.update_studygroup(studygroup)
+            adm.save_studygroup(studygroup)
             return '', 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -980,7 +970,7 @@ class LearningProfileOperations(Resource):
         if learningprofile is not None:
             """This sets the id of the learninprofile object to be overwritten (see update)."""
             learningprofile.set_id(id)
-            adm.update_learningprofile(learningprofile)
+            adm.save_learningprofile(learningprofile)
             return '', 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""

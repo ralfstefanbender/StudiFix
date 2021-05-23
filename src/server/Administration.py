@@ -109,6 +109,10 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.find_all()
 
+    def get_user_by_learning_profile_id(self,learning_profile_id):
+        with UserMapper() as mapper:
+            return mapper.find_user_by_learning_profile_id(learning_profile_id)
+
     def save_user(self, user):
         """Den gegebenen Benutzer speichern."""
         with UserMapper() as mapper:
@@ -188,6 +192,10 @@ class Administration(object):
         with ChatInvitationMapper() as mapper:
             return mapper.find_all_invites_by_target_user(target_user)
 
+    def get_all_invites_by_source_user(self, source_user):
+        with ChatInvitationMapper() as mapper:
+            return mapper.find_all_invites_by_source_user(source_user)
+
     def get_all_accepted_user_in_chat(self, chat_id):
         with ChatInvitationMapper() as mapper:
             return mapper.find_all_accepted_user_in_chat(chat_id)
@@ -244,6 +252,10 @@ class Administration(object):
     def get_studygroup_by_id(self, id):
         with StudyGroupMapper() as mapper:
             return mapper.find_by_id(id)
+
+    def get_studygroup_by_learning_profile_id(self, learning_profile_id):
+        with StudyGroupMapper() as mapper:
+            return mapper.find_group_by_learning_profile_id(learning_profile_id)
 
     def get_all_studygroups(self):
         with StudyGroupMapper() as mapper:
@@ -302,6 +314,19 @@ class Administration(object):
         with GroupInvitationMapper() as mapper:
             return mapper.find_accepted_invites_by_target_user(target_user)
 
+    def get_groupinvitation_by_study_group_id(self, study_group_id):
+        with GroupInvitationMapper() as mapper:
+            return mapper.find_all_group_invitations_by_StudyGroup(study_group_id)
+
+
+    def get_accepted_groupinvitation_by_study_group_id(self, study_group_id):
+        with GroupInvitationMapper() as mapper:
+            return mapper.find_all_accepted_user_in_study_group(study_group_id)
+
+    def get_groupinvitation_pend_invites_by_study_group(self, study_group):
+        with GroupInvitationMapper() as mapper:
+            return mapper.find_all_pend_user_in_study_group(study_group)
+
     def get_all_groupinvitations(self):
         """Alle Chatinvitations auslesen."""
         with GroupInvitationMapper() as mapper:
@@ -310,7 +335,7 @@ class Administration(object):
     def save_groupinvitation(self, group_invite):
         """Die gegebene chatinvitation speichern."""
         with GroupInvitationMapper() as mapper:
-            mapper.update(groupinvite)
+            mapper.update(group_invite)
 
     def delete_groupinvitation(self, group_invite):
         """Die gegebene chatinvitation aus unserem System löschen."""
