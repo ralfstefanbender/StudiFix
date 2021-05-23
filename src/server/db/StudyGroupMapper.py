@@ -12,10 +12,10 @@ class StudyGroupMapper(Mapper):
         result = []
 
         if len(tuples) == 1:
-            for (id, group_name, chat_id, learning_profile_id, creation_date) in tuples:
+            for (id, name, chat_id, learning_profile_id, creation_date) in tuples:
                 studygroup = StudyGroup()
                 studygroup.set_id(id)
-                studygroup.set_group_name(group_name)
+                studygroup.set_name(group_name)
                 studygroup.set_chat_id(chat_id)
                 studygroup.set_learning_profile_id(learning_profile_id)
                 studygroup.set_creation_date(creation_date)
@@ -25,7 +25,7 @@ class StudyGroupMapper(Mapper):
             for (id, group_name, chat_id, learning_profile_id, creation_date) in tuples:
                 studygroup = StudyGroup()
                 studygroup.set_id(id)
-                studygroup.set_group_name(group_name)
+                studygroup.set_name(group_name)
                 studygroup.set_chat_id(chat_id)
                 studygroup.set_learning_profile_id(learning_profile_id)
                 studygroup.set_creation_date(creation_date)
@@ -54,7 +54,7 @@ class StudyGroupMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, group_name, chat_id, learning_profile_id, creation_date FROM studygroup " \
+        command = "SELECT id, name, chat_id, learning_profile_id, creation_date FROM studygroup " \
                   "WHERE id LIKE '{}' ".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -77,8 +77,8 @@ class StudyGroupMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, group_name, chat_id, learning_profile_id, creation_date FROM studygroup " \
-                  "WHERE group_name LIKE '{}' ".format(group_name)
+        command = "SELECT id, name, chat_id, learning_profile_id, creation_date FROM studygroup " \
+                  "WHERE name LIKE '{}' ".format(group_name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -99,7 +99,7 @@ class StudyGroupMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, group_name, chat_id, learning_profile_id, creation_date FROM studygroup " \
+        command = "SELECT id, name, chat_id, learning_profile_id, creation_date FROM studygroup " \
                   "WHERE learning_profile_id LIKE '{}' ".format(learning_profile_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -128,7 +128,7 @@ class StudyGroupMapper(Mapper):
             else:
                 studygroup.set_id(maxid[0] + 1)
 
-        command = "INSERT INTO studygroup (id, group_name, chat_id, learning_profile_id, creation_date) VALUES " \
+        command = "INSERT INTO studygroup (id, name, chat_id, learning_profile_id, creation_date) VALUES " \
                   "('{}','{}','{}','{}','{}')"\
                 .format(studygroup.get_id(), studygroup.get_group_name(),
                         studygroup.get_chat_id(), studygroup.get_learning_profile_id(), studygroup.get_creation_date())
@@ -142,7 +142,7 @@ class StudyGroupMapper(Mapper):
     def update(self, studygroup):
 
         cursor = self._cnx.cursor()
-        command = "UPDATE studygroup SET group_name = ('{}'), chat_id = ('{}'), learning_profile_id = ('{}')," \
+        command = "UPDATE studygroup SET name = ('{}'), chat_id = ('{}'), learning_profile_id = ('{}')," \
                   " creation_date = ('{}') " \
                   "WHERE id = ('{}')" \
             .format(studygroup.get_group_name(),
@@ -166,7 +166,7 @@ class StudyGroupMapper(Mapper):
 if (__name__ == "__main__"):
     with StudyGroupMapper() as mapper:
         studygroup = StudyGroup()
-        studygroup.set_group_name("Studifix1")
+        studygroup.set_name("Studifix1")
         studygroup.set_chat_id(1)
         studygroup.set_learning_profile_id(1)
 

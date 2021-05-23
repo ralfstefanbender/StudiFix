@@ -131,7 +131,7 @@ studygroup = api.inherit('StudyGroup', nbo, {
 
 })
 
-user = api.api.inherit('User', nbo, {
+user = api.inherit('User', bo, {
     'google_id':fields.String(attribute='_google_id', description='Google Id des Profilinhabers'),
     'firstname':fields.String(attribute='_firstname', description='Vorname des Profilinhabers'),
     'lastname':fields.String(attribute='_lastname', description='Nachname des Profilinhabers'),
@@ -170,7 +170,7 @@ class UserListOperations(Resource):
             """We only use the attributes of  user of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_user(prpl.get_google_id(), prpl.get_first_name(), prpl.get_lastname(),
+            s = adm.create_user(prpl.get_google_id(), prpl.get_firstname(), prpl.get_lastname(),
                                 prpl.get_email(), prpl.get_adress(), prpl.get_learning_profile_id())
 
             return s, 200
@@ -323,8 +323,8 @@ class ChatInvitationOperations(Resource):
         """reading out a specific chatinvitation object.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_chatinvitation = adm.get_chatinvitation_by_id(id)
-        return single_chatinvitation
+        single_chat_invitation = adm.get_chatinvitation_by_id(id)
+        return single_chat_invitation
 
     @studifix.marshal_with(chatinvitation)
     @studifix.expect(chatinvitation, validate=True)  # We expect a user object from the client side.
@@ -513,7 +513,7 @@ class ChatMessageOperations(Resource):
         if chatmessage is not None:
             """This sets the id of the chatmessage object to be overwritten (see update)."""
             chatmessage.set_id(id)
-            adm.save_chatmessage(chatinvitation)
+            adm.save_chatmessage(chatmessage)
             return '', 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -565,9 +565,10 @@ class ChatListOperations(Resource):
         """Check the references for valid values before using them."""
         if prpl is not None:
             """We only use the attributes of  of chat proposal for generation
-            of a user object. The object created by the server is authoritative and
+            of a chat object. The object created by the server is authoritative and
             is also returned to the client."""
-            return prpl, 200
+            c = adm.create_chat(prpl.get_name())
+            return c, 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
@@ -642,7 +643,7 @@ class GroupInvitationListOperations(Resource):
             """We only use the attributes of groupinvitation of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_groupinvitation(prpl.get_study_group_id(), prpl.get_source_user(), prpl.get_target_user(), prpl.get_is_accepted())
+            s = adm.create_groupinvitation(prpl.get_study_group_id(), prpl.get_source_user(), prpl.get_target_user())
 
             return s, 200
         else:
@@ -836,7 +837,7 @@ class StudyGroupListOperations(Resource):
             """We only use the attributes of studygroup of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_studygroup(prpl.get_learning_profile_id(), prpl.get_chat_id())
+            s = adm.create_studygroup(prpl.get_chat_id(), prpl.get_learning_profile_id())
 
             return s, 200
         else:
@@ -936,7 +937,8 @@ class LearningProfileListOperations(Resource):
             """We only use the attributes of student of the proposal for generation
             of a learninprofile object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_learningprofile(prpl.get_studystate(), prpl.get_extroversion(), prpl.get_prev_knowledge(),
+            s = adm.create_learningprofile(prpl.get_frequency(),prpl.get_study_state(), prpl.get_extroversion(),
+                                           prpl.get_prev_knowledge(),
                                 prpl.get_learntyp(), prpl.get_interest(), prpl.get_semester(), prpl.get_degree_course())
 
             return s, 200
@@ -993,8 +995,8 @@ class LearningProfileByNameOperations(Resource):
         """Reading out studygroup objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
         adm = Administration()
-        learningprofile = adm.get_learningprofile_by_name(name)
-        return learningprofile
+        learning_profile_by_name = adm.get_learningprofile_by_name(name)
+        return learning_profile_by_name
 
 
 

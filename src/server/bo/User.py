@@ -24,7 +24,7 @@ class User(bo.BusinessObject):
     def set_firstname(self, value):
         self._firstname = value
 
-    def get_last_name(self):
+    def get_lastname(self):
         return self._lastname
 
     def set_lastname(self, value):

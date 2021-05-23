@@ -128,7 +128,7 @@ class ChatMapper(Mapper):
     def delete(self, chat):
 
         cursor = self._cnx.cursor()
-        command = "DELETE FROM chat WHERE id = ('{}')".format(chat.get_id())
+        command = "DELETE FROM chat WHERE id = ('{}') ".format(chat.get_id())
         cursor.execute(command)
 
         self._cnx.commit()

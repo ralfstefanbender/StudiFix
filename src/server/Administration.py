@@ -64,7 +64,7 @@ class Administration(object):
     def create_user(self, name, google_id, first_name, last_name, email, adress):
         """Einen Benutzer anlegen"""
         user = User()
-        user.set_name(name)  # Name von NamedBusinessObject
+        user.set_lastname(name)  # Name von NamedBusinessObject
         user.set_google_id(google_id)
         user.set_firstname(first_name)
         user.set_lastname(last_name)
@@ -348,8 +348,8 @@ class Administration(object):
         chatmessage = ChatMessage()
         chatmessage.set_chat_id(chat_id)
         chatmessage.set_user_id(user_id)
-        chatmessage.set_text()
-        chat_message.set_id(1)
+        chatmessage.set_text(text)
+        chatmessage.set_id(1)
 
         with ChatMessage() as mapper:
             return mapper.insert(chatmessage)
@@ -369,7 +369,7 @@ class Administration(object):
     def get_chatmessages_by_user_id(self,user_id):
         with ChatMessageMapper() as mapper:
             #### find by user_id fehlt? brauchen wir das?
-            # return mapper.find_all_by_user_id(user_id)
+            return mapper.find_all_by_user_id(user_id)
 
     def save_chatmessage(self, chatmessage):
         with ChatMessageMapper() as mapper:

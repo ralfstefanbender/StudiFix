@@ -45,6 +45,7 @@ class GroupInvitation(bo.BusinessObject):
         """Umwandeln eines Python dict() in einen User()."""
         obj = GroupInvitation()
         obj.set_id(dictionary["id"])
+        obj.set_creation_date(dictionary["creation_date"])
         obj.set_study_group_id(dictionary["study_group_id"])
         obj.set_source_user(dictionary["source_user"])
         obj.set_target_user(dictionary["target_user"])

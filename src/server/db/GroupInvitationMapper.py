@@ -260,7 +260,7 @@ class GroupInvitationMapper(Mapper):
                   "target_user = ('{}'), source_user = ('{}') WHERE id = ('{}')" \
             .format(group_invitation.get_creation_date(), group_invitation.get_is_accepted(),
                     group_invitation.get_study_group_id(),
-                    group_invitation.get_target_user(), group_invitation.get_source_user_id(), group_invitation.get_id())
+                    group_invitation.get_target_user(), group_invitation.get_source_user(), group_invitation.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
