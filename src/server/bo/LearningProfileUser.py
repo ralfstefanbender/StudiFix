@@ -1,7 +1,7 @@
 from src.server.bo import LearningProfile as bo
 
 
-class LearningProfile(bo.LearningProfile):
+class LearningProfileUser(bo.LearningProfile):
 
     def __init__(self):
         super().__init__()
@@ -17,7 +17,7 @@ class LearningProfile(bo.LearningProfile):
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Learnprofile User()."""
-        obj = LearningProfile()
+        obj = LearningProfileUser()
         obj.set_user_id(["user_id"])
         obj.set_id(dictionary["id"])
         obj.set_creation_date(dictionary["creation_date"])

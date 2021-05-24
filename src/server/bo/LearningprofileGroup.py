@@ -1,12 +1,11 @@
 from src.server.bo import LearningProfile as bo
 
 
-class LearningProfile(bo.LearningProfile):
+class LearningProfileGroup(bo.LearningProfile):
 
     def __init__(self):
         super().__init__()
         self._group_id = 0
-
 
     def get_group_id(self):
         return self._group_id
@@ -16,12 +15,10 @@ class LearningProfile(bo.LearningProfile):
 
 
 
-
-
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Learnprofile Group()."""
-        obj = LearningProfile()
+        obj = LearningProfileGroup()
         obj.set_group_id(["group_id"])
         obj.set_id(dictionary["id"])
         obj.set_creation_date(dictionary["creation_date"])
