@@ -64,7 +64,7 @@ class Administration(object):
 
     # User Methoden
     def create_user(self, google_id, first_name, last_name, email, adress):
-        """Einen Benutzer anlegen"""
+        """Einen User anlegen"""
         user = User()  # Name von NamedBusinessObject
         user.set_google_id(google_id)
         user.set_firstname(first_name)
@@ -78,22 +78,22 @@ class Administration(object):
 
 
     def get_user_by_name(self, name):
-        """Alle Benutzer mit Namen name auslesen."""
+        """Alle User mit Namen name auslesen."""
         with UserMapper() as mapper:
             return mapper.find_by_name(name)
 
     def get_user_by_id(self, number):
-        """Den Benutzer mit der gegebenen ID auslesen."""
+        """Den User mit der gegebenen ID auslesen."""
         with UserMapper() as mapper:
             return mapper.find_by_id(number)
 
     def get_user_by_email(self, email):
-        """Alle Benutzer mit gegebener E-Mail-Adresse auslesen."""
+        """Alle User mit gegebener E-Mail-Adresse auslesen."""
         with UserMapper() as mapper:
             return mapper.find_user_by_email(email)
 
     def get_user_by_google_id(self, id):
-        """Den Benutzer mit der gegebenen Google ID auslesen."""
+        """Den User mit der gegebenen Google ID auslesen."""
         with UserMapper() as mapper:
             return mapper.find_user_by_google_id(id)
 
@@ -106,7 +106,7 @@ class Administration(object):
             return mapper.find_user_by_lastname(last_name)
 
     def get_all_users(self):
-        """Alle Benutzer auslesen."""
+        """Alle User auslesen."""
         with UserMapper() as mapper:
             return mapper.find_all()
 
@@ -115,12 +115,12 @@ class Administration(object):
             return mapper.find_user_by_learning_profile_id(learning_profile_id)
 
     def save_user(self, user):
-        """Den gegebenen Benutzer speichern."""
+        """Den gegebenen User speichern."""
         with UserMapper() as mapper:
             mapper.update(user)
 
     def delete_user(self, user):
-        """Den gegebenen Benutzer aus unserem System löschen."""
+        """Den gegebenen User aus unserem System löschen."""
         with UserMapper() as mapper:
             mapper.delete(user)
 
@@ -156,17 +156,17 @@ class Administration(object):
             return mapper.find_by_group_id(group_id)
 
     def get_all_learningprofiles_group(self):
-        """Alle Learningprofiles auslesen."""
+        """Alle Learningprofiles group auslesen."""
         with LearningProfileGroupMapper() as mapper:
             return mapper.find_all()
 
     def save_learningprofile_group(self, learningprofile):
-        """Das gegebene Learningprofile speichern."""
+        """Das gegebene Learningprofile group speichern."""
         with LearningProfileGroupMapper() as mapper:
             mapper.update(learningprofile)
 
     def delete_learningprofile_group(self, learningprofile):
-        """Das gegebene LearningProfile aus unserem System löschen."""
+        """Das gegebene LearningProfile group aus unserem System löschen."""
         with LearningProfileGroupMapper() as mapper:
             mapper.delete(learningprofile)
 
@@ -202,17 +202,17 @@ class Administration(object):
             return mapper.find_by_user_id(user_id)
 
     def get_all_learningprofiles_user(self):
-        """Alle Learningprofiles auslesen."""
+        """Alle Learningprofiles user auslesen."""
         with LearningProfileUserMapper() as mapper:
             return mapper.find_all()
 
     def save_learningprofile_user(self, learningprofile):
-        """Das gegebene Learningprofile speichern."""
+        """Das gegebene Learningprofile user speichern."""
         with LearningProfileUserMapper() as mapper:
             mapper.update(learningprofile)
 
     def delete_learningprofile_user(self, learningprofile):
-        """Das gegebene LearningProfile aus unserem System löschen."""
+        """Das gegebene LearningProfile user aus unserem System löschen."""
         with LearningProfileUserMapper() as mapper:
             mapper.delete(learningprofile)
 
