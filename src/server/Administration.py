@@ -61,10 +61,9 @@ class Administration(object):
         pass
 
     # User Methoden
-    def create_user(self, name, google_id, first_name, last_name, email, adress):
+    def create_user(self, google_id, first_name, last_name, email, adress):
         """Einen Benutzer anlegen"""
-        user = User()
-        user.set_lastname(name)  # Name von NamedBusinessObject
+        user = User()  # Name von NamedBusinessObject
         user.set_google_id(google_id)
         user.set_firstname(first_name)
         user.set_lastname(last_name)
@@ -230,10 +229,10 @@ class Administration(object):
         with ChatInvitationMapper() as mapper:
             mapper.update(invite)
 
-    def delete_chatinvitation(self, invite):
+    def delete_chatinvitation(self, id):
         """Die gegebene chatinvitation aus unserem System löschen."""
         with ChatInvitationMapper() as mapper:
-            mapper.delete(invite)
+            mapper.delete(id)
 
     # StudyGroup Methoden
     def create_studygroup (self, name, chat_id):
@@ -351,7 +350,7 @@ class Administration(object):
         chatmessage.set_text(text)
         chatmessage.set_id(1)
 
-        with ChatMessage() as mapper:
+        with ChatMessageMapper() as mapper:
             return mapper.insert(chatmessage)
 
     def get_chatmessage_by_id(self,id):

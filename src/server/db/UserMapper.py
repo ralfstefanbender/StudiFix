@@ -17,7 +17,7 @@ class UserMapper(Mapper):
         result = []
 
         if len(tuples) == 1:
-            for (id, firstname, lastname, adress, email, google_id, learning_profile_id, creation_date) in tuples:
+            for (id, firstname, lastname, adress, email, google_id, creation_date, learning_profile_id) in tuples:
 
                 user = User()
                 user.set_id(id)
@@ -26,11 +26,11 @@ class UserMapper(Mapper):
                 user.set_adress(adress)
                 user.set_email(email)
                 user.set_google_id(google_id)
-                user.set_learning_profile_id(learning_profile_id)
                 user.set_creation_date(creation_date)
+                user.set_learning_profile_id(learning_profile_id)
                 result = user
         else:
-            for (id, firstname, lastname, adress, email, google_id, learning_profile_id, creation_date) in tuples:
+            for (id, firstname, lastname, adress, email, google_id, creation_date, learning_profile_id) in tuples:
 
                 user = User()
                 user.set_id(id)
@@ -39,8 +39,8 @@ class UserMapper(Mapper):
                 user.set_adress(adress)
                 user.set_email(email)
                 user.set_google_id(google_id)
-                user.set_learning_profile_id(learning_profile_id)
                 user.set_creation_date(creation_date)
+                user.set_learning_profile_id(learning_profile_id)
                 result.append(user)
 
         return result
@@ -67,7 +67,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, firstname, lastname, adress, email, " \
-                  "google_id, learning_profile_id, creation_date FROM user WHERE email LIKE '{}' ".format(email)
+                  "google_id, creation_date, learning_profile_id FROM user WHERE email LIKE '{}'".format(email)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -89,7 +89,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, firstname, lastname, adress, email, " \
-                  "google_id, learning_profile_id, creation_date FROM user WHERE google_id LIKE '{}' ".format(google_id)
+                  "google_id, creation_date, learning_profile_id FROM user WHERE google_id LIKE '{}' ".format(google_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -115,7 +115,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, firstname, lastname, adress, email, " \
-                  "google_id, learning_profile_id, creation_date FROM user WHERE firstname LIKE '{}' ".format(firstname)
+                  "google_id, creation_date, learning_profile_id FROM user WHERE firstname LIKE '{}' ".format(firstname)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -141,7 +141,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, firstname, lastname, adress, email, " \
-                  "google_id, learning_profile_id, creation_date FROM user WHERE lastname LIKE '{}' ".format(lastname)
+                  "google_id, creation_date, learning_profile_id FROM user WHERE lastname LIKE '{}' ".format(lastname)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -167,7 +167,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, firstname, lastname, adress, email," \
-                  " google_id, learning_profile_id, creation_date FROM user WHERE id LIKE '{}' ".format(id)
+                  " google_id, creation_date, learning_profile_id FROM user WHERE id LIKE '{}' ".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -188,8 +188,8 @@ class UserMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, firstname, lastname, adress, email," \
-                  " google_id, learning_profile_id, creation_date FROM user " \
+        command = "SELECT id, firstname, lastname, adress, email, " \
+                  "google_id, creation_date, learning_profile_id FROM user " \
                   "WHERE learning_profile_id LIKE '{}' ".format(learning_profile_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -218,11 +218,11 @@ class UserMapper(Mapper):
             else:
                 user.set_id(maxid[0]+1)
 
-        command = "INSERT INTO user (id, firstname, lastname, adress," \
-                  "email, google_id, learning_profile_id, creation_date) " \
+        command = "INSERT INTO user (id, firstname, lastname, adress, " \
+                  "email, google_id, creation_date, learning_profile_id)" \
                   "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}')"\
                 .format(user.get_id(), user.get_firstname(), user.get_lastname(), user.get_adress(), user.get_email(),
-                        user.get_google_id(), user.get_learning_profile_id(), user.get_creation_date())
+                        user.get_google_id(), user.get_creation_date(), user.get_learning_profile_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -232,11 +232,11 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "UPDATE user SET firstname = ('{}'), lastname = ('{}'), adress = ('{}')," \
-                  " email = ('{}'), google_id = ('{}'), learning_profile_id = ('{}'),"\
-                  " creation_date = ('{}'),"\
+                  " email = ('{}'), google_id = ('{}'),"\
+                  " creation_date = ('{}'), learning_profile_id = ('{}'),"\
                   "WHERE id = ('{}')"\
             .format(user.get_firstname(), user.get_lastname(), user.get_adress(), user.get_email(),
-                    user.get_google_id(), user.get_learning_profile_id(), user.get_creation_date(), user.get_id())
+                    user.get_google_id(), user.get_creation_date(), user.get_learning_profile_id(), user.get_id())
         cursor.execute(command)
 
         self._cnx.commit()

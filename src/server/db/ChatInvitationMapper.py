@@ -57,7 +57,7 @@ class ChatInvitationMapper(Mapper):
     def find_by_id(self, id):
         cursor = self._cnx.cursor()
         command = "SELECT id, creation_date, is_accepted, chat_id, target_user, source_user " \
-                  "FROM group_invitation WHERE id LIKE '{}' ".format(id)
+                  "FROM group_invitation WHERE id LIKE '{}'".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
         print(tuples)

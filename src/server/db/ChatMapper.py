@@ -104,8 +104,7 @@ class ChatMapper(Mapper):
                 chat.set_id(maxid[0] + 1)
 
         command = "INSERT INTO chat (id, name, creation_date) VALUES " \
-                  "('{}','{}','{}')"\
-                .format(chat.get_id(), chat.get_name(), chat.get_creation_date())
+                  "('{}','{}','{}')".format(chat.get_id(), chat.get_name(), chat.get_creation_date())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -117,7 +116,7 @@ class ChatMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "UPDATE chat SET name = ('{}'), " \
-                  " creation_date = ('{}') " \
+                  "creation_date = ('{}') " \
                   "WHERE id = ('{}')" \
             .format(chat.get_name(), chat.get_creation_date(), chat.get_id())
         cursor.execute(command)
@@ -128,7 +127,7 @@ class ChatMapper(Mapper):
     def delete(self, chat):
 
         cursor = self._cnx.cursor()
-        command = "DELETE FROM chat WHERE id = ('{}') ".format(chat.get_id())
+        command = "DELETE FROM chat WHERE id = ('{}')".format(chat.get_id())
         cursor.execute(command)
 
         self._cnx.commit()

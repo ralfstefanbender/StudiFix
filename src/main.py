@@ -137,7 +137,7 @@ user = api.inherit('User', bo, {
     'lastname':fields.String(attribute='_lastname', description='Nachname des Profilinhabers'),
     'email':fields.String(attribute='_email', description='Email des Profilinhabers'),
     'adress':fields.String(attribute='_adress', description='Adresse des Profilinhabers'),
-    'learning_profile_id': fields.Integer(attribute='learning_profile_id', description='profile id'),
+    'learning_profile_id': fields.Integer(attribute='learning_profile_id', description='profile id')
 })
 
 
@@ -171,7 +171,7 @@ class UserListOperations(Resource):
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
             s = adm.create_user(prpl.get_google_id(), prpl.get_firstname(), prpl.get_lastname(),
-                                prpl.get_email(), prpl.get_adress(), prpl.get_learning_profile_id())
+                                prpl.get_email(), prpl.get_adress())
 
             return s, 200
         else:
@@ -306,8 +306,7 @@ class ChatInvitationListOperations(Resource):
             """We only use the attributes of chatinvitation of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_chatinvitation(prpl.get_source_user(), prpl.get_target_user(), prpl.get_chat_id(),
-                                prpl.get_is_accepted())
+            s = adm.create_chatinvitation(prpl.get_source_user(), prpl.get_target_user(), prpl.get_chat_id(), prpl.get_is_accepted())
 
             return s, 200
         else:
@@ -325,6 +324,14 @@ class ChatInvitationOperations(Resource):
         adm = Administration()
         single_chat_invitation = adm.get_chatinvitation_by_id(id)
         return single_chat_invitation
+
+    def delete(self, id):
+        """Deletion of a specific chatinvitation object.
+        The object to be deleted is determined by the '' id '' in the URI."""
+        adm = Administration()
+        single_chatinvitation = adm.delete_chatinvitation(id)
+        adm.delete_chatinvitation(single_chatinvitation)
+        return '', 200
 
     @studifix.marshal_with(chatinvitation)
     @studifix.expect(chatinvitation, validate=True)  # We expect a user object from the client side.
@@ -346,13 +353,7 @@ class ChatInvitationOperations(Resource):
             """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
 
-    def delete(self, id):
-        """Deletion of a specific chatinvitation object.
-        The object to be deleted is determined by the '' id '' in the URI."""
-        adm = Administration()
-        single_chatinvitation= adm.get_chatinvitation_by_id(id)
-        adm.delete_chatinvitation(single_chatinvitation)
-        return '', 200
+
 
 @studifix.route('/chatinvitation-by-target-user/<int:target_user>')
 @studifix.response(500, 'when server has problems')
@@ -609,7 +610,7 @@ class ChatOperations(Resource):
         """Deletion of a specific chat object.
         The object to be deleted is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_chat= adm.get_chat_by_id(id)
+        single_chat = adm.get_chat_by_id(id)
         adm.delete_chat(single_chat)
         return '', 200
 
