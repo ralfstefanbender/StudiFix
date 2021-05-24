@@ -10,7 +10,8 @@ from server.bo.ChatInvitation import ChatInvitation
 from server.bo.ChatMessage import ChatMessage
 
 from server.bo.GroupInvitation import GroupInvitation
-from server.bo.LearningProfile import LearningProfile
+from server.bo.LearningprofileGroup import LearningProfileGroup
+from server.bo.LearningProfileUser import LearningProfileUser
 from server.bo.StudyGroup import StudyGroup
 from server.bo.User import User
 from server.bo.Chat import Chat
@@ -113,7 +114,21 @@ groupinvitation = api.inherit('GroupInvitation', bo, {
     'is_accepted':fields.Boolean(attribute='_is_accepted', description='Akzeptiert')
 })
 
-learningprofile = api.inherit('LearningProfile', nbo, {
+learningprofilegroup = api.inherit('LearningProfileGroup', nbo, {
+    'group_id':fields.Integer(attribute='_group_id', description='group_id'),
+    'frequency':fields.Integer(attribute='_frequency', description='Häufigkeit'),
+    'study_state':fields.Integer(attribute='_study_state', description='on oder offline'),
+    'extroversion':fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
+    'prev_knowledge':fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse'),
+    'lerntyp':fields.Integer(attribute='_lerntyp', description='Lerntypdes Profilinhabers'),
+    'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
+    'semester': fields.Integer(attribute='_semester', description='Semester'),
+    'degree_course':fields.String(attribute='_degree_course', description='Studiengang'),
+
+})
+
+learningprofileuser = api.inherit('LearningProfileUser', nbo, {
+    'user_id':fields.Integer(attribute='_user_id', description='user_id'),
     'frequency':fields.Integer(attribute='_frequency', description='Häufigkeit'),
     'study_state':fields.Integer(attribute='_study_state', description='on oder offline'),
     'extroversion':fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
@@ -909,36 +924,36 @@ class StudyGroupLearningProfileOperations(Resource):
         studygroup = adm.get_studygroup_by_learning_profile_id(learning_profile)
         return studygroup
 
-#-------LearningProfile---------
+#-------LearningProfileGroup---------
 
 
-@studifix.route('/learningprofile')
+@studifix.route('/learningprofilegroup')
 @studifix.response(500, 'when server has problems')
-class LearningProfileListOperations(Resource):
-    """Reading out all learninprofile objects.
+class LearningProfileGroupListOperations(Resource):
+    """Reading out all learninprofile group objects.
     If no user objects are available, an empty sequence is returned."""
-    @studifix.marshal_list_with(learningprofile)
+    @studifix.marshal_list_with(learningprofilegroup)
     def get(self):
         adm = Administration()
-        learningprofiles = adm.get_all_learningprofiles()
+        learningprofiles = adm.get_all_learningprofiles_group()
         return learningprofiles
 
-    @studifix.marshal_with(learningprofile, code=200)
-    @studifix.expect(learningprofile)  # We expect a user object from the client side.
+    @studifix.marshal_with(learningprofilegroup, code=200)
+    @studifix.expect(learningprofilegroup)  # We expect a user object from the client side.
     def post(self):
-        """Create a new learninprofile object. We take the data sent by the client as a suggestion.
+        """Create a new learningprofile group object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
         Even if the client should assign an ID in the proposal, so
         it is up to the administration (business logic) to have a correct ID
         to forgive. * The corrected object will eventually be returned. *"""
         adm = Administration()
-        prpl = LearningProfile.from_dict(api.payload)
+        prpl = LearningProfileGroup.from_dict(api.payload)
         """Check the references for valid values before using them."""
         if prpl is not None:
             """We only use the attributes of student of the proposal for generation
             of a learninprofile object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_learningprofile(prpl.get_frequency(),prpl.get_study_state(), prpl.get_extroversion(),
+            s = adm.create_learningprofile_group(prpl.get_group_id(), prpl.get_frequency(),prpl.get_study_state(), prpl.get_extroversion(),
                                            prpl.get_prev_knowledge(),
                                 prpl.get_learntyp(), prpl.get_interest(), prpl.get_semester(), prpl.get_degree_course())
 
@@ -950,30 +965,30 @@ class LearningProfileListOperations(Resource):
 
 @studifix.route('/learningprofile/<int:id>')
 @studifix.response(500, 'when server has problems')
-class LearningProfileOperations(Resource):
-    @studifix.marshal_with(learningprofile)
+class LearningProfileGroupOperations(Resource):
+    @studifix.marshal_with(learningprofilegroup)
     def get(self, id):
         """reading out a specific learninprofileobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_learningprofile = adm.get_learningprofile_by_id(id)
+        single_learningprofile = adm.get_learningprofile_group_by_id(id)
         return single_learningprofile
 
-    @studifix.marshal_with(learningprofile)
-    @studifix.expect(learningprofile, validate=True)  # We expect a learningprofile object from the client side.
+    @studifix.marshal_with(learningprofilegroup)
+    @studifix.expect(learningprofilegroup, validate=True)  # We expect a learningprofile object from the client side.
     def put(self, id):
         """ Update of a specific learninprofile object.
         The relevant id is the id provided by the URI and thus as a method parameter
         is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
         student object."""
         adm = Administration()
-        learningprofile = LearningProfile.from_dict(api.payload)
+        learningprofile = LearningProfileGroup.from_dict(api.payload)
         print('main aufruf')
 
         if learningprofile is not None:
             """This sets the id of the learninprofile object to be overwritten (see update)."""
             learningprofile.set_id(id)
-            adm.save_learningprofile(learningprofile)
+            adm.save_learningprofile_group(learningprofile)
             return '', 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -983,21 +998,113 @@ class LearningProfileOperations(Resource):
         """Deletion of a specific learninprofile object.
         The object to be deleted is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_learningprofile= adm.get_learningprofile_by_id(id)
-        adm.delete_learningprofile(single_learningprofile)
+        single_learningprofile= adm.get_learningprofile_group_by_id(id)
+        adm.delete_learningprofile_group(single_learningprofile)
         return '', 200
 
 
-@studifix.route('/learningprofile-by-name/<string:name>')
+@studifix.route('/learningprofilegroup-by-name/<string:name>')
 @studifix.response(500, 'when server has problems')
-class LearningProfileByNameOperations(Resource):
-    @studifix.marshal_with(learningprofile)
+class LearningProfileGroupByNameOperations(Resource):
+    @studifix.marshal_with(learningprofilegroup)
     def get(self, name):
         """Reading out studygroup objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
         adm = Administration()
-        learning_profile_by_name = adm.get_learningprofile_by_name(name)
+        learning_profile_by_name = adm.get_learningprofile_group_by_name(name)
         return learning_profile_by_name
+
+
+#-------LearningProfileUser---------
+
+
+@studifix.route('/learningprofilegroup')
+@studifix.response(500, 'when server has problems')
+class LearningProfileGroupListOperations(Resource):
+    """Reading out all learninprofile group objects.
+    If no user objects are available, an empty sequence is returned."""
+    @studifix.marshal_list_with(learningprofilegroup)
+    def get(self):
+        adm = Administration()
+        learningprofiles = adm.get_all_learningprofiles_group()
+        return learningprofiles
+
+    @studifix.marshal_with(learningprofilegroup, code=200)
+    @studifix.expect(learningprofilegroup)  # We expect a user object from the client side.
+    def post(self):
+        """Create a new learningprofile group object. We take the data sent by the client as a suggestion.
+        For example, assigning the ID is not the responsibility of the client.
+        Even if the client should assign an ID in the proposal, so
+        it is up to the administration (business logic) to have a correct ID
+        to forgive. * The corrected object will eventually be returned. *"""
+        adm = Administration()
+        prpl = LearningProfileGroup.from_dict(api.payload)
+        """Check the references for valid values before using them."""
+        if prpl is not None:
+            """We only use the attributes of student of the proposal for generation
+            of a learninprofile object. The object created by the server is authoritative and
+            is also returned to the client."""
+            s = adm.create_learningprofile_group(prpl.get_group_id(), prpl.get_frequency(),prpl.get_study_state(), prpl.get_extroversion(),
+                                                 prpl.get_prev_knowledge(),
+                                                 prpl.get_learntyp(), prpl.get_interest(), prpl.get_semester(), prpl.get_degree_course())
+
+            return s, 200
+        else:
+            """When it comes down to it, we don't give anything back and throw a server error."""
+            return '', 500
+
+
+@studifix.route('/learningprofile/<int:id>')
+@studifix.response(500, 'when server has problems')
+class LearningProfileGroupOperations(Resource):
+    @studifix.marshal_with(learningprofilegroup)
+    def get(self, id):
+        """reading out a specific learninprofileobject.
+           The object to be read is determined by the '' id '' in the URI."""
+        adm = Administration()
+        single_learningprofile = adm.get_learningprofile_group_by_id(id)
+        return single_learningprofile
+
+    @studifix.marshal_with(learningprofilegroup)
+    @studifix.expect(learningprofilegroup, validate=True)  # We expect a learningprofile object from the client side.
+    def put(self, id):
+        """ Update of a specific learninprofile object.
+        The relevant id is the id provided by the URI and thus as a method parameter
+        is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
+        student object."""
+        adm = Administration()
+        learningprofile = LearningProfileGroup.from_dict(api.payload)
+        print('main aufruf')
+
+        if learningprofile is not None:
+            """This sets the id of the learninprofile object to be overwritten (see update)."""
+            learningprofile.set_id(id)
+            adm.save_learningprofile_group(learningprofile)
+            return '', 200
+        else:
+            """When it comes down to it, we don't give anything back and throw a server error."""
+            return '', 500
+
+    def delete(self, id):
+        """Deletion of a specific learninprofile object.
+        The object to be deleted is determined by the '' id '' in the URI."""
+        adm = Administration()
+        single_learningprofile= adm.get_learningprofile_group_by_id(id)
+        adm.delete_learningprofile_group(single_learningprofile)
+        return '', 200
+
+
+@studifix.route('/learningprofilegroup-by-name/<string:name>')
+@studifix.response(500, 'when server has problems')
+class LearningProfileGroupByNameOperations(Resource):
+    @studifix.marshal_with(learningprofilegroup)
+    def get(self, name):
+        """Reading out studygroup objects that are determined by the lastname.
+        The objects to be read out are determined by '' name '' in the URI."""
+        adm = Administration()
+        learning_profile_by_name = adm.get_learningprofile_group_by_name(name)
+        return learning_profile_by_name
+
 
 
 
