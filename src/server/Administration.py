@@ -2,7 +2,8 @@ from .bo.User import User
 from .bo.Chat import Chat
 from .bo.ChatInvitation import ChatInvitation
 from .bo.ChatMessage import ChatMessage
-from .bo.LearningProfile import LearningProfile
+from .bo.LearningprofileGroup import LearningProfileGroup
+from .bo.LearningProfileUser import LearningProfileUser
 from .bo.StudyGroup import StudyGroup
 from .bo.GroupInvitation import GroupInvitation
 
@@ -10,7 +11,8 @@ from .db.UserMapper import *
 from .db.ChatMapper import *
 from .db.ChatInvitationMapper import *
 from .db.ChatMessageMapper import *
-from .db.LearningProfileMapper import *
+from .db.LearningProfileGroupMapper import *
+from .db.LearningProfileUserMapper import *
 from .db.StudyGroupMapper import *
 from .db.GroupInvitationMapper import *
 
@@ -122,10 +124,11 @@ class Administration(object):
         with UserMapper() as mapper:
             mapper.delete(user)
 
-    # LearningProfile Methoden
-    def create_learningprofile(self, name, frequency, study_state, extroversion, prev_knowledge,
+    # LearningProfile Group Methoden
+    def create_learningprofile_group(self, group_id, name, frequency, study_state, extroversion, prev_knowledge,
                                learntype, interest, semester, degree_course):
-        learningprofile = LearningProfile()
+        learningprofile = LearningProfileGroup()
+        learningprofile.set_group_id(group_id)
         learningprofile.set_name(name)
         learningprofile.set_frequency(frequency)
         learningprofile.set_study_state(study_state)
@@ -137,38 +140,34 @@ class Administration(object):
         learningprofile.set_degree_course(degree_course)
         learningprofile.set_id(1)
 
-        with LearningProfile() as mapper:
+        with LearningProfileGroup() as mapper:
             return mapper.insert(learningprofile)
 
-    def get_learningprofile_by_name(self, name):
-        with LearningProfileMapper() as mapper:
+    def get_learningprofile_group_by_name(self, name):
+        with LearningProfileGroupMapper() as mapper:
             return mapper.find_by_name(name)
 
-    def get_learningprofile_by_id(self, number):
-        with LearningProfileMapper() as mapper:
+    def get_learningprofile_group_by_id(self, number):
+        with LearningProfileGroupMapper() as mapper:
             return mapper.find_by_id(number)
 
-    def get_learningprofile_by_user_id(self, user_id):
-        with LearningProfileMapper() as mapper:
-            return mapper.find_by_user_id(user_id)
+    def get_learningprofile_group_by_group_id(self, group_id):
+        with LearningProfileGroupMapper() as mapper:
+            return mapper.find_by_group_id(group_id)
 
-    def get_learningprofile_by_group_id(self, group_id):
-        with LearningProfileMapper() as mapper:
-            return mapper.find_by_user_id(group_id)
-
-    def get_all_learningprofiles(self):
+    def get_all_learningprofiles_group(self):
         """Alle Learningprofiles auslesen."""
-        with LearningProfileMapper() as mapper:
+        with LearningProfileGroupMapper() as mapper:
             return mapper.find_all()
 
-    def save_learningprofile(self, learningprofile):
+    def save_learningprofile_group(self, learningprofile):
         """Das gegebene Learningprofile speichern."""
-        with LearningProfileMapper() as mapper:
+        with LearningProfileGroupMapper() as mapper:
             mapper.update(learningprofile)
 
-    def delete_learningprofile(self, learningprofile):
+    def delete_learningprofile_group(self, learningprofile):
         """Das gegebene LearningProfile aus unserem System löschen."""
-        with LearningProfileMapper() as mapper:
+        with LearningProfileGroupMapper() as mapper:
             mapper.delete(learningprofile)
 
     # ChatInvitation Methoden
