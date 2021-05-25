@@ -18,16 +18,16 @@ class LearningProfileUser(bo.LearningProfile):
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Learnprofile User()."""
         obj = LearningProfileUser()
-        obj.set_user_id(["user_id"])
         obj.set_id(dictionary["id"])
-        obj.set_creation_date(dictionary["creation_date"])
+        obj.set_user_id(["user_id"])
         obj.set_name(dictionary["name"])
-        obj.set_frequency(dictionary["frequency"])
-        obj.set_study_state(dictionary["study_state"])
-        obj.set_extroversion(dictionary["extroversion"])
         obj.set_prev_knowledge(dictionary["prev_knowledge"])
+        obj.set_extroversion(dictionary["extroversion"])
+        obj.set_study_state(dictionary["study_state"])
+        obj.set_frequency(dictionary["frequency"])
         obj.set_learntyp(dictionary["learntyp"])
-        obj.set_interest(dictionary["interest"])
         obj.set_semester(dictionary["semester"])
+        obj.set_interest(dictionary["interest"])
         obj.set_degree_course(dictionary["degree_course"])
+        obj.set_creation_date(dictionary["creation_date"])
         return obj

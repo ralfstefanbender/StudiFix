@@ -71,7 +71,7 @@ class LearningProfileGroupMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, group_id, name, prev_knowledge, extroversion, study_state, frequency," \
-                  "learntyp, semester, interest, degree_course, creation_date FROM learning_profile " \
+                  "learntyp, semester, interest, degree_course, creation_date FROM learning_profile_group " \
                   "WHERE id LIKE '{}' ".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -89,13 +89,37 @@ class LearningProfileGroupMapper(Mapper):
 
         return result
 
+    def find_by_group_id(self, group_id):
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, group_id, name, prev_knowledge, extroversion, study_state, frequency," \
+                  "learntyp, semester, interest, degree_course, creation_date FROM learning_profile_group " \
+                  "WHERE group_id LIKE '{}' ".format(group_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            result = self.build_bo(tuples)
+
+        except IndexError:
+            """Falls kein LearningProfile Group mit der angegebenen group_id gefunden werden konnte,
+                wird hier None als Rückgabewert deklariert"""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
     def find_by_name(self, name):
 
         result = None
 
         cursor = self._cnx.cursor()
         command = "SELECT id, group_id, name, prev_knowledge, extroversion, study_state, frequency," \
-                  "learntyp, semester, interest, degree_course, creation_date FROM learning_profile " \
+                  "learntyp, semester, interest, degree_course, creation_date FROM learning_profile_group " \
                   "WHERE name LIKE '{}' ".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -112,7 +136,7 @@ class LearningProfileGroupMapper(Mapper):
 
         return result
 
-    def insert(self, learning_profile):
+    def insert(self, learning_profile_group):
 
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) as maxid from learning_profile_group")
@@ -120,59 +144,61 @@ class LearningProfileGroupMapper(Mapper):
 
         for (maxid) in tuples:
             if maxid[0] is None:
-                learning_profile.set_id(1)
+                learning_profile_group.set_id(1)
             else:
-                learning_profile.set_id(maxid[0] + 1)
+                learning_profile_group.set_id(maxid[0] + 1)
 
-        command = "INSERT INTO learning_profile (id, group_id, name, prev_knowledge, extroversion, study_state, frequency," \
+        command = "INSERT INTO learning_profile_group (id, group_id, name, prev_knowledge, extroversion, " \
+                  "study_state, frequency," \
                   "learntyp, semester, interest, degree_course, creation_date) VALUES " \
                   "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
-            .format(learning_profile.get_id(),
-                    learning_profile.get_group_id(),
-                    learning_profile.get_name(),
-                    learning_profile.get_prev_knowledge(),
-                    learning_profile.get_extroversion(),
-                    learning_profile.get_study_state(),
-                    learning_profile.get_frequency(),
-                    learning_profile.get_learntyp(),
-                    learning_profile.get_semester(),
-                    learning_profile.get_interest(),
-                    learning_profile.get_degree_course(),
-                    learning_profile.get_creation_date())
+            .format(learning_profile_group.get_id(),
+                    learning_profile_group.get_group_id(),
+                    learning_profile_group.get_name(),
+                    learning_profile_group.get_prev_knowledge(),
+                    learning_profile_group.get_extroversion(),
+                    learning_profile_group.get_study_state(),
+                    learning_profile_group.get_frequency(),
+                    learning_profile_group.get_learntyp(),
+                    learning_profile_group.get_semester(),
+                    learning_profile_group.get_interest(),
+                    learning_profile_group.get_degree_course(),
+                    learning_profile_group.get_creation_date())
         cursor.execute(command)
 
         self._cnx.commit()
         cursor.close()
 
-        return learning_profile
+        return learning_profile_group
 
-    def update(self, learning_profile):
+    def update(self, learning_profile_group):
 
         cursor = self._cnx.cursor()
-        command = "UPDATE learning_profile_group SET name = ('{}'), group_id = ('{}'), prev_knowledge = ('{}'), extroversion = ('{}')," \
+        command = "UPDATE learning_profile_group SET name = ('{}'), group_id = ('{}'), " \
+                  "prev_knowledge = ('{}'), extroversion = ('{}')," \
                   " study_state = ('{}'), frequency = ('{}'), learntyp = ('{}'), semester = ('{}')," \
                   " interest = ('{}'), degree_course = ('{}'), creation_date = ('{}') WHERE id = ('{}')" \
-            .format(learning_profile.get_id(),
-                    learning_profile.get_group_id(),
-                    learning_profile.get_name(),
-                    learning_profile.get_prev_knowledge(),
-                    learning_profile.get_extroversion(),
-                    learning_profile.get_study_state(),
-                    learning_profile.get_frequency(),
-                    learning_profile.get_learntyp(),
-                    learning_profile.get_semester(),
-                    learning_profile.get_interest(),
-                    learning_profile.get_degree_course(),
-                    learning_profile.get_creation_date())
+            .format(learning_profile_group.get_id(),
+                    learning_profile_group.get_group_id(),
+                    learning_profile_group.get_name(),
+                    learning_profile_group.get_prev_knowledge(),
+                    learning_profile_group.get_extroversion(),
+                    learning_profile_group.get_study_state(),
+                    learning_profile_group.get_frequency(),
+                    learning_profile_group.get_learntyp(),
+                    learning_profile_group.get_semester(),
+                    learning_profile_group.get_interest(),
+                    learning_profile_group.get_degree_course(),
+                    learning_profile_group.get_creation_date())
         cursor.execute(command)
 
         self._cnx.commit()
         cursor.close()
 
-    def delete(self, learning_profile):
+    def delete(self, learning_profile_group):
 
         cursor = self._cnx.cursor()
-        command = "DELETE FROM learning_profile_group WHERE id = ('{}')".format(learning_profile.get_id())
+        command = "DELETE FROM learning_profile_group WHERE id = ('{}')".format(learning_profile_group.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
