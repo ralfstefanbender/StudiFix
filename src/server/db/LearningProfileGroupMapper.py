@@ -14,38 +14,38 @@ class LearningProfileGroupMapper(Mapper):
         if len(tuples) == 1:
             for (id, group_id, name, prev_knowledge, extroversion, study_state, frequency,
                  learntyp, semester, interest, degree_course, creation_date) in tuples:
-                learning_profile = LearningProfileGroup()
-                learning_profile.set_id(id)
-                learning_profile.set_group_id(group_id)
-                learning_profile.set_name(name)
-                learning_profile.set_prev_knowledge(prev_knowledge)
-                learning_profile.set_extroversion(extroversion)
-                learning_profile.set_study_state(study_state)
-                learning_profile.set_frequency(frequency)
-                learning_profile.set_learntyp(learntyp)
-                learning_profile.set_semester(semester)
-                learning_profile.set_interest(interest)
-                learning_profile.set_degree_course(degree_course)
-                learning_profile.set_creation_date(creation_date)
-                result = learning_profile
+                learning_profile_group = LearningProfileGroup()
+                learning_profile_group.set_id(id)
+                learning_profile_group.set_group_id(group_id)
+                learning_profile_group.set_name(name)
+                learning_profile_group.set_prev_knowledge(prev_knowledge)
+                learning_profile_group.set_extroversion(extroversion)
+                learning_profile_group.set_study_state(study_state)
+                learning_profile_group.set_frequency(frequency)
+                learning_profile_group.set_learntyp(learntyp)
+                learning_profile_group.set_semester(semester)
+                learning_profile_group.set_interest(interest)
+                learning_profile_group.set_degree_course(degree_course)
+                learning_profile_group.set_creation_date(creation_date)
+                result = learning_profile_group
 
         else:
             for (id, group_id, name, prev_knowledge, extroversion, study_state, frequency,
                  learntyp, semester, interest, degree_course, creation_date) in tuples:
-                learning_profile = LearningProfileGroup()
-                learning_profile.set_id(id)
-                learning_profile.set_group_id(group_id)
-                learning_profile.set_name(name)
-                learning_profile.set_prev_knowledge(prev_knowledge)
-                learning_profile.set_extroversion(extroversion)
-                learning_profile.set_study_state(study_state)
-                learning_profile.set_frequency(frequency)
-                learning_profile.set_learntyp(learntyp)
-                learning_profile.set_semester(semester)
-                learning_profile.set_interest(interest)
-                learning_profile.set_degree_course(degree_course)
-                learning_profile.set_creation_date(creation_date)
-                result.append(learning_profile)
+                learning_profile_group = LearningProfileGroup()
+                learning_profile_group.set_id(id)
+                learning_profile_group.set_group_id(group_id)
+                learning_profile_group.set_name(name)
+                learning_profile_group.set_prev_knowledge(prev_knowledge)
+                learning_profile_group.set_extroversion(extroversion)
+                learning_profile_group.set_study_state(study_state)
+                learning_profile_group.set_frequency(frequency)
+                learning_profile_group.set_learntyp(learntyp)
+                learning_profile_group.set_semester(semester)
+                learning_profile_group.set_interest(interest)
+                learning_profile_group.set_degree_course(degree_course)
+                learning_profile_group.set_creation_date(creation_date)
+                result.append(learning_profile_group)
 
         return result
 
