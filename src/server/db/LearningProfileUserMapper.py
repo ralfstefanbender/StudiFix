@@ -80,7 +80,7 @@ class LearningProfileUserMapper(Mapper):
             result = self.build_bo(tuples)
 
         except IndexError:
-            """Falls kein LearningProfile User mit der angegebenen user_id gefunden werden konnte,
+            """Falls kein LearningProfile User mit der angegebenen id gefunden werden konnte,
                 wird hier None als Rückgabewert deklariert"""
             result = None
 
