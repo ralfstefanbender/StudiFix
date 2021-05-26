@@ -12,9 +12,13 @@ class Mapper (AbstractContextManager, ABC):
 
     def __enter__(self):
 
-        self._cnx = connector.connect(user='root', password='7891',
+        self._cnx = connector.connect(user='root', password='170695',
                                   host='127.0.0.1',
+<<<<<<< HEAD
                                   database='studi__fix')
+=======
+                                  database='studifix')
+>>>>>>> 744d110d0dea1a6dfdeb08288dd57cb36d8e067e
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):

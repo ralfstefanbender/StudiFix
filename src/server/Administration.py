@@ -2,7 +2,8 @@ from .bo.User import User
 from .bo.Chat import Chat
 from .bo.ChatInvitation import ChatInvitation
 from .bo.ChatMessage import ChatMessage
-from .bo.LearningProfile import LearningProfile
+from .bo.LearningprofileGroup import LearningProfileGroup
+from .bo.LearningProfileUser import LearningProfileUser
 from .bo.StudyGroup import StudyGroup
 from .bo.GroupInvitation import GroupInvitation
 
@@ -10,7 +11,8 @@ from .db.UserMapper import *
 from .db.ChatMapper import *
 from .db.ChatInvitationMapper import *
 from .db.ChatMessageMapper import *
-from .db.LearningProfileMapper import *
+from .db.LearningProfileGroupMapper import *
+from .db.LearningProfileUserMapper import *
 from .db.StudyGroupMapper import *
 from .db.GroupInvitationMapper import *
 
@@ -62,7 +64,7 @@ class Administration(object):
 
     # User Methoden
     def create_user(self, google_id, first_name, last_name, email, adress):
-        """Einen Benutzer anlegen"""
+        """Einen User anlegen"""
         user = User()  # Name von NamedBusinessObject
         user.set_google_id(google_id)
         user.set_firstname(first_name)
@@ -76,22 +78,22 @@ class Administration(object):
 
 
     def get_user_by_name(self, name):
-        """Alle Benutzer mit Namen name auslesen."""
+        """Alle User mit Namen name auslesen."""
         with UserMapper() as mapper:
             return mapper.find_by_name(name)
 
     def get_user_by_id(self, number):
-        """Den Benutzer mit der gegebenen ID auslesen."""
+        """Den User mit der gegebenen ID auslesen."""
         with UserMapper() as mapper:
             return mapper.find_by_id(number)
 
     def get_user_by_email(self, email):
-        """Alle Benutzer mit gegebener E-Mail-Adresse auslesen."""
+        """Alle User mit gegebener E-Mail-Adresse auslesen."""
         with UserMapper() as mapper:
             return mapper.find_user_by_email(email)
 
     def get_user_by_google_id(self, id):
-        """Den Benutzer mit der gegebenen Google ID auslesen."""
+        """Den User mit der gegebenen Google ID auslesen."""
         with UserMapper() as mapper:
             return mapper.find_user_by_google_id(id)
 
@@ -104,7 +106,7 @@ class Administration(object):
             return mapper.find_user_by_lastname(last_name)
 
     def get_all_users(self):
-        """Alle Benutzer auslesen."""
+        """Alle User auslesen."""
         with UserMapper() as mapper:
             return mapper.find_all()
 
@@ -113,19 +115,20 @@ class Administration(object):
             return mapper.find_user_by_learning_profile_id(learning_profile_id)
 
     def save_user(self, user):
-        """Den gegebenen Benutzer speichern."""
+        """Den gegebenen User speichern."""
         with UserMapper() as mapper:
             mapper.update(user)
 
     def delete_user(self, user):
-        """Den gegebenen Benutzer aus unserem System löschen."""
+        """Den gegebenen User aus unserem System löschen."""
         with UserMapper() as mapper:
             mapper.delete(user)
 
-    # LearningProfile Methoden
-    def create_learningprofile(self, name, frequency, study_state, extroversion, prev_knowledge,
-                               learntype, interest, semester, degree_course):
-        learningprofile = LearningProfile()
+    # LearningProfile Group Methoden
+    def create_learningprofile_group(self, group_id, name, frequency, study_state, extroversion, prev_knowledge,
+                                     learntype, interest, semester, degree_course):
+        learningprofile = LearningProfileGroup()
+        learningprofile.set_group_id(group_id)
         learningprofile.set_name(name)
         learningprofile.set_frequency(frequency)
         learningprofile.set_study_state(study_state)
@@ -137,48 +140,81 @@ class Administration(object):
         learningprofile.set_degree_course(degree_course)
         learningprofile.set_id(1)
 
-        with LearningProfile() as mapper:
+        with LearningProfileGroup() as mapper:
             return mapper.insert(learningprofile)
 
-    def get_learningprofile_by_name(self, name):
-        with LearningProfileMapper() as mapper:
+    def get_learningprofile_group_by_name(self, name):
+        with LearningProfileGroupMapper() as mapper:
             return mapper.find_by_name(name)
 
-    def get_learningprofile_by_id(self, number):
-        with LearningProfileMapper() as mapper:
+    def get_learningprofile_group_by_id(self, number):
+        with LearningProfileGroupMapper() as mapper:
             return mapper.find_by_id(number)
 
-    def get_learningprofile_by_user_id(self, user_id):
-        with LearningProfileMapper() as mapper:
-            return mapper.find_by_user_id(user_id)
+    def get_learningprofile_group_by_group_id(self, group_id):
+        with LearningProfileGroupMapper() as mapper:
+            return mapper.find_by_group_id(group_id)
 
-    def get_learningprofile_by_group_id(self, group_id):
-        with LearningProfileMapper() as mapper:
-            return mapper.find_by_user_id(group_id)
-
-    def get_all_learningprofiles(self):
-        """Alle Learningprofiles auslesen."""
-        with LearningProfileMapper() as mapper:
+    def get_all_learningprofiles_group(self):
+        """Alle Learningprofiles group auslesen."""
+        with LearningProfileGroupMapper() as mapper:
             return mapper.find_all()
 
-    def save_learningprofile(self, learningprofile):
-        """Das gegebene Learningprofile speichern."""
-        with LearningProfileMapper() as mapper:
+    def save_learningprofile_group(self, learningprofile):
+        """Das gegebene Learningprofile group speichern."""
+        with LearningProfileGroupMapper() as mapper:
             mapper.update(learningprofile)
 
-    def delete_learningprofile(self, learningprofile):
-        """Das gegebene LearningProfile aus unserem System löschen."""
-        with LearningProfileMapper() as mapper:
-            user = self.get_user_by_learning_profile_id(learningprofile)
-            studygroup=self.get_studygroup_by_learning_profile_id(learningprofile)
+    def delete_learningprofile_group(self, learningprofile):
+        """Das gegebene LearningProfile group aus unserem System löschen."""
+        with LearningProfileGroupMapper() as mapper:
+            mapper.delete(learningprofile)
 
-            if not(user is None):
-                for u in user:
-                    self.delete_user(u)
+    # LearningProfile User Methoden
+    def create_learningprofile_user(self, user_id, name, frequency, study_state, extroversion, prev_knowledge,
+                                    learntype, interest, semester, degree_course):
+        learningprofile = LearningProfileUser()
+        learningprofile.set_user_id(user_id)
+        learningprofile.set_name(name)
+        learningprofile.set_frequency(frequency)
+        learningprofile.set_study_state(study_state)
+        learningprofile.set_extroversion(extroversion)
+        learningprofile.set_prev_knowledge(prev_knowledge)
+        learningprofile.set_learntyp(learntype)
+        learningprofile.set_interest(interest)
+        learningprofile.set_semester(semester)
+        learningprofile.set_degree_course(degree_course)
+        learningprofile.set_id(1)
 
-            if not (studygroup is None):
-                for s in studygroup:
-                    self.delete_studygroup(s)
+        with LearningProfileUser() as mapper:
+            return mapper.insert(learningprofile)
+
+    def get_learningprofile_user_by_name(self, name):
+        with LearningProfileUserMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def get_learningprofile_user_by_id(self, number):
+        with LearningProfileUserMapper() as mapper:
+            return mapper.find_by_id(number)
+
+    def get_learningprofile_user_by_user_id(self, user_id):
+        with LearningProfileUserMapper() as mapper:
+            return mapper.find_by_user_id(user_id)
+
+    def get_all_learningprofiles_user(self):
+        """Alle Learningprofiles user auslesen."""
+        with LearningProfileUserMapper() as mapper:
+            return mapper.find_all()
+
+    def save_learningprofile_user(self, learningprofile):
+        """Das gegebene Learningprofile user speichern."""
+        with LearningProfileUserMapper() as mapper:
+            mapper.update(learningprofile)
+
+
+    def delete_learningprofile_user(self, learningprofile):
+        """Das gegebene LearningProfile user aus unserem System löschen."""
+        with LearningProfileUserMapper() as mapper:
 
             mapper.delete(learningprofile)
 

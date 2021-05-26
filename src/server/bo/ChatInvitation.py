@@ -59,7 +59,7 @@ class ChatInvitation (bo.BusinessObject):
         """Umwandeln eines Python dict() in einer ChatInvitation"""
         obj = ChatInvitation()
         obj.set_id(dictionary["id"])
-        obj.set_creation_date(dictionary["creation_date"])
+        obj.set_creation_date(ChatInvitation.date_format(dictionary["creation_date"]))
         obj.set_source_user(dictionary["source_user"])
         obj.set_target_user(dictionary["target_user"])
         obj.set_chat_id(dictionary["chat_id"])

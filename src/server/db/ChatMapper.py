@@ -115,9 +115,7 @@ class ChatMapper(Mapper):
     def update(self, chat):
 
         cursor = self._cnx.cursor()
-        command = "UPDATE chat SET name = ('{}'), " \
-                  "creation_date = ('{}') " \
-                  "WHERE id = ('{}')" \
+        command = "UPDATE chat SET name = ('{}'), creation_date = ('{}') WHERE id = ('{}')" \
             .format(chat.get_name(), chat.get_creation_date(), chat.get_id())
         cursor.execute(command)
 
