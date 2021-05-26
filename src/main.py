@@ -4,17 +4,17 @@ from flask_restx import Api, Resource, fields
 # Wir benutzen noch eine Flask-Erweiterung für Cross-Origin Resource Sharing
 from flask_cors import CORS
 
-from server.Administration import Administration
-from server.bo.ChatInvitation import ChatInvitation
+from src.server.Administration import Administration
+from src.server.bo.ChatInvitation import ChatInvitation
 
-from server.bo.ChatMessage import ChatMessage
+from src.server.bo.ChatMessage import ChatMessage
 
-from server.bo.GroupInvitation import GroupInvitation
-from server.bo.LearningprofileGroup import LearningProfileGroup
-from server.bo.LearningProfileUser import LearningProfileUser
-from server.bo.StudyGroup import StudyGroup
-from server.bo.User import User
-from server.bo.Chat import Chat
+from src.server.bo.GroupInvitation import GroupInvitation
+from src.server.bo.LearningprofileGroup import LearningProfileGroup
+from src.server.bo.LearningProfileUser import LearningProfileUser
+from src.server.bo.StudyGroup import StudyGroup
+from src.server.bo.User import User
+from src.server.bo.Chat import Chat
 """
 A. Allgemeine Hinweise zu diesem Module:
 Normalerweise würde man eine Datei dieser Länge bzw. ein Module
@@ -151,8 +151,7 @@ user = api.inherit('User', bo, {
     'firstname':fields.String(attribute='_firstname', description='Vorname des Profilinhabers'),
     'lastname':fields.String(attribute='_lastname', description='Nachname des Profilinhabers'),
     'email':fields.String(attribute='_email', description='Email des Profilinhabers'),
-    'adress':fields.String(attribute='_adress', description='Adresse des Profilinhabers'),
-    'learning_profile_id': fields.Integer(attribute='learning_profile_id', description='profile id')
+    'adress':fields.String(attribute='_adress', description='Adresse des Profilinhabers')
 })
 
 
