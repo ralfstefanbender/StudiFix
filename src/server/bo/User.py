@@ -53,7 +53,7 @@ class User(bo.BusinessObject):
         """Umwandeln eines Python dict() in einen User()."""
         obj = User()
         obj.set_id(dictionary["id"])
-        obj.set_creation_date(dictionary["creation_date"])
+        obj.set_creation_date(User.date_format(dictionary["creation_date"]))
         obj.set_google_id(dictionary["google_id"])
         obj.set_firstname(dictionary["firstname"])
         obj.set_lastname(dictionary["lastname"])
