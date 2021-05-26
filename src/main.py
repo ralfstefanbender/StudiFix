@@ -141,7 +141,6 @@ learningprofileuser = api.inherit('LearningProfileUser', nbo, {
 })
 
 studygroup = api.inherit('StudyGroup', nbo, {
-    'learning_profile_id': fields.Integer(attribute='_learning_profile_id', description='FK Learningprofile id'),
     'chat_id': fields.Integer(attribute='_chat_id', description='Chat id ')
 
 })
@@ -856,7 +855,7 @@ class StudyGroupListOperations(Resource):
             """We only use the attributes of studygroup of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_studygroup(prpl.get_chat_id(), prpl.get_learning_profile_id())
+            s = adm.create_studygroup(prpl.get_chat_id())
 
             return s, 200
         else:
