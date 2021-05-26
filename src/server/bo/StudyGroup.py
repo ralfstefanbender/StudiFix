@@ -10,15 +10,6 @@ class StudyGroup(bo.NamedBusinessObject):
         self._chat_id = 0
         self._learning_profile_id = 0
 
-
-    def get_group_name(self):
-        "Auslesen des Gruppennamens"
-        return self._group_name
-
-    def set_group_name(self, group_name):
-        "Festlegen eines Gruppennamens"
-        self._group_name = group_name
-
     def get_chat_id(self):
         "Auselesen der Chat-ID"
         return self._chat_id

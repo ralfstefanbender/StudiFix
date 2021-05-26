@@ -169,6 +169,17 @@ class Administration(object):
     def delete_learningprofile(self, learningprofile):
         """Das gegebene LearningProfile aus unserem System löschen."""
         with LearningProfileMapper() as mapper:
+            user = self.get_user_by_learning_profile_id(learningprofile)
+            studygroup=self.get_studygroup_by_learning_profile_id(learningprofile)
+
+            if not(user is None):
+                for u in user:
+                    self.delete_user(u)
+
+            if not (studygroup is None):
+                for s in studygroup:
+                    self.delete_studygroup(s)
+
             mapper.delete(learningprofile)
 
     # ChatInvitation Methoden
@@ -404,9 +415,9 @@ class Administration(object):
         with ChatMapper() as mapper:
             mapper.update(chat)
 
-    def delete_chat(self, chat):
+    def delete_chat(self, single_chat):
         with ChatMapper() as mapper:
-            mapper.delete(chat)
+            mapper.delete(single_chat)
 
 
 

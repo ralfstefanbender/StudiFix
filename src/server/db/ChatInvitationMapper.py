@@ -238,9 +238,9 @@ class ChatInvitationMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def delete(self, chat_invitation):
+    def delete(self, chatinvitation):
         cursor = self._cnx.cursor()
-        command = "DELETE FROM chat_invitation WHERE id = ('{}')".format(chat_invitation.get_id())
+        command = "DELETE FROM chat_invitation WHERE id = ('{}')".format(chatinvitation.get_id())
         cursor.execute(command)
         self._cnx.commit()
 

@@ -165,10 +165,10 @@ class LearningProfileMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def delete(self, learning_profile):
+    def delete(self, learningprofile):
 
         cursor = self._cnx.cursor()
-        command = "DELETE FROM learning_profile WHERE id = ('{}')".format(learning_profile.get_id())
+        command = "DELETE FROM learning_profile WHERE id = ('{}')".format(learningprofile.get_id())
         cursor.execute(command)
 
         self._cnx.commit()

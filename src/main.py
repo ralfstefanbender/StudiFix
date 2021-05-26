@@ -79,7 +79,6 @@ sich z.B. umsetzen durch /bank/v1, /bank/v2 usw."""
 studifix = api.namespace('StudiFix', description='Funktionen des StudiFix')
 
 
-
 bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Unique id of a business object'),
     'creation_date': fields.DateTime(attribute='_creation_date', description='creation date of a business object')
@@ -89,9 +88,7 @@ nbo = api.inherit('NamedBusinessObject', bo, {
     'name': fields.String(attribute='_name', description='name of a named business object')
 })
 
-chat = api.inherit('ChatInvitation', nbo, {
-
-})
+chat = api.inherit('Chat', nbo)
 
 chatinvitation = api.inherit('ChatInvitation', bo, {
     'source_user':fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
@@ -126,8 +123,8 @@ learningprofile = api.inherit('LearningProfile', nbo, {
 })
 
 studygroup = api.inherit('StudyGroup', nbo, {
-    'learning_profile_id':fields.Integer(attribute='_learning_profile_id', description='FK Learningprofile id'),
-    'chat_id':fields.Integer(attribute='_chat_id', description='Chat id ')
+'chat_id':fields.Integer(attribute='_chat_id', description='Chat id '),
+    'learning_profile_id':fields.Integer(attribute='_learning_profile_id', description='FK Learningprofile id')
 
 })
 
@@ -329,9 +326,15 @@ class ChatInvitationOperations(Resource):
         """Deletion of a specific chatinvitation object.
         The object to be deleted is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_chatinvitation = adm.delete_chatinvitation(id)
-        adm.delete_chatinvitation(single_chatinvitation)
-        return '', 200
+        chat_invitation = adm.get_chatinvitation_by_id(id)
+
+        if chat_invitation is not None:
+            adm.delete_chatinvitation(chat_invitation)
+            return '', 200
+        else:
+            return '', 500
+
+
 
     @studifix.marshal_with(chatinvitation)
     @studifix.expect(chatinvitation, validate=True)  # We expect a user object from the client side.
@@ -553,6 +556,7 @@ class ChatListOperations(Resource):
         chats = adm.get_all_chats()
         return chats
 
+
     @studifix.marshal_with(chat, code=200)
     @studifix.expect(chat)  # We expect a user object from the client side.
     def post(self):
@@ -568,7 +572,7 @@ class ChatListOperations(Resource):
             """We only use the attributes of  of chat proposal for generation
             of a chat object. The object created by the server is authoritative and
             is also returned to the client."""
-            c = adm.create_chat(prpl.get_name())
+            c = adm.create_chat(prpl.get_id())
             return c, 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -585,6 +589,19 @@ class ChatOperations(Resource):
         adm = Administration()
         single_chat = adm.get_chat_by_id(id)
         return single_chat
+
+    def delete(self, id):
+        """Deletion of a specific chat object.
+        The object to be deleted is determined by the '' id '' in the URI."""
+
+        adm = Administration()
+        chat = adm.get_chat_by_id(id)
+
+        if chat is not None:
+            adm.delete_chat(chat)
+            return '', 200
+        else:
+            return '', 500
 
     @studifix.marshal_with(chat)
     @studifix.expect(chat, validate=True)  # We expect a user object from the client side.
@@ -606,13 +623,7 @@ class ChatOperations(Resource):
             """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
 
-    def delete(self, id):
-        """Deletion of a specific chat object.
-        The object to be deleted is determined by the '' id '' in the URI."""
-        adm = Administration()
-        single_chat = adm.get_chat_by_id(id)
-        adm.delete_chat(single_chat)
-        return '', 200
+
 
 
 #----GroupInvitation--------
@@ -694,7 +705,7 @@ class GroupInvitationOperations(Resource):
 
 @studifix.route('/groupinvitation-by-study-group/<int:study_group_id>')
 @studifix.response(500, 'when server has problems')
-class ChatInvitationByTargetOperations(Resource):
+class GroupinvitationByTargetOperations(Resource):
     @studifix.marshal_list_with(groupinvitation)
     def get(self, study_group_id):
         """Reading out groupinvitation objects that are determined by the study_group_id.
@@ -849,13 +860,26 @@ class StudyGroupListOperations(Resource):
 @studifix.route('/studygroup/<int:id>')
 @studifix.response(500, 'when server has problems')
 class StudyGroupOperations(Resource):
-    @studifix.marshal_with(user)
+    @studifix.marshal_with(studygroup)
     def get(self, id):
         """reading out a specific studygroupobject.
            The object to be read is determined by the '' id '' in the URI."""
         adm = Administration()
         single_studygroup = adm.get_studygroup_by_id(id)
         return single_studygroup
+
+    def delete(self, id):
+        """Deletion of a specific studygroup object.
+        The object to be deleted is determined by the '' id '' in the URI."""
+        adm = Administration()
+        single_studygroup= adm.get_studygroup_by_id(id)
+
+        if single_studygroup is not None:
+            adm.delete_studygroup(single_studygroup)
+            return '', 200
+        else:
+            return '', 500
+
 
     @studifix.marshal_with(studygroup)
     @studifix.expect(studygroup, validate=True)  # We expect a user object from the client side.
@@ -877,13 +901,6 @@ class StudyGroupOperations(Resource):
             """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
 
-    def delete(self, id):
-        """Deletion of a specific studygroup object.
-        The object to be deleted is determined by the '' id '' in the URI."""
-        adm = Administration()
-        single_studygroup= adm.get_studygroup_by_id(id)
-        adm.delete_studygroup(single_studygroup)
-        return '', 200
 
 
 @studifix.route('/studygroup/<string:name>')
@@ -902,11 +919,11 @@ class StudyGroupOperations(Resource):
 @studifix.response(500, 'when server has problems')
 class StudyGroupLearningProfileOperations(Resource):
     @studifix.marshal_with(studygroup)
-    def get(self, learning_profile):
+    def get(self, learning_profile_id):
         """Reading out studygroup objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
         adm = Administration()
-        studygroup = adm.get_studygroup_by_learning_profile_id(learning_profile)
+        studygroup = adm.get_studygroup_by_learning_profile_id(learning_profile_id)
         return studygroup
 
 #-------LearningProfile---------
@@ -938,7 +955,7 @@ class LearningProfileListOperations(Resource):
             """We only use the attributes of student of the proposal for generation
             of a learninprofile object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_learningprofile(prpl.get_frequency(),prpl.get_study_state(), prpl.get_extroversion(),
+            s = adm.create_learningprofile(prpl.get_frequency(), prpl.get_study_state(), prpl.get_extroversion(),
                                            prpl.get_prev_knowledge(),
                                 prpl.get_learntyp(), prpl.get_interest(), prpl.get_semester(), prpl.get_degree_course())
 
@@ -983,9 +1000,14 @@ class LearningProfileOperations(Resource):
         """Deletion of a specific learninprofile object.
         The object to be deleted is determined by the '' id '' in the URI."""
         adm = Administration()
-        single_learningprofile= adm.get_learningprofile_by_id(id)
-        adm.delete_learningprofile(single_learningprofile)
-        return '', 200
+        learning_profile = adm.get_learningprofile_by_id(id)
+
+        if learning_profile is not None:
+            adm.delete_learningprofile(learning_profile)
+            return '', 200
+        else:
+            return '', 500
+
 
 
 @studifix.route('/learningprofile-by-name/<string:name>')

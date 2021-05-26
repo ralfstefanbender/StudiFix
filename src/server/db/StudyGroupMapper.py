@@ -15,17 +15,17 @@ class StudyGroupMapper(Mapper):
             for (id, name, chat_id, learning_profile_id, creation_date) in tuples:
                 studygroup = StudyGroup()
                 studygroup.set_id(id)
-                studygroup.set_name(group_name)
+                studygroup.set_name(name)
                 studygroup.set_chat_id(chat_id)
                 studygroup.set_learning_profile_id(learning_profile_id)
                 studygroup.set_creation_date(creation_date)
                 result = studygroup
 
         else:
-            for (id, group_name, chat_id, learning_profile_id, creation_date) in tuples:
+            for (id, name, chat_id, learning_profile_id, creation_date) in tuples:
                 studygroup = StudyGroup()
                 studygroup.set_id(id)
-                studygroup.set_name(group_name)
+                studygroup.set_name(name)
                 studygroup.set_chat_id(chat_id)
                 studygroup.set_learning_profile_id(learning_profile_id)
                 studygroup.set_creation_date(creation_date)
@@ -72,13 +72,13 @@ class StudyGroupMapper(Mapper):
 
         return result
 
-    def find_by_group_name(self, group_name):
+    def find_by_group_name(self, name):
 
         result = None
 
         cursor = self._cnx.cursor()
         command = "SELECT id, name, chat_id, learning_profile_id, creation_date FROM studygroup " \
-                  "WHERE name LIKE '{}' ".format(group_name)
+                  "WHERE name LIKE '{}' ".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -130,7 +130,7 @@ class StudyGroupMapper(Mapper):
 
         command = "INSERT INTO studygroup (id, name, chat_id, learning_profile_id, creation_date) VALUES " \
                   "('{}','{}','{}','{}','{}')"\
-                .format(studygroup.get_id(), studygroup.get_group_name(),
+                .format(studygroup.get_id(), studygroup.get_name(),
                         studygroup.get_chat_id(), studygroup.get_learning_profile_id(), studygroup.get_creation_date())
         cursor.execute(command)
 
@@ -145,7 +145,7 @@ class StudyGroupMapper(Mapper):
         command = "UPDATE studygroup SET name = ('{}'), chat_id = ('{}'), learning_profile_id = ('{}')," \
                   " creation_date = ('{}') " \
                   "WHERE id = ('{}')" \
-            .format(studygroup.get_group_name(),
+            .format(studygroup.get_name(),
                     studygroup.get_chat_id(), studygroup.get_creation_date(), studygroup.get_learning_profile_id(),
                     studygroup.get_id())
         cursor.execute(command)

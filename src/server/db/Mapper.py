@@ -14,7 +14,7 @@ class Mapper (AbstractContextManager, ABC):
 
         self._cnx = connector.connect(user='root', password='7891',
                                   host='127.0.0.1',
-                                  database='studi_fix')
+                                  database='studi__fix')
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
