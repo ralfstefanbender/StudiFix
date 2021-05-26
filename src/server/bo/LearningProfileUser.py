@@ -29,5 +29,5 @@ class LearningProfileUser(bo.LearningProfile):
         obj.set_semester(dictionary["semester"])
         obj.set_interest(dictionary["interest"])
         obj.set_degree_course(dictionary["degree_course"])
-        obj.set_creation_date(dictionary["creation_date"])
+        obj.set_creation_date(LearningProfileUser.date_format(dictionary["creation_date"]))
         return obj

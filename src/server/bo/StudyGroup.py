@@ -40,7 +40,7 @@ class StudyGroup(bo.NamedBusinessObject):
         """Umwandeln eines Python dict() in einen StudyGroup"""
         obj = StudyGroup()
         obj.set_id(dictionary["id"])
-        obj.set_creation_date(dictionary["creation_date"])
+        obj.set_creation_date(StudyGroup.date_format(dictionary["creation_date"]))
         obj.set_name(dictionary["name"])
         obj.set_chat_id(dictionary["chat_id"])
         obj.set_learning_profile_id(dictionary["learning_profile_id"])
