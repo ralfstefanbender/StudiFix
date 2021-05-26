@@ -208,9 +208,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "UPDATE user SET firstname = ('{}'), lastname = ('{}'), adress = ('{}')," \
-                  " email = ('{}'), google_id = ('{}'),"\
-                  " creation_date = ('{}'),"\
-                  "WHERE id = ('{}')"\
+                  " email = ('{}'), google_id = ('{}'), creation_date = ('{}') WHERE id = ('{}')"\
             .format(user.get_firstname(), user.get_lastname(), user.get_adress(), user.get_email(),
                     user.get_google_id(), user.get_creation_date(), user.get_id())
         cursor.execute(command)
