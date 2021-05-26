@@ -216,7 +216,7 @@ DROP TABLE IF EXISTS `studygroup`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `studygroup` (
   `id` int NOT NULL,
-  `group_name` varchar(45) NOT NULL,
+  `name` varchar(45) NOT NULL,
   `creation_date` datetime NOT NULL,
   `chat_id` int NOT NULL,
   PRIMARY KEY (`id`),
