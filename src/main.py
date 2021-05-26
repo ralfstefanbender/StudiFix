@@ -90,7 +90,7 @@ nbo = api.inherit('NamedBusinessObject', bo, {
     'name': fields.String(attribute='_name', description='name of a named business object')
 })
 
-chat = api.inherit('ChatInvitation', nbo, {
+chat = api.inherit('Chat', nbo, {
 
 })
 
