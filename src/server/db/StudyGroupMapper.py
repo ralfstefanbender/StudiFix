@@ -12,21 +12,21 @@ class StudyGroupMapper(Mapper):
         result = []
 
         if len(tuples) == 1:
-            for (id, name, chat_id, creation_date) in tuples:
+            for (id, name, creation_date, chat_id) in tuples:
                 studygroup = StudyGroup()
                 studygroup.set_id(id)
                 studygroup.set_name(name)
-                studygroup.set_chat_id(chat_id)
                 studygroup.set_creation_date(creation_date)
+                studygroup.set_chat_id(chat_id)
                 result = studygroup
 
         else:
-            for (id, name, chat_id, learning_profile_id, creation_date) in tuples:
+            for (id, name, creation_date, chat_id,) in tuples:
                 studygroup = StudyGroup()
                 studygroup.set_id(id)
                 studygroup.set_name(name)
-                studygroup.set_chat_id(chat_id)
                 studygroup.set_creation_date(creation_date)
+                studygroup.set_chat_id(chat_id)
                 result.append(studygroup)
 
         return result
@@ -52,7 +52,7 @@ class StudyGroupMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, chat_id, creation_date FROM studygroup " \
+        command = "SELECT id, name, creation_date, chat_id FROM studygroup " \
                   "WHERE id LIKE '{}' ".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -75,7 +75,7 @@ class StudyGroupMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, chat_id, learning_profile_id, creation_date FROM studygroup " \
+        command = "SELECT id, name, creation_date, chat_id FROM studygroup " \
                   "WHERE name LIKE '{}' ".format(name)
 
         cursor.execute(command)
@@ -105,10 +105,10 @@ class StudyGroupMapper(Mapper):
             else:
                 studygroup.set_id(maxid[0] + 1)
 
-        command = "INSERT INTO studygroup (id, name, chat_id, learning_profile_id, creation_date) VALUES " \
-                  "('{}','{}','{}','{}','{}')"\
+        command = "INSERT INTO studygroup (id, name, creation_date, chat_id) VALUES " \
+                  "('{}','{}','{}','{}')"\
                 .format(studygroup.get_id(), studygroup.get_name(),
-                        studygroup.get_chat_id(), studygroup.get_learning_profile_id(), studygroup.get_creation_date())
+                        studygroup.get_creation_date(), studygroup.get_chat_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -119,12 +119,10 @@ class StudyGroupMapper(Mapper):
     def update(self, studygroup):
 
         cursor = self._cnx.cursor()
-        command = "UPDATE studygroup SET name = ('{}'), chat_id = ('{}'), learning_profile_id = ('{}')," \
-                  " creation_date = ('{}') " \
+        command = "UPDATE studygroup SET name = ('{}'), creation_date = ('{}'), chat_id = ('{}')" \
                   "WHERE id = ('{}')" \
-            .format(studygroup.get_name(),
-                    studygroup.get_chat_id(), studygroup.get_creation_date(), studygroup.get_learning_profile_id(),
-                    studygroup.get_id())
+            .format(studygroup.get_id(), studygroup.get_name(),studygroup.get_creation_date(),
+                     studygroup.get_chat_id())
 
         cursor.execute(command)
 

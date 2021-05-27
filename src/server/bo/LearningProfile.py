@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 from src.server.bo import NamedBusinessObject as bo
 
 
-
 class LearningProfile(bo.NamedBusinessObject,ABC):
 
     def __init__(self):

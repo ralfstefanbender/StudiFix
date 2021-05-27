@@ -143,8 +143,7 @@ learningprofileuser = api.inherit('LearningProfileUser', nbo, {
 })
 
 studygroup = api.inherit('StudyGroup', nbo, {
-    'chat_id':fields.Integer(attribute='_chat_id', description='Chat id '),
-    'learning_profile_id':fields.Integer(attribute='_learning_profile_id', description='FK Learningprofile id')
+    'chat_id':fields.Integer(attribute='_chat_id', description='Chat id ')
 })
 
 user = api.inherit('User', bo, {
@@ -871,7 +870,7 @@ class StudyGroupListOperations(Resource):
             """We only use the attributes of studygroup of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_studygroup(prpl.get_chat_id())
+            s = adm.create_studygroup(prpl.get_name(), prpl.get_chat_id())
 
             return s, 200
         else:
@@ -895,6 +894,8 @@ class StudyGroupOperations(Resource):
         The object to be deleted is determined by the '' id '' in the URI."""
         adm = Administration()
         single_studygroup= adm.get_studygroup_by_id(id)
+        """adm.delete_studygroup(single_studygroup)
+        return '', 200"""
 
         if single_studygroup is not None:
             adm.delete_studygroup(single_studygroup)
@@ -1080,7 +1081,7 @@ class LearningProfileUserListOperations(Resource):
             """We only use the attributes of student of the proposal for generation
             of a learninprofile object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_learningprofile_user(prpl.get_user_id(), prpl.get_frequency(), prpl.get_study_state(),
+            s = adm.create_learningprofile_user(prpl.get_user_id(), prpl.get_name(),  prpl.get_frequency(), prpl.get_study_state(),
                                                 prpl.get_extroversion(),
                                                 prpl.get_prev_knowledge(),
                                                 prpl.get_learntyp(), prpl.get_interest(), prpl.get_semester(),

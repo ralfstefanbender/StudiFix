@@ -148,8 +148,8 @@ class LearningProfileUserMapper(Mapper):
             else:
                 learning_profile_user.set_id(maxid[0] + 1)
 
-        command = "INSERT INTO learning_profile_user (id, user_id, name, prev_knowledge," \
-                  "extroversion, study_state, frequency," \
+        command = "INSERT INTO learning_profile_user (id, user_id, name, prev_knowledge, " \
+                  "extroversion, study_state, frequency, " \
                   "learntyp, semester, interest, degree_course, creation_date) VALUES " \
                   "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
             .format(learning_profile_user.get_id(),
