@@ -16,7 +16,7 @@ class LearningProfileUser(bo.LearningProfile):
 
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in ein Learnprofile User()."""
+        """Umwandeln eines Python dict() in ein Learningprofile User()."""
         obj = LearningProfileUser()
         obj.set_id(dictionary["id"])
         obj.set_user_id(["user_id"])

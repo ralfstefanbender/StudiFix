@@ -17,7 +17,7 @@ class LearningProfileGroup(bo.LearningProfile):
 
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in ein Learnprofile Group()."""
+        """Umwandeln eines Python dict() in ein Learningprofile Group()."""
         obj = LearningProfileGroup()
         obj.set_id(dictionary["id"])
         obj.set_group_id(["group_id"])
