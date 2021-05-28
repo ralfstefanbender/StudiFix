@@ -154,8 +154,12 @@ user = api.inherit('User', bo, {
     'adress': fields.String(attribute='_adress', description='Adresse des Profilinhabers')
 })
 
-
 # -----User-----
+
+<<<<<<< HEAD
+# -----User-----
+=======
+>>>>>>> Patrick-Singer
 
 @studifix.route('/user')
 @studifix.response(500, 'when server has problems')
@@ -294,6 +298,10 @@ class UserGoogleOperations(Resource):
 
 
 # ----ChatInvitation-----
+<<<<<<< HEAD
+=======
+
+>>>>>>> Patrick-Singer
 
 @studifix.route('/chatinvitation')
 @studifix.response(500, 'when server has problems')
@@ -472,7 +480,12 @@ class ChatInvitationsAcceptedInvitesByTargetUserOperations(Resource):
         return chatinvitation_accepted_invites_target_user
 
 
+<<<<<<< HEAD
 # ---------Chatmessage--------
+=======
+# --------Chatmessage--------
+
+>>>>>>> Patrick-Singer
 
 @studifix.route('/chatmessage')
 @studifix.response(500, 'when server has problems')
@@ -562,6 +575,10 @@ class ChatMessageOperations(Resource):
 
 
 # -------Chat-------
+<<<<<<< HEAD
+=======
+
+>>>>>>> Patrick-Singer
 
 @studifix.route('/chat')
 @studifix.response(500, 'when server has problems')
@@ -644,8 +661,13 @@ class ChatOperations(Resource):
 
 
 
+<<<<<<< HEAD
 
 # ----GroupInvitation--------
+=======
+# ----GroupInvitation----
+
+>>>>>>> Patrick-Singer
 
 @studifix.route('/groupinvitation')
 @studifix.response(500, 'when server has problems')
@@ -841,7 +863,12 @@ class GroupInvitationsPendInvitesOperations(Resource):
         return groupinvitation_pend_invites
 
 
+<<<<<<< HEAD
 # -----StudyGroup---------
+=======
+# -----StudyGroup-----
+
+>>>>>>> Patrick-Singer
 
 @studifix.route('/studygroup')
 @studifix.response(500, 'when server has problems')
@@ -950,7 +977,11 @@ class StudyGroupLearningProfileOperations(Resource):
         return studygroup
 
 
+<<<<<<< HEAD
 # -------LearningProfileGroup---------
+=======
+# -------LearningProfileGroup--------
+>>>>>>> Patrick-Singer
 
 
 @studifix.route('/learningprofilegroup')
@@ -1056,7 +1087,11 @@ class LearningProfileGroupByNameOperations(Resource):
         return learning_profile_by_name
 
 
+<<<<<<< HEAD
 # -------LearningProfileUser---------
+=======
+# -------LearningProfileUser-------
+>>>>>>> Patrick-Singer
 
 
 @studifix.route('/learningprofileuser')
