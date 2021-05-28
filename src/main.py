@@ -981,10 +981,15 @@ class LearningProfileGroupListOperations(Resource):
             of a learninprofile object. The object created by the server is authoritative and
             is also returned to the client."""
 
-            s = adm.create_learningprofile_group(prpl.get_group_id(), prpl.get_frequency(), prpl.get_study_state(),
+            s = adm.create_learningprofile_group(prpl.get_group_id(),
+                                                 prpl.get_name(),
+                                                 prpl.get_frequency(),
+                                                 prpl.get_study_state(),
                                                  prpl.get_extroversion(),
                                                  prpl.get_prev_knowledge(),
-                                                 prpl.get_learntyp(), prpl.get_interest(), prpl.get_semester(),
+                                                 prpl.get_learntyp(),
+                                                 prpl.get_interest(),
+                                                 prpl.get_semester(),
                                                  prpl.get_degree_course())
 
             return s, 200
