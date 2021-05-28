@@ -149,7 +149,7 @@ class LearningProfileGroupMapper(Mapper):
                 learning_profile_group.set_id(maxid[0] + 1)
 
         command = "INSERT INTO learning_profile_group (id, group_id, name, prev_knowledge, extroversion, " \
-                  "study_state, frequency," \
+                  "study_state, frequency, " \
                   "learntyp, semester, interest, degree_course, creation_date) VALUES " \
                   "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
             .format(learning_profile_group.get_id(),

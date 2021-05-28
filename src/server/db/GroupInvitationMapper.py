@@ -246,13 +246,17 @@ class GroupInvitationMapper(Mapper):
 
         command = "INSERT INTO group_invitation (id, creation_date, is_accepted, study_group_id, target_user, source_user) " \
                   "VALUES ('{}','{}','{}','{}', '{}', '{}' )" \
-                  .format(group_invitation.get_id(), group_invitation.get_creation_date(),
+                  .format(group_invitation.get_id(),
+                          group_invitation.get_creation_date(),
                           group_invitation.get_is_accepted(),
-                          group_invitation.get_study_group_id(), group_invitation.get_target_user(),
+                          group_invitation.get_study_group_id(),
+                          group_invitation.get_target_user(),
                           group_invitation.get_source_user())
         cursor.execute(command)
         self._cnx.commit()
         cursor.close()
+
+        return group_invitation
 
     def update(self, group_invitation):
         cursor = self._cnx.cursor()

@@ -156,10 +156,6 @@ user = api.inherit('User', bo, {
 
 # -----User-----
 
-<<<<<<< HEAD
-# -----User-----
-=======
->>>>>>> Patrick-Singer
 
 @studifix.route('/user')
 @studifix.response(500, 'when server has problems')
@@ -298,10 +294,7 @@ class UserGoogleOperations(Resource):
 
 
 # ----ChatInvitation-----
-<<<<<<< HEAD
-=======
 
->>>>>>> Patrick-Singer
 
 @studifix.route('/chatinvitation')
 @studifix.response(500, 'when server has problems')
@@ -480,12 +473,9 @@ class ChatInvitationsAcceptedInvitesByTargetUserOperations(Resource):
         return chatinvitation_accepted_invites_target_user
 
 
-<<<<<<< HEAD
-# ---------Chatmessage--------
-=======
-# --------Chatmessage--------
 
->>>>>>> Patrick-Singer
+# ---------Chatmessage--------
+
 
 @studifix.route('/chatmessage')
 @studifix.response(500, 'when server has problems')
@@ -575,10 +565,7 @@ class ChatMessageOperations(Resource):
 
 
 # -------Chat-------
-<<<<<<< HEAD
-=======
 
->>>>>>> Patrick-Singer
 
 @studifix.route('/chat')
 @studifix.response(500, 'when server has problems')
@@ -661,13 +648,10 @@ class ChatOperations(Resource):
 
 
 
-<<<<<<< HEAD
 
-# ----GroupInvitation--------
-=======
 # ----GroupInvitation----
 
->>>>>>> Patrick-Singer
+
 
 @studifix.route('/groupinvitation')
 @studifix.response(500, 'when server has problems')
@@ -696,7 +680,9 @@ class GroupInvitationListOperations(Resource):
             """We only use the attributes of groupinvitation of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_groupinvitation(prpl.get_study_group_id(), prpl.get_source_user(), prpl.get_target_user())
+            s = adm.create_groupinvitation(prpl.get_study_group_id(), prpl.get_source_user(),
+                                           prpl.get_target_user())
+
 
             return s, 200
         else:
@@ -863,12 +849,9 @@ class GroupInvitationsPendInvitesOperations(Resource):
         return groupinvitation_pend_invites
 
 
-<<<<<<< HEAD
-# -----StudyGroup---------
-=======
-# -----StudyGroup-----
 
->>>>>>> Patrick-Singer
+# -----StudyGroup---------
+
 
 @studifix.route('/studygroup')
 @studifix.response(500, 'when server has problems')
@@ -977,11 +960,9 @@ class StudyGroupLearningProfileOperations(Resource):
         return studygroup
 
 
-<<<<<<< HEAD
+
 # -------LearningProfileGroup---------
-=======
-# -------LearningProfileGroup--------
->>>>>>> Patrick-Singer
+
 
 
 @studifix.route('/learningprofilegroup')
@@ -1014,15 +995,14 @@ class LearningProfileGroupListOperations(Resource):
 
             s = adm.create_learningprofile_group(prpl.get_group_id(),
                                                  prpl.get_name(),
-                                                 prpl.get_frequency(),
-                                                 prpl.get_study_state(),
-                                                 prpl.get_extroversion(),
                                                  prpl.get_prev_knowledge(),
+                                                 prpl.get_extroversion(),
+                                                 prpl.get_study_state(),
+                                                 prpl.get_frequency(),
                                                  prpl.get_learntyp(),
-                                                 prpl.get_interest(),
                                                  prpl.get_semester(),
+                                                 prpl.get_interest(),
                                                  prpl.get_degree_course())
-
             return s, 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -1087,11 +1067,9 @@ class LearningProfileGroupByNameOperations(Resource):
         return learning_profile_by_name
 
 
-<<<<<<< HEAD
+
 # -------LearningProfileUser---------
-=======
-# -------LearningProfileUser-------
->>>>>>> Patrick-Singer
+
 
 
 @studifix.route('/learningprofileuser')

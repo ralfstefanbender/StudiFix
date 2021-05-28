@@ -127,21 +127,21 @@ class Administration(object):
     # LearningProfile Group Methoden
     def create_learningprofile_group(self, group_id, name, frequency, study_state, extroversion, prev_knowledge,
                                      learntyp, interest, semester, degree_course):
-        learningprofile = LearningProfileGroup()
-        learningprofile.set_group_id(group_id)
-        learningprofile.set_name(name)
-        learningprofile.set_frequency(frequency)
-        learningprofile.set_study_state(study_state)
-        learningprofile.set_extroversion(extroversion)
-        learningprofile.set_prev_knowledge(prev_knowledge)
-        learningprofile.set_learntyp(learntyp)
-        learningprofile.set_interest(interest)
-        learningprofile.set_semester(semester)
-        learningprofile.set_degree_course(degree_course)
-        learningprofile.set_id(1)
+        learningprofilegroup = LearningProfileGroup()
+        learningprofilegroup.set_group_id(group_id)
+        learningprofilegroup.set_name(name)
+        learningprofilegroup.set_frequency(frequency)
+        learningprofilegroup.set_study_state(study_state)
+        learningprofilegroup.set_extroversion(extroversion)
+        learningprofilegroup.set_prev_knowledge(prev_knowledge)
+        learningprofilegroup.set_learntyp(learntyp)
+        learningprofilegroup.set_interest(interest)
+        learningprofilegroup.set_semester(semester)
+        learningprofilegroup.set_degree_course(degree_course)
+        learningprofilegroup.set_id(1)
 
         with LearningProfileGroupMapper() as mapper:
-            return mapper.insert(learningprofile)
+            return mapper.insert(learningprofilegroup)
 
     def get_learningprofile_group_by_name(self, name):
         with LearningProfileGroupMapper() as mapper:
@@ -319,14 +319,14 @@ class Administration(object):
     # GroupInvitation Methoden
 
     def create_groupinvitation(self, source_user, target_user, is_accepted):
-        groupinvitation = GroupInvitation()
-        groupinvitation.set_source_user(source_user)
-        groupinvitation.set_target_user(target_user)
-        groupinvitation.set_is_accepted(is_accepted)
-        groupinvitation.set_id(1)
+        group_invitation = GroupInvitation()
+        group_invitation.set_source_user(source_user)
+        group_invitation.set_target_user(target_user)
+        group_invitation.set_is_accepted(is_accepted)
+        group_invitation.set_id(1)
 
         with GroupInvitationMapper() as mapper:
-            return mapper.insert(groupinvitation)
+            return mapper.insert(group_invitation)
 
     def get_groupinvitation_by_id(self,id):
         with GroupInvitationMapper() as mapper:
