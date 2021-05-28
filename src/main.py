@@ -80,7 +80,6 @@ sich z.B. umsetzen durch /bank/v1, /bank/v2 usw."""
 studifix = api.namespace('StudiFix', description='Funktionen des StudiFix')
 
 
-
 bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Unique id of a business object'),
     'creation_date': fields.DateTime(attribute='_creation_date', description='creation date of a business object')
@@ -155,9 +154,8 @@ user = api.inherit('User', bo, {
     'learning_profile_id': fields.Integer(attribute='learning_profile_id', description='profile id')
 })
 
+# -----User-----
 
-
-#-----User-----
 
 @studifix.route('/user')
 @studifix.response(500, 'when server has problems')
@@ -293,7 +291,8 @@ class UserGoogleOperations(Resource):
         return users
 
 
-#----ChatInvitation-----
+# ----ChatInvitation-----
+
 
 @studifix.route('/chatinvitation')
 @studifix.response(500, 'when server has problems')
@@ -465,10 +464,8 @@ class ChatInvitationsAcceptedInvitesByTargetUserOperations(Resource):
         return chatinvitation_accepted_invites_target_user
 
 
+# --------Chatmessage--------
 
-
-
-#---------Chatmessage--------
 
 @studifix.route('/chatmessage')
 @studifix.response(500, 'when server has problems')
@@ -555,7 +552,9 @@ class ChatMessageOperations(Resource):
         chatmessage_by_chat_id = adm.get_chatmessages_by_chat_id(chat_id)
         return chatmessage_by_chat_id
 
-#-------Chat-------
+
+# -------Chat-------
+
 
 @studifix.route('/chat')
 @studifix.response(500, 'when server has problems')
@@ -630,7 +629,8 @@ class ChatOperations(Resource):
         return '', 200
 
 
-#----GroupInvitation--------
+# ----GroupInvitation----
+
 
 @studifix.route('/groupinvitation')
 @studifix.response(500, 'when server has problems')
@@ -825,7 +825,8 @@ class GroupInvitationsPendInvitesOperations(Resource):
         return groupinvitation_pend_invites
 
 
-#-----StudyGroup---------
+# -----StudyGroup-----
+
 
 @studifix.route('/studygroup')
 @studifix.response(500, 'when server has problems')
@@ -924,7 +925,8 @@ class StudyGroupLearningProfileOperations(Resource):
         studygroup = adm.get_studygroup_by_learning_profile_id(learning_profile)
         return studygroup
 
-#-------LearningProfileGroup---------
+
+# -------LearningProfileGroup--------
 
 
 @studifix.route('/learningprofilegroup')
@@ -1015,7 +1017,7 @@ class LearningProfileGroupByNameOperations(Resource):
         return learning_profile_by_name
 
 
-#-------LearningProfileUser---------
+# -------LearningProfileUser-------
 
 
 @studifix.route('/learningprofileuser')
