@@ -1,5 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `studifix` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `studifix`;
+CREATE DATABASE  IF NOT EXISTS `studi___fix` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `studi___fix`;
 -- MySQL dump 10.13  Distrib 8.0.20, for Win64 (x86_64)
 --
 -- Host: localhost    Database: studifix
@@ -148,7 +148,7 @@ CREATE TABLE `learning_profile_group` (
   `id` int NOT NULL,
   `group_id` int NOT NULL,
   `name` varchar(45) NOT NULL,
-  `prev_knowledge` varchar(100) NOT NULL,
+  `prev_knowledge` int NOT NULL,
   `extroversion` int NOT NULL,
   `study_state` int NOT NULL,
   `frequency` int NOT NULL,
@@ -168,7 +168,7 @@ CREATE TABLE `learning_profile_group` (
 
 LOCK TABLES `learning_profile_group` WRITE;
 /*!40000 ALTER TABLE `learning_profile_group` DISABLE KEYS */;
-INSERT INTO `learning_profile_group` VALUES (1,1,'Informatik','Garkeine',2,3,4,5,6,'','Wirtschaftsinformatik','2021-05-25 13:46:07');
+INSERT INTO `learning_profile_group` VALUES (1,1,'Informatik',0,2,3,4,5,6,'','Wirtschaftsinformatik','2021-05-25 13:46:07');
 /*!40000 ALTER TABLE `learning_profile_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,7 +183,7 @@ CREATE TABLE `learning_profile_user` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
   `name` varchar(45) NOT NULL,
-  `prev_knowledge` varchar(100) NOT NULL,
+  `prev_knowledge` int NOT NULL,
   `extroversion` int NOT NULL,
   `study_state` int NOT NULL,
   `frequency` int NOT NULL,
@@ -203,7 +203,7 @@ CREATE TABLE `learning_profile_user` (
 
 LOCK TABLES `learning_profile_user` WRITE;
 /*!40000 ALTER TABLE `learning_profile_user` DISABLE KEYS */;
-INSERT INTO `learning_profile_user` VALUES (1,1,'Informatik','Garkeine',2,3,4,5,6,'','Wirtschaftsinformatik','2021-05-25 13:45:04');
+INSERT INTO `learning_profile_user` VALUES (1,1,'Informatik',0,2,3,4,5,6,'','Wirtschaftsinformatik','2021-05-25 13:45:04');
 /*!40000 ALTER TABLE `learning_profile_user` ENABLE KEYS */;
 UNLOCK TABLES;
 

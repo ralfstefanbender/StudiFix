@@ -173,21 +173,21 @@ class Administration(object):
     # LearningProfile User Methoden
     def create_learningprofile_user(self, user_id, name, frequency, study_state, extroversion, prev_knowledge,
                                     learntyp, interest, semester, degree_course):
-        learningprofile = LearningProfileUser()
-        learningprofile.set_user_id(user_id)
-        learningprofile.set_name(name)
-        learningprofile.set_frequency(frequency)
-        learningprofile.set_study_state(study_state)
-        learningprofile.set_extroversion(extroversion)
-        learningprofile.set_prev_knowledge(prev_knowledge)
-        learningprofile.set_learntyp(learntyp)
-        learningprofile.set_interest(interest)
-        learningprofile.set_semester(semester)
-        learningprofile.set_degree_course(degree_course)
-        learningprofile.set_id(1)
+        learningprofileuser = LearningProfileUser()
+        learningprofileuser.set_user_id(user_id)
+        learningprofileuser.set_name(name)
+        learningprofileuser.set_frequency(frequency)
+        learningprofileuser.set_study_state(study_state)
+        learningprofileuser.set_extroversion(extroversion)
+        learningprofileuser.set_prev_knowledge(prev_knowledge)
+        learningprofileuser.set_learntyp(learntyp)
+        learningprofileuser.set_interest(interest)
+        learningprofileuser.set_semester(semester)
+        learningprofileuser.set_degree_course(degree_course)
+        learningprofileuser.set_id(1)
 
         with LearningProfileUserMapper() as mapper:
-            return mapper.insert(learningprofile)
+            return mapper.insert(learningprofileuser)
 
     def get_learningprofile_user_by_name(self, name):
         with LearningProfileUserMapper() as mapper:

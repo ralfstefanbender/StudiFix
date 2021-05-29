@@ -139,7 +139,7 @@ class LearningProfileGroupMapper(Mapper):
     def insert(self, learning_profile_group):
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) as maxid from learning_profile_group")
+        cursor.execute("SELECT MAX(id) as maxid from learning_profile_group ")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
@@ -150,8 +150,8 @@ class LearningProfileGroupMapper(Mapper):
 
         command = "INSERT INTO learning_profile_group (id, group_id, name, prev_knowledge, extroversion, " \
                   "study_state, frequency, " \
-                  "learntyp, semester, interest, degree_course, creation_date) VALUES " \
-                  "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')" \
+                  "learntyp, semester, interest, degree_course, creation_date) " \
+                  "VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')"\
             .format(learning_profile_group.get_id(),
                     learning_profile_group.get_group_id(),
                     learning_profile_group.get_name(),
@@ -169,7 +169,9 @@ class LearningProfileGroupMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-        return learning_profile_group
+
+
+
 
     def update(self, learning_profile_group):
 

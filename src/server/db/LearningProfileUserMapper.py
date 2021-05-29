@@ -137,39 +137,35 @@ class LearningProfileUserMapper(Mapper):
         return result
 
     def insert(self, learning_profile_user):
-
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) as maxid from learning_profile_user")
+        cursor.execute("SELECT MAX(id) AS maxid FROM learning_profile_user ")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
-            if maxid[0] is None:
-                learning_profile_user.set_id(1)
-            else:
-                learning_profile_user.set_id(maxid[0] + 1)
+            learning_profile_user.set_id(maxid[0] + 1)
 
-        command = "INSERT INTO learning_profile_user (id, user_id, name, prev_knowledge, "\
-                  "extroversion, study_state, frequency, "\
-                  "learntyp, semester, interest, degree_course, creation_date) VALUES "\
-                  "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')"\
-            .format(learning_profile_user.get_id(),
-                    learning_profile_user.get_user_id(),
-                    learning_profile_user.get_name(),
-                    learning_profile_user.get_prev_knowledge(),
-                    learning_profile_user.get_extroversion(),
-                    learning_profile_user.get_study_state(),
-                    learning_profile_user.get_frequency(),
-                    learning_profile_user.get_learntyp(),
-                    learning_profile_user.get_semester(),
-                    learning_profile_user.get_interest(),
-                    learning_profile_user.get_degree_course(),
-                    learning_profile_user.get_creation_date())
-        cursor.execute(command)
+        command = "INSERT INTO learning_profile_user (id, user_id, name, prev_knowledge, extroversion, study_state, " \
+                  "frequency, " \
+                  "learntyp, semester, interest, degree_course, creation_date) VALUES" \
+                  " (%s,%s,%s,%s,%s,%s,%s,%s,%s,'%s','%s',%s)"
+
+        data = (learning_profile_user.get_id(), learning_profile_user.get_user_id(), learning_profile_user.get_name(),
+                learning_profile_user.get_prev_knowledge(),
+                learning_profile_user.get_extroversion(),
+                learning_profile_user.get_study_state(),
+                learning_profile_user.get_frequency(),
+                learning_profile_user.get_learntyp(),
+                learning_profile_user.get_semester(),
+                learning_profile_user.get_interest(),
+                learning_profile_user.get_degree_course(),
+                learning_profile_user.get_creation_date())
+        cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
 
-        return learning_profile_user
+
+
 
     def update(self, learning_profile_user):
 

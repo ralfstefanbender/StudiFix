@@ -12,6 +12,7 @@ from src.server.bo.ChatMessage import ChatMessage
 from src.server.bo.GroupInvitation import GroupInvitation
 from src.server.bo.LearningprofileGroup import LearningProfileGroup
 from src.server.bo.LearningProfileUser import LearningProfileUser
+from src.server.bo.LearningProfile import LearningProfile
 from src.server.bo.StudyGroup import StudyGroup
 from src.server.bo.User import User
 from src.server.bo.Chat import Chat
@@ -116,29 +117,25 @@ groupinvitation = api.inherit('GroupInvitation', bo, {
     'is_accepted': fields.Boolean(attribute='_is_accepted', description='Akzeptiert')
 })
 
-learningprofilegroup = api.inherit('LearningProfileGroup', nbo, {
-    'group_id': fields.Integer(attribute='_group_id', description='group_id'),
-    'frequency': fields.Integer(attribute='_frequency', description='Häufigkeit'),
-    'study_state': fields.Integer(attribute='_study_state', description='on oder offline'),
+learningprofile = api.inherit('LearningProfile', nbo, {
+    'prev_knowledge': fields.Integer(attribute='_prev_knowledge', description='bisherige Kentnisse'),
     'extroversion': fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
-    'prev_knowledge': fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse'),
+    'study_state': fields.Integer(attribute='_study_state', description='on oder offline'),
+    'frequency': fields.Integer(attribute='_frequency', description='Häufigkeit'),
     'learntyp': fields.Integer(attribute='_learntyp', description='Learntyp des Profilinhabers'),
-    'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
     'semester': fields.Integer(attribute='_semester', description='Semester'),
+    'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
     'degree_course': fields.String(attribute='_degree_course', description='Studiengang'),
 
 })
 
-learningprofileuser = api.inherit('LearningProfileUser', nbo, {
-    'user_id': fields.Integer(attribute='_user_id', description='user_id'),
-    'frequency': fields.Integer(attribute='_frequency', description='Häufigkeit'),
-    'study_state': fields.Integer(attribute='_study_state', description='on oder offline'),
-    'extroversion': fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
-    'prev_knowledge': fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse'),
-    'learntyp': fields.Integer(attribute='_learntyp', description='Learntyp des Profilinhabers'),
-    'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
-    'semester': fields.Integer(attribute='_semester', description='Semester'),
-    'degree_course': fields.String(attribute='_degree_course', description='Studiengang'),
+learningprofilegroup = api.inherit('LearningProfileGroup', learningprofile, {
+    'group_id': fields.Integer(attribute='_group_id', description='group_id')
+
+})
+
+learningprofileuser = api.inherit('LearningProfileUser', learningprofile, {
+    'user_id': fields.Integer(attribute='_user_id', description='user_id')
 
 })
 
@@ -993,8 +990,7 @@ class LearningProfileGroupListOperations(Resource):
             of a learninprofile object. The object created by the server is authoritative and
             is also returned to the client."""
 
-            s = adm.create_learningprofile_group(prpl.get_group_id(),
-                                                 prpl.get_name(),
+            s = adm.create_learningprofile_group(prpl.get_name(),
                                                  prpl.get_prev_knowledge(),
                                                  prpl.get_extroversion(),
                                                  prpl.get_study_state(),
@@ -1002,7 +998,8 @@ class LearningProfileGroupListOperations(Resource):
                                                  prpl.get_learntyp(),
                                                  prpl.get_semester(),
                                                  prpl.get_interest(),
-                                                 prpl.get_degree_course())
+                                                 prpl.get_degree_course(),
+                                                 prpl.get_group_id())
             return s, 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -1099,13 +1096,21 @@ class LearningProfileUserListOperations(Resource):
             """We only use the attributes of student of the proposal for generation
             of a learninprofile object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_learningprofile_user(prpl.get_user_id(), prpl.get_name(),  prpl.get_frequency(), prpl.get_study_state(),
-                                                prpl.get_extroversion(),
-                                                prpl.get_prev_knowledge(),
-                                                prpl.get_learntyp(), prpl.get_interest(), prpl.get_semester(),
-                                                prpl.get_degree_course())
 
-            return s, 200
+            user = prpl.get_user_id()
+            name = prpl.get_name()
+            frequency = prpl.get_frequency()
+            study_state = prpl.get_study_state()
+            extroversion = prpl.get_extroversion()
+            prev_knowledge = prpl.get_prev_knowledge()
+            learntyp = prpl.get_learntyp()
+            interest = prpl.get_interest()
+            semester = prpl.get_semester()
+            degree_course = prpl.get_degree_course()
+
+            result = adm.create_learningprofile_user(user, name, frequency, study_state, extroversion, prev_knowledge, learntyp, interest, semester, degree_course)
+
+            return result, 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
