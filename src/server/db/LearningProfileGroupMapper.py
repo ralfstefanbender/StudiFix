@@ -176,7 +176,6 @@ class LearningProfileGroupMapper(Mapper):
     def update(self, learning_profile_group):
 
         cursor = self._cnx.cursor()
-<<<<<<< HEAD
         command = "UPDATE learning_profile_group SET name = ('{}'), group_id = ('{}'), " \
                   "prev_knowledge = ('{}'), extroversion = ('{}')," \
                   " study_state = ('{}'), frequency = ('{}'), learntyp = ('{}'), semester = ('{}')," \
@@ -193,7 +192,7 @@ class LearningProfileGroupMapper(Mapper):
                     learning_profile_group.get_interest(),
                     learning_profile_group.get_degree_course(),
                     learning_profile_group.get_creation_date())
-=======
+
         command = "UPDATE learning_profile_group SET  group_id = ('{}'), name = ('{}'), prev_knowledge = ('{}'), extroversion = ('{}')," \
                   " study_state = ('{}'), frequency = ('{}'), learntyp = ('{}'), semester = ('{}')," \
                   " interest = ('{}'), degree_course = ('{}'), creation_date = ('{}') WHERE id = ('{}')" \
@@ -209,7 +208,7 @@ class LearningProfileGroupMapper(Mapper):
                     learning_profile.get_degree_course(),
                     learning_profile.get_creation_date(),
                     learning_profile.get_id())
->>>>>>> Patrick-Singer
+
         cursor.execute(command)
 
         self._cnx.commit()

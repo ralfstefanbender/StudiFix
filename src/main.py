@@ -117,14 +117,15 @@ groupinvitation = api.inherit('GroupInvitation', bo, {
     'is_accepted': fields.Boolean(attribute='_is_accepted', description='Akzeptiert')
 })
 
-<<<<<<< HEAD
+
 learningprofile = api.inherit('LearningProfile', nbo, {
     'prev_knowledge': fields.Integer(attribute='_prev_knowledge', description='bisherige Kentnisse'),
     'extroversion': fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
     'study_state': fields.Integer(attribute='_study_state', description='on oder offline'),
     'frequency': fields.Integer(attribute='_frequency', description='Häufigkeit'),
     'learntyp': fields.Integer(attribute='_learntyp', description='Learntyp des Profilinhabers'),
-=======
+})
+
 learningprofilegroup = api.inherit('LearningProfileGroup', nbo, {
     'group_id':fields.Integer(attribute='_group_id', description='group_id'),
     'frequency':fields.Integer(attribute='_frequency', description='Häufigkeit'),
@@ -133,14 +134,14 @@ learningprofilegroup = api.inherit('LearningProfileGroup', nbo, {
     'prev_knowledge':fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse'),
     'learntyp':fields.Integer(attribute='_learntyp', description='Lerntypdes Profilinhabers'),
     'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
->>>>>>> Patrick-Singer
+
     'semester': fields.Integer(attribute='_semester', description='Semester'),
     'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
     'degree_course': fields.String(attribute='_degree_course', description='Studiengang'),
 
 })
 
-<<<<<<< HEAD
+
 learningprofilegroup = api.inherit('LearningProfileGroup', learningprofile, {
     'group_id': fields.Integer(attribute='_group_id', description='group_id')
 
@@ -148,7 +149,8 @@ learningprofilegroup = api.inherit('LearningProfileGroup', learningprofile, {
 
 learningprofileuser = api.inherit('LearningProfileUser', learningprofile, {
     'user_id': fields.Integer(attribute='_user_id', description='user_id')
-=======
+})
+
 learningprofileuser = api.inherit('LearningProfileUser', nbo, {
     'user_id':fields.Integer(attribute='_user_id', description='user_id'),
     'frequency':fields.Integer(attribute='_frequency', description='Häufigkeit'),
@@ -159,7 +161,6 @@ learningprofileuser = api.inherit('LearningProfileUser', nbo, {
     'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
     'semester': fields.Integer(attribute='_semester', description='Semester'),
     'degree_course':fields.String(attribute='_degree_course', description='Studiengang'),
->>>>>>> Patrick-Singer
 
 })
 
