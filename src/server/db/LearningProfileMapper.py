@@ -149,8 +149,7 @@ class LearningProfileMapper(Mapper):
         command = "UPDATE learning_profile SET name = ('{}'), prev_knowledge = ('{}'), extroversion = ('{}')," \
                   " study_state = ('{}'), frequency = ('{}'), learntyp = ('{}'), semester = ('{}')," \
                   " interest = ('{}'), degree_course = ('{}'), creation_date = ('{}') WHERE id = ('{}')" \
-            .format(learning_profile.get_id(),
-                    learning_profile.get_name(),
+            .format(learning_profile.get_name(),
                     learning_profile.get_prev_knowledge(),
                     learning_profile.get_extroversion(),
                     learning_profile.get_study_state(),
@@ -159,7 +158,8 @@ class LearningProfileMapper(Mapper):
                     learning_profile.get_semester(),
                     learning_profile.get_interest(),
                     learning_profile.get_degree_course(),
-                    learning_profile.get_creation_date())
+                    learning_profile.get_creation_date(),
+                    learning_profile.get_id())
         cursor.execute(command)
 
         self._cnx.commit()

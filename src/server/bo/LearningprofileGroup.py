@@ -19,7 +19,7 @@ class LearningProfileGroup(bo.LearningProfile):
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Learnprofile Group()."""
         obj = LearningProfileGroup()
-        obj.set_group_id(["group_id"])
+        obj.set_group_id(dictionary["group_id"])
         obj.set_id(dictionary["id"])
         obj.set_creation_date(dictionary["creation_date"])
         obj.set_name(dictionary["name"])

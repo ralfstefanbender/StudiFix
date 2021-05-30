@@ -126,7 +126,7 @@ class Administration(object):
 
     # LearningProfile Group Methoden
     def create_learningprofile_group(self, group_id, name, frequency, study_state, extroversion, prev_knowledge,
-                                     learntype, interest, semester, degree_course):
+                                     learntyp, interest, semester, degree_course):
         learningprofile = LearningProfileGroup()
         learningprofile.set_group_id(group_id)
         learningprofile.set_name(name)
@@ -134,7 +134,7 @@ class Administration(object):
         learningprofile.set_study_state(study_state)
         learningprofile.set_extroversion(extroversion)
         learningprofile.set_prev_knowledge(prev_knowledge)
-        learningprofile.set_learntyp(learntype)
+        learningprofile.set_learntyp(learntyp)
         learningprofile.set_interest(interest)
         learningprofile.set_semester(semester)
         learningprofile.set_degree_course(degree_course)
