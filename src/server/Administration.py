@@ -127,6 +127,7 @@ class Administration(object):
     # LearningProfile Group Methoden
     def create_learningprofile_group(self, group_id, name, frequency, study_state, extroversion, prev_knowledge,
                                      learntyp, interest, semester, degree_course):
+<<<<<<< HEAD
         learningprofilegroup = LearningProfileGroup()
         learningprofilegroup.set_group_id(group_id)
         learningprofilegroup.set_name(name)
@@ -142,6 +143,23 @@ class Administration(object):
 
         with LearningProfileGroupMapper() as mapper:
             return mapper.insert(learningprofilegroup)
+=======
+        learningprofile = LearningProfileGroup()
+        learningprofile.set_group_id(group_id)
+        learningprofile.set_name(name)
+        learningprofile.set_frequency(frequency)
+        learningprofile.set_study_state(study_state)
+        learningprofile.set_extroversion(extroversion)
+        learningprofile.set_prev_knowledge(prev_knowledge)
+        learningprofile.set_learntyp(learntyp)
+        learningprofile.set_interest(interest)
+        learningprofile.set_semester(semester)
+        learningprofile.set_degree_course(degree_course)
+        learningprofile.set_id(1)
+
+        with LearningProfileGroup() as mapper:
+            return mapper.insert(learningprofile)
+>>>>>>> Patrick-Singer
 
     def get_learningprofile_group_by_name(self, name):
         with LearningProfileGroupMapper() as mapper:

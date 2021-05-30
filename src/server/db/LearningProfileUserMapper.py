@@ -170,6 +170,7 @@ class LearningProfileUserMapper(Mapper):
     def update(self, learning_profile_user):
 
         cursor = self._cnx.cursor()
+<<<<<<< HEAD
         command = "UPDATE learning_profile_user SET name = ('{}'), user_id = ('{}'), prev_knowledge = ('{}')," \
                   "extroversion = ('{}'), study_state = ('{}'), frequency = ('{}'), learntyp = ('{}')," \
                   "semester = ('{}'), interest = ('{}'), degree_course = ('{}'), creation_date = ('{}')" \
@@ -186,6 +187,24 @@ class LearningProfileUserMapper(Mapper):
                     learning_profile_user.get_interest(),
                     learning_profile_user.get_degree_course(),
                     learning_profile_user.get_creation_date())
+=======
+        command = "UPDATE learning_profile_user SET name = ('{}'), user_id = ('{}'), prev_knowledge = ('{}'), extroversion = ('{}')," \
+                  " study_state = ('{}'), frequency = ('{}'), learntyp = ('{}'), semester = ('{}')," \
+                  " interest = ('{}'), degree_course = ('{}'), creation_date = ('{}') WHERE id = ('{}')" \
+            .format(
+                    learning_profile.get_name(),
+                    learning_profile.get_user_id(),
+                    learning_profile.get_prev_knowledge(),
+                    learning_profile.get_extroversion(),
+                    learning_profile.get_study_state(),
+                    learning_profile.get_frequency(),
+                    learning_profile.get_learntyp(),
+                    learning_profile.get_semester(),
+                    learning_profile.get_interest(),
+                    learning_profile.get_degree_course(),
+                    learning_profile.get_creation_date(),
+                    learning_profile.get_id())
+>>>>>>> Patrick-Singer
         cursor.execute(command)
 
         self._cnx.commit()

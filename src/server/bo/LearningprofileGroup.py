@@ -19,6 +19,10 @@ class LearningProfileGroup(bo.LearningProfile):
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Learningprofile Group()."""
         obj = LearningProfileGroup()
+<<<<<<< HEAD
+=======
+        obj.set_group_id(dictionary["group_id"])
+>>>>>>> Patrick-Singer
         obj.set_id(dictionary["id"])
         obj.set_group_id(["group_id"])
         obj.set_name(dictionary["name"])
