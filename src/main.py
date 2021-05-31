@@ -96,7 +96,6 @@ nbo = api.inherit('NamedBusinessObject', bo, {
 chat = api.inherit('Chat', nbo)
 
 
-
 chatinvitation = api.inherit('ChatInvitation', bo, {
     'source_user': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
     'target_user': fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
@@ -126,7 +125,7 @@ learningprofile = api.inherit('LearningProfile', nbo, {
     'learntyp': fields.Integer(attribute='_learntyp', description='Learntyp des Profilinhabers'),
 })
 
-learningprofilegroup = api.inherit('LearningProfileGroup', nbo, {
+learningprofilegroup = api.inherit('LearningProfileGroup', learningprofile, {
     'group_id':fields.Integer(attribute='_group_id', description='group_id'),
     'frequency':fields.Integer(attribute='_frequency', description='Häufigkeit'),
     'study_state':fields.Integer(attribute='_study_state', description='on oder offline'),
@@ -134,24 +133,12 @@ learningprofilegroup = api.inherit('LearningProfileGroup', nbo, {
     'prev_knowledge':fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse'),
     'learntyp':fields.Integer(attribute='_learntyp', description='Lerntypdes Profilinhabers'),
     'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
-
     'semester': fields.Integer(attribute='_semester', description='Semester'),
-    'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
     'degree_course': fields.String(attribute='_degree_course', description='Studiengang'),
-
 })
 
-
-learningprofilegroup = api.inherit('LearningProfileGroup', learningprofile, {
-    'group_id': fields.Integer(attribute='_group_id', description='group_id')
-
-})
 
 learningprofileuser = api.inherit('LearningProfileUser', learningprofile, {
-    'user_id': fields.Integer(attribute='_user_id', description='user_id')
-})
-
-learningprofileuser = api.inherit('LearningProfileUser', nbo, {
     'user_id':fields.Integer(attribute='_user_id', description='user_id'),
     'frequency':fields.Integer(attribute='_frequency', description='Häufigkeit'),
     'study_state':fields.Integer(attribute='_study_state', description='on oder offline'),
@@ -1050,13 +1037,13 @@ class LearningProfileGroupOperations(Resource):
         is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
         student object."""
         adm = Administration()
-        learningprofile = LearningProfileGroup.from_dict(api.payload)
+        learningprofilegroup = LearningProfileGroup.from_dict(api.payload)
         print('main aufruf')
 
-        if learningprofile is not None:
+        if learningprofilegroup is not None:
             """This sets the id of the learninprofile object to be overwritten (see update)."""
-            learningprofile.set_id(id)
-            adm.save_learningprofile_group(learningprofile)
+            learningprofilegroup.set_id(id)
+            adm.save_learningprofile_group(learningprofilegroup)
             return '', 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""

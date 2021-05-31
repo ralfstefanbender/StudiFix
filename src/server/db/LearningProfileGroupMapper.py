@@ -176,22 +176,7 @@ class LearningProfileGroupMapper(Mapper):
     def update(self, learning_profile_group):
 
         cursor = self._cnx.cursor()
-        command = "UPDATE learning_profile_group SET name = ('{}'), group_id = ('{}'), " \
-                  "prev_knowledge = ('{}'), extroversion = ('{}')," \
-                  " study_state = ('{}'), frequency = ('{}'), learntyp = ('{}'), semester = ('{}')," \
-                  " interest = ('{}'), degree_course = ('{}'), creation_date = ('{}') WHERE id = ('{}')" \
-            .format(learning_profile_group.get_id(),
-                    learning_profile_group.get_group_id(),
-                    learning_profile_group.get_name(),
-                    learning_profile_group.get_prev_knowledge(),
-                    learning_profile_group.get_extroversion(),
-                    learning_profile_group.get_study_state(),
-                    learning_profile_group.get_frequency(),
-                    learning_profile_group.get_learntyp(),
-                    learning_profile_group.get_semester(),
-                    learning_profile_group.get_interest(),
-                    learning_profile_group.get_degree_course(),
-                    learning_profile_group.get_creation_date())
+
 
         command = "UPDATE learning_profile_group SET  group_id = ('{}'), name = ('{}'), prev_knowledge = ('{}'), extroversion = ('{}')," \
                   " study_state = ('{}'), frequency = ('{}'), learntyp = ('{}'), semester = ('{}')," \
