@@ -17,6 +17,7 @@ from .db.StudyGroupMapper import *
 from .db.GroupInvitationMapper import *
 
 
+
 class Administration(object):
     """Diese Klasse aggregiert nahezu sämtliche Applikationslogik (engl. Business Logic).
 
@@ -318,11 +319,11 @@ class Administration(object):
 
     # GroupInvitation Methoden
 
-    def create_groupinvitation(self, source_user, target_user, is_accepted):
+    def create_groupinvitation(self, is_accepted, target_user, source_user):
         group_invitation = GroupInvitation()
-        group_invitation.set_source_user(source_user)
-        group_invitation.set_target_user(target_user)
         group_invitation.set_is_accepted(is_accepted)
+        group_invitation.set_target_user(target_user)
+        group_invitation.set_source_user(source_user)
         group_invitation.set_id(1)
 
         with GroupInvitationMapper() as mapper:

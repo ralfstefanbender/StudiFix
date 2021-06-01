@@ -235,7 +235,7 @@ class GroupInvitationMapper(Mapper):
 
     def insert(self, group_invitation):
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) as maxid from group_invitation")
+        cursor.execute("SELECT MAX(id) as maxid from group_invitation ")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:

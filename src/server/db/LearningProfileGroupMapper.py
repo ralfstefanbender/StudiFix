@@ -169,7 +169,7 @@ class LearningProfileGroupMapper(Mapper):
 
 
 
-    def update(self, learning_profile):
+    def update(self, learning_profile_group):
 
         cursor = self._cnx.cursor()
 
@@ -177,23 +177,25 @@ class LearningProfileGroupMapper(Mapper):
         command = "UPDATE learning_profile_group SET  group_id = ('{}'), name = ('{}'), prev_knowledge = ('{}'), extroversion = ('{}')," \
                   " study_state = ('{}'), frequency = ('{}'), learntyp = ('{}'), semester = ('{}')," \
                   " interest = ('{}'), degree_course = ('{}'), creation_date = ('{}') WHERE id = ('{}')" \
-            .format(learning_profile.get_group_id(),
-                    learning_profile.get_name(),
-                    learning_profile.get_prev_knowledge(),
-                    learning_profile.get_extroversion(),
-                    learning_profile.get_study_state(),
-                    learning_profile.get_frequency(),
-                    learning_profile.get_learntyp(),
-                    learning_profile.get_semester(),
-                    learning_profile.get_interest(),
-                    learning_profile.get_degree_course(),
-                    learning_profile.get_creation_date(),
-                    learning_profile.get_id())
+            .format(learning_profile_group.get_group_id(),
+                    learning_profile_group.get_name(),
+                    learning_profile_group.get_prev_knowledge(),
+                    learning_profile_group.get_extroversion(),
+                    learning_profile_group.get_study_state(),
+                    learning_profile_group.get_frequency(),
+                    learning_profile_group.get_learntyp(),
+                    learning_profile_group.get_semester(),
+                    learning_profile_group.get_interest(),
+                    learning_profile_group.get_degree_course(),
+                    learning_profile_group.get_creation_date(),
+                    learning_profile_group.get_id())
 
         cursor.execute(command)
 
         self._cnx.commit()
         cursor.close()
+
+        return learning_profile
 
     def delete(self, learning_profile_group):
 

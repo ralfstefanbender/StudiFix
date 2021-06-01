@@ -8,11 +8,10 @@ from src.server.Administration import Administration
 from src.server.bo.ChatInvitation import ChatInvitation
 
 from src.server.bo.ChatMessage import ChatMessage
-
+from src.server.bo.LeariningProfile import LearningProfile
 from src.server.bo.GroupInvitation import GroupInvitation
 from src.server.bo.LearningprofileGroup import LearningProfileGroup
 from src.server.bo.LearningProfileUser import LearningProfileUser
-from src.server.bo.LearningProfile import LearningProfile
 from src.server.bo.StudyGroup import StudyGroup
 from src.server.bo.User import User
 from src.server.bo.Chat import Chat
@@ -111,15 +110,14 @@ chatmessage = api.inherit('ChatMessage', bo, {
 })
 
 groupinvitation = api.inherit('GroupInvitation', bo, {
+    'is_accepted': fields.Boolean(attribute='_is_accepted', description='Akzeptiert'),
     'study_group_id': fields.Integer(attribute='_study_group_id', description='Unique Id der Gruppe'),
-    'source_user': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
     'target_user': fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
-    'is_accepted': fields.Boolean(attribute='_is_accepted', description='Akzeptiert')
+    'source_user': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers')
+
 })
 
-
-learningprofilegroup = api.inherit('LearningProfileGroup', nbo, {
-    'group_id': fields.Integer(attribute='_group_id', description='group_id'),
+learningprofile = api.inherit('LearningProfile', nbo, {
     'prev_knowledge': fields.Integer(attribute='_prev_knowledge', description='bisherige Kentnisse'),
     'extroversion': fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
     'study_state': fields.Integer(attribute='_study_state', description='on oder offline'),
@@ -127,20 +125,16 @@ learningprofilegroup = api.inherit('LearningProfileGroup', nbo, {
     'learntyp': fields.Integer(attribute='_learntyp', description='Learntyp des Profilinhabers'),
     'semester': fields.Integer(attribute='_semester', description='Semester'),
     'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
-    'degree_course': fields.String(attribute='_degree_course', description='Studiengang'),
+    'degree_course': fields.String(attribute='_degree_course', description='Studiengang')
+})
+
+learningprofilegroup = api.inherit('LearningProfileGroup', learningprofile, {
+    'group_id': fields.Integer(attribute='_group_id', description='group_id')
 
 })
 
-learningprofileuser = api.inherit('LearningProfileUser', nbo, {
-    'user_id': fields.Integer(attribute='_user_id', description='user_id'),
-    'prev_knowledge': fields.Integer(attribute='_prev_knowledge', description='bisherige Kentnisse'),
-    'extroversion': fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
-    'study_state': fields.Integer(attribute='_study_state', description='on oder offline'),
-    'frequency': fields.Integer(attribute='_frequency', description='Häufigkeit'),
-    'learntyp': fields.Integer(attribute='_learntyp', description='Learntyp des Profilinhabers'),
-    'semester': fields.Integer(attribute='_semester', description='Semester'),
-    'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
-    'degree_course': fields.String(attribute='_degree_course', description='Studiengang'),
+learningprofileuser = api.inherit('LearningProfileUser', learningprofile, {
+    'user_id': fields.Integer(attribute='_user_id', description='user_id')
 })
 
 studygroup = api.inherit('StudyGroup', nbo, {
@@ -681,8 +675,7 @@ class GroupInvitationListOperations(Resource):
             """We only use the attributes of groupinvitation of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_groupinvitation(prpl.get_study_group_id(), prpl.get_source_user(),
-                                           prpl.get_target_user())
+            s = adm.create_groupinvitation(prpl.get_study_group_id(), prpl.get_target_user(), prpl.get_source_user())
 
 
             return s, 200

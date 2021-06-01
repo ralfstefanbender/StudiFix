@@ -5,10 +5,11 @@ class GroupInvitation(bo.BusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._study_group_id = 0
-        self._source_user = 0
-        self._target_user = 0
         self._is_accepted = False
+        self._study_group_id = 0
+        self._target_user = 0
+        self._source_user = 0
+
 
     def get_study_group_id(self):
         return self._study_group_id

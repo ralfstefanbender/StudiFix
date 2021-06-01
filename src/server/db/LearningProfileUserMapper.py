@@ -164,6 +164,8 @@ class LearningProfileUserMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+        return learning_profile_user
+
 
 
 
