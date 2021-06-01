@@ -147,7 +147,7 @@ class LearningProfileUserMapper(Mapper):
         command = "INSERT INTO learning_profile_user (id, user_id, name, prev_knowledge, extroversion, study_state, " \
                   "frequency, " \
                   "learntyp, semester, interest, degree_course, creation_date) VALUES" \
-                  " (%s,%s,%s,%s,%s,%s,%s,%s,%s,'%s','%s',%s)"
+                  " (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
         data = (learning_profile_user.get_id(), learning_profile_user.get_user_id(), learning_profile_user.get_name(),
                 learning_profile_user.get_prev_knowledge(),
@@ -167,26 +167,9 @@ class LearningProfileUserMapper(Mapper):
 
 
 
-    def update(self, learning_profile_user):
+    def update(self, learning_profile):
 
         cursor = self._cnx.cursor()
-
-        command = "UPDATE learning_profile_user SET name = ('{}'), user_id = ('{}'), prev_knowledge = ('{}')," \
-                  "extroversion = ('{}'), study_state = ('{}'), frequency = ('{}'), learntyp = ('{}')," \
-                  "semester = ('{}'), interest = ('{}'), degree_course = ('{}'), creation_date = ('{}')" \
-                  "WHERE id = ('{}')" \
-            .format(learning_profile_user.get_id(),
-                    learning_profile_user.get_user_id(),
-                    learning_profile_user.get_name(),
-                    learning_profile_user.get_prev_knowledge(),
-                    learning_profile_user.get_extroversion(),
-                    learning_profile_user.get_study_state(),
-                    learning_profile_user.get_frequency(),
-                    learning_profile_user.get_learntyp(),
-                    learning_profile_user.get_semester(),
-                    learning_profile_user.get_interest(),
-                    learning_profile_user.get_degree_course(),
-                    learning_profile_user.get_creation_date())
 
         command = "UPDATE learning_profile_user SET name = ('{}'), user_id = ('{}'), prev_knowledge = ('{}'), extroversion = ('{}')," \
                   " study_state = ('{}'), frequency = ('{}'), learntyp = ('{}'), semester = ('{}')," \

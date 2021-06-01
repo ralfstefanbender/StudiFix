@@ -96,6 +96,7 @@ nbo = api.inherit('NamedBusinessObject', bo, {
 chat = api.inherit('Chat', nbo)
 
 
+
 chatinvitation = api.inherit('ChatInvitation', bo, {
     'source_user': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
     'target_user': fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
@@ -117,38 +118,29 @@ groupinvitation = api.inherit('GroupInvitation', bo, {
 })
 
 
-learningprofile = api.inherit('LearningProfile', nbo, {
+learningprofilegroup = api.inherit('LearningProfileGroup', nbo, {
+    'group_id': fields.Integer(attribute='_group_id', description='group_id'),
     'prev_knowledge': fields.Integer(attribute='_prev_knowledge', description='bisherige Kentnisse'),
     'extroversion': fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
     'study_state': fields.Integer(attribute='_study_state', description='on oder offline'),
     'frequency': fields.Integer(attribute='_frequency', description='Häufigkeit'),
     'learntyp': fields.Integer(attribute='_learntyp', description='Learntyp des Profilinhabers'),
-})
-
-learningprofilegroup = api.inherit('LearningProfileGroup', learningprofile, {
-    'group_id':fields.Integer(attribute='_group_id', description='group_id'),
-    'frequency':fields.Integer(attribute='_frequency', description='Häufigkeit'),
-    'study_state':fields.Integer(attribute='_study_state', description='on oder offline'),
-    'extroversion':fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
-    'prev_knowledge':fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse'),
-    'learntyp':fields.Integer(attribute='_learntyp', description='Lerntypdes Profilinhabers'),
-    'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
     'semester': fields.Integer(attribute='_semester', description='Semester'),
+    'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
     'degree_course': fields.String(attribute='_degree_course', description='Studiengang'),
+
 })
 
-
-learningprofileuser = api.inherit('LearningProfileUser', learningprofile, {
-    'user_id':fields.Integer(attribute='_user_id', description='user_id'),
-    'frequency':fields.Integer(attribute='_frequency', description='Häufigkeit'),
-    'study_state':fields.Integer(attribute='_study_state', description='on oder offline'),
-    'extroversion':fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
-    'prev_knowledge':fields.Integer(attribute='_study_group_id', description='bisherige Kentnisse'),
-    'learntyp':fields.Integer(attribute='_learntyp', description='Lerntypdes Profilinhabers'),
-    'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
+learningprofileuser = api.inherit('LearningProfileUser', nbo, {
+    'user_id': fields.Integer(attribute='_user_id', description='user_id'),
+    'prev_knowledge': fields.Integer(attribute='_prev_knowledge', description='bisherige Kentnisse'),
+    'extroversion': fields.Integer(attribute='_extroversion', description='extrovertiertheit'),
+    'study_state': fields.Integer(attribute='_study_state', description='on oder offline'),
+    'frequency': fields.Integer(attribute='_frequency', description='Häufigkeit'),
+    'learntyp': fields.Integer(attribute='_learntyp', description='Learntyp des Profilinhabers'),
     'semester': fields.Integer(attribute='_semester', description='Semester'),
-    'degree_course':fields.String(attribute='_degree_course', description='Studiengang'),
-
+    'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
+    'degree_course': fields.String(attribute='_degree_course', description='Studiengang'),
 })
 
 studygroup = api.inherit('StudyGroup', nbo, {
@@ -1002,7 +994,7 @@ class LearningProfileGroupListOperations(Resource):
             of a learninprofile object. The object created by the server is authoritative and
             is also returned to the client."""
 
-            s = adm.create_learningprofile_group(prpl.get_name(),
+            s = adm.create_learningprofile_group(prpl.get_group_id(), prpl.get_name(),
                                                  prpl.get_prev_knowledge(),
                                                  prpl.get_extroversion(),
                                                  prpl.get_study_state(),
@@ -1010,8 +1002,8 @@ class LearningProfileGroupListOperations(Resource):
                                                  prpl.get_learntyp(),
                                                  prpl.get_semester(),
                                                  prpl.get_interest(),
-                                                 prpl.get_degree_course(),
-                                                 prpl.get_group_id())
+                                                 prpl.get_degree_course())
+
             return s, 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -1096,7 +1088,7 @@ class LearningProfileUserListOperations(Resource):
     @studifix.marshal_with(learningprofileuser, code=200)
     @studifix.expect(learningprofileuser)  # We expect a user object from the client side.
     def post(self):
-        """Create a new learningprofile user object. We take the data sent by the client as a suggestion.
+        """Create a new learningprofile group object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
         Even if the client should assign an ID in the proposal, so
         it is up to the administration (business logic) to have a correct ID
@@ -1109,20 +1101,18 @@ class LearningProfileUserListOperations(Resource):
             of a learninprofile object. The object created by the server is authoritative and
             is also returned to the client."""
 
-            user = prpl.get_user_id()
-            name = prpl.get_name()
-            frequency = prpl.get_frequency()
-            study_state = prpl.get_study_state()
-            extroversion = prpl.get_extroversion()
-            prev_knowledge = prpl.get_prev_knowledge()
-            learntyp = prpl.get_learntyp()
-            interest = prpl.get_interest()
-            semester = prpl.get_semester()
-            degree_course = prpl.get_degree_course()
+            s = adm.create_learningprofile_user(prpl.get_user_id(),
+                                                prpl.get_name(),
+                                                prpl.get_prev_knowledge(),
+                                                prpl.get_extroversion(),
+                                                prpl.get_study_state(),
+                                                prpl.get_frequency(),
+                                                prpl.get_learntyp(),
+                                                prpl.get_semester(),
+                                                prpl.get_interest(),
+                                                prpl.get_degree_course())
 
-            result = adm.create_learningprofile_user(user, name, frequency, study_state, extroversion, prev_knowledge, learntyp, interest, semester, degree_course)
-
-            return result, 200
+            return s, 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
@@ -1183,11 +1173,9 @@ class LearningProfileUserByNameOperations(Resource):
 """
 Nachdem wir nun sämtliche Resourcen definiert haben, die wir via REST bereitstellen möchten,
 müssen nun die App auch tatsächlich zu starten.
-
 Diese Zeile ist leider nicht Teil der Flask-Doku! In jener Doku wird von einem Start via Kommandozeile ausgegangen.
 Dies ist jedoch für uns in der Entwicklungsumgebung wenig komfortabel. Deshlab kommt es also schließlich zu den 
 folgenden Zeilen. 
-
 **ACHTUNG:** Diese Zeile wird nur in der lokalen Entwicklungsumgebung ausgeführt und hat in der Cloud keine Wirkung!
 """
 if __name__ == '__main__':

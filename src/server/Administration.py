@@ -126,7 +126,7 @@ class Administration(object):
 
     # LearningProfile Group Methoden
     def create_learningprofile_group(self, group_id, name, frequency, study_state, extroversion, prev_knowledge,
-                                     learntyp, interest, semester, degree_course):
+                                     learntyp, semester, interest, degree_course):
         learningprofilegroup = LearningProfileGroup()
         learningprofilegroup.set_group_id(group_id)
         learningprofilegroup.set_name(name)
@@ -135,8 +135,8 @@ class Administration(object):
         learningprofilegroup.set_extroversion(extroversion)
         learningprofilegroup.set_prev_knowledge(prev_knowledge)
         learningprofilegroup.set_learntyp(learntyp)
-        learningprofilegroup.set_interest(interest)
         learningprofilegroup.set_semester(semester)
+        learningprofilegroup.set_interest(interest)
         learningprofilegroup.set_degree_course(degree_course)
         learningprofilegroup.set_id(1)
 
@@ -172,7 +172,7 @@ class Administration(object):
 
     # LearningProfile User Methoden
     def create_learningprofile_user(self, user_id, name, frequency, study_state, extroversion, prev_knowledge,
-                                    learntyp, interest, semester, degree_course):
+                                         learntyp, semester, interest, degree_course):
         learningprofileuser = LearningProfileUser()
         learningprofileuser.set_user_id(user_id)
         learningprofileuser.set_name(name)
@@ -181,8 +181,8 @@ class Administration(object):
         learningprofileuser.set_extroversion(extroversion)
         learningprofileuser.set_prev_knowledge(prev_knowledge)
         learningprofileuser.set_learntyp(learntyp)
-        learningprofileuser.set_interest(interest)
         learningprofileuser.set_semester(semester)
+        learningprofileuser.set_interest(interest)
         learningprofileuser.set_degree_course(degree_course)
         learningprofileuser.set_id(1)
 
