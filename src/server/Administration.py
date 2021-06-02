@@ -319,15 +319,17 @@ class Administration(object):
 
     # GroupInvitation Methoden
 
-    def create_groupinvitation(self, is_accepted, target_user, source_user):
-        group_invitation = GroupInvitation()
-        group_invitation.set_is_accepted(is_accepted)
-        group_invitation.set_target_user(target_user)
-        group_invitation.set_source_user(source_user)
-        group_invitation.set_id(1)
+
+    def create_groupinvitation(self, source_user, target_user, chat_id, is_accepted):
+        groupinvitation = GroupInvitation()
+        groupinvitation.set_source_user(source_user)
+        groupinvitation.set_target_user(target_user)
+        groupinvitation.set_study_group_id(chat_id)
+        groupinvitation.set_is_accepted(is_accepted)
+        groupinvitation.set_id(1)
 
         with GroupInvitationMapper() as mapper:
-            return mapper.insert(group_invitation)
+            return mapper.insert(groupinvitation)
 
     def get_groupinvitation_by_id(self,id):
         with GroupInvitationMapper() as mapper:
@@ -428,7 +430,7 @@ class Administration(object):
 
     # Chat Methoden
 
-    def create_chat(self,name):
+    def create_chat(self, name):
         chat = Chat()
         chat.set_name(name)
         chat.set_id(1)

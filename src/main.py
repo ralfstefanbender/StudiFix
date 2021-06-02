@@ -92,7 +92,9 @@ nbo = api.inherit('NamedBusinessObject', bo, {
 })
 
 
-chat = api.inherit('Chat', nbo)
+chat = api.inherit('Chat', nbo,{
+
+})
 
 
 
@@ -110,11 +112,10 @@ chatmessage = api.inherit('ChatMessage', bo, {
 })
 
 groupinvitation = api.inherit('GroupInvitation', bo, {
-    'is_accepted': fields.Boolean(attribute='_is_accepted', description='Akzeptiert'),
-    'study_group_id': fields.Integer(attribute='_study_group_id', description='Unique Id der Gruppe'),
     'target_user': fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
-    'source_user': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers')
-
+    'source_user': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
+    'study_group_id': fields.Integer(attribute='_study_group_id', description='Unique Id der Gruppe'),
+    'is_accepted': fields.Integer(attribute='_is_accepted', description='Akzeptiert')
 })
 
 learningprofile = api.inherit('LearningProfile', nbo, {
@@ -228,10 +229,10 @@ class UserOperations(Resource):
         return '', 200
 
 
-@studifix.route('/user/<string:lastname>')
+@studifix.route('/user-by-lastname/<string:lastname>')
 @studifix.response(500, 'when server has problems')
 class UserNameOperations(Resource):
-    @studifix.marshal_with(user)
+    @studifix.marshal_list_with(user)
     def get(self, lastname):
         """Reading out user objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -240,7 +241,7 @@ class UserNameOperations(Resource):
         return user
 
 
-@studifix.route('/user/<string:firstname>')
+@studifix.route('/user-by-firstname/<string:firstname>')
 @studifix.response(500, 'when server has problems')
 class UserFirstNameOperations(Resource):
     @studifix.marshal_with(user)
@@ -255,7 +256,7 @@ class UserFirstNameOperations(Resource):
 @studifix.route('/user-by-mail/<string:email>')
 @studifix.response(500, 'when server has problems')
 class UserMailOperations(Resource):
-    @studifix.marshal_with(user)
+    @studifix.marshal_list_with(user)
     def get(self, email):
         """Reading out user objects that are determined by the E-Mail.
         The objects to be read out are determined by '' mail '' in the URI."""
@@ -456,7 +457,7 @@ class ChatInvitationsAcceptedInvitesBySourceUserOperations(Resource):
         return chatinvitation_accepted_invites_source_user
 
 
-@studifix.route('/chatinvitation-accepted-invites-source/<int:target_user>')
+@studifix.route('/chatinvitation-accepted-invites-target/<int:target_user>')
 @studifix.response(500, 'when server has problems')
 class ChatInvitationsAcceptedInvitesByTargetUserOperations(Resource):
     @studifix.marshal_list_with(chatinvitation)
@@ -590,7 +591,7 @@ class ChatListOperations(Resource):
             """We only use the attributes of  of chat proposal for generation
             of a chat object. The object created by the server is authoritative and
             is also returned to the client."""
-            c = adm.create_chat(prpl.get_id())
+            c = adm.create_chat(prpl.get_name())
             return c, 200
         else:
             """When it comes down to it, we don't give anything back and throw a server error."""
@@ -675,7 +676,8 @@ class GroupInvitationListOperations(Resource):
             """We only use the attributes of groupinvitation of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
-            s = adm.create_groupinvitation(prpl.get_study_group_id(), prpl.get_target_user(), prpl.get_source_user())
+            s = adm.create_groupinvitation(prpl.get_source_user(), prpl.get_target_user(), prpl.get_study_group_id(),
+                                          prpl.get_is_accepted())
 
 
             return s, 200
@@ -820,7 +822,7 @@ class GroupInvitationsAcceptedInvitesBySourceUserOperations(Resource):
         return groupinvitation_accepted_invites_source_user
 
 
-@studifix.route('/groupinvitation-accepted-invites-source/<int:target_user>')
+@studifix.route('/groupinvitation-accepted-invites-target/<int:target_user>')
 @studifix.response(500, 'when server has problems')
 class GroupInvitationsAcceptedInvitesByTargetUserOperations(Resource):
     @studifix.marshal_list_with(groupinvitation)

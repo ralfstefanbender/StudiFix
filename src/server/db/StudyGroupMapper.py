@@ -121,8 +121,9 @@ class StudyGroupMapper(Mapper):
         cursor = self._cnx.cursor()
         command = "UPDATE studygroup SET name = ('{}'), creation_date = ('{}'), chat_id = ('{}')" \
                   "WHERE id = ('{}')" \
-            .format(studygroup.get_id(), studygroup.get_name(),studygroup.get_creation_date(),
-                     studygroup.get_chat_id())
+            .format(studygroup.get_name(), studygroup.get_creation_date(),
+                    studygroup.get_chat_id(), studygroup.get_id())
+
 
         cursor.execute(command)
 

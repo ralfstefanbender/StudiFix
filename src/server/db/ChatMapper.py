@@ -27,7 +27,7 @@ class ChatMapper(Mapper):
                 chat.set_creation_date(creation_date)
                 result.append(chat)
 
-            return result
+        return result
 
     def find_all(self):
 
