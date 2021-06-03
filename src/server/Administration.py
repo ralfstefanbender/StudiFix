@@ -458,8 +458,105 @@ class Administration(object):
         with ChatMapper() as mapper:
             mapper.delete(single_chat)
 
+    # Matching Algorithmus
 
+    def get_matches(self, user_id, threshhold):
 
+        # Matches for other Users
+        self_profile = self.get_learningprofile_user_by_id(user_id)
+        all_profiles = self.get_all_learningprofiles_user()
+        other_profiles = []
+        for profile in all_profiles:
+            if not profile.get_user_id() == user_id:
+                other_profiles.append(profile)
 
+        # Dict mit allen User Learnprofile Id und Similarity Score, welche über dem Threshhold sind
+        matches = {}
 
+        for profile in other_profiles:
 
+            """Alle Vergleichswerte (Range von 0 bis 1) 0 = Verschieden; 1 = Gleich"""
+            """Reihenfolge: Prev_Knowledge, Extroversion, Study State, Frequency, Learntyp, Semester, Interest, Degree_course"""
+            similarity = []
+            weights = [1, 1, 1, 1, 1, 1, 1, 1]
+
+            # Prev Knowledge
+            max_input = 5
+
+            score = max_input - (((self_profile.get_prev_knowledge() - profile.get_prev_knowledge())**2)**.5)
+            if score != 0:
+                score = score / max_input
+
+            similarity.append(score)
+
+            # Extroversion
+            max_input = 5
+
+            score = max_input - (((self_profile.get_extroversion() - profile.get_extroversion())**2)**.5)
+            if score != 0:
+                score = score / max_input
+
+            similarity.append(score)
+
+            # Study State
+            max_input = 5
+
+            score = max_input - (((self_profile.get_study_state() - profile.get_study_state())**2)**.5)
+            if score != 0:
+                score = score / max_input
+
+            similarity.append(score)
+
+            # Frequency
+            max_input = 5
+
+            score = max_input - (((self_profile.get_frequency() - profile.get_frequency())**2)**.5)
+            if score != 0:
+                score = score / max_input
+
+            similarity.append(score)
+
+            # Learntyp
+            max_input = 5
+
+            score = max_input - (((self_profile.get_learntyp() - profile.get_learntyp())**2)**.5)
+            if score != 0:
+                score = score / max_input
+
+            similarity.append(score)
+
+            # Semester
+            max_input = 5
+
+            score = max_input - (((self_profile.get_semester() - profile.get_semester())**2)**.5)
+            if score != 0:
+                score = score / max_input
+
+            similarity.append(score)
+
+            # Interest
+            score = 0
+            if self_profile.get_interest().lower() == profile.get_interest().lower():
+                score = 1
+
+            similarity.append(score)
+
+            # Degree Course
+            score = 0
+            if self_profile.get_degree_course().lower() == profile.get_degree_course().lower():
+                score = 1
+
+            similarity.append(score)
+
+            # Erstellung des Similarity Score (0-1)
+            sim_score = 0
+            for attr in range(len(similarity)):
+                sim_score += similarity[attr] * weights[attr]
+
+            sim_score /= len(similarity)
+
+            # Wenn Similarity Score über dem Threshhold ist, zum dict hinzufügen
+            if sim_score >= threshhold:
+                matches[profile.get_id()] = sim_score
+
+        return matches
