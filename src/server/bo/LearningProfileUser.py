@@ -1,4 +1,4 @@
-from src.server.bo import LeariningProfile as bo
+from src.server.bo import LearningProfile as bo
 
 
 class LearningProfileUser(bo.LearningProfile):

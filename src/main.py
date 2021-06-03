@@ -8,7 +8,7 @@ from src.server.Administration import Administration
 from src.server.bo.ChatInvitation import ChatInvitation
 
 from src.server.bo.ChatMessage import ChatMessage
-from src.server.bo.LeariningProfile import LearningProfile
+from src.server.bo.LearningProfile import LearningProfile
 from src.server.bo.GroupInvitation import GroupInvitation
 from src.server.bo.LearningprofileGroup import LearningProfileGroup
 from src.server.bo.LearningProfileUser import LearningProfileUser
@@ -96,13 +96,11 @@ chat = api.inherit('Chat', nbo,{
 
 })
 
-
-
 chatinvitation = api.inherit('ChatInvitation', bo, {
     'source_user': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
     'target_user': fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
     'chat_id': fields.Integer(attribute='_chat_id', description='Chat id des Chats'),
-    'is_accepted': fields.Integer(attribute='_is_accepted', description='Akzeptierte Chateinladungen')
+    'is_accepted': fields.Boolean(attribute='_is_accepted', description='Akzeptierte Chateinladungen')
 })
 
 chatmessage = api.inherit('ChatMessage', bo, {
@@ -115,7 +113,7 @@ groupinvitation = api.inherit('GroupInvitation', bo, {
     'target_user': fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
     'source_user': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
     'study_group_id': fields.Integer(attribute='_study_group_id', description='Unique Id der Gruppe'),
-    'is_accepted': fields.Integer(attribute='_is_accepted', description='Akzeptiert')
+    'is_accepted': fields.Boolean(attribute='_is_accepted', description='Akzeptiert')
 })
 
 learningprofile = api.inherit('LearningProfile', nbo, {
@@ -410,7 +408,7 @@ class ChatInvitationsAcceptedOperations(Resource):
         return chatinvitation_is_accepted
 
 
-@studifix.route('/chatinvitation-pend-invites/')
+@studifix.route('/chatinvitation-pend-invites')
 @studifix.response(500, 'when server has problems')
 class ChatInvitationsPendInvitesOperations(Resource):
     @studifix.marshal_list_with(chatinvitation)
@@ -810,7 +808,7 @@ class GroupInvitationsPendInvitesBySourceUserOperations(Resource):
         return groupinvitation_pend_invites_source_user
 
 
-@studifix.route('/groupinvitation-accepted-invites-source/<int:source_user>')
+@studifix.route('/groupinvitation-accepted-invites-sourceuser/<int:source_user>')
 @studifix.response(500, 'when server has problems')
 class GroupInvitationsAcceptedInvitesBySourceUserOperations(Resource):
     @studifix.marshal_list_with(groupinvitation)
@@ -822,7 +820,7 @@ class GroupInvitationsAcceptedInvitesBySourceUserOperations(Resource):
         return groupinvitation_accepted_invites_source_user
 
 
-@studifix.route('/groupinvitation-accepted-invites-target/<int:target_user>')
+@studifix.route('/groupinvitation-accepted-invites-targetuser/<int:target_user>')
 @studifix.response(500, 'when server has problems')
 class GroupInvitationsAcceptedInvitesByTargetUserOperations(Resource):
     @studifix.marshal_list_with(groupinvitation)
@@ -834,7 +832,7 @@ class GroupInvitationsAcceptedInvitesByTargetUserOperations(Resource):
         return groupinvitation_accepted_invites_target_user
 
 
-@studifix.route('/groupinvitation-pend-invites/')
+@studifix.route('/groupinvitation-pend-invites')
 @studifix.response(500, 'when server has problems')
 class GroupInvitationsPendInvitesOperations(Resource):
     @studifix.marshal_list_with(groupinvitation)

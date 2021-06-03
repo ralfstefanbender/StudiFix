@@ -200,28 +200,42 @@ class ChatInvitationMapper(Mapper):
             result = None
         return result
 
-    def insert(self, chat_invitation):
+
+    def insert(self, chatinvitation):
+        """Insertion of a semester object into the database.
+                The primary key of the transferred object is also checked and if necessary
+                corrected.
+                : param semester the object to be saved
+                : return the object that has already been transferred, but with a possibly corrected ID.
+                """
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) as maxid from chat_invitation")
+        cursor.execute("SELECT MAX(id) AS maxid FROM chat_invitation ")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
-            if maxid[0] is None:
-                chat_invitation.set_id(1)
+            if maxid[0] is not None:
+                """
+                If we determine a central ID we use this
+                by 1 and assign this value as the ID to the semester object. """
+                chatinvitation.set_id(maxid[0] + 1)
             else:
-                chat_invitation.set_id(maxid[0] + 1)
+                """If we CAN'T find a maximum ID, let's
+                assume that the table is empty and that we can start with ID 1. """
+                chatinvitation.set_id(1)
 
-        command = "INSERT INTO chat_invitation (id, creation_date, is_accepted, chat_id, target_user, source_user) " \
-                  "VALUES ('{}','{}','{}','{}', '{}', '{}' )" \
-                  .format(chat_invitation.get_id(),
-                          chat_invitation.get_creation_date(),
-                          chat_invitation.get_is_accepted(),
-                          chat_invitation.get_chat_id(),
-                          chat_invitation.get_target_user(),
-                          chat_invitation.get_source_user())
-        cursor.execute(command)
+            command = "INSERT INTO chat_invitation (id, creation_date, is_accepted, chat_id, target_user, source_user) VALUES (%s,%s,%s,%s,%s,%s)"
+            data = (chatinvitation.get_id(),
+                    chatinvitation.get_creation_date(),
+                    chatinvitation.get_is_accepted(),
+                    chatinvitation.get_chat_id(),
+                    chatinvitation.get_target_user(),
+                    chatinvitation.get_source_user())
+            cursor.execute(command, data)
+
         self._cnx.commit()
         cursor.close()
+
+        return chatinvitation
 
     def update(self, chat_invitation):
         cursor = self._cnx.cursor()

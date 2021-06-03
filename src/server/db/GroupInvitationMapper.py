@@ -233,28 +233,41 @@ class GroupInvitationMapper(Mapper):
             result = None
         return result
 
-    def insert(self, group_invitation):
+    def insert(self, groupinvitation):
+        """Insertion of a semester object into the database.
+                The primary key of the transferred object is also checked and if necessary
+                corrected.
+                : param semester the object to be saved
+                : return the object that has already been transferred, but with a possibly corrected ID.
+                """
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) as maxid from group_invitation")
+        cursor.execute("SELECT MAX(id) AS maxid FROM group_invitation ")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
-            if maxid[0] is None:
-                group_invitation.set_id(1)
+            if maxid[0] is not None:
+                """
+                If we determine a central ID we use this
+                by 1 and assign this value as the ID to the semester object. """
+                groupinvitation.set_id(maxid[0] + 1)
             else:
-                group_invitation.set_id(maxid[0] + 1)
+                """If we CAN'T find a maximum ID, let's
+                assume that the table is empty and that we can start with ID 1. """
+                groupinvitation.set_id(1)
 
-        command = "INSERT INTO group_invitation (id, creation_date, is_accepted, study_group_id, target_user, source_user) " \
-                  "VALUES ('{}','{}','{}','{}', '{}', '{}' )" \
-                  .format(group_invitation.get_id(),
-                          group_invitation.get_creation_date(),
-                          group_invitation.get_is_accepted(),
-                          group_invitation.get_study_group_id(),
-                          group_invitation.get_target_user(),
-                          group_invitation.get_source_user())
-        cursor.execute(command)
+            command = "INSERT INTO group_invitation (id, creation_date, is_accepted, study_group_id, target_user, source_user) VALUES (%s,%s,%s,%s,%s,%s)"
+            data = (groupinvitation.get_id(),
+                    groupinvitation.get_creation_date(),
+                    groupinvitation.get_is_accepted(),
+                    groupinvitation.get_study_group_id(),
+                    groupinvitation.get_target_user(),
+                    groupinvitation.get_source_user())
+            cursor.execute(command, data)
+
         self._cnx.commit()
         cursor.close()
+
+        return groupinvitation
 
 
 
