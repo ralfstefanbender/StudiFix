@@ -65,7 +65,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, firstname, lastname, adress, email, " \
-                  "google_id, creation_date FROM user WHERE email LIKE '{}' ".format(email)
+                  "google_id, creation_date FROM user WHERE email LIKE '{}'".format(email)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -181,6 +181,7 @@ class UserMapper(Mapper):
 
         return result
 
+
     def insert(self, user):
 
         cursor = self._cnx.cursor()
@@ -193,8 +194,9 @@ class UserMapper(Mapper):
             else:
                 user.set_id(maxid[0]+1)
 
-        command = "INSERT INTO user (id, firstname, lastname, adress," \
-                  "email, google_id, creation_date) VALUES ('{}','{}','{}','{}','{}','{}','{}')"\
+        command = "INSERT INTO user (id, firstname, lastname, adress, " \
+                  "email, google_id, creation_date)" \
+                  "VALUES ('{}','{}','{}','{}','{}','{}','{}')"\
                 .format(user.get_id(), user.get_firstname(), user.get_lastname(), user.get_adress(), user.get_email(),
                         user.get_google_id(), user.get_creation_date())
         cursor.execute(command)
@@ -206,9 +208,7 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "UPDATE user SET firstname = ('{}'), lastname = ('{}'), adress = ('{}')," \
-                  " email = ('{}'), google_id = ('{}'),"\
-                  " creation_date = ('{}'),"\
-                  "WHERE id = ('{}')"\
+                  " email = ('{}'), google_id = ('{}'), creation_date = ('{}') WHERE id = ('{}')"\
             .format(user.get_firstname(), user.get_lastname(), user.get_adress(), user.get_email(),
                     user.get_google_id(), user.get_creation_date(), user.get_id())
         cursor.execute(command)
@@ -232,7 +232,8 @@ if __name__ == "__main__":
     with UserMapper() as mapper:
         # Nach mapper jegliche Methode dieser Klasse
         user = User()
-        user.set_name("Hallo")
+        user.set_firstname("Hans")
+        user.set_lastname("Müller")
         user.set_google_id("dfasdfasdfasdf")
         user.set_email("dfasdfasdfasdf")
         mapper.insert(user)

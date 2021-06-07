@@ -12,20 +12,22 @@ class StudyGroupMapper(Mapper):
         result = []
 
         if len(tuples) == 1:
-            for (id, name, creation_date) in tuples:
-                StudyGroup = StudyGroup()
-                StudyGroup.set_id(id)
-                StudyGroup.set_name(name)
-                StudyGroup.set_creation_date(creation_date)
-                result = StudyGroup
+            for (id, name, creation_date, chat_id) in tuples:
+                studygroup = StudyGroup()
+                studygroup.set_id(id)
+                studygroup.set_name(name)
+                studygroup.set_creation_date(creation_date)
+                studygroup.set_chat_id(chat_id)
+                result = studygroup
 
         else:
-            for (id, name, creation_date) in tuples:
-                StudyGroup = StudyGroup()
-                StudyGroup.set_id(id)
-                StudyGroup.set_name(name)
-                StudyGroup.set_creation_date(creation_date)
-                result.append(StudyGroup)
+            for (id, name, creation_date, chat_id,) in tuples:
+                studygroup = StudyGroup()
+                studygroup.set_id(id)
+                studygroup.set_name(name)
+                studygroup.set_creation_date(creation_date)
+                studygroup.set_chat_id(chat_id)
+                result.append(studygroup)
 
         return result
 
@@ -34,7 +36,7 @@ class StudyGroupMapper(Mapper):
         result = []
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM party"
+        command = "SELECT * FROM studygroup"
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -50,7 +52,8 @@ class StudyGroupMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, creation_date FROM party WHERE id LIKE '{}' ".format(id)
+        command = "SELECT id, name, creation_date, chat_id FROM studygroup " \
+                  "WHERE id LIKE '{}' ".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -58,7 +61,7 @@ class StudyGroupMapper(Mapper):
             result = self.build_bo(tuples)
 
         except IndexError:
-            """Falls keine Party mit der angegebenen id gefunden werden konnte,
+            """Falls keine Study_Group mit der angegebenen id gefunden werden konnte,
                 wird hier None als Rückgabewert deklariert"""
             result = None
 
@@ -67,42 +70,70 @@ class StudyGroupMapper(Mapper):
 
         return result
 
-    def insert(self, party):
+    def find_by_group_name(self, name):
+
+        result = None
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) as maxid from party")
+        command = "SELECT id, name, creation_date, chat_id FROM studygroup " \
+                  "WHERE name LIKE '{}' ".format(name)
+
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            result = self.build_bo(tuples)
+
+        except IndexError:
+
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    def insert(self, studygroup):
+
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT MAX(id) as maxid from studygroup")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
             if maxid[0] is None:
-                party.set_id(1)
+                studygroup.set_id(1)
             else:
-                party.set_id(maxid[0] + 1)
+                studygroup.set_id(maxid[0] + 1)
 
-        command = "INSERT INTO party (id, name, creation_date) VALUES ('{}','{}','{}')"\
-                .format(party.get_id(), party.get_name(), party.get_creation_date())
+        command = "INSERT INTO studygroup (id, name, creation_date, chat_id) VALUES " \
+                  "('{}','{}','{}','{}')"\
+                .format(studygroup.get_id(), studygroup.get_name(),
+                        studygroup.get_creation_date(), studygroup.get_chat_id())
         cursor.execute(command)
 
         self._cnx.commit()
         cursor.close()
 
-        return party
+        return studygroup
 
-    def update(self, party):
+    def update(self, studygroup):
 
         cursor = self._cnx.cursor()
-        command = "UPDATE party SET name = ('{}'), creation_date = ('{}') " \
+        command = "UPDATE studygroup SET name = ('{}'), creation_date = ('{}'), chat_id = ('{}')" \
                   "WHERE id = ('{}')" \
-            .format(party.get_name(), party.get_creation_date(), party.get_id())
+            .format(studygroup.get_name(), studygroup.get_creation_date(),
+                    studygroup.get_chat_id(), studygroup.get_id())
+
+
         cursor.execute(command)
 
         self._cnx.commit()
         cursor.close()
 
-    def delete(self, party):
+    def delete(self, studygroup):
 
         cursor = self._cnx.cursor()
-        command = "DELETE FROM party WHERE id = ('{}')".format(party.get_id())
+        command = "DELETE FROM studygroup WHERE id = ('{}')".format(studygroup.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -110,10 +141,12 @@ class StudyGroupMapper(Mapper):
 
 
 if (__name__ == "__main__"):
-    with PartyMapper() as mapper:
+    with StudyGroupMapper() as mapper:
+        studygroup = StudyGroup()
+        studygroup.set_name("Studifix1")
+        studygroup.set_chat_id(1)
+
+        mapper.insert(studygroup)
+        mapper.find_by_group_name("Studifix1")
+        print(mapper)
         # Nach mapper jegliche Methode dieser Klasse
-        party = mapper.find_by_id(7)
-        party.set_name("jolo")
-        mapper.update(party)
-        updated_party = mapper.find_by_id(7)
-        print(updated_party.get_name())

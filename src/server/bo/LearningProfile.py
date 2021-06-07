@@ -1,17 +1,16 @@
 from src.server.bo import NamedBusinessObject as bo
-
-
-class LearningProfile(bo.NamedBusinessObject):
+from abc import ABC, abstractmethod
+class LearningProfile(bo.NamedBusinessObject, ABC):
 
     def __init__(self):
         super().__init__()
-        self._frequency = 0
-        self._studystate = 0
-        self._extroversion = 0
         self._prev_knowledge = 0
+        self._extroversion = 0
+        self._study_state = 0
+        self._frequency = 0
         self._learntyp = 0  # Lerntypen sind kategorisiert nach Nummern
-        self._interest = ""
         self._semester = 0
+        self._interest = ""
         self._degree_course = ""
 
     def get_frequency(self):
@@ -20,11 +19,11 @@ class LearningProfile(bo.NamedBusinessObject):
     def set_frequency(self, value):
         self._frequency = value
 
-    def get_studystate(self):
-        return self._studystate
+    def get_study_state(self):
+        return self._study_state
 
-    def set_studystate(self, value):
-        self._studystate = value
+    def set_study_state(self, value):
+        self._study_state = value
 
     def get_extroversion(self):
         return self._extroversion
@@ -62,19 +61,11 @@ class LearningProfile(bo.NamedBusinessObject):
     def set_degree_course(self, value):
         self._degree_course = value
 
-    @staticmethod
-    def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in einen User()."""
-        obj = LearningProfile()
-        obj.set_id(dictionary["id"])
-        obj.set_creation_date(dictionary["creation_date"])
-        obj.set_name(dictionary["name"])
-        obj.set_frequency(dictionary["frequency"])
-        obj.set_studystate(dictionary["studystate"])
-        obj.set_extroversion(dictionary["extroversion"])
-        obj.set_prev_knowledge(dictionary["prev_knowledge"])
-        obj.set_learntyp(dictionary["learntyp"])
-        obj.set_interest(dictionary["interest"])
-        obj.set_semester(dictionary["semester"])
-        obj.set_degree_course(dictionary["degree_course"])
-        return obj
+    def get_group_id(self):
+        return self._group_id
+
+    def set_group_id(self, value):
+        self._group_id = value
+
+
+

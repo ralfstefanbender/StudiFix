@@ -1,6 +1,7 @@
-from src.server.bo import BusinessObject
+from src.server.bo import BusinessObject as bo
 
-class ChatInvitation (BusinessObject):
+
+class ChatInvitation (bo.BusinessObject):
 
     "Realisierung der ChatInvitation"
 
@@ -36,11 +37,11 @@ class ChatInvitation (BusinessObject):
         "Festlegen der Chat-ID"
         self._chat_id = chat_id
 
-    def is_accepted(self):
+    def get_is_accepted(self):
         "Auslesen des Status"
         return self._is_accepted
 
-    def set_accepted(self, value):
+    def set_is_accepted(self, value):
         "Akzeptieren der Einladung"
         self._is_accepted = value
 
@@ -58,9 +59,9 @@ class ChatInvitation (BusinessObject):
         """Umwandeln eines Python dict() in einer ChatInvitation"""
         obj = ChatInvitation()
         obj.set_id(dictionary["id"])
-        obj.set_creation_date(dictionary["creation_date"])
+        obj.set_creation_date(ChatInvitation.date_format(dictionary["creation_date"]))
         obj.set_source_user(dictionary["source_user"])
         obj.set_target_user(dictionary["target_user"])
         obj.set_chat_id(dictionary["chat_id"])
-        obj.set_accepted(dictionary["accepted"])
+        obj.set_is_accepted(dictionary["is_accepted"])
         return obj
