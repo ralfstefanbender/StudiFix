@@ -9,7 +9,7 @@ class App extends Component {
      return (
      <div>
      <ThemeProvider theme={theme}>
-           <Headertwo />
+           <//insert what you want to test />
      </ThemeProvider>
      </div>
 
