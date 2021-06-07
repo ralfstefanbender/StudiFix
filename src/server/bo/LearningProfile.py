@@ -13,6 +13,9 @@ class LearningProfile(bo.NamedBusinessObject, ABC):
         self._interest = ""
         self._degree_course = ""
 
+
+
+
     def get_frequency(self):
         return self._frequency
 

@@ -6,14 +6,7 @@ class LearningProfileUser(bo.LearningProfile):
     def __init__(self):
         super().__init__()
         self._user_id = 0
-        self._prev_knowledge = 0
-        self._extroversion = 0
-        self._study_state = 0
-        self._frequency = 0
-        self._learntyp = 0  # Lerntypen sind kategorisiert nach Nummern
-        self._semester = 0
-        self._interest = ""
-        self._degree_course = ""
+
 
 
     def get_user_id(self):
