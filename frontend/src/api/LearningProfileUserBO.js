@@ -1,5 +1,7 @@
 import LearningProfile from './LearningProfile';
 
+export default class LearningProfileBO extends LearningProfile {
+
 
   /**
    * Constructs a new LearningProfileUserBO
@@ -47,15 +49,11 @@ import LearningProfile from './LearningProfile';
   }
 
 
-
-
-
-
-
-
-
- * Returns an Array of  learningprofileUserBO from a given JSON structure
+  
+  /**
+   * Returns an Array of  learningprofileUserBO from a given JSON structure
    */
+ 
   static fromJSON(learningprofileusers) {
     let result = [];
 
