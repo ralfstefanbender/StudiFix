@@ -3,7 +3,7 @@ import BusinessObject from './BusinessObject';
 /**
  * Represents a user
  */
-export default class UserBO extends User {
+export default class UserBO extends BusinessObject {
     /**
    * Constructs a new User
    */
