@@ -3,7 +3,7 @@ import ChatInvitationBO from './ChatInvitationBO';
 import ChatMessageBO from './ChatMessageBO';
 import GroupInvitationBO from './GroupInvitationBO';
 import LearningProfileUserBO from './LearningProfileUserBO';
-import LearningProfileGroup from './LearningProfileGroupBO';
+import LearningProfileGroupBO from './LearningProfileGroupBO';
 import StudyGroupBO from './StudyGroupBO';
 import UserBO from './UserBO';
 
