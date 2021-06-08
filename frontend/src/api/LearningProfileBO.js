@@ -146,8 +146,4 @@ export default class LearningProfileBO extends LearningProfile  {
   getDegreeCourse() {
     return this.degree_course;
   }
-
-
-
-
-
+}
