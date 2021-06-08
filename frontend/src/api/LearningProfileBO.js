@@ -3,7 +3,7 @@ import NamedBusinessObject from './NamedBusinessObject';
 /**
  * Represents an Learningprofile.
  */
-export default class LearningProfileBO extends LearningProfile  {
+export default class LearningProfileBO extends NamedBusinessObject  {
 
   /**
    * Constructs a new LearningProfilenBO

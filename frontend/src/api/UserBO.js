@@ -66,3 +66,28 @@ export default class UserBO extends BusinessObject {
         return this.adress;
     }
 }
+
+
+
+  /**
+   * Returns an Array of  learningprofileUserBO from a given JSON structure
+   */
+
+  static fromJSON(users) {
+    let result = [];
+
+    if (Array.isArray(users)) {
+      users.forEach((a) => {
+        Object.setPrototypeOf(a, UserBO.prototype);
+        result.push(a);
+      })
+    } else {
+      // Es handelt sich offenbar um ein singuläres Objekt
+      let a = user;
+      Object.setPrototypeOf(a, UserBO.prototype);
+      result.push(a);
+    }
+
+    return result;
+  }
+}

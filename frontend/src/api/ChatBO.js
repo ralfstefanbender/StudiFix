@@ -3,7 +3,7 @@ import NamedBusinessObject from './NamedBusinessObject';
 /**
  * Represents an account object of a customer.
  */
-export default class ChatBO extends Chat  {
+export default class ChatBO extends NamedBusinessObject  {
 
   /**
    * Constructs a new ChatBO

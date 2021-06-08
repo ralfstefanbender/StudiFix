@@ -3,7 +3,7 @@ import BusinessObject from './BusinessObject';
 /**
  * Represents an chatinvitation.
  */
-export default class ChatMessageBO extends ChatMessage  {
+export default class ChatMessageBO extends BusinessObject  {
 
   /**
    * Constructs a new ChatMessageBO
