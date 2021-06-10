@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Paper, Typography, Tabs, Tab } from '@material-ui/core';
+import { Paper, Typography, Tabs, Tab, Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
+import firebase from 'firebase/app';
 
 
 /*
@@ -25,8 +26,14 @@ class Header extends Component {
     })
   };
 
+   handleSignOutButtonClicked = () => {
+   firebase.auth().signOut();
+  }
+
   /** Renders the component <ProfileDropDown user={user} />     const { user } = this.props;*/
   render() {
+    const { user } = this.props;
+
 
 
     return (
@@ -38,6 +45,8 @@ class Header extends Component {
         <Typography variant='h4' component='h2' align='center'>
           Find your perfect learn buddys!
         </Typography>
+         {
+          user ?
 
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
             <Tab label='Home' component={RouterLink} to={`/overview`} />
@@ -46,7 +55,12 @@ class Header extends Component {
               <Tab label='Lerngruppen' component={RouterLink} to={`/lerngruppen`} />
               <Tab label='Lernpartner' component={RouterLink} to={`/lernpartner`} />
               <Tab label='About' component={RouterLink} to={`/about`} />
+               <Button color="inherit" onClick={this.handleSignOutButtonClicked}>
+              Log out
+            </Button>
             </Tabs>
+            : null
+        }
 
       </Paper>
     )

@@ -13,7 +13,9 @@ import UserGroups from './components/subcomponents/UserGroups';
 import 'firebase/auth';
 import SignIn from './components/pages/SignIn';
 import firebase from 'firebase/app';
-
+import LoadingProgress from './components/dialogs/LoadingProgress';
+import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
+import firebaseConfig from './firebaseconfig';
 
 class App extends Component {
 /** Constructor of the app, which initializes firebase  */
@@ -23,22 +25,25 @@ class App extends Component {
 		// Init an empty state
 		this.state = {
 			currentUser: null,
+			appError: null,
 			authError: null,
+			authLoading: false
 		};
   }
-  /** The firebase config structure for the best shared shoppinglist project as provided by the firebase admin website */
-  #firebaseConfig = {
-    apiKey: "AIzaSyAa78PXSUEnofRjJMZvdQyoUCiWRlp53i4",
-    authDomain: "studifix-f9a1e.firebaseapp.com",
-    projectId: "studifix-f9a1e",
-    storageBucket: "studifix-f9a1e.appspot.com",
-    messagingSenderId: "541808474348",
-    appId: "1:541808474348:web:ba460a421b0cd232ba4dc9"
-  };
+
+
+
+  static getDerivedStateFromError(error) {
+		// Update state so the next render will show the fallback UI.
+		return { appError: error };
+	}
 
   /** Handled das einloggen des Users -> schreibt ihn in den State  */
 	handleAuthStateChange = user => {
 		if (user) {
+		this.setState({
+				authLoading: true
+			});
 			// The user is signed in
 			user.getIdToken().then(token => {
 				// Add the token to the browser's cookies. The server will then be
@@ -52,10 +57,12 @@ class App extends Component {
 				this.setState({
 					currentUser: user,
 					authError: null,
+					authLoading: false
 				});
 			}).catch(e => {
 				this.setState({
 					authError: e,
+					authLoading: false
 				});
 			});
 		} else {
@@ -87,12 +94,14 @@ class App extends Component {
 	 * @see See Googles [firebase init process](https://firebase.google.com/docs/web/setup)
 	 */
 	componentDidMount() {
-		firebase.initializeApp(this.#firebaseConfig);
+		firebase.initializeApp(firebaseConfig);
 		firebase.auth().languageCode = 'de';
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
 	}
 
 	render() {
+	        const { currentUser, appError, authError, authLoading } = this.state;
+
 
 
 		return (
@@ -100,13 +109,12 @@ class App extends Component {
 				<div>
 				<CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
-
-				{	//** Is a user signed in? */
-				this.state.currentUser ?
-				<>
 					<Container maxWidth='md'>
-					    <Header />
-
+						<Header user={currentUser} />
+						{
+							// Is a user signed in?
+							currentUser ?
+                                <>
 								    <Redirect from='/' to='user' />
 								    <Route exact path='/overview'>
 										<Overview />
@@ -126,7 +134,7 @@ class App extends Component {
 									<Route exact path='/about'>
 										<About />
 									</Route>
-					</Container>
+
 					</> : 
 				// elso show the sign in page
 				<>
@@ -136,6 +144,11 @@ class App extends Component {
 				</>
 
 			}
+
+			         <LoadingProgress show={authLoading} />
+					<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sighn in process.`} onReload={this.handleSignIn} />
+					<ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
+					</Container>
 				</Router>
 				</div>
 			</ThemeProvider>
