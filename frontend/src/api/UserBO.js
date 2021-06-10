@@ -65,7 +65,6 @@ export default class UserBO extends BusinessObject {
     getAdress(){
         return this.adress;
     }
-}
 
 
 
@@ -87,7 +86,6 @@ export default class UserBO extends BusinessObject {
       Object.setPrototypeOf(a, UserBO.prototype);
       result.push(a);
     }
-
     return result;
   }
 }
