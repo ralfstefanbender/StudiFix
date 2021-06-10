@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-
+import { colors } from '@material-ui/core';
 
 //official  colors:
 const white = '#ffffff';
@@ -22,9 +22,9 @@ const theme = createMuiTheme({
     white,
     primary: {
         contrastText: orange,
-        main: lightGray,
-        light: lightGray,
-        dark: hoverGray,
+        dark: colors.orange[900],
+      main: colors.orange[500],
+      light: colors.orange[300]
 
     },
     secondary: {
