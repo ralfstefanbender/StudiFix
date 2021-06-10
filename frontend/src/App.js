@@ -10,19 +10,100 @@ import UserProfile from './components/pages/UserProfile';
 import About from './components/pages/About';
 import Overview from './components/pages/Overview';
 import UserGroups from './components/subcomponents/UserGroups';
+import 'firebase/auth';
+import SignIn from './components/pages/SignIn';
+import firebase from 'firebase/app';
 
 
+class App extends Component {
+/** Constructor of the app, which initializes firebase  */
+  constructor(props) {
+		super(props);
 
-class App extends React.Component {
+		// Init an empty state
+		this.state = {
+			currentUser: null,
+			authError: null,
+		};
+  }
+  /** The firebase config structure for the best shared shoppinglist project as provided by the firebase admin website */
+  #firebaseConfig = {
+    apiKey: "AIzaSyAa78PXSUEnofRjJMZvdQyoUCiWRlp53i4",
+    authDomain: "studifix-f9a1e.firebaseapp.com",
+    projectId: "studifix-f9a1e",
+    storageBucket: "studifix-f9a1e.appspot.com",
+    messagingSenderId: "541808474348",
+    appId: "1:541808474348:web:ba460a421b0cd232ba4dc9"
+  };
 
+  /** Handled das einloggen des Users -> schreibt ihn in den State  */
+	handleAuthStateChange = user => {
+		if (user) {
+			// The user is signed in
+			user.getIdToken().then(token => {
+				// Add the token to the browser's cookies. The server will then be
+				// able to verify the token against the API.
+				// SECURITY NOTE: As cookies can easily be modified, only put the
+				// token (which is verified server-side) in a cookie; do not add other
+				// user information.
+				document.cookie = `token=${token};path=/`;
+
+				// Set the user not before the token arrived 
+				this.setState({
+					currentUser: user,
+					authError: null,
+				});
+			}).catch(e => {
+				this.setState({
+					authError: e,
+				});
+			});
+		} else {
+			// User has logged out, so clear the id token
+			document.cookie = 'token=;path=/';
+
+			// Set the logged out user to null
+			this.setState({
+				currentUser: null,
+				authLoading: false
+			});
+		}
+	}
+
+	/** 
+   * Handles the sign in request of the SignIn component uses the firebase.auth() component to sign in.
+	 * @see See Google [firebase.auth()](https://firebase.google.com/docs/reference/js/firebase.auth.Auth)
+	 * @see See Google [firebase.auth().signInWithRedirect](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithredirect)
+	 */
+	 handleSignIn = () => {
+		const provider = new firebase.auth.GoogleAuthProvider();
+		firebase.auth().signInWithRedirect(provider);
+	}
+
+	/**
+	 * Lifecycle method, which is called when the component gets inserted into the browsers DOM.
+	 * Initializes the firebase SDK.
+	 * 
+	 * @see See Googles [firebase init process](https://firebase.google.com/docs/web/setup)
+	 */
+	componentDidMount() {
+		firebase.initializeApp(this.#firebaseConfig);
+		firebase.auth().languageCode = 'de';
+		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
+	}
 
 	render() {
 
 
 		return (
 			<ThemeProvider theme={theme}>
+				<div>
 				<CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
+
+				{	//** Is a user signed in? */
+				this.state.currentUser ?
+				<>
 					<Container maxWidth='md'>
 					    <Header />
 
@@ -46,7 +127,17 @@ class App extends React.Component {
 										<About />
 									</Route>
 					</Container>
+					</> : 
+				// elso show the sign in page
+				<>
+				<Redirect to='/index.html'/>
+				<SignIn onSignIn={this.handleSignIn}/>
+
+				</>
+
+			}
 				</Router>
+				</div>
 			</ThemeProvider>
 		);
 	}
