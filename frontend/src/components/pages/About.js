@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles, Paper, Typography, Link } from '@material-ui/core';
 import { ThemeProvider } from "@material-ui/core";
-import Theme from "../../Theme";
+import theme from "../../theme";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,7 +21,7 @@ function About() {
   const classes = useStyles();
 
   return (
-    <ThemeProvider theme={Theme}>
+    <ThemeProvider theme={theme}>
       <Paper elevation={0} className={classes.root}>
         <div className={classes.content}>
           <Typography variant='h6'>
