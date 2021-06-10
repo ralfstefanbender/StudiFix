@@ -34,3 +34,4 @@ export default class ChatBO extends NamedBusinessObject  {
 
     return result;
   }
+}

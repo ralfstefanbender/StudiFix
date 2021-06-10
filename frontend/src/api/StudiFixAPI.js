@@ -1218,3 +1218,4 @@ export default class StudyFixAPI {
       })
     })
     }
+  }
