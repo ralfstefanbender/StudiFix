@@ -49,7 +49,7 @@ class Header extends Component {
           user ?
 
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-            <Tab label='Homer' component={RouterLink} to={`/overview`} />
+            <Tab label='Home' component={RouterLink} to={`/overview`} />
               <Tab label='Mein Profil' component={RouterLink} to={`/user`} />
               <Tab label='Chat' component={RouterLink} to={`/chat`} />
               <Tab label='Lerngruppen' component={RouterLink} to={`/lerngruppen`} />
