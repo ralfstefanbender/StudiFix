@@ -16,7 +16,7 @@ __pycache__/
 # C extensions
 *.so
 
-/src/server/db/Mapper.py
+src/server/db/Mapper.py
 
 
 # Distribution / packaging
