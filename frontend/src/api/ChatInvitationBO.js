@@ -9,7 +9,7 @@ export default class ChatInvitationBO extends BusinessObject  {
    * Constructs a new ChatInvitationBO
    *
    */
-  constructor(aSourceUser, aTargetUser, aChatId, aIsAccepted) {
+  constructor(aSourceOwner, aTargetUser, aChatId, aIsAccepted) {
     super();
     this.source_owner = aSourceOwner;
     this.target_user = aTargetUser;
@@ -88,12 +88,12 @@ export default class ChatInvitationBO extends BusinessObject  {
 
     if (Array.isArray(chatinvitations)) {
       chatinvitations.forEach((a) => {
-        Object.setPrototypeOf(a, ChatInvitationtBO.prototype);
+        Object.setPrototypeOf(a, ChatInvitationBO.prototype);
         result.push(a);
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
-      let a = chatinvitation;
+      let a = chatinvitations;
       Object.setPrototypeOf(a, ChatInvitationBO.prototype);
       result.push(a);
     }

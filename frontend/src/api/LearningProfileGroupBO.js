@@ -1,6 +1,6 @@
-import LearningProfile from './LearningProfile';
+import LearningProfileBO from './LearningProfileBO';
 
-export default class LearningProfileBO extends LearningProfile  {
+export default class LearningProfileGroupBO extends LearningProfileBO  {
 
   /**
    * Constructs a new LearningProfilenBO
@@ -49,7 +49,7 @@ export default class LearningProfileBO extends LearningProfile  {
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
-      let a = learningprofilegroup;
+      let a = learningprofilegroups;
       Object.setPrototypeOf(a, LearningProfileGroupBO.prototype);
       result.push(a);
     }

@@ -1,33 +1,55 @@
-import React from 'react'
-import { makeStyles, Paper, Typography, Link } from '@material-ui/core';
+/**npm startimport { makeStyles, Paper, Typography, Link } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { StreamChat } from 'stream-chat';
+import { Chat, Channel, ChannelHeader, ChannelList, LoadingIndicator, MessageInput, MessageList, Thread, Window } from 'stream-chat-react';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    padding: theme.spacing(1)
-  },
-  content: {
-    margin: theme.spacing(1),
+import 'stream-chat-react/dist/css/index.css';
+
+const userToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoic3RpbGwtbGltaXQtMiJ9.bEI6suIAePkW_T0gZAUx9MOvxsTyTYtwml8paKuTFVw';
+
+const filters = { type: 'messaging', members: { $in: ['still-limit-2'] } };
+const sort = { last_message_at: -1 };
+
+const ManageChat = () => {
+  const [chatClient, setChatClient] = useState(null);
+
+  useEffect(() => {
+    const initChat = async () => {
+      const client = StreamChat.getInstance('y7b99zy467pb');
+
+      await client.connectUser(
+        {
+          id: 'still-limit-2',
+          name: 'still-limit-2',
+          image: 'https://getstream.io/random_png/?id=still-limit-2&name=still-limit-2',
+        },
+        userToken,
+      );
+
+      setChatClient(client);
+    };
+
+    initChat();
+  }, []);
+
+  if (!chatClient) {
+    return <LoadingIndicator />;
   }
-}));
-
-
-function ManageChat() {
-
-  const classes = useStyles();
 
   return (
-    <Paper elevation={0} className={classes.root}>
-      <div className={classes.content}>
-        <Typography variant='h6'>
-          Chat
-        </Typography>
+    <Chat client={chatClient} theme='messaging light'>
+      <ChannelList filters={filters} sort={sort} />
+      <Channel>
+        <Window>
+          <ChannelHeader />
+          <MessageList />
+          <MessageInput />
+        </Window>
+        <Thread />
+      </Channel>
+    </Chat>
+  );
+};
 
-      </div>
-    </Paper>
-  )
-}
+export default ManageChat;**/
 
-export default ManageChat;
