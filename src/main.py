@@ -1172,6 +1172,7 @@ folgenden Zeilen.
 **ACHTUNG:** Diese Zeile wird nur in der lokalen Entwicklungsumgebung ausgeführt und hat in der Cloud keine Wirkung!
 """
 if __name__ == '__main__':
-    """ print(Administration.get_matches(Administration(), 1, .1))"""
+    """print(Administration.get_matches_user(Administration(), 1, .1))
+    print(Administration.get_matches_group(Administration(), 1, .1))"""
     app.run(debug=True)
 
