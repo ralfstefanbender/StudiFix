@@ -154,6 +154,5 @@ frontend/package-lock.json
 /node_modules/
 /src/server/db/Mapper.py
 /src/static
-/frontend/src/firebaseconfig.js
 src/server/db/Mapper.py
 src/server/db/Mapper.py
