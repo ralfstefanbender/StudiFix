@@ -9,7 +9,7 @@ export default class GroupInvitationBO extends BusinessObject  {
    * Constructs a new ChatInvitationBO
    *
    */
-  constructor(aIsAccepted, aStudyGroupId, aSourceUser, aTargetUser) {
+  constructor(aIsAccepted, aStudyGroupId, aSourceOwner, aTargetUser) {
     super();
     this.is_accepted = aIsAccepted;
     this.study_group_id = aStudyGroupId;
@@ -94,7 +94,7 @@ export default class GroupInvitationBO extends BusinessObject  {
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
-      let a = groupinvitation;
+      let a = groupinvitations;
       Object.setPrototypeOf(a, GroupInvitationBO.prototype);
       result.push(a);
     }

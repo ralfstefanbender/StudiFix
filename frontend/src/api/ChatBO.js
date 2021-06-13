@@ -27,7 +27,7 @@ export default class ChatBO extends NamedBusinessObject  {
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
-      let a = chat;
+      let a = chats;
       Object.setPrototypeOf(a, ChatBO.prototype);
       result.push(a);
     }

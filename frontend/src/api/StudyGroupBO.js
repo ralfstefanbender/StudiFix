@@ -48,7 +48,7 @@ export default class StudyGroupBO extends NamedBusinessObject {
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
-      let a = studygroup;
+      let a = studygroups;
       Object.setPrototypeOf(a, StudyGroupBO.prototype);
       result.push(a);
     }
