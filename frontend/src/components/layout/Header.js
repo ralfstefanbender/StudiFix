@@ -52,7 +52,7 @@ class Header extends Component {
             <Tab label='Home' component={RouterLink} to={`/overview`} />
               <Tab label='Mein Profil' component={RouterLink} to={`/user`} />
               <Tab label='Chat' component={RouterLink} to={`/chat`} />
-              <Tab label='Lerngruppen' component={RouterLink} to={`/studygrouplist`} />
+              <Tab label='Lerngruppen' component={RouterLink} to={`/studygroup`} />
               <Tab label='Lernpartner' component={RouterLink} to={`/lernpartner`} />
               <Tab label='About' component={RouterLink} to={`/about`} />
                <Button color="inherit" onClick={this.handleSignOutButtonClicked}>

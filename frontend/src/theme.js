@@ -6,8 +6,7 @@ const white = '#ffffff';
 const darkGray = '#3e4847';
 const orange = '#f57c00';
 const red = '#e31134';
-const lightGray= '#f6f6f6';
-const hoverGray= '#c6c6c6';
+
 
 //Creating a costume theme for this app:
 
