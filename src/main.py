@@ -1162,7 +1162,17 @@ class LearningProfileUserByNameOperations(Resource):
         learning_profile_by_name = adm.get_learningprofile_user_by_name(name)
         return learning_profile_by_name
 
-
+@studifix.route('/matching/<int:id>')
+@studifix.response(500, 'when server has problems')
+class MatchingAlgorithmus(Resource):
+    def get(self, id):
+        adm = Administration()
+        matches = adm.get_matches_user(id, .5)
+        for entry in matches:
+            user_id = adm.get_user_id_by_learningprofile_id(entry)
+            user = adm.get_user_by_id(user_id)
+            print(user)
+        return matches
 """
 Nachdem wir nun sämtliche Resourcen definiert haben, die wir via REST bereitstellen möchten,
 müssen nun die App auch tatsächlich zu starten.

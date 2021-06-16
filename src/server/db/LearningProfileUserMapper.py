@@ -113,6 +113,28 @@ class LearningProfileUserMapper(Mapper):
 
         return result
 
+    def get_user_id_by_learningprofile_id(self, id):
+
+
+        cursor = self._cnx.cursor()
+        command = "SELECT user_id FROM learning_profile_user WHERE id LIKE '{}' ".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            result = tuples[0][0]
+
+        except IndexError:
+
+            """Falls kein LearningProfile User mit der angegebenen user_id gefunden werden konnte,
+                wird hier None als Rückgabewert deklariert"""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
     def find_by_name(self, name):
 
         result = None

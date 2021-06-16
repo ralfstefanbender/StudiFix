@@ -212,6 +212,10 @@ class Administration(object):
         with LearningProfileUserMapper() as mapper:
             mapper.update(learningprofile)
 
+    def get_user_id_by_learningprofile_id(self, id):
+        with LearningProfileUserMapper() as mapper:
+            return mapper.get_user_id_by_learningprofile_id(id)
+
 
     def delete_learningprofile_user(self, learningprofile):
         """Das gegebene LearningProfile user aus unserem System löschen."""

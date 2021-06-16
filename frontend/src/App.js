@@ -7,6 +7,7 @@ import { Container, CssBaseline } from '@material-ui/core';
 import ManageChat from './components/pages/ManageChat';
 import ManageStudyGroup from './components/pages/ManageStudyGroup';
 import UserProfile from './components/pages/UserProfile';
+import Matching_page from './components/pages/Matching_page';
 import About from './components/pages/About';
 import Overview from './components/pages/Overview';
 import UserGroups from './components/subcomponents/UserGroups';
@@ -131,6 +132,9 @@ class App extends Component {
 									<Route path='/lernpartner'>
 										<UserGroups />
 									</Route>
+									<Route path='/matching_page'>
+                                    	<Matching_page />
+                                    </Route>
 									<Route exact path='/about'>
 										<About />
 									</Route>

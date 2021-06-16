@@ -2,6 +2,7 @@ import React from 'react'
 import { makeStyles, Paper, Typography, Link } from '@material-ui/core';
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../theme";
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,14 +29,14 @@ function Matching_page() {
         </Typography>
           <br />
           <Typography>
-            <h4>Test Test</h4>
+          <Button variant="contained" color="primary">
+          Matches Suchen
+          </Button>
           </Typography>
-
-        </Typography>
         </div>
       </Paper>
     </ThemeProvider>
   )
 }
 
-export default About;
+export default Matching_page;
