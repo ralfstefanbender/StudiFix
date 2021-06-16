@@ -1168,11 +1168,18 @@ class MatchingAlgorithmus(Resource):
     def get(self, id):
         adm = Administration()
         matches = adm.get_matches_user(id, .5)
-        for entry in matches:
-            user_id = adm.get_user_id_by_learningprofile_id(entry)
+        result = []
+        for learningprofile_id in matches:
+            user_id = adm.get_user_id_by_learningprofile_id(learningprofile_id)
             user = adm.get_user_by_id(user_id)
-            print(user)
-        return matches
+            learningprofile = adm.get_learningprofile_user_by_id(learningprofile_id)
+            name = user.get_firstname() + " " + user.get_lastname()
+            semester = learningprofile.get_semester()
+            interest = learningprofile.get_interest()
+            matching_score = matches[learningprofile_id]
+            result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score})
+            print(result)
+        return result
 """
 Nachdem wir nun sämtliche Resourcen definiert haben, die wir via REST bereitstellen möchten,
 müssen nun die App auch tatsächlich zu starten.
