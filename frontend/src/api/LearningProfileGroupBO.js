@@ -1,4 +1,4 @@
-import LearningProfile from './LearningProfile';
+import LearningProfile from './LearningProfileBO';
 
 export default class LearningProfileBO extends LearningProfile  {
 

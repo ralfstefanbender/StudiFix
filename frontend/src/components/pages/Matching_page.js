@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles, Paper, Typography, Link } from '@material-ui/core';
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../theme";
 import { Button } from '@material-ui/core';
+import StudyFixAPI from '../../api/StudiFixAPI';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Matching_page() {
-
+  const [matches, setmatches] = useState(null);
   const classes = useStyles();
 
   return (
@@ -29,7 +30,7 @@ function Matching_page() {
         </Typography>
           <br />
           <Typography>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={()=>StudyFixAPI.getAPI().getMatchesUser(1).then(UserMatchBO => setmatches(UserMatchBO))}>
           Matches Suchen
           </Button>
           </Typography>

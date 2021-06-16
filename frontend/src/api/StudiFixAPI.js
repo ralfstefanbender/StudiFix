@@ -6,6 +6,7 @@ import LearningProfileUserBO from './LearningProfileUserBO';
 import LearningProfileGroupBO from './LearningProfileGroupBO';
 import StudyGroupBO from './StudyGroupBO';
 import UserBO from './UserBO';
+import UserMatchBO from './UserMatchBO';
 
 
 export default class StudyFixAPI {
@@ -17,7 +18,7 @@ export default class StudyFixAPI {
     #studyfixServerBaseURL ='/studyfix';
 
     //Chatinvitation related
-    #getAllChatInvitationsURL = () => `${this.#studifixServerBaseURL}/chatinvitation`;
+    #getAllChatInvitationsURL = () => `${this.#studyfixServerBaseURL}/chatinvitation`;
     #getChatInvitationURL = (id) => `${this.#studyfixServerBaseURL}/chatinvitation/${id}`;
     #addChatInvitationURL = () => `${this.#studyfixServerBaseURL}/chatinvitation`;
     #deleteChatInvitationURL = (id) => `${this.#studyfixServerBaseURL}/chatinvitation/${id}`;
@@ -32,7 +33,7 @@ export default class StudyFixAPI {
     #getChatInvitationAcceptedInvitesTargetURL = (target_user) => `${this.#studyfixServerBaseURL}/chatinvitation-accepted-invites-target/${target_user}`;
 
     //GroupInvitation
-    #getAllGroupInvitationsURL = () => `${this.#studifixServerBaseURL}/groupinvitation`;
+    #getAllGroupInvitationsURL = () => `${this.#studyfixServerBaseURL}/groupinvitation`;
     #getGroupInvitationURL = (id) => `${this.#studyfixServerBaseURL}/groupinvitation/${id}`;
     #addGroupInvitationURL = () => `${this.#studyfixServerBaseURL}/groupinvitation`;
     #deleteGroupInvitationURL = (id) => `${this.#studyfixServerBaseURL}/groupinvitation/${id}`;
@@ -48,7 +49,7 @@ export default class StudyFixAPI {
     #getGroupInvitationAcceptedInvitesTargetURL = (target_user) => `${this.#studyfixServerBaseURL}/groupinvitation-accepted-invites-target/${target_user}`;
 
     //User
-    #getAllUsersURL = () => `${this.#studifixServerBaseURL}/user`;
+    #getAllUsersURL = () => `${this.#studyfixServerBaseURL}/user`;
     #getUserByIdURL = (id) => `${this.#studyfixServerBaseURL}/user/${id}`;
     #addUserURL = () => `${this.#studyfixServerBaseURL}/user`;
     #deleteUserURL = (id) => `${this.#studyfixServerBaseURL}/user/${id}`;
@@ -60,7 +61,7 @@ export default class StudyFixAPI {
 
 
     //Studygroup
-    #getAllStudyGroupsURL = () => `${this.#studifixServerBaseURL}/studygroup`;
+    #getAllStudyGroupsURL = () => `${this.#studyfixServerBaseURL}/studygroup`;
     #getStudyGroupByIdURL = (id) => `${this.#studyfixServerBaseURL}/studygroup/${id}`;
     #addStudyGroupURL = () => `${this.#studyfixServerBaseURL}/studygroup`;
     #deleteStudyGroupURL = (id) => `${this.#studyfixServerBaseURL}/studygroup/${id}`;
@@ -68,7 +69,7 @@ export default class StudyFixAPI {
     #getStudyGroupByNameURL = (name) => `${this.#studyfixServerBaseURL}/studygroup/${name}`;
 
     //LearningProfileGroup
-    #getAllLearningProfileGroupsURL = () => `${this.#studifixServerBaseURL}/learningprofilegroup`;
+    #getAllLearningProfileGroupsURL = () => `${this.#studyfixServerBaseURL}/learningprofilegroup`;
     #getLearningProfileGroupByIdURL = (id) => `${this.#studyfixServerBaseURL}/learningprofilegroup/${id}`;
     #addLearningProfileGroupURL = () => `${this.#studyfixServerBaseURL}/learningprofilegroup`;
     #deleteLearningProfileGroupURL = (id) => `${this.#studyfixServerBaseURL}/learningprofilegroup/${id}`;
@@ -76,7 +77,7 @@ export default class StudyFixAPI {
     #getLearningProfileGroupByNameURL = (name) => `${this.#studyfixServerBaseURL}/learningprofilegroup-by-name/${name}`;
 
     //LearningProfileUser
-    #getAllLearningProfileUsersURL = () => `${this.#studifixServerBaseURL}/learningprofileuser`;
+    #getAllLearningProfileUsersURL = () => `${this.#studyfixServerBaseURL}/learningprofileuser`;
     #getLearningProfileUserByIdURL = (id) => `${this.#studyfixServerBaseURL}/learningprofileuser/${id}`;
     #addLearningProfileUserURL = () => `${this.#studyfixServerBaseURL}/learningprofileuser`;
     #deleteLearningProfileUserURL = (id) => `${this.#studyfixServerBaseURL}/learningprofileuser/${id}`;
@@ -84,7 +85,7 @@ export default class StudyFixAPI {
     #getLearningProfileUserByNameURL = (name) => `${this.#studyfixServerBaseURL}/learningprofileuser-by-name/${name}`;
 
     //Chatmessage
-    #getAllChatMessagesURL = () => `${this.#studifixServerBaseURL}/chatmessage`;
+    #getAllChatMessagesURL = () => `${this.#studyfixServerBaseURL}/chatmessage`;
     #getChatMessageByIdURL = (id) => `${this.#studyfixServerBaseURL}/chatmessage/${id}`;
     #addChatMessageURL = () => `${this.#studyfixServerBaseURL}/chatmessage`;
     #deleteChatMessageURL = (id) => `${this.#studyfixServerBaseURL}/chatmessage/${id}`;
@@ -93,12 +94,14 @@ export default class StudyFixAPI {
 
 
     //Chat
-    #getAllChatsURL = () => `${this.#studifixServerBaseURL}/chat`;
+    #getAllChatsURL = () => `${this.#studyfixServerBaseURL}/chat`;
     #getChatByIdURL = (id) => `${this.#studyfixServerBaseURL}/chat/${id}`;
     #addChatURL = () => `${this.#studyfixServerBaseURL}/chat`;
     #deleteChatURL = (id) => `${this.#studyfixServerBaseURL}/chat/${id}`;
     #updateChatURL = (id) => `${this.#studyfixServerBaseURL}/chat/${id}`;
 
+    //Matching
+    #getMatches = (id) => `${this.#studyfixServerBaseURL}/matching/${id}`;
 
     /**
    * Get the Singelton instance
@@ -400,7 +403,7 @@ export default class StudyFixAPI {
    * @public
    */
     updateStudyGroup(studygroup){
-        return this.#fetchAdvanced(this.#updateStudyeGroupURL(studygroup.getID()), {
+        return this.#fetchAdvanced(this.#updateStudyGroupURL(studygroup.getID()), {
             method: 'PUT',
             headers:{
             'Accept': 'application/json, text/plain',
@@ -805,7 +808,7 @@ export default class StudyFixAPI {
    * @param {learningprofileID} Learningprofile of the user to be retrieved
    * @public
    */
-    getUserByLearningProfileId(learningprofileID){
+    /**getUserByLearningProfileId(learningprofileID){
       return this.#fetchAdvanced(this.#getUserByLearningProfileIdURL(learningprofileID)).then((responseJSON) => {
         let userBOs = UserBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
@@ -813,7 +816,7 @@ export default class StudyFixAPI {
       })
     })
     }
-
+    */
 
 
     //Chtainvitation
@@ -1042,7 +1045,7 @@ export default class StudyFixAPI {
         return this.#fetchAdvanced(this.#getChatInvitationURL(groupinvitationID)).then((responseJSON) => {
             let responseChatInvitationBO = GroupInvitationBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
-              resolve(responseGroupInvitationBO);
+              resolve(responseChatInvitationBO);
             })
           })
     }
@@ -1206,7 +1209,7 @@ export default class StudyFixAPI {
     }
 
                   /**
-   * Returns a Promise, which resolves to a GroupInvitationBO
+   * Returns a Promise, which resolves to a GroupInvitationBO, pretty sus ngl
    * @param {suser} accepted source_user id of the project to be retrieved
    * @public
    */
@@ -1218,4 +1221,20 @@ export default class StudyFixAPI {
       })
     })
     }
+
+                    /**
+   * Returns a Promise, which resolves to a GroupInvitationBO
+   * @param {suser} accepted source_user id of the project to be retrieved
+   * @public
+   */
+    getMatchesUser(tuser){
+      return this.#fetchAdvanced(this.#getMatches(tuser)).then((responseJSON) => {
+        let matches = UserMatchBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+          resolve(matches);
+      })
+    })
+    }
   }
+
+  

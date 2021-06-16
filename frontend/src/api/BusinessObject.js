@@ -1,4 +1,4 @@
-import java.time.LocalDate;
+//import java.time.LocalDate;
 /**
  * Base class for all BusinessObjects, which has an ID field by default.
  */
@@ -9,7 +9,7 @@ export default class BusinessObject {
    */
   constructor() {
     this.id = 0;
-    this.creation_date=LocalDate.now();
+    //this.creation_date=LocalDate.now();
   }
 
    getDate(){

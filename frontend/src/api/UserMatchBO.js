@@ -1,20 +1,20 @@
 import BusinessObject from './BusinessObject';
 
 /**
- * Represents an groupinvitation.
+ * Represents a groupinvitation.
  */
-export default class GroupInvitationBO extends BusinessObject  {
+export default class UserMatchBO extends BusinessObject  {
 
   /**
    * Constructs a new ChatInvitationBO
    *
    */
-  constructor(aIsAccepted, aStudyGroupId, aSourceUser, aTargetUser) {
+  constructor(aName, aSemester, aInterest, aScore) {
     super();
-    this.is_accepted = aIsAccepted;
-    this.study_group_id = aStudyGroupId;
-    this.target_user = aTargetUser;
-    this.source_owner = aSourceUser;
+    this.name = aName;
+    this.semester = aSemester;
+    this.interest = aInterest;
+    this.score = aScore;
 
   }
 
@@ -22,8 +22,8 @@ export default class GroupInvitationBO extends BusinessObject  {
    * Sets the source owner of the groupinvitation .
    *
    */
-  setSourceOwner(aSourceOwner) {
-    this.source_owner = aSourceOwner;
+  setName(aName) {
+    this.name = aName;
   }
 
   /**
@@ -84,18 +84,18 @@ export default class GroupInvitationBO extends BusinessObject  {
   /**
    * Returns an Array of  chatinvitationBO from a given JSON structure
    */
-  static fromJSON(groupinvitations) {
+  static fromJSON(match) {
     let result = [];
 
-    if (Array.isArray(groupinvitations)) {
-      groupinvitations.forEach((a) => {
-        Object.setPrototypeOf(a, GroupInvitationBO.prototype);
+    if (Array.isArray(match)) {
+      match.forEach((a) => {
+        Object.setPrototypeOf(a, UserMatchBO.prototype);
         result.push(a);
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
-      let a = groupinvitations;
-      Object.setPrototypeOf(a, GroupInvitationBO.prototype);
+      let a = match;
+      Object.setPrototypeOf(a, UserMatchBO.prototype);
       result.push(a);
     }
 
