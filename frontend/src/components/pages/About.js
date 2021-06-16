@@ -40,6 +40,8 @@ function About() {
           React Frontend written by <Link href='https://github.com/FatihUenal'>Fatih Ünal</Link> <br />
           React Frontend written by <Link href='https://github.com/AyhanCoemert'>Ayhan Cömert</Link> <br />
           React Frontend written by <Link href='https://github.com/WilliKoljada'>Willi Koljada</Link> <br />
+          React Frontend written by <Link href='https://github.com/PatrickSinger99'>Patrick Singer</Link> <br />
+          React Frontend written by <Link href='https://github.com/ralfstefanbender'>Ralf Bender</Link> <br />
           </Typography>
           <br />
           <Typography>
