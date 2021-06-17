@@ -1,6 +1,6 @@
 import LearningProfile from './LearningProfileBO';
 
-export default class LearningProfileBO extends LearningProfile {
+export default class LearningProfileUserBO extends LearningProfile {
 
 
   /**

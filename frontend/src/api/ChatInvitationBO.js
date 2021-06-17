@@ -11,7 +11,7 @@ export default class ChatInvitationBO extends BusinessObject  {
    */
   constructor(aSourceUser, aTargetUser, aChatId, aIsAccepted) {
     super();
-    this.source_owner = aSourceOwner;
+    this.source_owner = aSourceUser;
     this.target_user = aTargetUser;
     this.chat_id = aChatId;
     this.is_accepted = aIsAccepted;
@@ -88,7 +88,7 @@ export default class ChatInvitationBO extends BusinessObject  {
 
     if (Array.isArray(chatinvitations)) {
       chatinvitations.forEach((a) => {
-        Object.setPrototypeOf(a, ChatInvitationtBO.prototype);
+        Object.setPrototypeOf(a, ChatInvitationBO.prototype);
         result.push(a);
       })
     } else {

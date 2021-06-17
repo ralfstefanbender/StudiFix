@@ -58,7 +58,10 @@ app = Flask(__name__)
 Instanzieren von Flask. Am Ende dieser Datei erfolgt dann erst der 'Start' von Flask.
 """
 
-CORS(app, resources=r'/studyFix/*')
+CORS(app, resources=r'/studyfix/*')
+
+
+
 """
 Alle Ressourcen mit dem Präfix /studyfix für **Cross-Origin Resource Sharing** (CORS) freigeben.
 Diese eine Zeile setzt die Installation des Package flask-cors voraus. 
@@ -78,7 +81,8 @@ von Namespace könnte etwa sein, unterschiedliche API-Version voneinander zu tre
 Abwärtskompatibilität (vgl. Lehrveranstaltungen zu Software Engineering) zu gewährleisten. Dies ließe
 sich z.B. umsetzen durch /bank/v1, /bank/v2 usw."""
 
-studyfix = api.namespace('studyFix', description='Funktionen des studyFix')
+studyfix = api.namespace('studyfix', description='Funktionen des studyFix')
+
 
 
 bo = api.model('BusinessObject', {

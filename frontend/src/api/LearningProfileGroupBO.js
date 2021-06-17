@@ -1,6 +1,6 @@
 import LearningProfile from './LearningProfileBO';
 
-export default class LearningProfileBO extends LearningProfile  {
+export default class LearningProfileGroupBO extends LearningProfile  {
 
   /**
    * Constructs a new LearningProfilenBO

@@ -3,7 +3,7 @@ import { makeStyles, Paper, Typography, Link } from '@material-ui/core';
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../theme";
 import { Button } from '@material-ui/core';
-import StudyFixAPI from '../../api/StudiFixAPI';
+import StudyFixAPI from '../../api/StudyFixAPI';
 
 const useStyles = makeStyles(theme => ({
   root: {

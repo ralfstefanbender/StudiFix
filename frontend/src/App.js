@@ -115,6 +115,7 @@ class App extends Component {
 						{
 							// Is a user signed in?
 							currentUser ?
+
                                 <>
 								    <Redirect from='/' to='user' />
 								    <Route exact path='/overview'>
@@ -126,7 +127,7 @@ class App extends Component {
 									<Route path='/chat'>
 										<ManageChat />
 									</Route>
-									<Route path='/lerngruppen'>
+									<Route path='/studygroup'>
 										<ManageStudyGroup />
 									</Route>
 									<Route path='/lernpartner'>

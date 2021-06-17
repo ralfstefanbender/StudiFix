@@ -9,9 +9,7 @@ export default class ChatBO extends NamedBusinessObject  {
    * Constructs a new ChatBO
    *
    */
-  constructor() {
-    super();
-  }
+
 
 
   /**
