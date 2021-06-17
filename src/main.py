@@ -1184,6 +1184,28 @@ class MatchingAlgorithmus(Resource):
             result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score})
             print(result)
         return result
+
+
+@studyfix.route('/groupmatching/<int:id>')
+@studyfix.response(500, 'when server has problems')
+class GroupMatchingAlgorithmus(Resource):
+    def get(self, id):
+        adm = Administration()
+        matches = adm.get_matches_group(id, .5)
+        result = []
+        for learningprofile_id in matches:
+            group_id = adm.get_studygroup_by_learning_profile_id(learningprofile_id)
+            group = adm.get_studygroup_by_id(group_id)
+            grouplearningprofile = adm.get_learningprofile_group_by_id(learningprofile_id)
+            name = group.get_name()
+            semester = grouplearningprofile.get_semester()
+            interest = grouplearningprofile.get_interest()
+            matching_score = matches[learningprofile_id]
+            result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score})
+            print(result)
+        return result
+
+
 """
 Nachdem wir nun sämtliche Resourcen definiert haben, die wir via REST bereitstellen möchten,
 müssen nun die App auch tatsächlich zu starten.
