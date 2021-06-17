@@ -6,7 +6,7 @@ import NamedBusinessObject from './NamedBusinessObject';
 export default class LearningProfileBO extends NamedBusinessObject  {
 
   /**
-   * Constructs a new LearningProfilenBO
+   * Constructs a new LearningProfileBO
    *
    */
   constructor(aPrevKnowledge, aExtroversion, aStudyState, aFrequency, aLearntyp, aSemester, aInterest, aDegreeCourse) {

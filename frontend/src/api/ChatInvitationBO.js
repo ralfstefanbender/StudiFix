@@ -93,7 +93,7 @@ export default class ChatInvitationBO extends BusinessObject  {
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
-      let a = chatinvitation;
+      let a = chatinvitations;
       Object.setPrototypeOf(a, ChatInvitationBO.prototype);
       result.push(a);
     }

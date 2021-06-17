@@ -2,7 +2,7 @@
 * Reexports the Bussines Objects for a well-encaspulated Api module. 
 */
 
-export {default as StudiFixAPI} from './StudiFixAPI';
+export {default as StudyFixAPI} from './StudyFixAPI';
 export {default as ChatBO} from './ChatBO';
 export {default as ChatInvitationBO} from './ChatInvitationBO'
 export {default as ChatMessageBO} from './ChatMessageBO';

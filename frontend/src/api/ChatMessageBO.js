@@ -78,7 +78,7 @@ export default class ChatMessageBO extends BusinessObject  {
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
-      let a = chatmessage;
+      let a = chatmessages;
       Object.setPrototypeOf(a, ChatMessageBO.prototype);
       result.push(a);
     }

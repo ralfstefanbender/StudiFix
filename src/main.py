@@ -38,7 +38,7 @@ B. Konventionen für dieses Module:
                                 weiter differenzierenden Statusmeldungen wie etwa
                                 '204 No Content' für erfolgreiche requests, die
                                 außer evtl. im Header keine weiteren Daten zurückliefern,
-                                wird in dieser Fallstudie auch aus Gründen einer
+                                wird in dieser Fallstudye auch aus Gründen einer
                                 möglichst einfachen Umsetzung verzichtet.
         401 Unauthorized :      falls der User sich nicht gegenüber dem System
                                 authentisiert hat und daher keinen Zugriff erhält.
@@ -58,9 +58,9 @@ app = Flask(__name__)
 Instanzieren von Flask. Am Ende dieser Datei erfolgt dann erst der 'Start' von Flask.
 """
 
-CORS(app, resources=r'/StudiFix/*')
+CORS(app, resources=r'/studyFix/*')
 """
-Alle Ressourcen mit dem Präfix /studifix für **Cross-Origin Resource Sharing** (CORS) freigeben.
+Alle Ressourcen mit dem Präfix /studyfix für **Cross-Origin Resource Sharing** (CORS) freigeben.
 Diese eine Zeile setzt die Installation des Package flask-cors voraus. 
 """
 
@@ -68,17 +68,17 @@ Diese eine Zeile setzt die Installation des Package flask-cors voraus.
 In dem folgenden Abschnitt bauen wir ein Modell auf, das die Datenstruktur beschreibt, 
 auf deren Basis Clients und Server Daten austauschen. Grundlage hierfür ist das Package flask-restx.
 """
-api = Api(app, version='1.0', title='StudiFix API',
+api = Api(app, version='1.0', title='studyFix API',
           description='Eine App zum auffinden von Lernpartnern und Lerngruppen.')
 
 """Anlegen eines Namespace
 Namespaces erlauben uns die Strukturierung von APIs. In diesem Fall fasst dieser Namespace alle
-StudiFix-relevanten Operationen unter dem Präfix /bank zusammen. Eine alternative bzw. ergänzende Nutzung
+studyFix-relevanten Operationen unter dem Präfix /bank zusammen. Eine alternative bzw. ergänzende Nutzung
 von Namespace könnte etwa sein, unterschiedliche API-Version voneinander zu trennen, um etwa 
 Abwärtskompatibilität (vgl. Lehrveranstaltungen zu Software Engineering) zu gewährleisten. Dies ließe
 sich z.B. umsetzen durch /bank/v1, /bank/v2 usw."""
 
-studifix = api.namespace('StudiFix', description='Funktionen des StudiFix')
+studyfix = api.namespace('studyFix', description='Funktionen des studyFix')
 
 
 bo = api.model('BusinessObject', {
@@ -124,7 +124,7 @@ learningprofile = api.inherit('LearningProfile', nbo, {
     'learntyp': fields.Integer(attribute='_learntyp', description='Learntyp des Profilinhabers'),
     'semester': fields.Integer(attribute='_semester', description='Semester'),
     'interest': fields.String(attribute='_interest', description='Interessen des Profilinhabers'),
-    'degree_course': fields.String(attribute='_degree_course', description='Studiengang')
+    'degree_course': fields.String(attribute='_degree_course', description='studyengang')
 })
 
 learningprofilegroup = api.inherit('LearningProfileGroup', learningprofile, {
@@ -151,20 +151,20 @@ user = api.inherit('User', bo, {
 # -----User-----
 
 
-@studifix.route('/user')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/user')
+@studyfix.response(500, 'when server has problems')
 class UserListOperations(Resource):
     """Reading out all user objects.
     If no user objects are available, an empty sequence is returned."""
 
-    @studifix.marshal_list_with(user)
+    @studyfix.marshal_list_with(user)
     def get(self):
         adm = Administration()
         users = adm.get_all_users()
         return users
 
-    @studifix.marshal_with(user, code=200)
-    @studifix.expect(user)  # We expect a user object from the client side.
+    @studyfix.marshal_with(user, code=200)
+    @studyfix.expect(user)  # We expect a user object from the client side.
     def post(self):
         """Create a new user object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -187,10 +187,10 @@ class UserListOperations(Resource):
             return '', 500
 
 
-@studifix.route('/user/<int:id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/user/<int:id>')
+@studyfix.response(500, 'when server has problems')
 class UserOperations(Resource):
-    @studifix.marshal_with(user)
+    @studyfix.marshal_with(user)
     def get(self, id):
         """reading out a specific userobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -198,8 +198,8 @@ class UserOperations(Resource):
         single_user = adm.get_user_by_id(id)
         return single_user
 
-    @studifix.marshal_with(user)
-    @studifix.expect(user, validate=True)  # We expect a user object from the client side.
+    @studyfix.marshal_with(user)
+    @studyfix.expect(user, validate=True)  # We expect a user object from the client side.
     def put(self, id):
         """ Update of a specific user object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -227,10 +227,10 @@ class UserOperations(Resource):
         return '', 200
 
 
-@studifix.route('/user-by-lastname/<string:lastname>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/user-by-lastname/<string:lastname>')
+@studyfix.response(500, 'when server has problems')
 class UserNameOperations(Resource):
-    @studifix.marshal_list_with(user)
+    @studyfix.marshal_list_with(user)
     def get(self, lastname):
         """Reading out user objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -239,10 +239,10 @@ class UserNameOperations(Resource):
         return user
 
 
-@studifix.route('/user-by-firstname/<string:firstname>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/user-by-firstname/<string:firstname>')
+@studyfix.response(500, 'when server has problems')
 class UserFirstNameOperations(Resource):
-    @studifix.marshal_with(user)
+    @studyfix.marshal_with(user)
     def get(self, firstname):
         """Reading out user objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -251,10 +251,10 @@ class UserFirstNameOperations(Resource):
         return user
 
 
-@studifix.route('/user-by-mail/<string:email>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/user-by-mail/<string:email>')
+@studyfix.response(500, 'when server has problems')
 class UserMailOperations(Resource):
-    @studifix.marshal_list_with(user)
+    @studyfix.marshal_list_with(user)
     def get(self, email):
         """Reading out user objects that are determined by the E-Mail.
         The objects to be read out are determined by '' mail '' in the URI."""
@@ -263,10 +263,10 @@ class UserMailOperations(Resource):
         return users
 
 
-@studifix.route('/user-by-google-id/<string:google_id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/user-by-google-id/<string:google_id>')
+@studyfix.response(500, 'when server has problems')
 class UserGoogleOperations(Resource):
-    @studifix.marshal_with(user)
+    @studyfix.marshal_with(user)
     def get(self, google_id):
         """Reading out user objects that are determined by the google id.
         The objects to be read out are determined by '' google_id '' in the URI."""
@@ -275,10 +275,10 @@ class UserGoogleOperations(Resource):
         return users
 
 
-@studifix.route('/user-by-learning-profile-id/<int:learning_profile_id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/user-by-learning-profile-id/<int:learning_profile_id>')
+@studyfix.response(500, 'when server has problems')
 class UserGoogleOperations(Resource):
-    @studifix.marshal_with(user)
+    @studyfix.marshal_with(user)
     def get(self, learning_profile_id):
         """Reading out user objects that are determined by the google id.
         The objects to be read out are determined by '' google_id '' in the URI."""
@@ -290,20 +290,20 @@ class UserGoogleOperations(Resource):
 # ----ChatInvitation-----
 
 
-@studifix.route('/chatinvitation')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatinvitation')
+@studyfix.response(500, 'when server has problems')
 class ChatInvitationListOperations(Resource):
     """Reading out all chatinvitation objects.
     If no user objects are available, an empty sequence is returned."""
 
-    @studifix.marshal_list_with(chatinvitation)
+    @studyfix.marshal_list_with(chatinvitation)
     def get(self):
         adm = Administration()
         chatinvitations = adm.get_all_chatinvitations()
         return chatinvitations
 
-    @studifix.marshal_with(chatinvitation, code=200)
-    @studifix.expect(chatinvitation)  # We expect a user object from the client side.
+    @studyfix.marshal_with(chatinvitation, code=200)
+    @studyfix.expect(chatinvitation)  # We expect a user object from the client side.
     def post(self):
         """Create a new Chatinvitation object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -326,10 +326,10 @@ class ChatInvitationListOperations(Resource):
             return '', 500
 
 
-@studifix.route('/chatinvitation/<int:id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatinvitation/<int:id>')
+@studyfix.response(500, 'when server has problems')
 class ChatInvitationOperations(Resource):
-    @studifix.marshal_with(chatinvitation)
+    @studyfix.marshal_with(chatinvitation)
     def get(self, id):
         """reading out a specific chatinvitation object.
            The object to be read is determined by the '' id '' in the URI."""
@@ -351,8 +351,8 @@ class ChatInvitationOperations(Resource):
 
 
 
-    @studifix.marshal_with(chatinvitation)
-    @studifix.expect(chatinvitation, validate=True)  # We expect a user object from the client side.
+    @studyfix.marshal_with(chatinvitation)
+    @studyfix.expect(chatinvitation, validate=True)  # We expect a user object from the client side.
     def put(self, id):
         """ Update of a specific chatinvitation object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -372,10 +372,10 @@ class ChatInvitationOperations(Resource):
             return '', 500
 
 
-@studifix.route('/chatinvitation-by-target-user/<int:target_user>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatinvitation-by-target-user/<int:target_user>')
+@studyfix.response(500, 'when server has problems')
 class ChatInvitationByTargetOperations(Resource):
-    @studifix.marshal_list_with(chatinvitation)
+    @studyfix.marshal_list_with(chatinvitation)
     def get(self, target_user):
         """Reading out chatinvitation objects that are determined by the target user.
         The objects to be read out are determined by '' target_user'' in the URI."""
@@ -384,10 +384,10 @@ class ChatInvitationByTargetOperations(Resource):
         return chatinvitation_target_user
 
 
-@studifix.route('/chatinvitation-by-source-user/<int:source_user>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatinvitation-by-source-user/<int:source_user>')
+@studyfix.response(500, 'when server has problems')
 class ChatInvitationBySourceOperations(Resource):
-    @studifix.marshal_list_with(chatinvitation)
+    @studyfix.marshal_list_with(chatinvitation)
     def get(self, source_user):
         """Reading out chatinvitation objects that are determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
@@ -396,10 +396,10 @@ class ChatInvitationBySourceOperations(Resource):
         return chatinvitation_source_user
 
 
-@studifix.route('/chatinvitation-accepted-by-chat/<int:chat_id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatinvitation-accepted-by-chat/<int:chat_id>')
+@studyfix.response(500, 'when server has problems')
 class ChatInvitationsAcceptedOperations(Resource):
-    @studifix.marshal_list_with(chatinvitation)
+    @studyfix.marshal_list_with(chatinvitation)
     def get(self, chat_id):
         """Reading out chatinvitations from the CHAT that are determined by the accepted Chatinvitations.
         The objects to be read out are determined by '' chat_id '' in the URI."""
@@ -408,10 +408,10 @@ class ChatInvitationsAcceptedOperations(Resource):
         return chatinvitation_is_accepted
 
 
-@studifix.route('/chatinvitation-pend-invites')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatinvitation-pend-invites')
+@studyfix.response(500, 'when server has problems')
 class ChatInvitationsPendInvitesOperations(Resource):
-    @studifix.marshal_list_with(chatinvitation)
+    @studyfix.marshal_list_with(chatinvitation)
     def get(self):
         """Reading out all chatinvitation objects that are still pending."""
         adm = Administration()
@@ -419,10 +419,10 @@ class ChatInvitationsPendInvitesOperations(Resource):
         return chatinvitation_pend_invites
 
 
-@studifix.route('/chatinvitation-pend-invites-target/<int:target_user>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatinvitation-pend-invites-target/<int:target_user>')
+@studyfix.response(500, 'when server has problems')
 class ChatInvitationsPendInvitesByTargetUserOperations(Resource):
-    @studifix.marshal_list_with(chatinvitation)
+    @studyfix.marshal_list_with(chatinvitation)
     def get(self, target_user):
         """Reading out chatinvitations objects that are pending determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
@@ -431,10 +431,10 @@ class ChatInvitationsPendInvitesByTargetUserOperations(Resource):
         return chatinvitation_pend_invites_target_user
 
 
-@studifix.route('/chatinvitation-pend-invites-source/<int:source_user>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatinvitation-pend-invites-source/<int:source_user>')
+@studyfix.response(500, 'when server has problems')
 class ChatInvitationsPendInvitesBySourceUserOperations(Resource):
-    @studifix.marshal_list_with(chatinvitation)
+    @studyfix.marshal_list_with(chatinvitation)
     def get(self, source_user):
         """Reading out chatinvitations objects that are pending determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
@@ -443,10 +443,10 @@ class ChatInvitationsPendInvitesBySourceUserOperations(Resource):
         return chatinvitation_pend_invites_source_user
 
 
-@studifix.route('/chatinvitation-accepted-invites-source/<int:source_user>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatinvitation-accepted-invites-source/<int:source_user>')
+@studyfix.response(500, 'when server has problems')
 class ChatInvitationsAcceptedInvitesBySourceUserOperations(Resource):
-    @studifix.marshal_list_with(chatinvitation)
+    @studyfix.marshal_list_with(chatinvitation)
     def get(self, source_user):
         """Reading out chatinvitations objects that are accepted determined by the source_user.
         The objects to be read out are determined by '' source_user '' in the URI."""
@@ -455,10 +455,10 @@ class ChatInvitationsAcceptedInvitesBySourceUserOperations(Resource):
         return chatinvitation_accepted_invites_source_user
 
 
-@studifix.route('/chatinvitation-accepted-invites-target/<int:target_user>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatinvitation-accepted-invites-target/<int:target_user>')
+@studyfix.response(500, 'when server has problems')
 class ChatInvitationsAcceptedInvitesByTargetUserOperations(Resource):
-    @studifix.marshal_list_with(chatinvitation)
+    @studyfix.marshal_list_with(chatinvitation)
     def get(self, target_user):
         """Reading out chatinvitations objects that are accepted determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
@@ -471,20 +471,20 @@ class ChatInvitationsAcceptedInvitesByTargetUserOperations(Resource):
 # ---------Chatmessage--------
 
 
-@studifix.route('/chatmessage')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatmessage')
+@studyfix.response(500, 'when server has problems')
 class ChatMessageListOperations(Resource):
     """Reading out all chatmessage objects.
     If no user objects are available, an empty sequence is returned."""
 
-    @studifix.marshal_list_with(chatmessage)
+    @studyfix.marshal_list_with(chatmessage)
     def get(self):
         adm = Administration()
         chatmessages = adm.get_all_chatmessages()
         return chatmessages
 
-    @studifix.marshal_with(chatmessage, code=200)
-    @studifix.expect(chatmessage)  # We expect a user object from the client side.
+    @studyfix.marshal_with(chatmessage, code=200)
+    @studyfix.expect(chatmessage)  # We expect a user object from the client side.
     def post(self):
         """Create a new chatmessage object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -506,10 +506,10 @@ class ChatMessageListOperations(Resource):
             return '', 500
 
 
-@studifix.route('/chatmessage/<int:id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatmessage/<int:id>')
+@studyfix.response(500, 'when server has problems')
 class ChatMessageOperations(Resource):
-    @studifix.marshal_with(chatmessage)
+    @studyfix.marshal_with(chatmessage)
     def get(self, id):
         """reading out a specific chatmessageobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -517,8 +517,8 @@ class ChatMessageOperations(Resource):
         single_chatmessage = adm.get_chatmessage_by_id(id)
         return single_chatmessage
 
-    @studifix.marshal_with(chatmessage)
-    @studifix.expect(chatmessage, validate=True)  # We expect a chatmessage object from the client side.
+    @studyfix.marshal_with(chatmessage)
+    @studyfix.expect(chatmessage, validate=True)  # We expect a chatmessage object from the client side.
     def put(self, id):
         """ Update of a specific chatmessage object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -546,10 +546,10 @@ class ChatMessageOperations(Resource):
         return '', 200
 
 
-@studifix.route('/chatmessage-chat-id/<int:chat_id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chatmessage-chat-id/<int:chat_id>')
+@studyfix.response(500, 'when server has problems')
 class ChatMessageOperations(Resource):
-    @studifix.marshal_list_with(chatmessage)
+    @studyfix.marshal_list_with(chatmessage)
     def get(self, chat_id):
         """reading out a chatmessageobject by chat_id.
            The object to be read is determined by the '' chat_id '' in the URI."""
@@ -561,21 +561,21 @@ class ChatMessageOperations(Resource):
 # -------Chat-------
 
 
-@studifix.route('/chat')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chat')
+@studyfix.response(500, 'when server has problems')
 class ChatListOperations(Resource):
     """Reading out all chat objects.
     If no user objects are available, an empty sequence is returned."""
 
-    @studifix.marshal_list_with(chat)
+    @studyfix.marshal_list_with(chat)
     def get(self):
         adm = Administration()
         chats = adm.get_all_chats()
         return chats
 
 
-    @studifix.marshal_with(chat, code=200)
-    @studifix.expect(chat)  # We expect a user object from the client side.
+    @studyfix.marshal_with(chat, code=200)
+    @studyfix.expect(chat)  # We expect a user object from the client side.
     def post(self):
         """Create a new Chat object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -596,10 +596,10 @@ class ChatListOperations(Resource):
             return '', 500
 
 
-@studifix.route('/chat/<int:id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/chat/<int:id>')
+@studyfix.response(500, 'when server has problems')
 class ChatOperations(Resource):
-    @studifix.marshal_with(chat)
+    @studyfix.marshal_with(chat)
     def get(self, id):
         """reading out a specific chatobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -620,8 +620,8 @@ class ChatOperations(Resource):
         else:
             return '', 500
 
-    @studifix.marshal_with(chat)
-    @studifix.expect(chat, validate=True)  # We expect a user object from the client side.
+    @studyfix.marshal_with(chat)
+    @studyfix.expect(chat, validate=True)  # We expect a user object from the client side.
     def put(self, id):
         """ Update of a specific chat object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -647,20 +647,20 @@ class ChatOperations(Resource):
 
 
 
-@studifix.route('/groupinvitation')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/groupinvitation')
+@studyfix.response(500, 'when server has problems')
 class GroupInvitationListOperations(Resource):
     """Reading out all groupinvitation objects.
     If no user objects are available, an empty sequence is returned."""
 
-    @studifix.marshal_list_with(groupinvitation)
+    @studyfix.marshal_list_with(groupinvitation)
     def get(self):
         adm = Administration()
         groupinvitations = adm.get_all_groupinvitations()
         return groupinvitations
 
-    @studifix.marshal_with(groupinvitation, code=200)
-    @studifix.expect(groupinvitation)  # We expect a user object from the client side.
+    @studyfix.marshal_with(groupinvitation, code=200)
+    @studyfix.expect(groupinvitation)  # We expect a user object from the client side.
     def post(self):
         """Create a new groupinvitation object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -684,10 +684,10 @@ class GroupInvitationListOperations(Resource):
             return '', 500
 
 
-@studifix.route('/groupinvitation/<int:id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/groupinvitation/<int:id>')
+@studyfix.response(500, 'when server has problems')
 class GroupInvitationOperations(Resource):
-    @studifix.marshal_with(groupinvitation)
+    @studyfix.marshal_with(groupinvitation)
     def get(self, id):
         """reading out a specific groupinvitationobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -695,8 +695,8 @@ class GroupInvitationOperations(Resource):
         single_groupinvitation = adm.get_groupinvitation_by_id(id)
         return single_groupinvitation
 
-    @studifix.marshal_with(groupinvitation)
-    @studifix.expect(groupinvitation, validate=True)  # We expect a user object from the client side.
+    @studyfix.marshal_with(groupinvitation)
+    @studyfix.expect(groupinvitation, validate=True)  # We expect a user object from the client side.
     def put(self, id):
         """ Update of a specific groupinvitation object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -724,10 +724,10 @@ class GroupInvitationOperations(Resource):
         return '', 200
 
 
-@studifix.route('/groupinvitation-by-study-group/<int:study_group_id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/groupinvitation-by-study-group/<int:study_group_id>')
+@studyfix.response(500, 'when server has problems')
 class GroupinvitationByTargetOperations(Resource):
-    @studifix.marshal_list_with(groupinvitation)
+    @studyfix.marshal_list_with(groupinvitation)
     def get(self, study_group_id):
         """Reading out groupinvitation objects that are determined by the study_group_id.
         The objects to be read out are determined by '' target_user'' in the URI."""
@@ -736,10 +736,10 @@ class GroupinvitationByTargetOperations(Resource):
         return groupinvitation_by_study_group
 
 
-@studifix.route('/groupinvitation-by-target-user/<int:target_user>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/groupinvitation-by-target-user/<int:target_user>')
+@studyfix.response(500, 'when server has problems')
 class GroupInvitationByTargetOperations(Resource):
-    @studifix.marshal_list_with(groupinvitation)
+    @studyfix.marshal_list_with(groupinvitation)
     def get(self, target_user):
         """Reading out groupinvitation objects that are determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
@@ -748,10 +748,10 @@ class GroupInvitationByTargetOperations(Resource):
         return groupinvitation_target_user
 
 
-@studifix.route('/groupinvitation-by-source-user/<int:source_user>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/groupinvitation-by-source-user/<int:source_user>')
+@studyfix.response(500, 'when server has problems')
 class GroupInvitationBySourceOperations(Resource):
-    @studifix.marshal_list_with(groupinvitation)
+    @studyfix.marshal_list_with(groupinvitation)
     def get(self, source_user):
         """Reading out groupinvitation objects that are determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
@@ -760,10 +760,10 @@ class GroupInvitationBySourceOperations(Resource):
         return groupinvitation_source_user
 
 
-@studifix.route('/groupinvitation-pend-invites/<int:study_group_id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/groupinvitation-pend-invites/<int:study_group_id>')
+@studyfix.response(500, 'when server has problems')
 class GroupInvitationsPendInvitesByStudyGroupOperations(Resource):
-    @studifix.marshal_list_with(groupinvitation)
+    @studyfix.marshal_list_with(groupinvitation)
     def get(self, study_group_id):
         """Reading out all groupinvitation objects that are still pending by the study_group_id."""
         adm = Administration()
@@ -772,10 +772,10 @@ class GroupInvitationsPendInvitesByStudyGroupOperations(Resource):
         return groupinvitation_pend_invites_by_study_group
 
 
-@studifix.route('/groupinvitation-accepted-by-study-group/<int:study_group_id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/groupinvitation-accepted-by-study-group/<int:study_group_id>')
+@studyfix.response(500, 'when server has problems')
 class GroupInvitationsAcceptedByStudyGroupOperations(Resource):
-    @studifix.marshal_list_with(groupinvitation)
+    @studyfix.marshal_list_with(groupinvitation)
     def get(self, study_group_id):
         """Reading out chatinvitations from the CHAT that are determined by the accepted Chatinvitations.
         The objects to be read out are determined by '' chat_id '' in the URI."""
@@ -784,10 +784,10 @@ class GroupInvitationsAcceptedByStudyGroupOperations(Resource):
         return groupinvitation_is_accepted_by_study_group
 
 
-@studifix.route('/groupinvitation-pend-invites-target/<int:target_user>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/groupinvitation-pend-invites-target/<int:target_user>')
+@studyfix.response(500, 'when server has problems')
 class GroupInvitationsPendInvitesByTargetUserOperations(Resource):
-    @studifix.marshal_list_with(groupinvitation)
+    @studyfix.marshal_list_with(groupinvitation)
     def get(self, target_user):
         """Reading out groupinvitations objects that are pending determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
@@ -796,10 +796,10 @@ class GroupInvitationsPendInvitesByTargetUserOperations(Resource):
         return groupinvitation_pend_invites_target_user
 
 
-@studifix.route('/groupinvitation-pend-invites-source/<int:source_user>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/groupinvitation-pend-invites-source/<int:source_user>')
+@studyfix.response(500, 'when server has problems')
 class GroupInvitationsPendInvitesBySourceUserOperations(Resource):
-    @studifix.marshal_list_with(groupinvitation)
+    @studyfix.marshal_list_with(groupinvitation)
     def get(self, source_user):
         """Reading out chatinvitations objects that are pending determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
@@ -808,10 +808,10 @@ class GroupInvitationsPendInvitesBySourceUserOperations(Resource):
         return groupinvitation_pend_invites_source_user
 
 
-@studifix.route('/groupinvitation-accepted-invites-source/<int:source_user>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/groupinvitation-accepted-invites-source/<int:source_user>')
+@studyfix.response(500, 'when server has problems')
 class GroupInvitationsAcceptedInvitesBySourceUserOperations(Resource):
-    @studifix.marshal_list_with(groupinvitation)
+    @studyfix.marshal_list_with(groupinvitation)
     def get(self, source_user):
         """Reading out groupinvitations objects that are accepted determined by the source_user.
         The objects to be read out are determined by '' source_user '' in the URI."""
@@ -820,10 +820,10 @@ class GroupInvitationsAcceptedInvitesBySourceUserOperations(Resource):
         return groupinvitation_accepted_invites_source_user
 
 
-@studifix.route('/groupinvitation-accepted-invites-target/<int:target_user>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/groupinvitation-accepted-invites-target/<int:target_user>')
+@studyfix.response(500, 'when server has problems')
 class GroupInvitationsAcceptedInvitesByTargetUserOperations(Resource):
-    @studifix.marshal_list_with(groupinvitation)
+    @studyfix.marshal_list_with(groupinvitation)
     def get(self, target_user):
         """Reading out groupinvitations objects that are accepted determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
@@ -832,10 +832,10 @@ class GroupInvitationsAcceptedInvitesByTargetUserOperations(Resource):
         return groupinvitation_accepted_invites_target_user
 
 
-@studifix.route('/groupinvitation-pend-invites')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/groupinvitation-pend-invites')
+@studyfix.response(500, 'when server has problems')
 class GroupInvitationsPendInvitesOperations(Resource):
-    @studifix.marshal_list_with(groupinvitation)
+    @studyfix.marshal_list_with(groupinvitation)
     def get(self):
         """Reading out all groupinvitation objects that are still pending."""
         adm = Administration()
@@ -847,20 +847,20 @@ class GroupInvitationsPendInvitesOperations(Resource):
 # -----StudyGroup---------
 
 
-@studifix.route('/studygroup')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/studygroup')
+@studyfix.response(500, 'when server has problems')
 class StudyGroupListOperations(Resource):
     """Reading out all studygroup objects.
     If no user objects are available, an empty sequence is returned."""
 
-    @studifix.marshal_list_with(studygroup)
+    @studyfix.marshal_list_with(studygroup)
     def get(self):
         adm = Administration()
         studygroups = adm.get_all_studygroups()
         return studygroups
 
-    @studifix.marshal_with(studygroup, code=200)
-    @studifix.expect(studygroup)  # We expect a user object from the client side.
+    @studyfix.marshal_with(studygroup, code=200)
+    @studyfix.expect(studygroup)  # We expect a user object from the client side.
     def post(self):
         """Create a new studygroup object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -882,10 +882,10 @@ class StudyGroupListOperations(Resource):
             return '', 500
 
 
-@studifix.route('/studygroup/<int:id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/studygroup/<int:id>')
+@studyfix.response(500, 'when server has problems')
 class StudyGroupOperations(Resource):
-    @studifix.marshal_with(studygroup)
+    @studyfix.marshal_with(studygroup)
     def get(self, id):
         """reading out a specific studygroupobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -908,8 +908,8 @@ class StudyGroupOperations(Resource):
             return '', 500
 
 
-    @studifix.marshal_with(studygroup)
-    @studifix.expect(studygroup, validate=True)  # We expect a user object from the client side.
+    @studyfix.marshal_with(studygroup)
+    @studyfix.expect(studygroup, validate=True)  # We expect a user object from the client side.
     def put(self, id):
         """ Update of a specific studygroup object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -930,10 +930,10 @@ class StudyGroupOperations(Resource):
 
 
 
-@studifix.route('/studygroup/<string:name>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/studygroup/<string:name>')
+@studyfix.response(500, 'when server has problems')
 class StudyGroupOperations(Resource):
-    @studifix.marshal_with(studygroup)
+    @studyfix.marshal_with(studygroup)
     def get(self, name):
         """Reading out studygroup objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -942,10 +942,10 @@ class StudyGroupOperations(Resource):
         return studygroup
 
 
-@studifix.route('/studygroup-by-learning-profile/<int:learning_profile_id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/studygroup-by-learning-profile/<int:learning_profile_id>')
+@studyfix.response(500, 'when server has problems')
 class StudyGroupLearningProfileOperations(Resource):
-    @studifix.marshal_with(studygroup)
+    @studyfix.marshal_with(studygroup)
     def get(self, learning_profile_id):
         """Reading out studygroup objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -959,20 +959,20 @@ class StudyGroupLearningProfileOperations(Resource):
 
 
 
-@studifix.route('/learningprofilegroup')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/learningprofilegroup')
+@studyfix.response(500, 'when server has problems')
 class LearningProfileGroupListOperations(Resource):
     """Reading out all learninprofile group objects.
     If no user objects are available, an empty sequence is returned."""
 
-    @studifix.marshal_list_with(learningprofilegroup)
+    @studyfix.marshal_list_with(learningprofilegroup)
     def get(self):
         adm = Administration()
         learningprofiles = adm.get_all_learningprofiles_group()
         return learningprofiles
 
-    @studifix.marshal_with(learningprofilegroup, code=200)
-    @studifix.expect(learningprofilegroup)  # We expect a user object from the client side.
+    @studyfix.marshal_with(learningprofilegroup, code=200)
+    @studyfix.expect(learningprofilegroup)  # We expect a user object from the client side.
     def post(self):
         """Create a new learningprofile group object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -1003,10 +1003,10 @@ class LearningProfileGroupListOperations(Resource):
             return '', 500
 
 
-@studifix.route('/learningprofilegroup/<int:id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/learningprofilegroup/<int:id>')
+@studyfix.response(500, 'when server has problems')
 class LearningProfileGroupOperations(Resource):
-    @studifix.marshal_with(learningprofilegroup)
+    @studyfix.marshal_with(learningprofilegroup)
     def get(self, id):
         """reading out a specific learninprofileobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -1014,8 +1014,8 @@ class LearningProfileGroupOperations(Resource):
         single_learningprofile = adm.get_learningprofile_group_by_id(id)
         return single_learningprofile
 
-    @studifix.marshal_with(learningprofilegroup)
-    @studifix.expect(learningprofilegroup, validate=True)  # We expect a learningprofile object from the client side.
+    @studyfix.marshal_with(learningprofilegroup)
+    @studyfix.expect(learningprofilegroup, validate=True)  # We expect a learningprofile object from the client side.
     def put(self, id):
         """ Update of a specific learninprofile object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -1049,10 +1049,10 @@ class LearningProfileGroupOperations(Resource):
 
 
 
-@studifix.route('/learningprofilegroup-by-name/<string:name>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/learningprofilegroup-by-name/<string:name>')
+@studyfix.response(500, 'when server has problems')
 class LearningProfileGroupByNameOperations(Resource):
-    @studifix.marshal_with(learningprofilegroup)
+    @studyfix.marshal_with(learningprofilegroup)
     def get(self, name):
         """Reading out studygroup objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -1066,20 +1066,20 @@ class LearningProfileGroupByNameOperations(Resource):
 
 
 
-@studifix.route('/learningprofileuser')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/learningprofileuser')
+@studyfix.response(500, 'when server has problems')
 class LearningProfileUserListOperations(Resource):
     """Reading out all learninprofile user objects.
     If no user objects are available, an empty sequence is returned."""
 
-    @studifix.marshal_list_with(learningprofileuser)
+    @studyfix.marshal_list_with(learningprofileuser)
     def get(self):
         adm = Administration()
         learningprofiles = adm.get_all_learningprofiles_user()
         return learningprofiles
 
-    @studifix.marshal_with(learningprofileuser, code=200)
-    @studifix.expect(learningprofileuser)  # We expect a user object from the client side.
+    @studyfix.marshal_with(learningprofileuser, code=200)
+    @studyfix.expect(learningprofileuser)  # We expect a user object from the client side.
     def post(self):
         """Create a new learningprofile group object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -1111,10 +1111,10 @@ class LearningProfileUserListOperations(Resource):
             return '', 500
 
 
-@studifix.route('/learningprofileuser/<int:id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/learningprofileuser/<int:id>')
+@studyfix.response(500, 'when server has problems')
 class LearningProfileUserOperations(Resource):
-    @studifix.marshal_with(learningprofileuser)
+    @studyfix.marshal_with(learningprofileuser)
     def get(self, id):
         """reading out a specific learninprofileobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -1122,8 +1122,8 @@ class LearningProfileUserOperations(Resource):
         single_learningprofile = adm.get_learningprofile_user_by_id(id)
         return single_learningprofile
 
-    @studifix.marshal_with(learningprofileuser)
-    @studifix.expect(learningprofileuser, validate=True)  # We expect a learningprofile object from the client side.
+    @studyfix.marshal_with(learningprofileuser)
+    @studyfix.expect(learningprofileuser, validate=True)  # We expect a learningprofile object from the client side.
     def put(self, id):
         """ Update of a specific learninprofile object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -1151,10 +1151,10 @@ class LearningProfileUserOperations(Resource):
         return '', 200
 
 
-@studifix.route('/learningprofileuser-by-name/<string:name>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/learningprofileuser-by-name/<string:name>')
+@studyfix.response(500, 'when server has problems')
 class LearningProfileUserByNameOperations(Resource):
-    @studifix.marshal_with(learningprofilegroup)
+    @studyfix.marshal_with(learningprofilegroup)
     def get(self, name):
         """Reading out studygroup objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -1162,8 +1162,8 @@ class LearningProfileUserByNameOperations(Resource):
         learning_profile_by_name = adm.get_learningprofile_user_by_name(name)
         return learning_profile_by_name
 
-@studifix.route('/matching/<int:id>')
-@studifix.response(500, 'when server has problems')
+@studyfix.route('/matching/<int:id>')
+@studyfix.response(500, 'when server has problems')
 class MatchingAlgorithmus(Resource):
     def get(self, id):
         adm = Administration()
