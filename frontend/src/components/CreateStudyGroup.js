@@ -148,7 +148,7 @@ class CreateStudyGroup extends Component {
                         <Grid item>
                         <FormControl fullWidth required variant="outlined" >
                             <InputLabel>StudyGroups</InputLabel>
-                            <Select name="studygroupSelected" defaultValue="" label="Chat" onChange={this.handleSelectChange}>
+                            <Select name="studygroupSelected" defaultValue="" label="Studygroup" onChange={this.handleSelectChange}>
                                 {this.state.studygroups.map((studygroup) => (
                                         <MenuItem key={studygroup.getID()} value={studygroup.getID()}>{studygroup.getName()}</MenuItem>
                                     ))}
@@ -165,6 +165,7 @@ class CreateStudyGroup extends Component {
                 </Grid>
 
             </Grid>
+
     );
  }
 

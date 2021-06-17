@@ -11,12 +11,14 @@ import About from './components/pages/About';
 import Overview from './components/pages/Overview';
 import UserGroups from './components/subcomponents/UserGroups';
 import CreateStudyGroup from './components/CreateStudyGroup';
+import StudyGroupListEntry from './components/StudyGroupListEntry';
+import TableEntry from './components/TableEntry';
 import 'firebase/auth';
 import SignIn from './components/pages/SignIn';
 import firebase from 'firebase/app';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
-import firebaseConfig from './firebaseconfig';
+import firebaseConfig from './firebaseConfig';
 
 class App extends Component {
 /** Constructor of the app, which initializes firebase  */
@@ -127,7 +129,8 @@ class App extends Component {
 										<ManageChat />
 									</Route>
 									<Route path='/studygroup'>
-										<CreateStudyGroup />
+										<StudyGroupListEntry
+                                        {...this.props}/>
 									</Route>
 									<Route path='/lernpartner'>
 										<UserGroups />

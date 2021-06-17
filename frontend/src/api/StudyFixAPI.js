@@ -334,7 +334,8 @@ export default class StudyFixAPI {
    * @public
    */
     getAllStudyGroups(){
-        return this.#fetchAdvanced(this.#getAllStudyGroupsURL()).then((responseJSON) => {
+        return this.#fetchAdvanced(this.#getAllStudyGroupsURL())
+        .then((responseJSON) => {
             let studygroupBOs = StudyGroupBO.fromJSON(responseJSON);
             return new Promise(function (resolve){
                 resolve(studygroupBOs)
