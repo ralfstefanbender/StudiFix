@@ -5,6 +5,14 @@ import theme from "../../theme";
 import { Button } from '@material-ui/core';
 import StudyFixAPI from '../../api/StudyFixAPI';
 
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
+
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -20,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 function Matching_page() {
   const [matches, setmatches] = useState(null);
   const classes = useStyles();
-
+  console.log(matches)
   return (
     <ThemeProvider theme={theme}>
       <Paper elevation={0} className={classes.root}>
@@ -33,6 +41,29 @@ function Matching_page() {
           <Button variant="contained" color="primary" onClick={()=>StudyFixAPI.getAPI().getMatchesUser(1).then(UserMatchBO => setmatches(UserMatchBO))}>
           Matches Suchen
           </Button>
+          
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">Name</TableCell>
+                <TableCell align="center">Semester</TableCell>
+                <TableCell align="center">Interests</TableCell>
+                <TableCell align="center">Matching Score</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {matches? matches.map((match)=>(
+                <TableRow key={match.name}>
+                <TableCell align="left">{match.name}</TableCell>
+                <TableCell align="center">{match.semester}</TableCell>
+                <TableCell align="center">{match.interest}</TableCell>
+                <TableCell align="center">{match.matching_score}</TableCell>
+              </TableRow>
+              )):null}
+            </TableBody>
+            
+          </Table>
+          
           </Typography>
         </div>
       </Paper>

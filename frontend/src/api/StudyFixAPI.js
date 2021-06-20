@@ -1229,7 +1229,7 @@ export default class StudyFixAPI {
    */
     getMatchesUser(tuser){
       return this.#fetchAdvanced(this.#getMatches(tuser)).then((responseJSON) => {
-        let matches = UserMatchBO.fromJSON(responseJSON)[0];
+        let matches = UserMatchBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(matches);
       })
