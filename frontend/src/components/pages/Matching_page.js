@@ -25,10 +25,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Matching_page() {
+function Matching_page(currentUser) {
   const [matches, setmatches] = useState(null);
   const classes = useStyles();
-  console.log(matches)
+  console.log(currentUser)
   return (
     <ThemeProvider theme={theme}>
       <Paper elevation={0} className={classes.root}>
@@ -38,7 +38,7 @@ function Matching_page() {
         </Typography>
           <br />
           <Typography>
-          <Button variant="contained" color="primary" onClick={()=>StudyFixAPI.getAPI().getMatchesUser(1).then(UserMatchBO => setmatches(UserMatchBO))}>
+          <Button variant="contained" color="primary" onClick={()=>StudyFixAPI.getAPI().getMatchesUser(currentUser.currentUser.uid).then(UserMatchBO => setmatches(UserMatchBO))}>
           Matches Suchen
           </Button>
           

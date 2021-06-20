@@ -1166,12 +1166,12 @@ class LearningProfileUserByNameOperations(Resource):
         learning_profile_by_name = adm.get_learningprofile_user_by_name(name)
         return learning_profile_by_name
 
-@studyfix.route('/matching/<int:id>')
+@studyfix.route('/matching/<string:id>')
 @studyfix.response(500, 'when server has problems')
 class MatchingAlgorithmus(Resource):
     def get(self, id):
         adm = Administration()
-        matches = adm.get_matches_user(id, .5)
+        matches = adm.get_matches_user(id, .2)
         result = []
         for learningprofile_id in matches:
             user_id = adm.get_user_id_by_learningprofile_id(learningprofile_id)
@@ -1215,7 +1215,7 @@ folgenden Zeilen.
 **ACHTUNG:** Diese Zeile wird nur in der lokalen Entwicklungsumgebung ausgeführt und hat in der Cloud keine Wirkung!
 """
 if __name__ == '__main__':
-    """print(Administration.get_matches_user(Administration(), 1, .1))
-    print(Administration.get_matches_group(Administration(), 1, .1))"""
+    """print(Administration.get_matches_user(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1", .1))"""
+    """print(Administration.get_matches_group(Administration(), 1, .1))"""
     app.run(debug=True)
 

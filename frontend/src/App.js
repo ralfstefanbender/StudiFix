@@ -133,7 +133,7 @@ class App extends Component {
 										<UserGroups />
 									</Route>
 									<Route path='/matching_page'>
-                                    	<Matching_page />
+                                    	<Matching_page currentUser={this.state.currentUser} />
                                     </Route>
 									<Route exact path='/about'>
 										<About />
