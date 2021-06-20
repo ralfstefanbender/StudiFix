@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Container, CssBaseline } from '@material-ui/core';
 import ManageChat from './components/pages/ManageChat';
 import ManageStudyGroup from './components/pages/ManageStudyGroup';
-import UserProfile from './components/pages/UserProfile';
+import ManageUser from './components/pages/ManageUser';
 import Matching_page from './components/pages/Matching_page';
 import About from './components/pages/About';
 import Overview from './components/pages/Overview';
@@ -117,12 +117,11 @@ class App extends Component {
 							currentUser ?
 
                                 <>
-								    <Redirect from='/' to='user' />
+								    <Redirect from='/' to='/overview' />
 								    <Route exact path='/overview'>
 										<Overview />
 									</Route>
-									<Route exact path='/user'>
-										<UserProfile />
+									<Route path={'/manageuser/'} component={ManageUser}>
 									</Route>
 									<Route path='/chat'>
 										<ManageChat />
