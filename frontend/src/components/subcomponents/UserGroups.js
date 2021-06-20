@@ -47,7 +47,7 @@ render(){
 
   return(
     <div className = {classes.root}>
-        <h1>Hier stehen ihre Lernpartner:</h1>
+        <Typography variant='h6'>Hier stehen ihre Lernpartner:</Typography>
     </div>
   )
 }
