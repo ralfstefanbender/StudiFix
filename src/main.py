@@ -1252,26 +1252,29 @@ class MatchingAlgorithmus(Resource):
             semester = learningprofile.get_semester()
             interest = learningprofile.get_interest()
             matching_score = matches[learningprofile_id]
+            matching_score = str(round(matching_score*100)) + "%"
             result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score})
             print(result)
         return result
 
 
-@studyfix.route('/groupmatching/<int:id>')
+@studyfix.route('/groupmatching/<string:id>')
 @studyfix.response(500, 'when server has problems')
 class GroupMatchingAlgorithmus(Resource):
     def get(self, id):
         adm = Administration()
-        matches = adm.get_matches_group(id, .5)
+        matches = adm.get_matches_group(id, .1)
         result = []
         for learningprofile_id in matches:
-            group_id = adm.get_studygroup_by_learning_profile_id(learningprofile_id)
+            learningprofile = adm.get_learningprofile_group_by_id(learningprofile_id)
+            group_id = learningprofile.get_group_id()
             group = adm.get_studygroup_by_id(group_id)
             grouplearningprofile = adm.get_learningprofile_group_by_id(learningprofile_id)
             name = group.get_name()
             semester = grouplearningprofile.get_semester()
             interest = grouplearningprofile.get_interest()
             matching_score = matches[learningprofile_id]
+            matching_score = str(round(matching_score*100)) + "%"
             result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score})
             print(result)
         return result

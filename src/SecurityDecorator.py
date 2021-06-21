@@ -59,9 +59,7 @@ def secured(function):
                         Wir legen daher ein neues User-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-
                         user = adm.create_user(google_user_id,name,"", email,"test")
-
 
                     print(request.method, request.path, "angefragt durch:", name, email)
 

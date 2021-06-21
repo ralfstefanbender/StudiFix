@@ -57,14 +57,14 @@ class ManageStudyGroup extends Component {
 
 
 
-    // opens project
-    openProject(){
+    // opens studygroup
+    openstudygroup(){
         this.setState({
             openpr: true });
 
     }
-    // close project
-    closeProject = () => {
+    // close studygroup
+    closestudygroup= () => {
         this.setState({openpr:false});
     }
 
@@ -93,13 +93,13 @@ class ManageStudyGroup extends Component {
            {...this.props}
            ManageStudyGroup ={ManageStudyGroup}
            openpr={this.state.openpr}
-           openProject={this.openProject}
-           closeProject={this.closeProject}
+           openstudygroup={this.openstudygroup}
+           closestudygroup={this.closestudygroup}
 
               />
 
 
-       <Button onClick={() => {this.openProject(); this.handleMobileClose()}}>Lerngruppe hinzufügen</Button>
+       <Button onClick={() => {this.openstudygroup(); this.handleMobileClose()}}>Lerngruppe hinzufügen</Button>
           {
             studygroups.map(studygroup => <StudyGroupDetail key={studygroup.getID()} {...this.props}
             nameID={studygroup.getName()} ID={studygroup.getID()} />)

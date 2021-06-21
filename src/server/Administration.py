@@ -568,17 +568,16 @@ class Administration(object):
     def get_matches_group(self, user_id, threshhold):
         """Output: {group_profile_id : 0,54, group_profile_id : 0,34}"""
 
-        # Matches for Groups
-        self_profile = self.get_learningprofile_user_by_id(user_id)
+        user = self.get_user_by_google_id(user_id)
+        self_profile = self.get_learningprofile_user_by_user_id(user.get_id())
         group_profiles = self.get_all_learningprofiles_group()
+        other_profiles = []
+
+        for profile in group_profiles:
+            other_profiles.append(profile)
+
         # Dict mit allen User Learnprofile Id und Similarity Score, welche über dem Threshhold sind
         matches = {}
-        other_profiles = []
-        if group_profiles != list():
-            other_profiles.append(group_profiles)
-        else:
-            for profile in group_profiles:
-                other_profiles.append(profile)
 
         for profile in other_profiles:
             """Alle Vergleichswerte (Range von 0 bis 1) 0 = Verschieden; 1 = Gleich"""

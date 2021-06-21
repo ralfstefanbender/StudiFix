@@ -27,28 +27,35 @@ const useStyles = makeStyles(theme => ({
 
 function Matching_page(currentUser) {
   const [matches, setmatches] = useState(null);
+  const [group_matches, setgroup_matches] = useState(null);
   const classes = useStyles();
   console.log(currentUser)
   return (
     <ThemeProvider theme={theme}>
       <Paper elevation={0} className={classes.root}>
         <div className={classes.content}>
-          <Typography variant='h6'>
-            Matching Algorithmus
-        </Typography>
+          
           <br />
           <Typography>
-          <Button variant="contained" color="primary" onClick={()=>StudyFixAPI.getAPI().getMatchesUser(currentUser.currentUser.uid).then(UserMatchBO => setmatches(UserMatchBO))}>
-          Matches Suchen
-          </Button>
-          
+            <div align="center">
+              <Typography variant='h8'>
+                Mit einem Klick nach passenden Matches suchen  <br />
+              </Typography>
+            <Button align="center" variant="contained" color="primary" onClick={()=>{StudyFixAPI.getAPI().getMatchesUser(currentUser.currentUser.uid).then(UserMatchBO => setmatches(UserMatchBO)); StudyFixAPI.getAPI().getMatchesGroup(currentUser.currentUser.uid).then(GroupMatchBO => setgroup_matches(GroupMatchBO))}}>
+              Matches Suchen
+            </Button>
+            </div>
+          <Typography variant='h6'>
+            User Matches
+          </Typography>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell align="left">Name</TableCell>
-                <TableCell align="center">Semester</TableCell>
-                <TableCell align="center">Interests</TableCell>
-                <TableCell align="center">Matching Score</TableCell>
+                <TableCell align="left"><b>Name</b></TableCell>
+                <TableCell align="center"><b>Semester</b></TableCell>
+                <TableCell align="center"><b>Interests</b></TableCell>
+                <TableCell align="center"><b>Matching Score</b></TableCell>
+                <TableCell align="center"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -57,13 +64,47 @@ function Matching_page(currentUser) {
                 <TableCell align="left">{match.name}</TableCell>
                 <TableCell align="center">{match.semester}</TableCell>
                 <TableCell align="center">{match.interest}</TableCell>
-                <TableCell align="center">{match.matching_score}</TableCell>
+                <TableCell align="center"><b>{match.matching_score}</b></TableCell>
+                <TableCell align="center">
+                <Button variant="contained" color="primary">
+                  Anfrage senden
+                </Button>
+                </TableCell>
               </TableRow>
               )):null}
             </TableBody>
             
           </Table>
-          
+          <Typography variant='h6'>
+          <br />Gruppen Matches
+          </Typography>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell align="left"><b>Name</b></TableCell>
+                <TableCell align="center"><b>Prefered Semester</b></TableCell>
+                <TableCell align="center"><b>Interests</b></TableCell>
+                <TableCell align="center"><b>Matching Score</b></TableCell>
+                <TableCell align="center"></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {group_matches? group_matches.map((match)=>(
+                <TableRow key={match.name}>
+                <TableCell align="left">{match.name}</TableCell>
+                <TableCell align="center">{match.semester}</TableCell>
+                <TableCell align="center">{match.interest}</TableCell>
+                <TableCell align="center"><b>{match.matching_score}</b></TableCell>
+                <TableCell align="center">
+                <Button variant="contained" color="primary">
+                  Anfrage senden
+                </Button>
+                </TableCell>
+              </TableRow>
+              )):null}
+            </TableBody>
+            
+          </Table>
           </Typography>
         </div>
       </Paper>
