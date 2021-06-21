@@ -197,7 +197,6 @@ class LearningProfileGroupMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-        return learning_profile
 
     def delete(self, learning_profile_group):
 
