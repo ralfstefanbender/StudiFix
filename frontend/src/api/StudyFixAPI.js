@@ -7,6 +7,7 @@ import LearningProfileGroupBO from './LearningProfileGroupBO';
 import StudyGroupBO from './StudyGroupBO';
 import UserBO from './UserBO';
 import UserMatchBO from './UserMatchBO';
+import GroupMatchBO from './GroupMatchBO';
 
 
 export default class StudyFixAPI {
@@ -102,6 +103,7 @@ export default class StudyFixAPI {
 
     //Matching
     #getMatches = (id) => `${this.#studyfixServerBaseURL}/matching/${id}`;
+    #getGroupMatches = (id) => `${this.#studyfixServerBaseURL}/groupmatching/${id}`;
 
     /**
    * Get the Singelton instance
@@ -1230,6 +1232,19 @@ export default class StudyFixAPI {
     getMatchesUser(tuser){
       return this.#fetchAdvanced(this.#getMatches(tuser)).then((responseJSON) => {
         let matches = UserMatchBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(matches);
+      })
+    })
+    }
+                        /**
+   * Returns a Promise, which resolves to a GroupInvitationBO
+   * @param {suser} accepted source_user id of the project to be retrieved
+   * @public
+   */
+    getMatchesGroup(tuser){
+      return this.#fetchAdvanced(this.#getGroupMatches(tuser)).then((responseJSON) => {
+        let matches = GroupMatchBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(matches);
       })
