@@ -5,6 +5,7 @@ import { StudyFixAPI } from '../../api';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import UserGroupsDetail from './UserGroupsDetail';
+import firebase from 'firebase/app';
 
 
 
@@ -14,18 +15,23 @@ class UserGroups extends Component {
 
     this.state = {
       buddys: [],
+      acceptedBuddys: [],
+      acceptedInvites: [],
       openpr:false,
       loadingInProgress: false,
       loadingError: null,
       redirect: false,
       error: null,
       openDialog: false,
+      userBO: null,
     };
   }
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
+    this.getUserByGoogleId();
     this.getAllUsers();
+
   }
 
   /** Fetches ChatInvitationBOs for current user */
@@ -45,6 +51,21 @@ class UserGroups extends Component {
       loadingError: null
     });
   }
+
+  getAcceptedUsers = () => {
+    console.log(this.state.userBO.id)
+    StudyFixAPI.getAPI().getChatInvitationAcceptedInvitesTarget(this.state.userBO.id).then((acc) => this.setState({acceptedInvites:acc}))
+    StudyFixAPI.getAPI().getChatInvitationAcceptedInvitesSource(this.state.userBO.id).then((acc) => this.setState({acceptedInvites:acc}))
+    
+  }
+
+  getUserByGoogleId = () => {
+    StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)
+        .then((user)=>{
+          this.setState({userBO:user})
+          this.getAcceptedUsers()
+        })
+            }
 
    // opens usergroups
    openusergroups(){
