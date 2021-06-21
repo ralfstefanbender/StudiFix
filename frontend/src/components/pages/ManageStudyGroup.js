@@ -5,12 +5,9 @@ import { StudyFixAPI } from '../../api';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import CreateStudyGroup from './CreateStudyGroup';
+import StudyGroupDetail from '../subcomponents/StudyGroupDetail';
 
-/**
- * Shows all accounts of the bank.
- *
- * @author [Christoph Kunz](https://github.com/christophkunz)
- */
+
 class ManageStudyGroup extends Component {
 
   constructor(props) {
@@ -102,7 +99,7 @@ class ManageStudyGroup extends Component {
               />
 
 
-       <Button onClick={() => {this.openProject(); this.handleMobileClose()}}>Add project</Button>
+       <Button onClick={() => {this.openProject(); this.handleMobileClose()}}>Lerngruppe hinzufügen</Button>
           {
             studygroups.map(studygroup => <StudyGroupDetail key={studygroup.getID()} {...this.props}
             nameID={studygroup.getName()} ID={studygroup.getID()} />)

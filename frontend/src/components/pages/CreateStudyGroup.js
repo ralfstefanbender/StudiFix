@@ -136,7 +136,7 @@ class CreateStudyGroup extends Component {
 
  render(){
 
-        const { chats, studygroups, prev_knowledge, semester, learntyp, extroverion, interest, degree_course, frequency } = this.state;
+        const { chats, studygroups } = this.state;
         const {classes}= this.props;
 
     return(

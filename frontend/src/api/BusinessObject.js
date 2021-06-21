@@ -1,15 +1,18 @@
-//import java.time.LocalDate;
-/**
- * Base class for all BusinessObjects, which has an ID field by default.
- */
+import DateFnsUtils from "@date-io/date-fns";
+
+
+
 export default class BusinessObject {
 
   /**
    * The null constructor.
    */
+
   constructor() {
+    let today = new Date(),
+    date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     this.id = 0;
-    //this.creation_date=LocalDate.now();
+    this.creation_date=date;
   }
 
    getDate(){
