@@ -478,9 +478,7 @@ class Administration(object):
 
         # Dict mit allen User Learnprofile Id und Similarity Score, welche über dem Threshhold sind
         matches = {}
-
         for profile in other_profiles:
-
             """Alle Vergleichswerte (Range von 0 bis 1) 0 = Verschieden; 1 = Gleich"""
             """Reihenfolge: Prev_Knowledge, Extroversion, Study State, Frequency, Learntyp, Semester, Interest, Degree_course"""
             similarity = []

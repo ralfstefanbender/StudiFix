@@ -16,6 +16,8 @@ from src.server.bo.StudyGroup import StudyGroup
 from src.server.bo.User import User
 from src.server.bo.Chat import Chat
 
+from src.SecurityDecorator import secured
+
 """
 A. Allgemeine Hinweise zu diesem Module:
 Normalerweise würde man eine Datei dieser Länge bzw. ein Module
@@ -162,6 +164,7 @@ class UserListOperations(Resource):
     If no user objects are available, an empty sequence is returned."""
 
     @studyfix.marshal_list_with(user)
+    @secured
     def get(self):
         adm = Administration()
         users = adm.get_all_users()
@@ -169,6 +172,7 @@ class UserListOperations(Resource):
 
     @studyfix.marshal_with(user, code=200)
     @studyfix.expect(user)  # We expect a user object from the client side.
+    @secured
     def post(self):
         """Create a new user object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -195,6 +199,8 @@ class UserListOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class UserOperations(Resource):
     @studyfix.marshal_with(user)
+    @secured
+    @secured
     def get(self, id):
         """reading out a specific userobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -204,6 +210,7 @@ class UserOperations(Resource):
 
     @studyfix.marshal_with(user)
     @studyfix.expect(user, validate=True)  # We expect a user object from the client side.
+    @secured
     def put(self, id):
         """ Update of a specific user object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -222,6 +229,7 @@ class UserOperations(Resource):
             """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
 
+    @secured
     def delete(self, id):
         """Deletion of a specific user object.
         The object to be deleted is determined by the '' id '' in the URI."""
@@ -235,6 +243,7 @@ class UserOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class UserNameOperations(Resource):
     @studyfix.marshal_list_with(user)
+    @secured
     def get(self, lastname):
         """Reading out user objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -247,6 +256,7 @@ class UserNameOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class UserFirstNameOperations(Resource):
     @studyfix.marshal_with(user)
+    @secured
     def get(self, firstname):
         """Reading out user objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -259,6 +269,7 @@ class UserFirstNameOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class UserMailOperations(Resource):
     @studyfix.marshal_list_with(user)
+    @secured
     def get(self, email):
         """Reading out user objects that are determined by the E-Mail.
         The objects to be read out are determined by '' mail '' in the URI."""
@@ -271,6 +282,7 @@ class UserMailOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class UserGoogleOperations(Resource):
     @studyfix.marshal_with(user)
+    @secured
     def get(self, google_id):
         """Reading out user objects that are determined by the google id.
         The objects to be read out are determined by '' google_id '' in the URI."""
@@ -283,6 +295,7 @@ class UserGoogleOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class UserGoogleOperations(Resource):
     @studyfix.marshal_with(user)
+    @secured
     def get(self, learning_profile_id):
         """Reading out user objects that are determined by the google id.
         The objects to be read out are determined by '' google_id '' in the URI."""
@@ -301,6 +314,7 @@ class ChatInvitationListOperations(Resource):
     If no user objects are available, an empty sequence is returned."""
 
     @studyfix.marshal_list_with(chatinvitation)
+    @secured
     def get(self):
         adm = Administration()
         chatinvitations = adm.get_all_chatinvitations()
@@ -308,6 +322,7 @@ class ChatInvitationListOperations(Resource):
 
     @studyfix.marshal_with(chatinvitation, code=200)
     @studyfix.expect(chatinvitation)  # We expect a user object from the client side.
+    @secured
     def post(self):
         """Create a new Chatinvitation object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -334,6 +349,7 @@ class ChatInvitationListOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class ChatInvitationOperations(Resource):
     @studyfix.marshal_with(chatinvitation)
+    @secured
     def get(self, id):
         """reading out a specific chatinvitation object.
            The object to be read is determined by the '' id '' in the URI."""
@@ -341,6 +357,7 @@ class ChatInvitationOperations(Resource):
         single_chat_invitation = adm.get_chatinvitation_by_id(id)
         return single_chat_invitation
 
+    @secured
     def delete(self, id):
         """Deletion of a specific chatinvitation object.
         The object to be deleted is determined by the '' id '' in the URI."""
@@ -357,6 +374,7 @@ class ChatInvitationOperations(Resource):
 
     @studyfix.marshal_with(chatinvitation)
     @studyfix.expect(chatinvitation, validate=True)  # We expect a user object from the client side.
+    @secured
     def put(self, id):
         """ Update of a specific chatinvitation object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -380,6 +398,7 @@ class ChatInvitationOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class ChatInvitationByTargetOperations(Resource):
     @studyfix.marshal_list_with(chatinvitation)
+    @secured
     def get(self, target_user):
         """Reading out chatinvitation objects that are determined by the target user.
         The objects to be read out are determined by '' target_user'' in the URI."""
@@ -392,6 +411,7 @@ class ChatInvitationByTargetOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class ChatInvitationBySourceOperations(Resource):
     @studyfix.marshal_list_with(chatinvitation)
+    @secured
     def get(self, source_user):
         """Reading out chatinvitation objects that are determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
@@ -404,6 +424,7 @@ class ChatInvitationBySourceOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class ChatInvitationsAcceptedOperations(Resource):
     @studyfix.marshal_list_with(chatinvitation)
+    @secured
     def get(self, chat_id):
         """Reading out chatinvitations from the CHAT that are determined by the accepted Chatinvitations.
         The objects to be read out are determined by '' chat_id '' in the URI."""
@@ -416,6 +437,7 @@ class ChatInvitationsAcceptedOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class ChatInvitationsPendInvitesOperations(Resource):
     @studyfix.marshal_list_with(chatinvitation)
+    @secured
     def get(self):
         """Reading out all chatinvitation objects that are still pending."""
         adm = Administration()
@@ -427,6 +449,7 @@ class ChatInvitationsPendInvitesOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class ChatInvitationsPendInvitesByTargetUserOperations(Resource):
     @studyfix.marshal_list_with(chatinvitation)
+    @secured
     def get(self, target_user):
         """Reading out chatinvitations objects that are pending determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
@@ -439,6 +462,7 @@ class ChatInvitationsPendInvitesByTargetUserOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class ChatInvitationsPendInvitesBySourceUserOperations(Resource):
     @studyfix.marshal_list_with(chatinvitation)
+    @secured
     def get(self, source_user):
         """Reading out chatinvitations objects that are pending determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
@@ -451,6 +475,7 @@ class ChatInvitationsPendInvitesBySourceUserOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class ChatInvitationsAcceptedInvitesBySourceUserOperations(Resource):
     @studyfix.marshal_list_with(chatinvitation)
+    @secured
     def get(self, source_user):
         """Reading out chatinvitations objects that are accepted determined by the source_user.
         The objects to be read out are determined by '' source_user '' in the URI."""
@@ -463,6 +488,7 @@ class ChatInvitationsAcceptedInvitesBySourceUserOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class ChatInvitationsAcceptedInvitesByTargetUserOperations(Resource):
     @studyfix.marshal_list_with(chatinvitation)
+    @secured
     def get(self, target_user):
         """Reading out chatinvitations objects that are accepted determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
@@ -482,13 +508,15 @@ class ChatMessageListOperations(Resource):
     If no user objects are available, an empty sequence is returned."""
 
     @studyfix.marshal_list_with(chatmessage)
+    @secured
     def get(self):
         adm = Administration()
         chatmessages = adm.get_all_chatmessages()
         return chatmessages
 
     @studyfix.marshal_with(chatmessage, code=200)
-    @studyfix.expect(chatmessage)  # We expect a user object from the client side.
+    @studyfix.expect(chatmessage)  # We expect a user object from the client side
+    @secured
     def post(self):
         """Create a new chatmessage object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -514,6 +542,7 @@ class ChatMessageListOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class ChatMessageOperations(Resource):
     @studyfix.marshal_with(chatmessage)
+    @secured
     def get(self, id):
         """reading out a specific chatmessageobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -523,6 +552,7 @@ class ChatMessageOperations(Resource):
 
     @studyfix.marshal_with(chatmessage)
     @studyfix.expect(chatmessage, validate=True)  # We expect a chatmessage object from the client side.
+    @secured
     def put(self, id):
         """ Update of a specific chatmessage object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -541,6 +571,7 @@ class ChatMessageOperations(Resource):
             """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
 
+    @secured
     def delete(self, id):
         """Deletion of a specific chatmessage object.
         The object to be deleted is determined by the '' id '' in the URI."""
@@ -554,6 +585,7 @@ class ChatMessageOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class ChatMessageOperations(Resource):
     @studyfix.marshal_list_with(chatmessage)
+    @secured
     def get(self, chat_id):
         """reading out a chatmessageobject by chat_id.
            The object to be read is determined by the '' chat_id '' in the URI."""
@@ -572,6 +604,7 @@ class ChatListOperations(Resource):
     If no user objects are available, an empty sequence is returned."""
 
     @studyfix.marshal_list_with(chat)
+    @secured
     def get(self):
         adm = Administration()
         chats = adm.get_all_chats()
@@ -580,6 +613,7 @@ class ChatListOperations(Resource):
 
     @studyfix.marshal_with(chat, code=200)
     @studyfix.expect(chat)  # We expect a user object from the client side.
+    @secured
     def post(self):
         """Create a new Chat object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -604,6 +638,7 @@ class ChatListOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class ChatOperations(Resource):
     @studyfix.marshal_with(chat)
+    @secured
     def get(self, id):
         """reading out a specific chatobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -611,6 +646,7 @@ class ChatOperations(Resource):
         single_chat = adm.get_chat_by_id(id)
         return single_chat
 
+    @secured
     def delete(self, id):
         """Deletion of a specific chat object.
         The object to be deleted is determined by the '' id '' in the URI."""
@@ -626,6 +662,7 @@ class ChatOperations(Resource):
 
     @studyfix.marshal_with(chat)
     @studyfix.expect(chat, validate=True)  # We expect a user object from the client side.
+    @secured
     def put(self, id):
         """ Update of a specific chat object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -658,6 +695,7 @@ class GroupInvitationListOperations(Resource):
     If no user objects are available, an empty sequence is returned."""
 
     @studyfix.marshal_list_with(groupinvitation)
+    @secured
     def get(self):
         adm = Administration()
         groupinvitations = adm.get_all_groupinvitations()
@@ -665,6 +703,7 @@ class GroupInvitationListOperations(Resource):
 
     @studyfix.marshal_with(groupinvitation, code=200)
     @studyfix.expect(groupinvitation)  # We expect a user object from the client side.
+    @secured
     def post(self):
         """Create a new groupinvitation object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -692,6 +731,7 @@ class GroupInvitationListOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class GroupInvitationOperations(Resource):
     @studyfix.marshal_with(groupinvitation)
+    @secured
     def get(self, id):
         """reading out a specific groupinvitationobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -701,6 +741,7 @@ class GroupInvitationOperations(Resource):
 
     @studyfix.marshal_with(groupinvitation)
     @studyfix.expect(groupinvitation, validate=True)  # We expect a user object from the client side.
+    @secured
     def put(self, id):
         """ Update of a specific groupinvitation object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -719,6 +760,7 @@ class GroupInvitationOperations(Resource):
             """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
 
+    @secured
     def delete(self, id):
         """Deletion of a specific groupinvitation object.
         The object to be deleted is determined by the '' id '' in the URI."""
@@ -732,6 +774,7 @@ class GroupInvitationOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class GroupinvitationByTargetOperations(Resource):
     @studyfix.marshal_list_with(groupinvitation)
+    @secured
     def get(self, study_group_id):
         """Reading out groupinvitation objects that are determined by the study_group_id.
         The objects to be read out are determined by '' target_user'' in the URI."""
@@ -744,6 +787,7 @@ class GroupinvitationByTargetOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class GroupInvitationByTargetOperations(Resource):
     @studyfix.marshal_list_with(groupinvitation)
+    @secured
     def get(self, target_user):
         """Reading out groupinvitation objects that are determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
@@ -756,6 +800,7 @@ class GroupInvitationByTargetOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class GroupInvitationBySourceOperations(Resource):
     @studyfix.marshal_list_with(groupinvitation)
+    @secured
     def get(self, source_user):
         """Reading out groupinvitation objects that are determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
@@ -768,6 +813,7 @@ class GroupInvitationBySourceOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class GroupInvitationsPendInvitesByStudyGroupOperations(Resource):
     @studyfix.marshal_list_with(groupinvitation)
+    @secured
     def get(self, study_group_id):
         """Reading out all groupinvitation objects that are still pending by the study_group_id."""
         adm = Administration()
@@ -780,6 +826,7 @@ class GroupInvitationsPendInvitesByStudyGroupOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class GroupInvitationsAcceptedByStudyGroupOperations(Resource):
     @studyfix.marshal_list_with(groupinvitation)
+    @secured
     def get(self, study_group_id):
         """Reading out chatinvitations from the CHAT that are determined by the accepted Chatinvitations.
         The objects to be read out are determined by '' chat_id '' in the URI."""
@@ -792,6 +839,7 @@ class GroupInvitationsAcceptedByStudyGroupOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class GroupInvitationsPendInvitesByTargetUserOperations(Resource):
     @studyfix.marshal_list_with(groupinvitation)
+    @secured
     def get(self, target_user):
         """Reading out groupinvitations objects that are pending determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
@@ -804,6 +852,7 @@ class GroupInvitationsPendInvitesByTargetUserOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class GroupInvitationsPendInvitesBySourceUserOperations(Resource):
     @studyfix.marshal_list_with(groupinvitation)
+    @secured
     def get(self, source_user):
         """Reading out chatinvitations objects that are pending determined by the source user.
         The objects to be read out are determined by '' source_user '' in the URI."""
@@ -816,6 +865,7 @@ class GroupInvitationsPendInvitesBySourceUserOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class GroupInvitationsAcceptedInvitesBySourceUserOperations(Resource):
     @studyfix.marshal_list_with(groupinvitation)
+    @secured
     def get(self, source_user):
         """Reading out groupinvitations objects that are accepted determined by the source_user.
         The objects to be read out are determined by '' source_user '' in the URI."""
@@ -828,6 +878,7 @@ class GroupInvitationsAcceptedInvitesBySourceUserOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class GroupInvitationsAcceptedInvitesByTargetUserOperations(Resource):
     @studyfix.marshal_list_with(groupinvitation)
+    @secured
     def get(self, target_user):
         """Reading out groupinvitations objects that are accepted determined by the target user.
         The objects to be read out are determined by '' target_user '' in the URI."""
@@ -840,6 +891,7 @@ class GroupInvitationsAcceptedInvitesByTargetUserOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class GroupInvitationsPendInvitesOperations(Resource):
     @studyfix.marshal_list_with(groupinvitation)
+    @secured
     def get(self):
         """Reading out all groupinvitation objects that are still pending."""
         adm = Administration()
@@ -858,6 +910,7 @@ class StudyGroupListOperations(Resource):
     If no user objects are available, an empty sequence is returned."""
 
     @studyfix.marshal_list_with(studygroup)
+    @secured
     def get(self):
         adm = Administration()
         studygroups = adm.get_all_studygroups()
@@ -865,6 +918,7 @@ class StudyGroupListOperations(Resource):
 
     @studyfix.marshal_with(studygroup, code=200)
     @studyfix.expect(studygroup)  # We expect a user object from the client side.
+    @secured
     def post(self):
         """Create a new studygroup object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -890,6 +944,7 @@ class StudyGroupListOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class StudyGroupOperations(Resource):
     @studyfix.marshal_with(studygroup)
+    @secured
     def get(self, id):
         """reading out a specific studygroupobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -897,6 +952,7 @@ class StudyGroupOperations(Resource):
         single_studygroup = adm.get_studygroup_by_id(id)
         return single_studygroup
 
+    @secured
     def delete(self, id):
         """Deletion of a specific studygroup object.
         The object to be deleted is determined by the '' id '' in the URI."""
@@ -914,6 +970,7 @@ class StudyGroupOperations(Resource):
 
     @studyfix.marshal_with(studygroup)
     @studyfix.expect(studygroup, validate=True)  # We expect a user object from the client side.
+    @secured
     def put(self, id):
         """ Update of a specific studygroup object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -938,6 +995,7 @@ class StudyGroupOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class StudyGroupOperations(Resource):
     @studyfix.marshal_with(studygroup)
+    @secured
     def get(self, name):
         """Reading out studygroup objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -950,6 +1008,7 @@ class StudyGroupOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class StudyGroupLearningProfileOperations(Resource):
     @studyfix.marshal_with(studygroup)
+    @secured
     def get(self, learning_profile_id):
         """Reading out studygroup objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -970,6 +1029,7 @@ class LearningProfileGroupListOperations(Resource):
     If no user objects are available, an empty sequence is returned."""
 
     @studyfix.marshal_list_with(learningprofilegroup)
+    @secured
     def get(self):
         adm = Administration()
         learningprofiles = adm.get_all_learningprofiles_group()
@@ -977,6 +1037,7 @@ class LearningProfileGroupListOperations(Resource):
 
     @studyfix.marshal_with(learningprofilegroup, code=200)
     @studyfix.expect(learningprofilegroup)  # We expect a user object from the client side.
+    @secured
     def post(self):
         """Create a new learningprofile group object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -1011,6 +1072,7 @@ class LearningProfileGroupListOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class LearningProfileGroupOperations(Resource):
     @studyfix.marshal_with(learningprofilegroup)
+    @secured
     def get(self, id):
         """reading out a specific learninprofileobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -1020,6 +1082,7 @@ class LearningProfileGroupOperations(Resource):
 
     @studyfix.marshal_with(learningprofilegroup)
     @studyfix.expect(learningprofilegroup, validate=True)  # We expect a learningprofile object from the client side.
+    @secured
     def put(self, id):
         """ Update of a specific learninprofile object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -1038,6 +1101,7 @@ class LearningProfileGroupOperations(Resource):
             """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
 
+    @secured
     def delete(self, id):
         """Deletion of a specific learninprofile object.
         The object to be deleted is determined by the '' id '' in the URI."""
@@ -1057,6 +1121,7 @@ class LearningProfileGroupOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class LearningProfileGroupByNameOperations(Resource):
     @studyfix.marshal_with(learningprofilegroup)
+    @secured
     def get(self, name):
         """Reading out studygroup objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -1077,6 +1142,7 @@ class LearningProfileUserListOperations(Resource):
     If no user objects are available, an empty sequence is returned."""
 
     @studyfix.marshal_list_with(learningprofileuser)
+    @secured
     def get(self):
         adm = Administration()
         learningprofiles = adm.get_all_learningprofiles_user()
@@ -1084,6 +1150,7 @@ class LearningProfileUserListOperations(Resource):
 
     @studyfix.marshal_with(learningprofileuser, code=200)
     @studyfix.expect(learningprofileuser)  # We expect a user object from the client side.
+    @secured
     def post(self):
         """Create a new learningprofile group object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -1119,6 +1186,7 @@ class LearningProfileUserListOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class LearningProfileUserOperations(Resource):
     @studyfix.marshal_with(learningprofileuser)
+    @secured
     def get(self, id):
         """reading out a specific learninprofileobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -1128,6 +1196,7 @@ class LearningProfileUserOperations(Resource):
 
     @studyfix.marshal_with(learningprofileuser)
     @studyfix.expect(learningprofileuser, validate=True)  # We expect a learningprofile object from the client side.
+    @secured
     def put(self, id):
         """ Update of a specific learninprofile object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -1146,6 +1215,7 @@ class LearningProfileUserOperations(Resource):
             """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
 
+    @secured
     def delete(self, id):
         """Deletion of a specific learninprofile object.
         The object to be deleted is determined by the '' id '' in the URI."""
@@ -1159,6 +1229,7 @@ class LearningProfileUserOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class LearningProfileUserByNameOperations(Resource):
     @studyfix.marshal_with(learningprofilegroup)
+    @secured
     def get(self, name):
         """Reading out studygroup objects that are determined by the lastname.
         The objects to be read out are determined by '' name '' in the URI."""
@@ -1217,5 +1288,6 @@ folgenden Zeilen.
 if __name__ == '__main__':
     """print(Administration.get_matches_user(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1", .1))"""
     """print(Administration.get_matches_group(Administration(), 1, .1))"""
+    """print(Administration.get_matches_user(Administration(),"16060601 6962", 0.5))"""
     app.run(debug=True)
 
