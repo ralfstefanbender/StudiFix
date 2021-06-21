@@ -1203,6 +1203,7 @@ class GroupMatchingAlgorithmus(Resource):
             semester = grouplearningprofile.get_semester()
             interest = grouplearningprofile.get_interest()
             matching_score = matches[learningprofile_id]
+            matching_score = str(round(matching_score*100)) + "%"
             result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score})
             print(result)
         return result
