@@ -104,6 +104,7 @@ export default class StudyFixAPI {
     //Matching
     #getMatches = (id) => `${this.#studyfixServerBaseURL}/matching/${id}`;
     #getGroupMatches = (id) => `${this.#studyfixServerBaseURL}/groupmatching/${id}`;
+    #getAuth = () => `${this.#studyfixServerBaseURL}/auth`;
 
     /**
    * Get the Singelton instance
@@ -1249,6 +1250,10 @@ export default class StudyFixAPI {
           resolve(matches);
       })
     })
+    }
+
+    getAuth(){
+      return this.#fetchAdvanced(this.#getAuth())
     }
   }
 

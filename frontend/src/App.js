@@ -84,6 +84,9 @@ class App extends Component {
 	 * @see See Google [firebase.auth().signInWithRedirect](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithredirect)
 	 */
 	 handleSignIn = () => {
+		this.setState({
+			authLoading: true
+		});
 		const provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().signInWithRedirect(provider);
 	}

@@ -1280,6 +1280,14 @@ class GroupMatchingAlgorithmus(Resource):
         return result
 
 
+@studyfix.route('/auth')
+@studyfix.response(500, 'when server has problems')
+class Authorisation(Resource):
+    @secured
+    def get(self):
+        return True
+
+
 """
 Nachdem wir nun sämtliche Resourcen definiert haben, die wir via REST bereitstellen möchten,
 müssen nun die App auch tatsächlich zu starten.

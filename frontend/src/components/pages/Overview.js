@@ -1,5 +1,6 @@
-import React from 'react'
-import { makeStyles, Paper, Typography, Link } from '@material-ui/core';
+import React, { Component } from 'react'
+import { makeStyles, Paper, Typography, withStyles} from '@material-ui/core';
+import StudyFixAPI from '../../api/StudyFixAPI';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,21 +14,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+class Overview extends Component {
+  componentDidMount(){StudyFixAPI.getAPI().getAuth()}
+  render(){
+    
+    const { classes } = this.props;
 
-function Overview() {
-
-  const classes = useStyles();
-
-  return (
-    <Paper elevation={0} className={classes.root}>
-      <div className={classes.content}>
-        <Typography variant='h6'>
-          Home
-        </Typography>
-
-      </div>
-    </Paper>
-  )
+    return (
+      <Paper elevation={0} className={classes.root}>
+        <div className={classes.content}>
+          <Typography variant='h6'>
+            Home
+          </Typography>
+        </div>
+      </Paper>
+    )
+  }
 }
 
-export default Overview;
+export default withStyles(useStyles)(Overview);
