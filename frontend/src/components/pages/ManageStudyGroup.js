@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Grid, Button } from '@material-ui/core';
-import { StudyFixAPI } from '../api';
-import ContextErrorMessage from './dialogs/ContextErrorMessage';
-import LoadingProgress from './dialogs/LoadingProgress';
-import StudyGroupDetail from './StudyGroupDetail';
+import { StudyFixAPI } from '../../api';
+import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+import LoadingProgress from '../dialogs/LoadingProgress';
 import CreateStudyGroup from './CreateStudyGroup';
 
 /**
@@ -95,7 +94,7 @@ class ManageStudyGroup extends Component {
       <div className={classes.root}>
          < CreateStudyGroup
            {...this.props}
-           AllStudyGroupList ={AllStudyGroupList}
+           ManageStudyGroup ={ManageStudyGroup}
            openpr={this.state.openpr}
            openProject={this.openProject}
            closeProject={this.closeProject}

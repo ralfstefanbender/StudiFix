@@ -11,8 +11,8 @@ import {
     Slider,
     Button,
     Grid} from'@material-ui/core';
-import {StudyFixAPI, StudyGroupBO, ChatBO} from '../api';
-import DateFnsUtils from "@date-io/date-fns";
+import {StudyFixAPI, StudyGroupBO, ChatBO} from '../../api';
+
 
 
 class CreateStudyGroup extends Component {
