@@ -69,7 +69,7 @@ class CreateStudyGroup extends Component {
 
 
 
-    // Add a new Project
+    // Add Studygroup
      addStudyGroup = () => {
         let newStudyGroup = new StudyGroupBO();
         newStudyGroup.setDate(this.state.creationDate);
@@ -125,7 +125,7 @@ class CreateStudyGroup extends Component {
         });
     }
 
-     closeProject = () => {
+     closestudygroup = () => {
         this.setState({openpr:false});
     }
 
@@ -141,7 +141,7 @@ class CreateStudyGroup extends Component {
 
     return(
 
-        <Dialog open={this.props.openpr} onClose={this.props.closeProject} fullWidth maxWidth='md'>
+        <Dialog open={this.props.openpr} onClose={this.props.closestudygroup} fullWidth maxWidth='md'>
           <DialogTitle fontcolor='primary' >Create Studygroup</DialogTitle>
             <Grid container spacing={2} justify="center" driection="row"  >
 
@@ -165,7 +165,7 @@ class CreateStudyGroup extends Component {
 
 
                 <Grid item>
-                    <Button variant="outlined" onClick={this.props.closeProject}>Cancel</Button>
+                    <Button variant="outlined" onClick={this.props.closestudygroup}>Cancel</Button>
                 </Grid>
                 <Grid item>
                     <Button variant="contained" color="primary"
