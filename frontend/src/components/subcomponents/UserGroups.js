@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import { makeStyles, withStyles, Paper, Typography, Link, Grid } from '@material-ui/core';
+import { makeStyles, withStyles, Box, Button, Paper, Typography, Link, Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { StudyFixAPI } from '../../api';
+import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
-import StudyFixAPI from '../../api/StudyFixAPI';
+import UserGroupsDetail from './UserGroupsDetail';
+
 
 
 class UserGroups extends Component {
@@ -11,62 +14,96 @@ class UserGroups extends Component {
 
     this.state = {
       buddys: [],
+      openpr:false,
       loadingInProgress: false,
-      error: null
+      loadingError: null,
+      redirect: false,
+      error: null,
+      openDialog: false,
     };
   }
 
+  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  componentDidMount() {
+    this.getAllUsers();
+  }
+
   /** Fetches ChatInvitationBOs for current user */
-  getChatInvitationAcceptedInvitesSource = (suser) => {
-    StudyFixAPI.getAPI().getChatInvitationAcceptedInvitesSource(suser)
-    .then(chatInvitationBOs => this.setState({
-      buddys: chatInvitationBOs,
-      filteredBuddys: [...chatInvitationBOs],
-      loadingInProgress: false,
-      error: null
+  getAllUsers = () => {
+    StudyFixAPI.getAPI().getAllUsers().then(buddys =>
+      this.setState({
+        buddys: buddys,
+        loadingInProgress: false,
+        error: null
     })).catch(e => this.setState({
-      buddys: [],
       loadingInProgress: false,
-      error: e
+      loadingError: e
     }));
 
     this.setState({
       loadingInProgress: true,
-      error: null
+      loadingError: null
     });
   }
 
-/** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
-componentDidMount() {
-  this.getChatInvitationAcceptedInvitesSource();
-}
+   // opens usergroups
+   openusergroups(){
+    this.setState({
+        openpr: true });
+
+    }
+    // close usergroups
+    closeusergroups= () => {
+        this.setState({openpr:false});
+    }
+
+    handleMobileMenu = (event) => {
+      this.setState({
+        mobileAnchorEl: event.currentTarget,
+      })
+    }
+
+    handleMobileClose = () => {
+      this.setState({
+        mobileAnchorEl: null
+      })
+    }
+
+     
 
 render(){
   const { classes,} = this.props;
-  const { buddys, loadingInProgress, error} = this.state;
+  const { buddys, loadingInProgress, loadingError} = this.state;
 
   return(
-    <div className = {classes.root}>
-        <Typography variant='h6'>Hier stehen ihre Lernpartner:</Typography>
-    </div>
-  )
+    <div className={classes.root}>
+       <Button onClick={() => {this.openusergroups(); this.handleMobileClose()}}>LernPartner hinzufügen</Button>
+          {
+            buddys.map(buddys => <UserGroupsDetail key={buddys.getID()} {...this.props}
+            firstName={buddys.getFirstName()} lastName={buddys.getLastName()} ID={buddys.getID()} />)
+          }
+
+          <LoadingProgress show={loadingInProgress} />
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The list could not be loaded.`} />
+      </div>
+    );
+  }
 }
 
-}
 
 
-
+/** Component specific styles */
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    padding: theme.spacing(1)
-  },
-  content: {
-    margin: theme.spacing(1),
   }
 });
 
+
+/** PropTypes */
+UserGroups.propTypes = {
+  /** @ignore */
+  classes: PropTypes.object.isRequired,
+}
 
 export default withStyles(styles)(UserGroups);
