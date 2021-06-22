@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Card, CardActions, CardContent, Button  } from '@material-ui/core';
+import { withStyles, Typography, Card, CardActions, CardContent, Button, CardActionArea  } from '@material-ui/core';
 import { StudyFixAPI } from '../../api';
+import DeleteIcon from '@material-ui/icons/Delete';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 
@@ -26,20 +27,22 @@ render() {
 
     return (
       <Card variant='outlined' className={classes.root}>
-        <CardContent>
-          <Typography variant='h6'>
-            Buddy:
-          </Typography>
-          <Typography >
-            Vorname: {firstName} <br></br>
-            Nachname: {lastName} <br></br> 
-            ID: {ID}
-          </Typography>
-          <CardActions>
-            <Button size='small' color='primary'>Optionen</Button>
+        <CardActionArea>
+          <CardContent>
+            <Typography variant='h6' component='h2'>
+              Buddy:
+            </Typography>
+            <Typography variant='body2' component='p'>
+              Vorname: {firstName}, <br></br> 
+              Nachname: {lastName}, <br></br>
+              ID: {ID}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+          <CardActions style={{float: 'right'}}>
+            <Button startIcon={<DeleteIcon/>} size='small' color='primary'>Löschen</Button>
           </CardActions>
-        </CardContent>
-
+        
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data could not be loaded.`} onReload={this.getLearningProfileUserById} />
       </Card>
@@ -54,11 +57,7 @@ const styles = theme => ({
     padding: theme.spacing(1),
     marginTop: theme.spacing(1)
   },
-  accountEntry: {
-    fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
-    flexShrink: 0,
-  }
+  
 });
 
 export default withStyles(styles)(UserGroupsDetail);
