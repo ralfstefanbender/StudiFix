@@ -51,7 +51,7 @@ def secured(function):
                         Wohl aber können sich der zugehörige Klarname (name) und die
                         E-Mail-Adresse ändern. Daher werden diese beiden Daten sicherheitshalber
                         in unserem System geupdated."""
-                        user.set_firstname(name)
+                        """user.set_firstname(name)"""
                         user.set_email(email)
                         adm.save_user(user)
                     else:

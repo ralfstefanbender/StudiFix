@@ -41,8 +41,8 @@ class ManageUser extends Component {
     updateUser = () => {
         var user = this.state.userBO
         user.setFirstName(this.state.newFirstName)
-        user.setLastName(this.state.newLastName)
-        user.setAdress(this.newAdress)
+       //** */ user.setLastName(this.state.newLastName)
+       //** */ user.setAdress(this.newAdress)
         StudyFixAPI.getAPI().updateUser(user)
             .then(function () {
                 this.setAlertOpen(true);
