@@ -10,6 +10,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import ChatInvitationBO from '../../api/ChatInvitationBO';
 
 
 
@@ -25,11 +26,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+function chatInvitation(targetId){
+  var newInvite = new ChatInvitationBO()
+  newInvite.setSourceOwner(1)
+  newInvite.setIsAccepted(false)
+  newInvite.setTargetOwner(targetId)
+  newInvite.setChatId(1)
+  return newInvite
+} 
+
 function Matching_page(currentUser) {
   const [matches, setmatches] = useState(null);
   const [group_matches, setgroup_matches] = useState(null);
+  const sourceUser = ()=>{StudyFixAPI.getAPI().getUserByGoogleIdURL(currentUser.currentUser.uid)}
   const classes = useStyles();
-  console.log(currentUser)
   return (
     <ThemeProvider theme={theme}>
       <Paper elevation={0} className={classes.root}>
@@ -43,6 +53,9 @@ function Matching_page(currentUser) {
               </Typography>
             <Button align="center" variant="contained" color="primary" onClick={()=>{StudyFixAPI.getAPI().getMatchesUser(currentUser.currentUser.uid).then(UserMatchBO => setmatches(UserMatchBO)); StudyFixAPI.getAPI().getMatchesGroup(currentUser.currentUser.uid).then(GroupMatchBO => setgroup_matches(GroupMatchBO))}}>
               Matches Suchen
+            </Button>
+            <Button onClick={()=>{console.log(sourceUser)}}>
+              test
             </Button>
             </div>
           <Typography variant='h6'>
@@ -66,7 +79,7 @@ function Matching_page(currentUser) {
                 <TableCell align="center">{match.interest}</TableCell>
                 <TableCell align="center"><b>{match.matching_score}</b></TableCell>
                 <TableCell align="center">
-                <Button variant="contained" color="primary">
+                <Button disabled={false} variant="contained" color="primary" onClick={()=>{StudyFixAPI.getAPI().addChatInvitation(chatInvitation(match.id))}}>
                   Anfrage senden
                 </Button>
                 </TableCell>
