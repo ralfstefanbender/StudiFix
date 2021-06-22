@@ -1245,7 +1245,31 @@ class MatchingAlgorithmus(Resource):
     def get(self, id):
         adm = Administration()
         matches = adm.get_matches_user(id, .2)
+
+        # Liste an User Matches display Informationen
         result = []
+
+        # Filter existing friends
+        buddy_ids = []
+
+        # Where source user
+        buddys = adm.get_all_invites_by_source_user(adm.get_user_by_google_id(id).get_id())
+        if type(buddys) != list:
+            buddy_ids.append(buddys.get_target_user())
+        else:
+            for obj in buddys:
+                buddy_ids.append(obj.get_target_user())
+
+        # Where target user
+        buddys = adm.get_all_invites_by_target_user(adm.get_user_by_google_id(id).get_id())
+        if type(buddys) != list:
+            buddy_ids.append(buddys.get_source_user())
+        else:
+            for obj in buddys:
+                buddy_ids.append(obj.get_source_user())
+
+        print("Friend User Ids: (beeing filtered from result)", buddy_ids)
+
         for learningprofile_id in matches:
             user_id = adm.get_user_id_by_learningprofile_id(learningprofile_id)
             user = adm.get_user_by_id(user_id)
@@ -1255,13 +1279,18 @@ class MatchingAlgorithmus(Resource):
             interest = learningprofile.get_interest()
             matching_score = matches[learningprofile_id]
             matching_score = str(round(matching_score*100)) + "%"
-            if interest != 'interest preset':
+
+            if interest != 'interest preset' and user_id not in buddy_ids:
                 result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score, "id": user_id})
-            def get_score(matching_score):
-                return matching_score.get("matching_score")
-            result.sort(key= get_score)
-            result.reverse()
-            print(result)
+
+        # Ergebnisse sortieren für frontend
+        def get_score(var):
+            return var.get("matching_score")
+        result.sort(key=get_score)
+        result.reverse()
+
+        print("User Matches:", result)
+
         return result
 
 
@@ -1290,7 +1319,7 @@ class GroupMatchingAlgorithmus(Resource):
                 return matching_score.get("matching_score")
             result.sort(key= get_score)
             result.reverse()
-            print(result)
+        print("Group Matches:", result)
         return result
 
 
