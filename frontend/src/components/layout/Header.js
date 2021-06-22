@@ -56,9 +56,6 @@ class Header extends Component {
               <Tab label='Lernpartner' component={RouterLink} to={`/lernpartner`} />
               <Tab label='Matching' component={RouterLink} to={`/matching_page`} />
               <Tab label='About' component={RouterLink} to={`/about`} />
-              <Button color="inherit" onClick={this.handleSignOutButtonClicked}>
-                Log out
-              </Button>
             </Tabs>
             : null
         }
