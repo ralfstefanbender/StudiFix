@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { makeStyles, withStyles, Box, Button, Paper, Typography, Link, Grid } from '@material-ui/core';
+import { makeStyles, withStyles, Box, Button, Paper, Typography, Link, Grid, GridList, GridListTile } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { StudyFixAPI } from '../../api';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
@@ -97,19 +97,24 @@ render(){
   const { buddys, loadingInProgress, loadingError} = this.state;
 
   return(
-    <div className={classes.root}>
+    <Grid className={classes.root}>
        <Button onClick={() => {this.openusergroups(); this.handleMobileClose()}}>LernPartner hinzufügen</Button>
-          {
-            buddys.map(buddys => <UserGroupsDetail key={buddys.getID()} {...this.props}
-            firstName={buddys.getFirstName()} lastName={buddys.getLastName()} ID={buddys.getID()} />)
-          }
+          <Grid>
+              <Grid xs={4} spacing={3}>
+                  {
+                    buddys.map(buddys => <UserGroupsDetail key={buddys.getID()} {...this.props}
+                    firstName={buddys.getFirstName()} lastName={buddys.getLastName()} ID={buddys.getID()} />)
+                  }
+              </Grid>
+          </Grid>
 
           <LoadingProgress show={loadingInProgress} />
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The list could not be loaded.`} />
-      </div>
+      </Grid>
     );
   }
 }
+
 
 
 
@@ -119,6 +124,8 @@ const styles = theme => ({
     width: '100%',
   }
 });
+
+
 
 
 /** PropTypes */

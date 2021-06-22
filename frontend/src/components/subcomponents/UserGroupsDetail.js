@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Paper } from '@material-ui/core';
+import { withStyles, Typography, Card, CardActions, CardContent, Button  } from '@material-ui/core';
 import { StudyFixAPI } from '../../api';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
@@ -25,21 +25,24 @@ render() {
     const {  loadingInProgress, loadingError } = this.state;
 
     return (
-      <Paper variant='outlined' className={classes.root}>
-
-        <Typography variant='h6'>
-          Buddy:
-        </Typography>
-        <Typography >
-          Vorname: {firstName} <br></br>
-          Nachname: {lastName} <br></br> 
-          ID: {ID}
-        </Typography>
-
+      <Card variant='outlined' className={classes.root}>
+        <CardContent>
+          <Typography variant='h6'>
+            Buddy:
+          </Typography>
+          <Typography >
+            Vorname: {firstName} <br></br>
+            Nachname: {lastName} <br></br> 
+            ID: {ID}
+          </Typography>
+          <CardActions>
+            <Button size='small' color='primary'>Optionen</Button>
+          </CardActions>
+        </CardContent>
 
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data could not be loaded.`} onReload={this.getLearningProfileUserById} />
-      </Paper>
+      </Card>
     );
   }
 }
