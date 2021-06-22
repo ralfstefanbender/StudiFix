@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import { makeStyles, withStyles, Box, Button, Paper, Typography, Link, Grid } from '@material-ui/core';
+import { makeStyles, withStyles, Button, Link, Grid, List, Paper, Typography, } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { StudyFixAPI } from '../../api';
+import { createBrowserHistory as history} from 'history';
+import { History } from 'history';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import UserGroupsDetail from './UserGroupsDetail';
+import firebase from 'firebase/app';
 
 
 
@@ -14,18 +17,23 @@ class UserGroups extends Component {
 
     this.state = {
       buddys: [],
+      acceptedBuddys: [],
+      acceptedInvites: [],
       openpr:false,
       loadingInProgress: false,
       loadingError: null,
       redirect: false,
       error: null,
       openDialog: false,
+      userBO: null,
     };
   }
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
+    this.getUserByGoogleId();
     this.getAllUsers();
+
   }
 
   /** Fetches ChatInvitationBOs for current user */
@@ -45,6 +53,21 @@ class UserGroups extends Component {
       loadingError: null
     });
   }
+
+  getAcceptedUsers = () => {
+    console.log(this.state.userBO.id)
+    StudyFixAPI.getAPI().getChatInvitationAcceptedInvitesTarget(this.state.userBO.id).then((acc) => this.setState({acceptedInvites:acc}))
+    StudyFixAPI.getAPI().getChatInvitationAcceptedInvitesSource(this.state.userBO.id).then((acc) => this.setState({acceptedInvites:acc}))
+    
+  }
+
+  getUserByGoogleId = () => {
+    StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)
+        .then((user)=>{
+          this.setState({userBO:user})
+          this.getAcceptedUsers()
+        })
+            }
 
    // opens usergroups
    openusergroups(){
@@ -68,20 +91,21 @@ class UserGroups extends Component {
         mobileAnchorEl: null
       })
     }
-
-     
+ 
 
 render(){
   const { classes,} = this.props;
-  const { buddys, loadingInProgress, loadingError} = this.state;
+  const { buddys, acceptedInvites, acc, loadingInProgress, loadingError} = this.state;
 
   return(
     <div className={classes.root}>
-       <Button onClick={() => {this.openusergroups(); this.handleMobileClose()}}>LernPartner hinzufügen</Button>
-          {
+      <Button color='primary'>Lernpartner hinzufügen</Button>
+          <Grid>
+            {
             buddys.map(buddys => <UserGroupsDetail key={buddys.getID()} {...this.props}
             firstName={buddys.getFirstName()} lastName={buddys.getLastName()} ID={buddys.getID()} />)
-          }
+            }
+          </Grid>
 
           <LoadingProgress show={loadingInProgress} />
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The list could not be loaded.`} />
@@ -92,13 +116,13 @@ render(){
 
 
 
+
 /** Component specific styles */
 const styles = theme => ({
   root: {
     width: '100%',
-  }
+  },
 });
-
 
 /** PropTypes */
 UserGroups.propTypes = {

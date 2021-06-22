@@ -133,7 +133,7 @@ class App extends Component {
 										<ManageStudyGroup />
 									</Route>
 									<Route path='/lernpartner'>
-										<UserGroups />
+										<UserGroups currentUser={this.state.currentUser}/>
 									</Route>
 									<Route path='/matching_page'>
                                     	<Matching_page currentUser={this.state.currentUser} />

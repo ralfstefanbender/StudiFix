@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Paper, Typography, Tabs, Tab, Button } from '@material-ui/core';
+import { Paper, Typography, Tabs, Tab, Button, AppBar } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import firebase from 'firebase/app';
+import ProfileDropDown from "../dialogs/ProfileDropDown";
 
 
 /*
@@ -38,31 +39,26 @@ class Header extends Component {
 
     return (
       <Paper variant='outlined' >
-
+        <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center'>
           StudyFix
         </Typography>
         <Typography variant='h4' component='h2' align='center'>
           Find your perfect learn buddys!
-        </Typography>
+        </Typography> <br></br>
          {
           user ?
-
-            <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-            <Tab label='Home' component={RouterLink} to={`/overview`} />
+            <Tabs indicatorColor='primary' textColor='primary' value={this.state.tabindex} onChange={this.handleTabChange} >
+              <Tab label='Home' component={RouterLink} to={`/overview`} />
               <Tab label='Mein Profil' component={RouterLink} to={`/ManageUser`} />
               <Tab label='Chat' component={RouterLink} to={`/chat`} />
               <Tab label='Lerngruppen' component={RouterLink} to={`/studygroup`} />
               <Tab label='Lernpartner' component={RouterLink} to={`/lernpartner`} />
               <Tab label='Matching' component={RouterLink} to={`/matching_page`} />
               <Tab label='About' component={RouterLink} to={`/about`} />
-               <Button color="inherit" onClick={this.handleSignOutButtonClicked}>
-              Log out
-            </Button>
             </Tabs>
             : null
         }
-
       </Paper>
     )
   }

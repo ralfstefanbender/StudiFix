@@ -9,12 +9,13 @@ export default class UserMatchBO extends BusinessObject  {
    * Constructs a new ChatInvitationBO
    *
    */
-  constructor(aName, aSemester, aInterest, aScore) {
+  constructor(aName, aSemester, aInterest, aScore, aId) {
     super();
     this.name = aName;
     this.semester = aSemester;
     this.interest = aInterest;
     this.score = aScore;
+    this.id = aId;
 
   }
 
