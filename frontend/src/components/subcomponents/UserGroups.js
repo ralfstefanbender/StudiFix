@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { makeStyles, withStyles, Box, Button, Paper, Typography, Link, Grid, GridList, GridListTile } from '@material-ui/core';
+import { makeStyles, withStyles, Button, Link, Grid, List, Paper, Typography, } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { StudyFixAPI } from '../../api';
+import { createBrowserHistory as history} from 'history';
+import { History } from 'history';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import UserGroupsDetail from './UserGroupsDetail';
@@ -89,28 +91,25 @@ class UserGroups extends Component {
         mobileAnchorEl: null
       })
     }
-
-     
+ 
 
 render(){
   const { classes,} = this.props;
-  const { buddys, loadingInProgress, loadingError} = this.state;
+  const { buddys, acceptedInvites, acc, loadingInProgress, loadingError} = this.state;
 
   return(
-    <Grid className={classes.root}>
-       <Button onClick={() => {this.openusergroups(); this.handleMobileClose()}}>LernPartner hinzufügen</Button>
+    <div className={classes.root}>
+      <Button color='primary'>Lernpartner hinzufügen</Button>
           <Grid>
-              <Grid xs={4} spacing={3}>
-                  {
-                    buddys.map(buddys => <UserGroupsDetail key={buddys.getID()} {...this.props}
-                    firstName={buddys.getFirstName()} lastName={buddys.getLastName()} ID={buddys.getID()} />)
-                  }
-              </Grid>
+            {
+            buddys.map(buddys => <UserGroupsDetail key={buddys.getID()} {...this.props}
+            firstName={buddys.getFirstName()} lastName={buddys.getLastName()} ID={buddys.getID()} />)
+            }
           </Grid>
 
           <LoadingProgress show={loadingInProgress} />
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The list could not be loaded.`} />
-      </Grid>
+      </div>
     );
   }
 }
@@ -122,11 +121,8 @@ render(){
 const styles = theme => ({
   root: {
     width: '100%',
-  }
+  },
 });
-
-
-
 
 /** PropTypes */
 UserGroups.propTypes = {
