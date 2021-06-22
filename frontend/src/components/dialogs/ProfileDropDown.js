@@ -4,16 +4,8 @@ import { Popover, IconButton, Avatar, ClickAwayListener, withStyles, Typography,
 import firebase from 'firebase/app';
 
 /**
- * Shows a drop down list for the account infos and a possibility to log out. For closing the pop up menu if 
- * the mouse is clicked outside the menu, the ClickAwayListener component is used.For logging out,
- * firebase.auth().signOut() method is used.
- * 
- * @see See Material-UIs [Popover](https://material-ui.com/components/popover/)
- * @see See Material-UIs [ClickAwayListener](https://material-ui.com/components/click-away-listener/)
- * @see See Googles [firebase authentication](https://firebase.google.com/docs/web/setup)
- * @see See Googles [firebase API reference](https://firebase.google.com/docs/reference/js)
- * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
+ * Zeigt das Profil an und gibt dem User die Möglichkeit sich auszuloggen.
+ *
  */
 class ProfileDropDown extends Component {
 
@@ -29,7 +21,7 @@ class ProfileDropDown extends Component {
     }
   }
 
-  /** Handles click events on the avatar button and toggels visibility */
+  /** Drücken des Avatars */
   handleAvatarButtonClick = () => {
     this.setState({
       open: !this.state.open
@@ -37,9 +29,7 @@ class ProfileDropDown extends Component {
   }
 
   /** 
-   * Handles click events from the ClickAwayListener.
-   * 
-   * @see See Material-UIs [ClickAwayListener](https://material-ui.com/components/click-away-listener/)
+   * Schließen beim Klicken in ein anderes Feld
    */
   handleClose = () => {
     this.setState({
@@ -48,16 +38,13 @@ class ProfileDropDown extends Component {
   }
 
   /** 
-	 * Handles the click event of the sign in button and uses the firebase.auth() component to sign in.
-	 * 
-	 * @see See Google [firebase.auth](https://firebase.google.com/docs/reference/js/firebase.auth.Auth)
-	 * @see See Google [firebase.auth().signOut](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signout)
+	 * Ausloggen wenn man Authentifiziert ist.
 	 */
   handleSignOutButtonClicked = () => {
     firebase.auth().signOut();
   }
 
-  /** Renders the profile drop down if a loggin user is given as a prop */
+  /** Rendert die Komponente */
   render() {
     const { classes, user } = this.props;
     const { open } = this.state;
@@ -99,7 +86,7 @@ class ProfileDropDown extends Component {
   }
 }
 
-/** Component specific styles */
+/** Style der Komponente */
 const styles = theme => ({
   avatarButton: {
     float: 'right'
@@ -117,7 +104,7 @@ const styles = theme => ({
 ProfileDropDown.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The logged in firesbase user */
+  /** Eingeloggte Person */
   user: PropTypes.object,
 }
 

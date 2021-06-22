@@ -75,8 +75,10 @@ class Administration(object):
         user.set_id(1)
 
         with UserMapper() as mapper:
-            return mapper.insert(user)
+            mapper.insert(user)
 
+        user_id = self.get_user_by_google_id(google_id)
+        self.create_learningprofile_user(user_id.get_id(), "profile", 1, 1, 1, 1, 1, 1, "interest preset", "degreecourse preset")
 
     def get_user_by_name(self, name):
         """Alle User mit Namen name auslesen."""
