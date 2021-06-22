@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Paper, Typography, Tabs, Tab, Button, AppBar } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import firebase from 'firebase/app';
+import ProfileDropDown from "../dialogs/ProfileDropDown";
 
 
 /*
@@ -38,6 +39,7 @@ class Header extends Component {
 
     return (
       <Paper variant='outlined' >
+        <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center'>
           StudyFix
         </Typography>
