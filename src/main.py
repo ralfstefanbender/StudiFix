@@ -322,7 +322,7 @@ class ChatInvitationListOperations(Resource):
 
     @studyfix.marshal_with(chatinvitation, code=200)
     @studyfix.expect(chatinvitation)  # We expect a user object from the client side.
-    @secured
+
     def post(self):
         """Create a new Chatinvitation object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -330,7 +330,9 @@ class ChatInvitationListOperations(Resource):
         it is up to the administration (business logic) to have a correct ID
         to forgive. * The corrected object will eventually be returned. *"""
         adm = Administration()
+        print(api.payload)
         prpl = ChatInvitation.from_dict(api.payload)
+
         """Check the references for valid values before using them."""
         if prpl is not None:
             """We only use the attributes of chatinvitation of the proposal for generation
@@ -1253,7 +1255,12 @@ class MatchingAlgorithmus(Resource):
             interest = learningprofile.get_interest()
             matching_score = matches[learningprofile_id]
             matching_score = str(round(matching_score*100)) + "%"
-            result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score})
+            result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score, "id": user_id})
+
+            def get_score(matching_score):
+                return matching_score.get("matching_score")
+            result.sort(key= get_score)
+            result.reverse()
             print(result)
         return result
 
@@ -1276,6 +1283,11 @@ class GroupMatchingAlgorithmus(Resource):
             matching_score = matches[learningprofile_id]
             matching_score = str(round(matching_score*100)) + "%"
             result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score})
+
+            def get_score(matching_score):
+                return matching_score.get("matching_score")
+            result.sort(key= get_score)
+            result.reverse()
             print(result)
         return result
 
