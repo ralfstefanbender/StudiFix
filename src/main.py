@@ -1254,6 +1254,10 @@ class MatchingAlgorithmus(Resource):
             matching_score = matches[learningprofile_id]
             matching_score = str(round(matching_score*100)) + "%"
             result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score})
+            def get_score(matching_score):
+                return matching_score.get("matching_score")
+            result.sort(key= get_score)
+            result.reverse()
             print(result)
         return result
 
@@ -1276,6 +1280,10 @@ class GroupMatchingAlgorithmus(Resource):
             matching_score = matches[learningprofile_id]
             matching_score = str(round(matching_score*100)) + "%"
             result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score})
+            def get_score(matching_score):
+                return matching_score.get("matching_score")
+            result.sort(key= get_score)
+            result.reverse()
             print(result)
         return result
 
