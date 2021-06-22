@@ -10,7 +10,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import ChatInvitationBO from '../../api/ChatInvitationBO';
+
+
+import MatchingPageRow from '../subcomponents/MatchingPageRow';
 
 class Matching_page extends Component {
 
@@ -36,19 +38,7 @@ class Matching_page extends Component {
     StudyFixAPI.getAPI().getMatchesGroup(this.state.current_user.getGoogleId()).then(GroupMatchBO => this.setState({group_matches:GroupMatchBO}))
   }
 
-  handleChatInvite(e, match_id){
-    StudyFixAPI.getAPI().addChatInvitation(this.chatInvitation(match_id))
-    e.target.innerHTML = "Einladung gesendet!"
-  }
 
-  chatInvitation(targetId){
-    var newInvite = new ChatInvitationBO()
-    newInvite.setSourceOwner(this.state.current_user.id)
-    newInvite.setIsAccepted(false)
-    newInvite.setTargetOwner(targetId)
-    newInvite.setChatId(1)
-    return newInvite
-  } 
 
   render(){
 
@@ -84,17 +74,8 @@ class Matching_page extends Component {
               </TableHead>
               <TableBody>
                 {this.state.matches? this.state.matches.map((match)=>(
-                  <TableRow key={match.name}>
-                  <TableCell align="left">{match.name}</TableCell>
-                  <TableCell align="center">{match.semester}</TableCell>
-                  <TableCell align="center">{match.interest}</TableCell>
-                  <TableCell align="center"><b>{match.matching_score}</b></TableCell>
-                  <TableCell align="center">
-                  <Button variant="contained" color="primary" onClick={(e)=>{this.handleChatInvite(e, match.id)}}>
-                    Anfrage senden
-                  </Button>
-                  </TableCell>
-                </TableRow>
+                  <MatchingPageRow key={match.id} match={match} user_id={this.state.current_user.id}>  
+                  </MatchingPageRow>
                 )):null}
               </TableBody>
               
