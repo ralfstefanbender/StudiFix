@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import { withStyles, Typography, Card, CardActions, CardContent, Button, CardActionArea  } from '@material-ui/core';
 import { StudyFixAPI } from '../../api';
-import DeleteIcon from '@material-ui/icons/Delete';
+import ClearIcon from '@material-ui/icons/Clear';
+import CheckIcon from '@material-ui/icons/Check';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 
 
-class UserGroupsDetail extends Component{
+class UserGroupsFriendRequests extends Component{
 
     constructor(props){
         super(props);
@@ -30,16 +30,16 @@ render() {
         <CardActionArea>
           <CardContent>
             <Typography variant='h6' component='h2'>
-            {firstName} {lastName}
+                {firstName} {lastName}
             </Typography>
             <Typography variant='body2' component='p'>
-              ID: {ID} <br />
-              Adress:
+              ID: {ID}
             </Typography>
           </CardContent>
         </CardActionArea>
           <CardActions style={{float: 'right'}}>
-            <Button startIcon={<DeleteIcon/>} size='small' color='primary'>Buddy entfernen</Button>
+            <Button startIcon={<CheckIcon/>} size='small' color='primary'>Anfrage Annehmen</Button>
+            <Button startIcon={<ClearIcon/>} size='small' color='primary'>Anfrage Ablehnen</Button>
           </CardActions>
         
         <LoadingProgress show={loadingInProgress} />
@@ -59,4 +59,4 @@ const styles = theme => ({
   
 });
 
-export default withStyles(styles)(UserGroupsDetail);
+export default withStyles(styles)(UserGroupsFriendRequests);

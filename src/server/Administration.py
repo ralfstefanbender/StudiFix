@@ -273,6 +273,25 @@ class Administration(object):
         with ChatInvitationMapper() as mapper:
             return mapper.find_accepted_invites_by_target_user(target_user)
 
+    def get_friend_requests_by_google_id(self, google_id):
+        user = self.get_user_by_google_id(google_id)
+        user_id = user.get_id()
+        request_ids = []
+
+        friend_requests = self.get_pend_invites_by_target_user(user_id)
+
+        if type(friend_requests) != list:
+            request_ids.append(friend_requests.get_source_user())
+        else:
+            for obj in friend_requests:
+                request_ids.append(obj.get_source_user())
+
+        friend_request_objects = []
+        for num in request_ids:
+            friend_request_objects.append(self.get_user_by_id(num))
+
+        return friend_request_objects
+
     def get_friends_by_google_id(self, google_id):
         user = self.get_user_by_google_id(google_id)
         user_id = user.get_id()
