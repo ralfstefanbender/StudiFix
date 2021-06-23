@@ -112,7 +112,7 @@ class ManageStudyGroup extends Component {
        <Button onClick={() => {this.openstudygroup(); this.handleMobileClose()}}>Lerngruppe hinzufügen</Button>
           <Grid>
             {
-            studygroups.map(studygroups => <UserGroupsDetail key={studygroups.getID()} {...this.props}
+            studygroups.map(studygroups => <StudyGroupDetail key={studygroups.getID()} {...this.props}
             name={studygroups.getName()}  ID={studygroups.getID()} />)
             }
           </Grid>
