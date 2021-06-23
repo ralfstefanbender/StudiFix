@@ -105,6 +105,7 @@ export default class StudyFixAPI {
     #getMatches = (id) => `${this.#studyfixServerBaseURL}/matching/${id}`;
     #getGroupMatches = (id) => `${this.#studyfixServerBaseURL}/groupmatching/${id}`;
     #getAuth = () => `${this.#studyfixServerBaseURL}/auth`;
+    #getFriendsByGoogleId = (id) => `${this.#studyfixServerBaseURL}/friends-by-google-id/${id}`;
 
     /**
    * Get the Singelton instance
@@ -1254,7 +1255,23 @@ export default class StudyFixAPI {
 
     getAuth(){
       return this.#fetchAdvanced(this.#getAuth())
+
     }
+                          /**
+     * Returns a Promise, which resolves to a GroupInvitationBO
+     * @param {suser} accepted source_user id of the project to be retrieved
+     * @public
+     */
+    
+    getFriendsByGoogleId(user){
+      return this.#fetchAdvanced(this.#getFriendsByGoogleId(user)).then((responseJSON) => {
+        let users = UserBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(users);
+      })
+    })
+    }
+
   }
 
   

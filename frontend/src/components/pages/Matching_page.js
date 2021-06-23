@@ -56,7 +56,7 @@ class Matching_page extends Component {
                 <Typography variant='h8'>
                   Mit einem Klick nach passenden Matches suchen  <br />
                 </Typography>
-              <Button align="center" variant="contained" color="primary" onClick={()=>{this.handleMatchSearch()}}>
+              <Button align="center" variant="contained" color="secondary" onClick={()=>{this.handleMatchSearch()}}>
                 Matches Suchen
               </Button>
               </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { makeStyles, withStyles, Button, Link, Grid, List, Paper, Typography, } from '@material-ui/core';
+import { withStyles, Button, Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { StudyFixAPI } from '../../api';
 import { Link as RouterLink } from 'react-router-dom';
@@ -17,8 +17,6 @@ class UserGroups extends Component {
 
     this.state = {
       buddys: [],
-      acceptedBuddys: [],
-      acceptedInvites: [],
       openpr:false,
       loadingInProgress: false,
       loadingError: null,
@@ -32,13 +30,19 @@ class UserGroups extends Component {
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     this.getUserByGoogleId();
-    this.getAllUsers();
 
   }
 
+  getUserByGoogleId = () => {
+    StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
+          this.setState({userBO:user}); 
+          this.getFriends(user.google_id);
+        })
+            }
+
   /** Fetches ChatInvitationBOs for current user */
-  getAllUsers = () => {
-    StudyFixAPI.getAPI().getAllUsers().then(buddys =>
+  getFriends = (google_id) => {
+    StudyFixAPI.getAPI().getFriendsByGoogleId(google_id).then(buddys =>
       this.setState({
         buddys: buddys,
         loadingInProgress: false,
@@ -54,20 +58,6 @@ class UserGroups extends Component {
     });
   }
 
-  getAcceptedUsers = () => {
-    console.log(this.state.userBO.id)
-    StudyFixAPI.getAPI().getChatInvitationAcceptedInvitesTarget(this.state.userBO.id).then((acc) => this.setState({acceptedInvites:acc}))
-    StudyFixAPI.getAPI().getChatInvitationAcceptedInvitesSource(this.state.userBO.id).then((acc) => this.setState({acceptedInvites:acc}))
-    
-  }
-
-  getUserByGoogleId = () => {
-    StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)
-        .then((user)=>{
-          this.setState({userBO:user})
-          this.getAcceptedUsers()
-        })
-            }
 
    // opens usergroups
    openusergroups(){
