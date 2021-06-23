@@ -107,6 +107,8 @@ export default class StudyFixAPI {
     #getAuth = () => `${this.#studyfixServerBaseURL}/auth`;
     #getFriendsByGoogleId = (id) => `${this.#studyfixServerBaseURL}/friends-by-google-id/${id}`;
     #getFriendRequestsByGoogleId = (id) => `${this.#studyfixServerBaseURL}/friend-requests-by-google-id/${id}`;
+    #getGroupsByGoogleId = (id) => `${this.#studyfixServerBaseURL}/groups-by-google-id/${id}`;
+
 
     /**
    * Get the Singelton instance
@@ -1272,17 +1274,32 @@ export default class StudyFixAPI {
       })
     })
     }
+                        /**
+     * Returns a Promise, which resolves to a GroupInvitationBO
+     * @param {suser} accepted source_user id of the project to be retrieved
+     * @public
+     */
 
     getFriendRequestsByGoogleId(user){
       return this.#fetchAdvanced(this.#getFriendRequestsByGoogleId(user)).then((responseJSON) => {
         let users = UserBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(users);
+        })
       })
-    })
-    }
+      }
 
+    getGroupsByGoogleId(user){
+      return this.#fetchAdvanced(this.#getGroupsByGoogleId(user)).then((responseJSON) => {
+        let users = StudyGroupBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(users);
+        })
+      })
+      }
 
   }
-
   
+
+
+

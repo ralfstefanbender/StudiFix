@@ -442,6 +442,31 @@ class Administration(object):
         with GroupInvitationMapper() as mapper:
             mapper.delete(group_invite)
 
+    def get_groups_by_google_id(self, google_id):
+        user = self.get_user_by_google_id(google_id)
+        user_id = user.get_id()
+        groupPart_ids = []
+        # Where source user
+        groupInv_by_target = self.get_accepted_groupinvites_by_target_user(user_id)
+        if type(groupInv_by_target) != list:
+            groupPart_ids.append(groupInv_by_target.get_study_group_id())
+        else:
+            for obj in groupInv_by_target:
+                groupPart_ids.append(obj.get_study_group_id())
+
+        # Where target user
+        groupInv_by_source = self.get_accepted_groupinvites_by_source_user(user_id)
+        if type(groupInv_by_source) != list:
+            groupPart_ids.append(groupInv_by_source.get_study_group_id())
+        else:
+            for obj in groupInv_by_source:
+                groupInv_by_source.append(obj.get_study_group_id())
+
+        group_objects = []
+        for num in groupPart_ids:
+            group_objects.append(self.get_studygroup_by_id(num))
+
+        return group_objects
 
     # ChatMessage Methoden
     def create_chatmessage(self, chat_id, user_id, text):
