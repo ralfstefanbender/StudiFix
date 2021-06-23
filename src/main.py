@@ -1301,6 +1301,28 @@ class GroupMatchingAlgorithmus(Resource):
         adm = Administration()
         matches = adm.get_matches_group(id, .1)
         result = []
+
+        # Filter existing group participations
+        groupPart_ids = []
+
+        # Where source user
+        groupPart = adm.get_groupinvitations_by_source_user(adm.get_user_by_google_id(id).get_id())
+        print(groupPart)
+        if type(groupPart) != list:
+            groupPart_ids.append(groupPart.get_study_group_id())
+        else:
+            for obj in groupPart:
+                groupPart_ids.append(obj.get_study_group_id())
+
+        # Where target user
+        groupPart = adm.get_groupinvitations_by_target_user(adm.get_user_by_google_id(id).get_id())
+        if type(groupPart) != list:
+            groupPart_ids.append(groupPart.get_study_group_id())
+        else:
+            for obj in groupPart:
+                groupPart_ids.append(obj.get_study_group_id())
+
+        print("Group User Ids: (beeing filtered from result)", groupPart_ids)
         for learningprofile_id in matches:
             learningprofile = adm.get_learningprofile_group_by_id(learningprofile_id)
             group_id = learningprofile.get_group_id()
@@ -1312,8 +1334,9 @@ class GroupMatchingAlgorithmus(Resource):
             matching_score = matches[learningprofile_id]
             matching_score = str(round(matching_score*100)) + "%"
 
+            if interest != 'interest preset' and group_id not in groupPart_ids:
+                result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score, "id": group_id})
 
-            result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score})
 
             def get_score(matching_score):
                 return matching_score.get("matching_score")
