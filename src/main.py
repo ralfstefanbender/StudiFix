@@ -705,7 +705,7 @@ class GroupInvitationListOperations(Resource):
 
     @studyfix.marshal_with(groupinvitation, code=200)
     @studyfix.expect(groupinvitation)  # We expect a user object from the client side.
-    @secured
+    
     def post(self):
         """Create a new groupinvitation object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -743,7 +743,6 @@ class GroupInvitationOperations(Resource):
 
     @studyfix.marshal_with(groupinvitation)
     @studyfix.expect(groupinvitation, validate=True)  # We expect a user object from the client side.
-    @secured
     def put(self, id):
         """ Update of a specific groupinvitation object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -1131,6 +1130,14 @@ class LearningProfileGroupByNameOperations(Resource):
         learning_profile_by_name = adm.get_learningprofile_group_by_name(name)
         return learning_profile_by_name
 
+@studyfix.route('/groups-by-google-id/<string:google_id>')
+@studyfix.response(500, 'when server has problems')
+class FriendsByGoogleId(Resource):
+    @studyfix.marshal_with(user)
+    def get(self, google_id):
+        adm = Administration()
+        studygroups_by_google_id = adm.get_groups_by_google_id(google_id)
+        return studygroups_by_google_id
 
 
 # -------LearningProfileUser---------
@@ -1238,6 +1245,24 @@ class LearningProfileUserByNameOperations(Resource):
         adm = Administration()
         learning_profile_by_name = adm.get_learningprofile_user_by_name(name)
         return learning_profile_by_name
+
+@studyfix.route('/friend-requests-by-google-id/<string:google_id>')
+@studyfix.response(500, 'when server has problems')
+class FriendRequestsByGoogleId(Resource):
+    @studyfix.marshal_with(user)
+    def get(self, google_id):
+        adm = Administration()
+        friend_requests_by_google_id = adm.get_friend_requests_by_google_id(google_id)
+        return friend_requests_by_google_id
+
+@studyfix.route('/friends-by-google-id/<string:google_id>')
+@studyfix.response(500, 'when server has problems')
+class FriendsByGoogleId(Resource):
+    @studyfix.marshal_with(user)
+    def get(self, google_id):
+        adm = Administration()
+        friends_by_google_id = adm.get_friends_by_google_id(google_id)
+        return friends_by_google_id
 
 @studyfix.route('/matching/<string:id>')
 @studyfix.response(500, 'when server has problems')

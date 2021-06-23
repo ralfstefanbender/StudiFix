@@ -6,6 +6,8 @@ import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import CreateStudyGroup from './CreateStudyGroup';
 import StudyGroupDetail from '../subcomponents/StudyGroupDetail';
+import firebase from "firebase";
+import UserGroupsDetail from "../subcomponents/UserGroupsDetail";
 
 
 class ManageStudyGroup extends Component {
@@ -15,6 +17,7 @@ class ManageStudyGroup extends Component {
 
     // Init an empty state
     this.state = {
+      current_user: null,
       studygroups: [],
       openpr:false,
       loadingInProgress: false,
@@ -31,12 +34,19 @@ class ManageStudyGroup extends Component {
   
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.getAllStudyGroups();
+    this.getUserByGoogleId();
   }
 
+  getUserByGoogleId = () => {
+    StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
+          this.setState({userBO:user});
+          this.getAllStudyGroups(user.google_id);
+        })
+            }
+
   /** gets the account list for this account */
-  getAllStudyGroups = () => {
-    StudyFixAPI.getAPI().getAllStudyGroups().then(studygroups =>
+  getAllStudyGroups = (google_id) => {
+    StudyFixAPI.getAPI().getGroupsByGoogleId(google_id).then(studygroups =>
       this.setState({
         studygroups: studygroups,
         loadingInProgress: false, // loading indicator
@@ -100,10 +110,12 @@ class ManageStudyGroup extends Component {
 
 
        <Button onClick={() => {this.openstudygroup(); this.handleMobileClose()}}>Lerngruppe hinzufügen</Button>
-          {
-            studygroups.map(studygroup => <StudyGroupDetail key={studygroup.getID()} {...this.props}
-            nameID={studygroup.getName()} ID={studygroup.getID()} />)
-          }
+          <Grid>
+            {
+            studygroups.map(studygroups => <StudyGroupDetail key={studygroups.getID()} {...this.props}
+            name={studygroups.getName()}  ID={studygroups.getID()} />)
+            }
+          </Grid>
 
           <LoadingProgress show={loadingInProgress} />
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all studygroups not be loaded.`} />

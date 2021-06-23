@@ -48,9 +48,9 @@ class GroupInvitation(bo.BusinessObject):
         """Umwandeln eines Python dict() in einer ChatInvitation"""
         obj = GroupInvitation()
         obj.set_id(dictionary["id"])
-        obj.set_creation_date(GroupInvitation.date_format(dictionary["creation_date"]))
-        obj.set_source_user(dictionary["source_user"])
-        obj.set_target_user(dictionary["target_user"])
+        obj.set_creation_date(dictionary["creation_date"])
+        obj.set_source_user(dictionary["source_owner"])
+        obj.set_target_user(dictionary["target_owner"])
         obj.set_study_group_id(dictionary["study_group_id"])
         obj.set_is_accepted(dictionary["is_accepted"])
         return obj
