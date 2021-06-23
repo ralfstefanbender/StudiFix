@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { withStyles, Button, Grid } from '@material-ui/core';
+import { withStyles, Button, Grid, Typography, Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { StudyFixAPI } from '../../api';
 import { Link as RouterLink } from 'react-router-dom';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import UserGroupsDetail from './UserGroupsDetail';
+import UserGroupsFriendRequests from './UserGroupsFriendRequests';
 import firebase from 'firebase/app';
 
 
@@ -17,6 +18,7 @@ class UserGroups extends Component {
 
     this.state = {
       buddys: [],
+      friendRequests: [],
       openpr:false,
       loadingInProgress: false,
       loadingError: null,
@@ -37,6 +39,7 @@ class UserGroups extends Component {
     StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
           this.setState({userBO:user}); 
           this.getFriends(user.google_id);
+          this.getFriendRequests(user.google_id)
         })
             }
 
@@ -45,6 +48,23 @@ class UserGroups extends Component {
     StudyFixAPI.getAPI().getFriendsByGoogleId(google_id).then(buddys =>
       this.setState({
         buddys: buddys,
+        loadingInProgress: false,
+        error: null
+    })).catch(e => this.setState({
+      loadingInProgress: false,
+      loadingError: e
+    }));
+
+    this.setState({
+      loadingInProgress: true,
+      loadingError: null
+    });
+  }
+
+  getFriendRequests = (google_id) => {
+    StudyFixAPI.getAPI().getFriendRequestsByGoogleId(google_id).then(friendRequests =>
+      this.setState({
+        friendRequests: friendRequests,
         loadingInProgress: false,
         error: null
     })).catch(e => this.setState({
@@ -85,14 +105,22 @@ class UserGroups extends Component {
 
 render(){
   const { classes,} = this.props;
-  const { buddys, loadingInProgress, loadingError} = this.state;
+  const { buddys, friendRequests, loadingInProgress, loadingError} = this.state;
 
   return(
     <div className={classes.root}>
       < br/>
-        <Button variant="contained" color='secondary' component={RouterLink} to={`/matching_page`}>
-          Nach neuen Lernpartnern Suchen
-        </Button>
+        {
+        //<Button variant="contained" color='secondary' component={RouterLink} to={`/matching_page`}>
+        //Nach neuen Lernpartnern Suchen
+        //</Button>
+        }
+        
+          <Typography variant='h6' component='h1' align='center'>
+              Your Buddies
+            </Typography>
+            <Divider />
+
           <Grid>
             {
             buddys.map(buddys => <UserGroupsDetail key={buddys.getID()} {...this.props}
@@ -100,6 +128,18 @@ render(){
             }
           </Grid>
 
+          <br margin-top='20px' />
+          <Typography variant='h6' component='h1' align='center'>
+              Your Friend Requests
+            </Typography>
+            <Divider />
+
+          <Grid>
+            {
+            friendRequests.map(friendRequests => <UserGroupsFriendRequests key={friendRequests.getID()} {...this.props}
+            firstName={friendRequests.getFirstName()} lastName={friendRequests.getLastName()} ID={friendRequests.getID()} />)
+            }
+          </Grid>
           <LoadingProgress show={loadingInProgress} />
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The list could not be loaded.`} />
       </div>
