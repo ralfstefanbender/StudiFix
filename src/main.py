@@ -1374,6 +1374,6 @@ if __name__ == '__main__':
     """print(Administration.get_matches_user(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1", .1))"""
     """print(Administration.get_matches_group(Administration(), 1, .1))"""
     """print(Administration.get_matches_user(Administration(),"16060601 6962", 0.5))"""
-    Administration.get_friends_by_google_id(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1")
+    """Administration.get_friends_by_google_id(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1")"""
     app.run(debug=True)
 
