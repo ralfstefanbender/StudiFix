@@ -1239,6 +1239,15 @@ class LearningProfileUserByNameOperations(Resource):
         learning_profile_by_name = adm.get_learningprofile_user_by_name(name)
         return learning_profile_by_name
 
+@studyfix.route('/friends-by-google-id/<string:google_id>')
+@studyfix.response(500, 'when server has problems')
+class FriendsByGoogleId(Resource):
+    @studyfix.marshal_with(user)
+    def get(self, google_id):
+        adm = Administration()
+        friends_by_google_id = adm.get_friends_by_google_id(google_id)
+        return friends_by_google_id
+
 @studyfix.route('/matching/<string:id>')
 @studyfix.response(500, 'when server has problems')
 class MatchingAlgorithmus(Resource):
@@ -1366,5 +1375,6 @@ if __name__ == '__main__':
     """print(Administration.get_matches_user(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1", .1))"""
     """print(Administration.get_matches_group(Administration(), 1, .1))"""
     """print(Administration.get_matches_user(Administration(),"16060601 6962", 0.5))"""
+    Administration.get_friends_by_google_id(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1")
     app.run(debug=True)
 

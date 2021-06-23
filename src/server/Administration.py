@@ -273,6 +273,32 @@ class Administration(object):
         with ChatInvitationMapper() as mapper:
             return mapper.find_accepted_invites_by_target_user(target_user)
 
+    def get_friends_by_google_id(self, google_id):
+        user = self.get_user_by_google_id(google_id)
+        user_id = user.get_id()
+        friends_ids = []
+        # Where source user
+        friends_by_target = self.get_accepted_invites_by_target_user(user_id)
+        if type(friends_by_target) != list:
+            friends_ids.append(friends_by_target.get_source_user())
+        else:
+            for obj in friends_by_target:
+                friends_ids.append(obj.get_source_user())
+
+        # Where target user
+        friends_by_source = self.get_accepted_invites_by_source_user(user_id)
+        if type(friends_by_source) != list:
+            friends_ids.append(friends_by_source.get_target_user())
+        else:
+            for obj in friends_by_source:
+                friends_ids.append(obj.get_source_user())
+
+        friends_objects = []
+        for num in friends_ids:
+            friends_objects.append(self.get_user_by_id(num))
+
+        return friends_objects
+
     def get_all_chatinvitations(self):
         """Alle Chatinvitations auslesen."""
         with ChatInvitationMapper() as mapper:
