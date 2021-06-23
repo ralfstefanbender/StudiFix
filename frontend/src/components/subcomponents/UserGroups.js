@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { makeStyles, withStyles, Button, Link, Grid, List, Paper, Typography, } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { StudyFixAPI } from '../../api';
-import { createBrowserHistory as history} from 'history';
-import { History } from 'history';
+import { Link as RouterLink } from 'react-router-dom';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import UserGroupsDetail from './UserGroupsDetail';
 import firebase from 'firebase/app';
+
 
 
 
@@ -91,15 +91,18 @@ class UserGroups extends Component {
         mobileAnchorEl: null
       })
     }
- 
+
 
 render(){
   const { classes,} = this.props;
-  const { buddys, acceptedInvites, acc, loadingInProgress, loadingError} = this.state;
+  const { buddys, loadingInProgress, loadingError} = this.state;
 
   return(
     <div className={classes.root}>
-      <Button color='primary'>Lernpartner hinzufügen</Button>
+      < br/>
+        <Button variant="contained" color='secondary' component={RouterLink} to={`/matching_page`}>
+          Nach neuen Lernpartnern Suchen
+        </Button>
           <Grid>
             {
             buddys.map(buddys => <UserGroupsDetail key={buddys.getID()} {...this.props}
