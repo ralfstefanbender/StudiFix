@@ -326,11 +326,11 @@ class Administration(object):
     # GroupInvitation Methoden
 
 
-    def create_groupinvitation(self, source_user, target_user, chat_id, is_accepted):
+    def create_groupinvitation(self, source_user, target_user, studygroup_id, is_accepted):
         groupinvitation = GroupInvitation()
         groupinvitation.set_source_user(source_user)
         groupinvitation.set_target_user(target_user)
-        groupinvitation.set_study_group_id(chat_id)
+        groupinvitation.set_study_group_id(studygroup_id)
         groupinvitation.set_is_accepted(is_accepted)
         groupinvitation.set_id(1)
 

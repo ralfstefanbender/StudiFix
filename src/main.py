@@ -705,7 +705,7 @@ class GroupInvitationListOperations(Resource):
 
     @studyfix.marshal_with(groupinvitation, code=200)
     @studyfix.expect(groupinvitation)  # We expect a user object from the client side.
-    @secured
+    
     def post(self):
         """Create a new groupinvitation object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.
@@ -743,7 +743,6 @@ class GroupInvitationOperations(Resource):
 
     @studyfix.marshal_with(groupinvitation)
     @studyfix.expect(groupinvitation, validate=True)  # We expect a user object from the client side.
-    @secured
     def put(self, id):
         """ Update of a specific groupinvitation object.
         The relevant id is the id provided by the URI and thus as a method parameter

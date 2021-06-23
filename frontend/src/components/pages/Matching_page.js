@@ -13,6 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 
 import MatchingPageRow from '../subcomponents/MatchingPageRow';
+import MatchingPageRowGroups from '../subcomponents/MatchingPageRowGroups'
 
 class Matching_page extends Component {
 
@@ -94,18 +95,9 @@ class Matching_page extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.group_matches? this.state.group_matches.map((match)=>(
-                  <TableRow key={match.name}>
-                  <TableCell align="left">{match.name}</TableCell>
-                  <TableCell align="center">{match.semester}</TableCell>
-                  <TableCell align="center">{match.interest}</TableCell>
-                  <TableCell align="center"><b>{match.matching_score}</b></TableCell>
-                  <TableCell align="center">
-                  <Button variant="contained" color="primary">
-                    Anfrage senden
-                  </Button>
-                  </TableCell>
-                </TableRow>
+                {this.state.group_matches? this.state.group_matches.map((group_matches)=>(
+                  <MatchingPageRowGroups key={group_matches.id} match={group_matches} user_id={this.state.current_user.id}>
+                  </MatchingPageRowGroups>
                 )):null}
               </TableBody>
               

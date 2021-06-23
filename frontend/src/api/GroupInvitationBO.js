@@ -13,8 +13,8 @@ export default class GroupInvitationBO extends BusinessObject  {
     super();
     this.is_accepted = aIsAccepted;
     this.study_group_id = aStudyGroupId;
-    this.target_user = aTargetUser;
-    this.source_owner = aSourceUser;
+    this.target_owner = aTargetUser;
+    this.source_owner = aSourceUser
 
   }
 
