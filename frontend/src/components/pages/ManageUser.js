@@ -6,6 +6,7 @@ import Alert from '@material-ui/lab/Alert';
 import CloseIcon from '@material-ui/icons/Close';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import UserProfile from '../pages/UserProfile';
 import DeleteUserAccountDialog from '../dialogs/DeleteUserAccountDialog'
 import StudyFixAPI from '../../api/StudyFixAPI';
 /**
@@ -34,15 +35,17 @@ class ManageUser extends Component {
         StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid)
             .then(UserBO =>
                 this.setState({
-                    userBO: UserBO
+                    userBO: UserBO,
+                    newAdress: UserBO.getAdress(),
+                    newFirstName: UserBO.getFirstName()
+
                 }))
     }
     //** updaten des Users */
     updateUser = () => {
         var user = this.state.userBO
         user.setFirstName(this.state.newFirstName)
-       //** */ user.setLastName(this.state.newLastName)
-       //** */ user.setAdress(this.newAdress)
+        user.setAdress(this.state.newAdress)
         StudyFixAPI.getAPI().updateUser(user)
             .then(function () {
                 this.setAlertOpen(true);
@@ -63,6 +66,10 @@ class ManageUser extends Component {
     //** Funktion für die Namensändeurng eines Users */
     handleUserNameChange = (event) => {
         this.setState({ newFirstName: event.target.value })
+    }
+
+    handleUserAdressChange = (event) => {
+        this.setState({ newAdress: event.target.value })
     }
 
     setAlertOpen = (opened) => {
@@ -96,7 +103,25 @@ class ManageUser extends Component {
 
                         : null}
 
-                    <Button onClick={() => this.state.newFirstName != "" && this.state.newFirstName != null ? this.updateUser() : console.log("da stimmt was ned")}>Speichern</Button>
+                        <br margin-top='20px'></br>
+                        <br></br>
+
+                    {person ?
+                        <TextField
+                            id="outlined-read-only-input"
+                            label="Adresse: "
+                            onChange={this.handleUserAdressChange}
+                            defaultValue={person.getAdress()}
+                            InputProps={{
+                                readOnly: false,
+                            }}
+                            variant="outlined"
+                        />
+
+                        : null}
+                        <br></br>
+                        <br></br>
+                    <Button onClick={() => this.state.newFirstName != "" && this.state.newFirstName != null && this.state.newAdress != null && this.state.newAdress != "" ? this.updateUser() : console.log(this.state.newAdress)}>Speichern</Button>
                     <Collapse in={this.state.alertOpen}>
                         <Alert
                             action={
@@ -124,12 +149,10 @@ class ManageUser extends Component {
                     <br />
                     <br margin-top='20px' />
 
-                
-                    Learningprofile
                 <Divider />
 
                     <br margin-top='20px' />
-
+                <UserProfile/>
                 </Grid>
             </Typography>
 
