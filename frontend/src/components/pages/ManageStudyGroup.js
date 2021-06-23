@@ -113,7 +113,7 @@ class ManageStudyGroup extends Component {
           <Grid>
             {
             studygroups.map(studygroups => <StudyGroupDetail key={studygroups.getID()} {...this.props}
-            name={studygroups.getName()}  ID={studygroups.getID()} />)
+            nameID={studygroups.getName()}  ID={studygroups.getID()} />)
             }
           </Grid>
 
