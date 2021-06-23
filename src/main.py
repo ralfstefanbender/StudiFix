@@ -1391,6 +1391,6 @@ if __name__ == '__main__':
     """print(Administration.get_matches_user(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1", .1))"""
     """print(Administration.get_matches_group(Administration(), 1, .1))"""
     """print(Administration.get_matches_user(Administration(),"16060601 6962", 0.5))"""
-    print(Administration.get_groups_by_google_id(Administration(),"DcTHAA8lqLe09RNM2l36ipTfHYB2"))
+    """print(Administration.get_groups_by_google_id(Administration(),"DcTHAA8lqLe09RNM2l36ipTfHYB2"))"""
     app.run(debug=True)
 
