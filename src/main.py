@@ -1130,6 +1130,14 @@ class LearningProfileGroupByNameOperations(Resource):
         learning_profile_by_name = adm.get_learningprofile_group_by_name(name)
         return learning_profile_by_name
 
+@studyfix.route('/groups-by-google-id/<string:google_id>')
+@studyfix.response(500, 'when server has problems')
+class FriendsByGoogleId(Resource):
+    @studyfix.marshal_with(user)
+    def get(self, google_id):
+        adm = Administration()
+        studygroups_by_google_id = adm.get_groups_by_google_id(google_id)
+        return studygroups_by_google_id
 
 
 # -------LearningProfileUser---------
@@ -1375,5 +1383,6 @@ if __name__ == '__main__':
     """print(Administration.get_matches_group(Administration(), 1, .1))"""
     """print(Administration.get_matches_user(Administration(),"16060601 6962", 0.5))"""
     """Administration.get_friends_by_google_id(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1")"""
+    print(Administration.get_groups_by_google_id(Administration(), "DcTHAA8lqLe09RNM2l36ipTfHYB2"))
     app.run(debug=True)
 
