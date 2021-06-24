@@ -127,8 +127,9 @@ render(){
             firstName={buddys.getFirstName()} lastName={buddys.getLastName()} ID={buddys.getID()}
             adress={buddys.getAdress()} />)
             }
+            <LoadingProgress show={loadingInProgress} />
+            <ContextErrorMessage error={loadingError} contextErrorMsg={`The Buddylist could not be loaded.`} />
           </Grid>
-
           <br margin-top='20px' />
           <Typography variant='h6' component='h1' align='center'>
               Your Friend Requests
@@ -140,9 +141,9 @@ render(){
             friendRequests.map(friendRequests => <UserGroupsFriendRequests key={friendRequests.getID()} {...this.props}
             firstName={friendRequests.getFirstName()} lastName={friendRequests.getLastName()} ID={friendRequests.getID()} />)
             }
+            <LoadingProgress show={loadingInProgress} />
+            <ContextErrorMessage error={loadingError} contextErrorMsg={`The Requestlist could not be loaded.`} />
           </Grid>
-          <LoadingProgress show={loadingInProgress} />
-          <ContextErrorMessage error={loadingError} contextErrorMsg={`The list could not be loaded.`} />
       </div>
     );
   }
