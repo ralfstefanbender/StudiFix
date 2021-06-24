@@ -124,7 +124,8 @@ render(){
           <Grid>
             {
             buddys.map(buddys => <UserGroupsDetail key={buddys.getID()} {...this.props}
-            firstName={buddys.getFirstName()} lastName={buddys.getLastName()} ID={buddys.getID()} />)
+            firstName={buddys.getFirstName()} lastName={buddys.getLastName()} ID={buddys.getID()}
+            adress={buddys.getAdress()} />)
             }
           </Grid>
 

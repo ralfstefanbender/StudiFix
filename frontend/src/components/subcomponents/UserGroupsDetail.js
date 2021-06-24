@@ -22,7 +22,7 @@ class UserGroupsDetail extends Component{
 
 /** Renders the component */
 render() {
-    const { classes, ID, firstName, lastName } = this.props;
+    const { classes, ID, adress, firstName, lastName } = this.props;
     const {  loadingInProgress, loadingError } = this.state;
 
     return (
@@ -34,7 +34,7 @@ render() {
             </Typography>
             <Typography variant='body2' component='p'>
               ID: {ID} <br />
-              Adress:
+              Adress: {adress}
             </Typography>
           </CardContent>
         </CardActionArea>
