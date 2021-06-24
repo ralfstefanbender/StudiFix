@@ -11,52 +11,58 @@ class UserGroupsFriendRequests extends Component{
 
     constructor(props){
         super(props);
-        
-        // Init state
-        
+               
         this.state = {
             loadingInProgress: false,
             loadingError: null,
+            disabled:false
       };
     }
 
-/** Renders the component */
-render() {
-    const { classes, ID, firstName, lastName } = this.props;
-    const {  loadingInProgress, loadingError } = this.state;
+    acceptChatInvite = (e, user_id) =>{
+      StudyFixAPI.getAPI().acceptFriendRequest(this.props.userBO.id, user_id).then(() => {this.setState({disabled:true})})
+    }
 
-    return (
-      <Card variant='outlined' className={classes.root}>
-        <CardActionArea>
-          <CardContent>
-            <Typography variant='h6' component='h2'>
-                {firstName} {lastName}
-            </Typography>
-            <Typography variant='body2' component='p'>
-              ID: {ID}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-          <CardActions style={{float: 'right'}}>
-            <Button startIcon={<CheckIcon/>} size='small' color='primary'>Anfrage Annehmen</Button>
-            <Button startIcon={<ClearIcon/>} size='small' color='primary'>Anfrage Ablehnen</Button>
-          </CardActions>
-        
-        <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={loadingError} contextErrorMsg={`The data could not be loaded.`} onReload={this.getLearningProfileUserById} />
-      </Card>
-    );
-  }
-}
+    declineChatInvite = (e, user_id) =>{
+      StudyFixAPI.getAPI().declineFriendRequest(this.props.userBO.id, user_id).then(() => {this.setState({disabled:true})})  
+    }
 
-/** Component specific styles */
-const styles = theme => ({
-  root: {
-    width: '100%',
-    padding: theme.spacing(1),
-    marginTop: theme.spacing(1)
-  },
-  
-});
+
+    render() {
+        const { classes, ID, firstName, lastName } = this.props;
+        const {  loadingInProgress, loadingError } = this.state;
+
+        return (
+          <Card variant='outlined' className={classes.root}>
+            <CardActionArea>
+              <CardContent>
+                <Typography variant='h6' component='h2'>
+                    {firstName} {lastName}
+                </Typography>
+                <Typography variant='body2' component='p'>
+                  ID: {ID}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+              <CardActions style={{float: 'right'}}>
+                <Button disabled={this.state.disabled} startIcon={<CheckIcon/>} size='small' color='primary' onClick={(e)=>{this.acceptChatInvite(e, ID)}}>Anfrage Annehmen</Button>
+                <Button disabled={this.state.disabled} startIcon={<ClearIcon/>} size='small' color='primary' onClick={(e)=>{this.declineChatInvite(e, ID)}}>Anfrage Ablehnen</Button>
+              </CardActions>
+            
+            <LoadingProgress show={loadingInProgress} />
+            <ContextErrorMessage error={loadingError} contextErrorMsg={`The data could not be loaded.`} onReload={this.getLearningProfileUserById} />
+          </Card>
+        );
+      }
+    }
+
+    const styles = theme => ({
+      root: {
+        width: '100%',
+        padding: theme.spacing(1),
+        marginTop: theme.spacing(1)
+      },
+      
+    });
 
 export default withStyles(styles)(UserGroupsFriendRequests);

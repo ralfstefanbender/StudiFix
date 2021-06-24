@@ -241,12 +241,12 @@ class ChatInvitationMapper(Mapper):
         cursor = self._cnx.cursor()
         command = "UPDATE chat_invitation SET creation_date = ('{}'), is_accepted = ('{}'), chat_id = ('{}'), " \
                   "target_user = ('{}'), source_user = ('{}') WHERE id = ('{}')" \
-            .format(chat_invitation.get_id(),
-                    chat_invitation.get_creation_date(),
+            .format(chat_invitation.get_creation_date(),
                     chat_invitation.get_is_accepted(),
                     chat_invitation.get_chat_id(),
                     chat_invitation.get_target_user(),
-                    chat_invitation.get_source_user())
+                    chat_invitation.get_source_user(),
+                    chat_invitation.get_id())
         cursor.execute(command)
 
         self._cnx.commit()

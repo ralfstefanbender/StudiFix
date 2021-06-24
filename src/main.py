@@ -106,7 +106,7 @@ chatinvitation = api.inherit('ChatInvitation', bo, {
     'source_owner': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
     'target_owner': fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
     'chat_id': fields.Integer(attribute='_chat_id', description='Chat id des Chats'),
-    'is_accepted': fields.Boolean(attribute='_is_accepted', description='Akzeptierte Chateinladungen')
+    'is_accepted': fields.Integer(attribute='_is_accepted', description='Akzeptierte Chateinladungen')
 })
 
 chatmessage = api.inherit('ChatMessage', bo, {
@@ -376,7 +376,7 @@ class ChatInvitationOperations(Resource):
 
     @studyfix.marshal_with(chatinvitation)
     @studyfix.expect(chatinvitation, validate=True)  # We expect a user object from the client side.
-    @secured
+
     def put(self, id):
         """ Update of a specific chatinvitation object.
         The relevant id is the id provided by the URI and thus as a method parameter
@@ -1390,6 +1390,23 @@ class Authorisation(Resource):
     def get(self):
         return True
 
+@studyfix.route('/acceptfriendrequests/<int:target_id>/<int:source_id>')
+@studyfix.response(500, 'when server has problems')
+class AcceptFriendInvites(Resource):
+
+    def get(self, target_id, source_id):
+        adm = Administration()
+        adm.accept_friend_request(target_id, source_id)
+        return True
+
+@studyfix.route('/declinefriendrequests/<int:target_id>/<int:source_id>')
+@studyfix.response(500, 'when server has problems')
+class DeclineFriendInvites(Resource):
+
+    def get(self, target_id, source_id):
+        adm = Administration()
+        adm.decline_friend_request(target_id, source_id)
+        return True
 
 """
 Nachdem wir nun sämtliche Resourcen definiert haben, die wir via REST bereitstellen möchten,
@@ -1403,6 +1420,6 @@ if __name__ == '__main__':
     """print(Administration.get_matches_user(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1", .1))"""
     """print(Administration.get_matches_group(Administration(), 1, .1))"""
     """print(Administration.get_matches_user(Administration(),"16060601 6962", 0.5))"""
-    """print(Administration.get_groups_by_google_id(Administration(),"DcTHAA8lqLe09RNM2l36ipTfHYB2"))"""
+    """Administration.accept_friend_request(Administration(), 101, 19)"""
     app.run(debug=True)
 
