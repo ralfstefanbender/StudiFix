@@ -103,8 +103,8 @@ chat = api.inherit('Chat', nbo,{
 })
 
 chatinvitation = api.inherit('ChatInvitation', bo, {
-    'source_user': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
-    'target_user': fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
+    'source_owner': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
+    'target_owner': fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
     'chat_id': fields.Integer(attribute='_chat_id', description='Chat id des Chats'),
     'is_accepted': fields.Boolean(attribute='_is_accepted', description='Akzeptierte Chateinladungen')
 })

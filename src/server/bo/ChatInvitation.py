@@ -60,8 +60,8 @@ class ChatInvitation (bo.BusinessObject):
         obj = ChatInvitation()
         obj.set_id(dictionary["id"])
         obj.set_creation_date(dictionary["creation_date"])
-        obj.set_source_user(dictionary["source_user"])
-        obj.set_target_user(dictionary["target_user"])
+        obj.set_source_user(dictionary["source_owner"])
+        obj.set_target_user(dictionary["target_owner"])
         obj.set_chat_id(dictionary["chat_id"])
         obj.set_is_accepted(dictionary["is_accepted"])
         return obj
