@@ -602,7 +602,7 @@ class Administration(object):
             similarity.append(score)
 
             # Semester
-            max_input = 5
+            max_input = 12
 
             score = max_input - (((self_profile.get_semester() - profile.get_semester())**2)**.5)
             if score != 0:
