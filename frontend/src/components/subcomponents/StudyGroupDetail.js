@@ -31,10 +31,9 @@ class StudyGroupDetail extends Component {
       <Paper variant='outlined' className={classes.root}>
 
         <Typography variant='h6'>
-          Studygroup
+          {nameID}
         </Typography>
         <Typography >
-          Name: {nameID}
           ID: {ID}
         </Typography>
 

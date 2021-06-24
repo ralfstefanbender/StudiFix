@@ -15,7 +15,7 @@ class Header extends Component {
 
     // Init an empty state
     this.state = {
-      tabindex: 0
+      tabindex: 0,
     };
   }
 
@@ -40,7 +40,7 @@ class Header extends Component {
     return (
       <Paper variant='outlined' >
         <ProfileDropDown user={user} />
-        <Typography variant='h3' component='h1' align='center'>
+        <Typography variant='h3' component='h1' align='center' color="primary">
           StudyFix
         </Typography>
         <Typography variant='h4' component='h2' align='center'>
