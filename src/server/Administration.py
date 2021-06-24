@@ -310,7 +310,7 @@ class Administration(object):
             friends_ids.append(friends_by_source.get_target_user())
         else:
             for obj in friends_by_source:
-                friends_ids.append(obj.get_source_user())
+                friends_ids.append(obj.get_target_user())
 
         friends_objects = []
         for num in friends_ids:
