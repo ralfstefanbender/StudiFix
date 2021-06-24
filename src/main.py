@@ -116,8 +116,8 @@ chatmessage = api.inherit('ChatMessage', bo, {
 })
 
 groupinvitation = api.inherit('GroupInvitation', bo, {
-    'target_user': fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
-    'source_user': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
+    'target_owner': fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
+    'source_owner': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
     'study_group_id': fields.Integer(attribute='_study_group_id', description='Unique Id der Gruppe'),
     'is_accepted': fields.Boolean(attribute='_is_accepted', description='Akzeptiert')
 })
