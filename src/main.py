@@ -1203,6 +1203,18 @@ class LearningProfileUserOperations(Resource):
         single_learningprofile = adm.get_learningprofile_user_by_id(id)
         return single_learningprofile
 
+    @studyfix.route('/learningprofileuser-by-user-id/<int:user_id>')
+    @studyfix.response(500, 'when server has problems')
+    class LearningProfileUserOperations(Resource):
+        @studyfix.marshal_with(learningprofileuser)
+        @secured
+        def get(self, user_id):
+            """reading out a specific learninprofileobject.
+               The object to be read is determined by the '' id '' in the URI."""
+            adm = Administration()
+            single_learningprofile = adm.get_learningprofile_user_by_user_id(user_id)
+            return single_learningprofile
+
     @studyfix.marshal_with(learningprofileuser)
     @studyfix.expect(learningprofileuser, validate=True)  # We expect a learningprofile object from the client side.
     @secured

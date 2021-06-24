@@ -33,10 +33,14 @@ class UserProfile extends Component {
           }
 
     getLearningProfileUserById = (UserId) => {
-      StudyFixAPI.getAPI().getLearningProfileUserById(UserId)
+      StudyFixAPI.getAPI().getLearningProfileUserByUserId(UserId)
         .then(UserProfileBO =>
-            console.log(UserProfileBO))
-    }
+          this.setState({
+              UserProfileBO: UserProfileBO,
+              
+
+          }))
+}
 
 
 
