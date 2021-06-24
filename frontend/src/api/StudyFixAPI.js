@@ -108,7 +108,8 @@ export default class StudyFixAPI {
     #getFriendsByGoogleId = (id) => `${this.#studyfixServerBaseURL}/friends-by-google-id/${id}`;
     #getFriendRequestsByGoogleId = (id) => `${this.#studyfixServerBaseURL}/friend-requests-by-google-id/${id}`;
     #getGroupsByGoogleId = (id) => `${this.#studyfixServerBaseURL}/groups-by-google-id/${id}`;
-
+    #acceptFriendRequest = (target_id, source_id) => `${this.#studyfixServerBaseURL}/acceptfriendrequests/${target_id}/${source_id}`;
+    #declineFriendRequest = (target_id, source_id) => `${this.#studyfixServerBaseURL}/declinefriendrequests/${target_id}/${source_id}`;
 
     /**
    * Get the Singelton instance
@@ -1298,8 +1299,18 @@ export default class StudyFixAPI {
       })
       }
 
+
+    acceptFriendRequest(target_id, source_id){
+      return this.#fetchAdvanced(this.#acceptFriendRequest(target_id, source_id))
+
+      }
+
+    declineFriendRequest(target_id, source_id){
+      return this.#fetchAdvanced(this.#declineFriendRequest(target_id, source_id))
+      }
   }
+
+
+
+
   
-
-
-
