@@ -15,16 +15,17 @@ class UserGroupsFriendRequests extends Component{
         this.state = {
             loadingInProgress: false,
             loadingError: null,
-            disabled:false
+            disabled:false,
+            colorStyle: {}
       };
     }
 
     acceptChatInvite = (e, user_id) =>{
-      StudyFixAPI.getAPI().acceptFriendRequest(this.props.userBO.id, user_id).then(() => {this.setState({disabled:true})})
+      StudyFixAPI.getAPI().acceptFriendRequest(this.props.userBO.id, user_id).then(() => {this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#90EE90"}})})
     }
 
     declineChatInvite = (e, user_id) =>{
-      StudyFixAPI.getAPI().declineFriendRequest(this.props.userBO.id, user_id).then(() => {this.setState({disabled:true})})  
+      StudyFixAPI.getAPI().declineFriendRequest(this.props.userBO.id, user_id).then(() => {this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#F08080"}})})  
     }
 
 
@@ -33,7 +34,7 @@ class UserGroupsFriendRequests extends Component{
         const {  loadingInProgress, loadingError } = this.state;
 
         return (
-          <Card variant='outlined' className={classes.root}>
+          <Card variant='outlined' className={classes.root} style={this.state.colorStyle}>
             <CardActionArea>
               <CardContent>
                 <Typography variant='h6' component='h2'>

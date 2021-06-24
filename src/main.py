@@ -119,7 +119,7 @@ groupinvitation = api.inherit('GroupInvitation', bo, {
     'target_owner': fields.Integer(attribute='_target_user', description='Unique Id des Einzuladenden'),
     'source_owner': fields.Integer(attribute='_source_user', description='Unique Id des Chatinhabers'),
     'study_group_id': fields.Integer(attribute='_study_group_id', description='Unique Id der Gruppe'),
-    'is_accepted': fields.Boolean(attribute='_is_accepted', description='Akzeptiert')
+    'is_accepted': fields.Integer(attribute='_is_accepted', description='Akzeptiert')
 })
 
 learningprofile = api.inherit('LearningProfile', nbo, {
