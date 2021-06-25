@@ -1322,7 +1322,7 @@ export default class StudyFixAPI {
           resolve(users);
         })
       })
-
+      }
 
     acceptFriendRequest(target_id, source_id){
       return this.#fetchAdvanced(this.#acceptFriendRequest(target_id, source_id))
@@ -1333,7 +1333,7 @@ export default class StudyFixAPI {
       return this.#fetchAdvanced(this.#declineFriendRequest(target_id, source_id))
 
       }
-  }}
+    }
 
 
 
