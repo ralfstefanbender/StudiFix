@@ -37,7 +37,6 @@ class DeleteBuddyDialog extends Component {
       StudyFixAPI.getAPI().removeFriend(user.id, this.props.buddyId)})}
 
   render() {
-    console.log("props:", this.props)
     return (
       <ThemeProvider theme={Theme}>
         <Button startIcon={<DeleteIcon/>} size='small' color='primary' onClick={this.handleClickOpen}>

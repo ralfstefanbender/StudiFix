@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextField, Button, Card } from '@material-ui/core'
+import { TextField, Button, Card, Typography } from '@material-ui/core'
 import { StudyFixAPI } from '../../api'
 
 import { ChatMessageBO } from '../../api'
@@ -34,11 +34,11 @@ class ChatWindow extends Component {
     deleteChatMessage = (id) => {
         this.setState({chatMessages:this.state.chatMessages.filter(message => message.id != id)})
         StudyFixAPI.getAPI().deleteChatMessage(id)
-        console.log(id)
     }
 
     handleMessageChange(e){
-        this.setState({newMessage:e.target.value})
+        if(e.target.value.length <= 200){this.setState({newMessage:e.target.value})}
+        
     }
 
     sendChatMessage(){
@@ -61,8 +61,12 @@ class ChatWindow extends Component {
     render() {
         return (
             <Card variant='outlined'>
-                <h1>{this.state.chat.name}</h1>
-                <div>
+                <Card variant='outlined'>
+                <Typography variant='h6' style={{textAlign:"center"}}>Current Chat:</Typography>
+                <Typography variant='h5' style={{textAlign:"center"}}>{this.state.chat.name}</Typography>
+                </Card>
+                
+                <div style={{maxHeight:"50vh", minHeight:"50vh", overflowY: 'scroll'}}>
                     {this.state.chatMessages? 
                         this.state.chatMessages.map((chatMessage) =>
                             <ChatMessage key={chatMessage.id} user={this.state.userBOs.concat(this.state.currentUser).filter((user) => user.id == chatMessage.user_id)} chatMessage={chatMessage} deleteChatMessage={this.deleteChatMessage}/>
