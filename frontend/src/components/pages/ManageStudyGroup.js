@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Grid, Button } from '@material-ui/core';
+import {withStyles, Grid, Button, Typography, Divider} from '@material-ui/core';
 import { StudyFixAPI } from '../../api';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
@@ -8,6 +8,8 @@ import CreateStudyGroup from './CreateStudyGroup';
 import StudyGroupDetail from '../subcomponents/StudyGroupDetail';
 import firebase from "firebase";
 import UserGroupsDetail from "../subcomponents/UserGroupsDetail";
+import UserGroupsFriendRequests from "../subcomponents/UserGroupsFriendRequests";
+import GroupsUserGroupRequests from "../subcomponents/GroupsUserGroupRequests";
 
 
 class ManageStudyGroup extends Component {
@@ -18,6 +20,7 @@ class ManageStudyGroup extends Component {
     // Init an empty state
     this.state = {
       current_user: null,
+      grouprequests: [],
       studygroups: [],
       openpr:false,
       loadingInProgress: false,
@@ -41,8 +44,23 @@ class ManageStudyGroup extends Component {
     StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
           this.setState({userBO:user});
           this.getAllStudyGroups(user.google_id);
+          this.getUserGroupRequests(user.google_id)
         })
             }
+
+  getUserGroupRequests = (google_id) => {
+    StudyFixAPI.getAPI().getUserPendingGroupInvites(google_id).then(grouprequests =>
+       this.setState({
+           grouprequests: grouprequests,
+           loadingInProgress: false,
+           loadingError: null
+      })).catch(e =>
+        this.setState({ // Reset state with error from catch
+          loadingInProgress: false,
+          loadingError: e
+        })
+      );
+  }
 
   /** gets the account list for this account */
   getAllStudyGroups = (google_id) => {
@@ -95,7 +113,7 @@ class ManageStudyGroup extends Component {
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { studygroups, loadingInProgress, loadingError } = this.state;
+    const { studygroups, grouprequests, loadingInProgress, loadingError } = this.state;
 
     return (
       <div className={classes.root}>
@@ -116,7 +134,20 @@ class ManageStudyGroup extends Component {
             nameID={studygroups.getName()}  ID={studygroups.getID()} />)
             }
           </Grid>
+          <br margin-top='20px' />
+          <Typography variant='h6' component='h1' align='center'>
+              New people want to join your Group!
+            </Typography>
+            <Divider />
 
+          <Grid>
+            {
+            grouprequests.map(friendRequests => <GroupsUserGroupRequests key={friendRequests.getID()} {...this.props}
+            firstName={friendRequests.getFirstName()} lastName={friendRequests.getLastName()} ID={friendRequests.getID()} />)
+            }
+            <LoadingProgress show={loadingInProgress} />
+            <ContextErrorMessage error={loadingError} contextErrorMsg={`The Requestlist could not be loaded.`} />
+          </Grid>
           <LoadingProgress show={loadingInProgress} />
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all studygroups not be loaded.`} />
       </div>

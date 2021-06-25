@@ -68,6 +68,7 @@ export default class StudyFixAPI {
     #deleteStudyGroupURL = (id) => `${this.#studyfixServerBaseURL}/studygroup/${id}`;
     #updateStudyGroupURL = (id) => `${this.#studyfixServerBaseURL}/studygroup/${id}`;
     #getStudyGroupByNameURL = (name) => `${this.#studyfixServerBaseURL}/studygroup/${name}`;
+    #getUserPendingGroupInvites = (id) => `${this.#studyfixServerBaseURL}/pending_group_invites-by-google-id/${id}`;
 
     //LearningProfileGroup
     #getAllLearningProfileGroupsURL = () => `${this.#studyfixServerBaseURL}/learningprofilegroup`;
@@ -1298,6 +1299,14 @@ export default class StudyFixAPI {
       })
       }
 
+    getUserPendingGroupInvites(id){
+      return this.#fetchAdvanced(this.#getUserPendingGroupInvites(id)).then((responseJSON) => {
+        let users = UserBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(users);
+        })
+      })
+      }
   }
   
 
