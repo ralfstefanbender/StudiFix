@@ -98,7 +98,9 @@ export default class StudyFixAPI {
     //Chat
     #getAllChatsURL = () => `${this.#studyfixServerBaseURL}/chat`;
     #getChatByIdURL = (id) => `${this.#studyfixServerBaseURL}/chat/${id}`;
+    #getChatByUserId = (id) => `${this.#studyfixServerBaseURL}/chat-by-user-id/${id}`;
     #addChatURL = () => `${this.#studyfixServerBaseURL}/chat`;
+    #getOtherUserByChatId = (current_user, chat_id) => `${this.#studyfixServerBaseURL}/other-user-by-chat-id/${current_user}/${chat_id}`;
     #deleteChatURL = (id) => `${this.#studyfixServerBaseURL}/chat/${id}`;
     #updateChatURL = (id) => `${this.#studyfixServerBaseURL}/chat/${id}`;
 
@@ -233,7 +235,7 @@ export default class StudyFixAPI {
     */
     getChatMessageByChatId(chatID){
         return this.#fetchAdvanced(this.#getChatMessageByChatIdURL(chatID)).then((responseJSON) => {
-            let responseChatMessageBO = ChatMessageBO.fromJSON(responseJSON)[0];
+            let responseChatMessageBO = ChatMessageBO.fromJSON(responseJSON);
             return new Promise(function (resolve) {
               resolve(responseChatMessageBO);
             })
@@ -1322,7 +1324,32 @@ export default class StudyFixAPI {
     declineFriendRequest(target_id, source_id){
       return this.#fetchAdvanced(this.#declineFriendRequest(target_id, source_id))
       }
+
+
+
+    getChatByUserId(id){
+      return this.#fetchAdvanced(this.#getChatByUserId(id)).then((responseJSON) => {
+        let chats = ChatBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(chats);
+        })
+      })
+      }
+
+    getOtherUserByChatId(current_user, chat_id){
+      return this.#fetchAdvanced(this.#getOtherUserByChatId(current_user, chat_id)).then((responseJSON) => {
+        let chats = UserBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(chats);
+        })
+      })
+      }
+
+
   }
+
+
+
 
 
 
