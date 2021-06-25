@@ -26,7 +26,6 @@ def secured(function):
         error_message = None
         claims = None
         objects = None
-        print("xd")
         if id_token:
             try:
                 # Verify the token against the Firebase Auth API. This example
@@ -59,7 +58,7 @@ def secured(function):
                         Wir legen daher ein neues User-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-                        adm.create_user(google_user_id,name,"", email,"test")
+                        adm.create_user(google_user_id,name,"", email,"")
 
                     print(request.method, request.path, "angefragt durch:", name, email)
 

@@ -81,6 +81,7 @@ export default class StudyFixAPI {
     //LearningProfileUser
     #getAllLearningProfileUsersURL = () => `${this.#studyfixServerBaseURL}/learningprofileuser`;
     #getLearningProfileUserByIdURL = (id) => `${this.#studyfixServerBaseURL}/learningprofileuser/${id}`;
+    #getLearningProfileUserByUserIdURL = (id) => `${this.#studyfixServerBaseURL}/learningprofileuser-by-user-id/${id}`;
     #addLearningProfileUserURL = () => `${this.#studyfixServerBaseURL}/learningprofileuser`;
     #deleteLearningProfileUserURL = (id) => `${this.#studyfixServerBaseURL}/learningprofileuser/${id}`;
     #updateLearningProfileUserURL = (id) => `${this.#studyfixServerBaseURL}/learningprofileuser/${id}`;
@@ -109,7 +110,8 @@ export default class StudyFixAPI {
     #getFriendsByGoogleId = (id) => `${this.#studyfixServerBaseURL}/friends-by-google-id/${id}`;
     #getFriendRequestsByGoogleId = (id) => `${this.#studyfixServerBaseURL}/friend-requests-by-google-id/${id}`;
     #getGroupsByGoogleId = (id) => `${this.#studyfixServerBaseURL}/groups-by-google-id/${id}`;
-
+    #acceptFriendRequest = (target_id, source_id) => `${this.#studyfixServerBaseURL}/acceptfriendrequests/${target_id}/${source_id}`;
+    #declineFriendRequest = (target_id, source_id) => `${this.#studyfixServerBaseURL}/declinefriendrequests/${target_id}/${source_id}`;
 
     /**
    * Get the Singelton instance
@@ -584,6 +586,19 @@ export default class StudyFixAPI {
             })
           })
     }
+
+    /**
+    *@param {Number} learningprofileuserID
+    *@public
+    */
+    getLearningProfileUserByUserId(learningprofileuserID){
+      return this.#fetchAdvanced(this.#getLearningProfileUserByUserIdURL(learningprofileuserID)).then((responseJSON) => {
+          let responseLearningProfileUserBO = LearningProfileUserBO.fromJSON(responseJSON)[0];
+          return new Promise(function (resolve) {
+            resolve(responseLearningProfileUserBO);
+          })
+        })
+  }
 
       /**
    * Adds a user and returns a Promise, which resolves to a new UserBO object
@@ -1299,6 +1314,7 @@ export default class StudyFixAPI {
       })
       }
 
+
     getUserPendingGroupInvites(id){
       return this.#fetchAdvanced(this.#getUserPendingGroupInvites(id)).then((responseJSON) => {
         let users = UserBO.fromJSON(responseJSON);
@@ -1306,9 +1322,19 @@ export default class StudyFixAPI {
           resolve(users);
         })
       })
+
+
+    acceptFriendRequest(target_id, source_id){
+      return this.#fetchAdvanced(this.#acceptFriendRequest(target_id, source_id))
+
       }
-  }
+
+    declineFriendRequest(target_id, source_id){
+      return this.#fetchAdvanced(this.#declineFriendRequest(target_id, source_id))
+
+      }
+  }}
+
+
+
   
-
-
-

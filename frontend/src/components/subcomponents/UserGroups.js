@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
-import { withStyles, Button, Grid, Typography, Divider } from '@material-ui/core';
+import { withStyles, Grid, Typography, Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { StudyFixAPI } from '../../api';
-import { Link as RouterLink } from 'react-router-dom';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import UserGroupsDetail from './UserGroupsDetail';
 import UserGroupsFriendRequests from './UserGroupsFriendRequests';
 import firebase from 'firebase/app';
-
-
 
 
 class UserGroups extends Component {
@@ -27,7 +24,9 @@ class UserGroups extends Component {
       openDialog: false,
       userBO: null,
     };
+
   }
+
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
@@ -43,7 +42,7 @@ class UserGroups extends Component {
         })
             }
 
-  /** Fetches ChatInvitationBOs for current user */
+  /** Fetches Friends for current user */
   getFriends = (google_id) => {
     StudyFixAPI.getAPI().getFriendsByGoogleId(google_id).then(buddys =>
       this.setState({
@@ -61,6 +60,7 @@ class UserGroups extends Component {
     });
   }
 
+  /** Fetches Friend Invites for current user */
   getFriendRequests = (google_id) => {
     StudyFixAPI.getAPI().getFriendRequestsByGoogleId(google_id).then(friendRequests =>
       this.setState({
@@ -138,7 +138,7 @@ render(){
 
           <Grid>
             {
-            friendRequests.map(friendRequests => <UserGroupsFriendRequests key={friendRequests.getID()} {...this.props}
+            friendRequests.map(friendRequests => <UserGroupsFriendRequests key={friendRequests.getID()} userBO={this.state.userBO} {...this.props}
             firstName={friendRequests.getFirstName()} lastName={friendRequests.getLastName()} ID={friendRequests.getID()} />)
             }
             <LoadingProgress show={loadingInProgress} />

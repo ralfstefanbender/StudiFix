@@ -318,6 +318,40 @@ class Administration(object):
 
         return friends_objects
 
+    def accept_friend_request(self, target_id, source_id):
+        friend_request = self.get_pend_invites_by_target_user(target_id)
+
+        if type(friend_request) != list:
+            if friend_request.get_source_user() == source_id:
+                chat = self.create_chat(self.get_user_by_id(target_id).get_firstname() + " - " + self.get_user_by_id(source_id).get_firstname())
+                friend_request.set_is_accepted(1)
+                friend_request.set_chat_id(chat.get_id())
+                self.save_chatinvitation(friend_request)
+
+
+        else:
+            for obj in friend_request:
+
+                if obj.get_source_user() == source_id:
+                    chat = self.create_chat(self.get_user_by_id(target_id).get_firstname() + " - " + self.get_user_by_id(source_id).get_firstname())
+                    obj.set_is_accepted(1)
+                    obj.set_chat_id(chat.get_id())
+                    obj.set_is_accepted(1)
+                    self.save_chatinvitation(obj)
+
+    def decline_friend_request(self, target_id, source_id):
+        friend_request = self.get_pend_invites_by_target_user(target_id)
+
+        if type(friend_request) != list:
+            if friend_request.get_source_user() == source_id:
+                self.delete_chatinvitation(friend_request)
+
+
+        else:
+            for obj in friend_request:
+                if obj.get_source_user() == source_id:
+                    self.delete_chatinvitation(obj)
+
     def get_all_chatinvitations(self):
         """Alle Chatinvitations auslesen."""
         with ChatInvitationMapper() as mapper:
@@ -643,7 +677,7 @@ class Administration(object):
             similarity.append(score)
 
             # Semester
-            max_input = 5
+            max_input = 12
 
             score = max_input - (((self_profile.get_semester() - profile.get_semester())**2)**.5)
             if score != 0:
