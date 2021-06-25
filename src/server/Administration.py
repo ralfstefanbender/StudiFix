@@ -503,45 +503,29 @@ class Administration(object):
         return group_objects
 
     def get_User_pending_invites_groups_by_google_id(self, google_id):
-        user = self.get_user_by_google_id(google_id)
-        user_id = user.get_id()
         Invites = []
-        pend_Invites = []
         pend_Invites_User_id = []
         pend_Invites_User = []
-        # Where source user
         Groups = self.get_groups_by_google_id(google_id)
 
         for x in Groups:
             Invites.append(self.get_groupinvitation_pend_invites_by_study_group(x.get_id()))
 
-        for i in Invites:
-            for x in i:
-                pend_Invites.append(x)
-        print(pend_Invites)
-        for x in pend_Invites:
-            pend_Invites_User_id.append(x.get_source_user())
+        if Invites != list():
+            pend_Invites_User_id.append(Invites[0].get_source_user())
+        else:
+            for x in Invites:
+                pend_Invites_User_id.append(Invites[0].get_source_user())
 
-        for x in pend_Invites_User_id:
-            pend_Invites_User.append(self.get_user_by_id(x))
+        if pend_Invites_User_id != list():
+            pend_Invites_User.append(self.get_user_by_id(pend_Invites_User_id[0]))
+        else:
+            for x in pend_Invites_User_id:
+                pend_Invites_User.append(self.get_user_by_id(pend_Invites_User_id[x]))
+
+
         return pend_Invites_User
-        # for x in Groups:
-        #     Invites.append(self.get_groupinvitation_by_study_group_id(x))
-        # if type(groupInv_by_target) != list:
-        #     User.append(groupInv_by_target.get_chat_id())
-        # else:
-        #     for obj in groupInv_by_target:
-        #         User.append(groupInv_by_target.get_chat_id())
-        #
-        # # Where target user
-        # groupInv_by_source = self.get_accepted_invites_by_target_user(user_id)
-        # if type(groupInv_by_source) != list:
-        #     User.append(groupInv_by_source.get_chat_id())
-        # else:
-        #     for obj in groupInv_by_source:
-        #         User.append(groupInv_by_source.get_chat_id())
-        # print(User)
-        # return User
+
 
     # ChatMessage Methoden
     def create_chatmessage(self, chat_id, user_id, text):
