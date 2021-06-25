@@ -35,5 +35,5 @@ class ChatMessage(bo.BusinessObject):
         obj.set_chat_id(dictionary["chat_id"])
         obj.set_user_id(dictionary["user_id"])
         obj.set_text(dictionary["text"])
-        obj.set_creation_date(ChatMessage.date_format(dictionary["creation_date"]))
+        obj.set_creation_date(dictionary["creation_date"])
         return obj

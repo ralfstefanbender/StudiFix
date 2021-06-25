@@ -127,7 +127,7 @@ class App extends Component {
 									<Route path={'/manageuser/'} component={ManageUser}>
 									</Route>
 									<Route path='/chat'>
-										<ManageChat />
+										<ManageChat currentUser={this.state.currentUser}/>
 									</Route>
 									<Route path='/studygroup'>
 										<ManageStudyGroup />

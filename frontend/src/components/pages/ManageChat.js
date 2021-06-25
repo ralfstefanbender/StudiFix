@@ -1,33 +1,46 @@
-import React from 'react'
-import { makeStyles, Paper, Typography, Link } from '@material-ui/core';
+import React, { Component } from 'react'
+import { useState } from 'react'
+import ChatWindow from '../subcomponents/ChatWindow'
+import ChatSelection from '../subcomponents/ChatSelection'
+import { StudyFixAPI } from '../../api'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    padding: theme.spacing(1)
-  },
-  content: {
-    margin: theme.spacing(1),
+class ManageChat extends Component {
+
+  constructor(props){
+    super(props)
+
+    this.state = {
+      currentUser: null,
+      chats:null,
+      selectedChat: null,
+    }
   }
-}));
 
+  componentDidMount(){
+    this.getCurrentUser()
+  }
 
-function ManageChat() {
+  getCurrentUser(){
+    StudyFixAPI.getAPI().getUserByGoogleId(this.props.currentUser.uid).then((user) => {this.setState({currentUser:user}); this.getAllChats(user.id)})
+  }
 
-  const classes = useStyles();
+  getAllChats(id){
+    StudyFixAPI.getAPI().getChatByUserId(id).then((chats) => (this.setState({chats:chats})))
+  }
 
+  setSelectedChat = (selChat) =>{
+    this.setState({selectedChat:selChat})
+  }
+
+  render(){
   return (
-    <Paper elevation={0} className={classes.root}>
-      <div className={classes.content}>
-        <Typography variant='h6'>
-          Chat
-        </Typography>
-
+    <>
+      <div className="Container">
+        {this.state.chats?<ChatSelection chats={this.state.chats} setSelectedChat={this.setSelectedChat}/>:null}
+        {this.state.selectedChat? <ChatWindow key={this.state.selectedChat.id} chat={this.state.selectedChat} currentUser={this.state.currentUser}/>:null}
       </div>
-    </Paper>
-  )
+    </>
+  )}
 }
 
-export default ManageChat;
+export default ManageChat
