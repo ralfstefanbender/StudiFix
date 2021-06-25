@@ -19,15 +19,17 @@ class ChatSelection extends Component {
     return (
       <div elevation={0} className={classes.root}>
         <div className={classes.content}>
-          <Typography variant='h6'>
-            Chat
-          </Typography>
           <Card variant='outlined'>
-          <List className={classes.chatList} >
+          <Typography variant='h6' style={{textAlign:"center"}}>
+            My Chats
+          </Typography>
+          </Card>
+          <Card variant='outlined'>
+          <List className={classes.chatList} style={{display:"flex", flexDirection:"column"}}>
             {this.state.activeChats?
                 this.state.activeChats.map((chat)=>{
                     return(
-                    <Button key={chat.id} onClick={() => this.props.setSelectedChat(chat)}>
+                    <Button style={{width:"100%"}} key={chat.id} onClick={() => this.props.setSelectedChat(chat)}>
                         {chat.name}
                     </Button>
                     )
