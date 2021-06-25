@@ -34,6 +34,7 @@ class ChatWindow extends Component {
     deleteChatMessage = (id) => {
         this.setState({chatMessages:this.state.chatMessages.filter(message => message.id != id)})
         StudyFixAPI.getAPI().deleteChatMessage(id)
+        console.log(id)
     }
 
     handleMessageChange(e){
@@ -47,7 +48,10 @@ class ChatWindow extends Component {
             message.setUserId(this.state.currentUser.id)
             message.setText(this.state.newMessage)
             StudyFixAPI.getAPI().addChatMessage(message)
-            this.setState({chatMessages:this.state.chatMessages.concat(message)})
+            this.setState({
+                chatMessages:this.state.chatMessages.concat(message),
+                newMessage:""
+            })
         } else {
             // leerer Nachricht Errorhandling
             console.log("Keine Nachricht gegeben")
@@ -56,7 +60,7 @@ class ChatWindow extends Component {
 
     render() {
         return (
-            <Card variant='outlined' style={{width:" 50%"}}>
+            <Card variant='outlined'>
                 <h1>{this.state.chat.name}</h1>
                 <div>
                     {this.state.chatMessages? 
@@ -66,7 +70,8 @@ class ChatWindow extends Component {
                     : null}
                 </div>
                 <div style={{display:"flex", flexDirection:"row", bottom:"0px"}}>
-                    <TextField
+                    <TextField 
+                        value={this.state.newMessage}
                         id="outlined-full-width"
                         placeholder="Type a message"
                         fullWidth

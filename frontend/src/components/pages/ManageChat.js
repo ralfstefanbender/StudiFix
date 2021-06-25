@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { useState } from 'react'
 import ChatWindow from '../subcomponents/ChatWindow'
 import ChatSelection from '../subcomponents/ChatSelection'
 import { StudyFixAPI } from '../../api'
@@ -35,7 +34,7 @@ class ManageChat extends Component {
   render(){
   return (
     <>
-      <div className="Container">
+      <div className="Container" style={{display:"grid", gridTemplateColumns:"30% 70%"}}>
         {this.state.chats?<ChatSelection chats={this.state.chats} setSelectedChat={this.setSelectedChat}/>:null}
         {this.state.selectedChat? <ChatWindow key={this.state.selectedChat.id} chat={this.state.selectedChat} currentUser={this.state.currentUser}/>:null}
       </div>
