@@ -68,6 +68,7 @@ export default class StudyFixAPI {
     #deleteStudyGroupURL = (id) => `${this.#studyfixServerBaseURL}/studygroup/${id}`;
     #updateStudyGroupURL = (id) => `${this.#studyfixServerBaseURL}/studygroup/${id}`;
     #getStudyGroupByNameURL = (name) => `${this.#studyfixServerBaseURL}/studygroup/${name}`;
+    #getUserPendingGroupInvites = (id) => `${this.#studyfixServerBaseURL}/pending_group_invites-by-google-id/${id}`;
 
     //LearningProfileGroup
     #getAllLearningProfileGroupsURL = () => `${this.#studyfixServerBaseURL}/learningprofilegroup`;
@@ -1316,15 +1317,22 @@ export default class StudyFixAPI {
       }
 
 
+    getUserPendingGroupInvites(id){
+      return this.#fetchAdvanced(this.#getUserPendingGroupInvites(id)).then((responseJSON) => {
+        let users = UserBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(users);
+        })
+      })
+      }
+
     acceptFriendRequest(target_id, source_id){
       return this.#fetchAdvanced(this.#acceptFriendRequest(target_id, source_id))
-
       }
 
     declineFriendRequest(target_id, source_id){
       return this.#fetchAdvanced(this.#declineFriendRequest(target_id, source_id))
       }
-
 
 
     getChatByUserId(id){
@@ -1347,8 +1355,6 @@ export default class StudyFixAPI {
 
 
   }
-
-
 
 
 

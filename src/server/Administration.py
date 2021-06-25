@@ -502,6 +502,31 @@ class Administration(object):
 
         return group_objects
 
+    def get_User_pending_invites_groups_by_google_id(self, google_id):
+        Invites = []
+        pend_Invites_User_id = []
+        pend_Invites_User = []
+        Groups = self.get_groups_by_google_id(google_id)
+
+        for x in Groups:
+            Invites.append(self.get_groupinvitation_pend_invites_by_study_group(x.get_id()))
+
+        if Invites != list():
+            pend_Invites_User_id.append(Invites[0].get_source_user())
+        else:
+            for x in Invites:
+                pend_Invites_User_id.append(Invites[0].get_source_user())
+
+        if pend_Invites_User_id != list():
+            pend_Invites_User.append(self.get_user_by_id(pend_Invites_User_id[0]))
+        else:
+            for x in pend_Invites_User_id:
+                pend_Invites_User.append(self.get_user_by_id(pend_Invites_User_id[x]))
+
+
+        return pend_Invites_User
+
+
     # ChatMessage Methoden
     def create_chatmessage(self, chat_id, user_id, text):
         chatmessage = ChatMessage()

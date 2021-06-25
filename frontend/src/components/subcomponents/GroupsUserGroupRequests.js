@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import { withStyles, Typography, Card, CardActions, CardContent, Button, CardActionArea  } from '@material-ui/core';
 import { StudyFixAPI } from '../../api';
+import ClearIcon from '@material-ui/icons/Clear';
+import CheckIcon from '@material-ui/icons/Check';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
-import DeleteBuddyDialog from '../dialogs/DeleteBuddyDialog';
 import LoadingProgress from '../dialogs/LoadingProgress';
 
 
-
-class StudyGroupDetail extends Component{
+class GroupsUserGroupRequests extends Component{
 
     constructor(props){
         super(props);
@@ -23,15 +22,15 @@ class StudyGroupDetail extends Component{
 
 /** Renders the component */
 render() {
-    const { classes, ID, nameID } = this.props;
-    const {  loadingInProgress, loadingError} = this.state;
+    const { classes, ID, firstName, lastName } = this.props;
+    const {  loadingInProgress, loadingError } = this.state;
 
     return (
       <Card variant='outlined' className={classes.root}>
         <CardActionArea>
           <CardContent>
             <Typography variant='h6' component='h2'>
-            {nameID}
+                {firstName} {lastName}
             </Typography>
             <Typography variant='body2' component='p'>
               ID: {ID}
@@ -39,7 +38,8 @@ render() {
           </CardContent>
         </CardActionArea>
           <CardActions style={{float: 'right'}}>
-            <DeleteBuddyDialog />
+            <Button startIcon={<CheckIcon/>} size='small' color='primary'>Anfrage Annehmen</Button>
+            <Button startIcon={<ClearIcon/>} size='small' color='primary'>Anfrage Ablehnen</Button>
           </CardActions>
 
         <LoadingProgress show={loadingInProgress} />
@@ -59,4 +59,4 @@ const styles = theme => ({
 
 });
 
-export default withStyles(styles)(StudyGroupDetail);
+export default withStyles(styles)(GroupsUserGroupRequests);
