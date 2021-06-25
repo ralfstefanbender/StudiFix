@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { makeStyles, withStyles, Paper, Typography, FormHelperText} from '@material-ui/core';
+import { makeStyles, withStyles, Card, Typography, FormHelperText} from '@material-ui/core';
 
 import { List, Button } from '@material-ui/core';
 
@@ -22,7 +22,7 @@ class ChatSelection extends Component {
           <Typography variant='h6'>
             Chat
           </Typography>
-
+          <Card variant='outlined'>
           <List className={classes.chatList} >
             {this.state.activeChats?
                 this.state.activeChats.map((chat)=>{
@@ -35,6 +35,7 @@ class ChatSelection extends Component {
             :null}
             
           </List>
+          </Card>
 
         </div>
       </div>

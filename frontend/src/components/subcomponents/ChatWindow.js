@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextField, Button } from '@material-ui/core'
+import { TextField, Button, Card } from '@material-ui/core'
 import { StudyFixAPI } from '../../api'
 
 import { ChatMessageBO } from '../../api'
@@ -56,7 +56,7 @@ class ChatWindow extends Component {
 
     render() {
         return (
-            <div style={{width:"500px", height:"500px", backgroundColor:"lightgray"}}>
+            <Card variant='outlined' style={{width:" 50%"}}>
                 <h1>{this.state.chat.name}</h1>
                 <div>
                     {this.state.chatMessages? 
@@ -68,7 +68,7 @@ class ChatWindow extends Component {
                 <div style={{display:"flex", flexDirection:"row", bottom:"0px"}}>
                     <TextField
                         id="outlined-full-width"
-                        placeholder="Text"
+                        placeholder="Type a message"
                         fullWidth
                         margin="normal"
                         InputLabelProps={{
@@ -78,12 +78,12 @@ class ChatWindow extends Component {
                         onChange={(e) => this.handleMessageChange(e)}
                     />
                     <div style={{alignSelf:"center"}}>
-                        <Button onClick={() => this.sendChatMessage()}>
-                            Senden
+                        <Button color="secondary" onClick={() => this.sendChatMessage()}>
+                            Send
                         </Button>
                     </div>
                 </div>
-            </div>
+            </Card>
         )
     }
 }

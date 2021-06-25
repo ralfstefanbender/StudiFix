@@ -40,7 +40,7 @@ render() {
           </CardContent>
         </CardActionArea>
           <CardActions style={{float: 'right'}}>
-            <DeleteBuddyDialog />   
+            <DeleteBuddyDialog buddyId ={ID} />   
           </CardActions>
         
         <LoadingProgress show={loadingInProgress} />

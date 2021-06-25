@@ -1,4 +1,4 @@
-import { Button, ButtonGroup} from '@material-ui/core'
+import { Button, Card} from '@material-ui/core'
 import React, { Component } from 'react'
 
 class ChatMessage extends Component {
@@ -14,8 +14,8 @@ class ChatMessage extends Component {
     render() {
         
         return (
-            <div style={{backgroundColor:"lightblue", margin:"10px 5px"}}>
-                {this.state.user.firstname} : {this.state.chatMessage.text} {this.state.chatMessage.creation_date}
+            <div>
+                {this.state.user.firstname} : <Card variant='outlined' style={{backgroundColor:"#90EE90"}}>{this.state.chatMessage.text}</Card> {this.state.chatMessage.creation_date}
                 <Button size="small" onClick={() => this.props.deleteChatMessage(this.state.chatMessage.id)}>X</Button>
             </div>
         )

@@ -1438,6 +1438,16 @@ class GetChatByUserId(Resource):
         result = adm.get_other_user_by_chat_id(current_user_id, chat_id)
         return result
 
+@studyfix.route('/removefriend/<int:current_user_id>/<int:chat_id>')
+@studyfix.response(500, 'when server has problems')
+class GetChatByUserId(Resource):
+
+    def get(self, current_user_id, chat_id):
+        adm = Administration()
+        result = adm.remove_friend(current_user_id, chat_id)
+        return result
+
+
 """
 Nachdem wir nun sämtliche Resourcen definiert haben, die wir via REST bereitstellen möchten,
 müssen nun die App auch tatsächlich zu starten.
@@ -1450,6 +1460,6 @@ if __name__ == '__main__':
     """print(Administration.get_matches_user(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1", .1))"""
     """print(Administration.get_matches_group(Administration(), 1, .1))"""
     """print(Administration.get_matches_user(Administration(),"16060601 6962", 0.5))"""
-    """Administration.get_chat_by_user_id(Administration(), 101)"""
+    Administration.remove_friend(Administration(), 9, 101)
     app.run(debug=True)
 

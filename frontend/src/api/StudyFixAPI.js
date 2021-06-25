@@ -114,6 +114,7 @@ export default class StudyFixAPI {
     #getGroupsByGoogleId = (id) => `${this.#studyfixServerBaseURL}/groups-by-google-id/${id}`;
     #acceptFriendRequest = (target_id, source_id) => `${this.#studyfixServerBaseURL}/acceptfriendrequests/${target_id}/${source_id}`;
     #declineFriendRequest = (target_id, source_id) => `${this.#studyfixServerBaseURL}/declinefriendrequests/${target_id}/${source_id}`;
+    #removeFriend = (target_id, source_id) => `${this.#studyfixServerBaseURL}/removefriend/${target_id}/${source_id}`;
 
     /**
    * Get the Singelton instance
@@ -1353,6 +1354,10 @@ export default class StudyFixAPI {
       })
       }
 
+      removeFriend(target_id, source_id){
+        return this.#fetchAdvanced(this.#removeFriend(target_id, source_id))
+        }
+      
 
   }
 

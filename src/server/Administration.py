@@ -352,6 +352,25 @@ class Administration(object):
                 if obj.get_source_user() == source_id:
                     self.delete_chatinvitation(obj)
 
+    def remove_friend(self, target_id, source_id):
+        friends = self.get_accepted_invites_by_target_user(target_id)
+
+        if type(friends) != list:
+            friends = [friends]
+
+        for chatinvite in friends:
+            if chatinvite.get_source_user() == source_id:
+                self.delete_chatinvitation(chatinvite)
+
+        friends = self.get_accepted_invites_by_source_user(target_id)
+
+        if type(friends) != list:
+            friends = [friends]
+
+        for chatinvite in friends:
+            if chatinvite.get_target_user() == source_id:
+                self.delete_chatinvitation(chatinvite)
+
     def get_all_chatinvitations(self):
         """Alle Chatinvitations auslesen."""
         with ChatInvitationMapper() as mapper:

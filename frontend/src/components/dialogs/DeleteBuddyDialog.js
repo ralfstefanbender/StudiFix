@@ -8,7 +8,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { ThemeProvider} from "@material-ui/core"
 import Theme from "../../theme"
-import RemoveIcon from '@material-ui/icons/Remove';
 import StudyFixAPI from '../../api/StudyFixAPI';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -32,7 +31,10 @@ class DeleteBuddyDialog extends Component {
     this.setState({ open: false });
     
   };
-  
+
+  deleteBuddy = () =>{
+    StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
+      StudyFixAPI.getAPI().removeFriend(user.id, this.props.buddyId)})}
 
   render() {
     console.log("props:", this.props)
@@ -53,7 +55,7 @@ class DeleteBuddyDialog extends Component {
           </DialogContent>
 
           <DialogActions>
-            <Button  color='primary'>
+            <Button  color='primary' onClick = {()=>{this.deleteBuddy()}}>
               Ja
             </Button>
             <Button  color='primary' onClick={this.handleClose}>
