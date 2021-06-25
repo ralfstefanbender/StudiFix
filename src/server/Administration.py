@@ -509,9 +509,14 @@ class Administration(object):
         Groups = self.get_groups_by_google_id(google_id)
 
         for x in Groups:
-            Invites.append(self.get_groupinvitation_pend_invites_by_study_group(x.get_id()))
+            inv = self.get_groupinvitation_pend_invites_by_study_group(x.get_id())
+            if type(inv) != list:
+                Invites.append(inv)
+            else:
+                for i in inv:
+                    Invites.append(i)
 
-        if Invites != list():
+        if type(Invites) != list:
             pend_Invites_User_id.append(Invites[0].get_source_user())
         else:
             for x in Invites:
