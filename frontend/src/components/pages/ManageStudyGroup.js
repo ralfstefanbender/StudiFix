@@ -126,8 +126,13 @@ class ManageStudyGroup extends Component {
 
               />
 
-
-       <Button onClick={() => {this.openstudygroup(); this.handleMobileClose()}}>Lerngruppe hinzufügen</Button>
+        <br margin-top='20px' />
+        <bruh_moment><Button variant="contained" color="secondary" onClick={() => {this.openstudygroup(); this.handleMobileClose()}}>Create new Studygroup</Button></bruh_moment>
+            <Typography variant='h6' component='h1' align='center'>
+              Your Groups
+            </Typography>
+            <Divider />
+          
           <Grid>
             {
             studygroups.map(studygroups => <StudyGroupDetail key={studygroups.getID()} {...this.props}

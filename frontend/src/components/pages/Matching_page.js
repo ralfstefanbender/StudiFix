@@ -52,14 +52,14 @@ class Matching_page extends Component {
             
             <br />
             <Typography>
-              <div align="center">
+              <bruh align="center">
                 <Typography variant='h8'>
                   Mit einem Klick nach passenden Matches suchen  <br />
                 </Typography>
               <Button align="center" variant="contained" color="secondary" onClick={()=>{this.handleMatchSearch()}}>
                 Matches Suchen
               </Button>
-              </div>
+              </bruh>
             <Typography variant='h6'>
               User Matches
             </Typography>
