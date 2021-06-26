@@ -25,7 +25,7 @@ class StudyGroupDetail extends Component{
 
 /** Renders the component */
 render() {
-    const { classes, ID, nameID } = this.props;
+    const { classes, ID, nameID} = this.props;
     const {  loadingInProgress, loadingError} = this.state;
 
     return (

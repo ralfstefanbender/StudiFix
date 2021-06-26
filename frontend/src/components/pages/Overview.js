@@ -67,12 +67,12 @@ class Overview extends Component {
           <br margin-top='20px' />
           <Card variant='outlined' style={{width:"50%"}}>
             <Typography variant='h6' style={{textAlign:"center"}}>
-              Du hast {this.state.friendRequests} neue Freundschaftsanfrage(n)
+              Du hast <tag style={{color:"#f57c00"}}><b>{this.state.friendRequests}</b></tag> neue Freundschaftsanfrage(n)
             </Typography>
           </Card>
           <Card variant='outlined' style={{width:"50%"}}>
             <Typography variant='h6' style={{textAlign:"center"}}>
-              Du hast {this.state.groupRequests} neue Gruppeneinladung(en)
+              Du hast <tag style={{color:"#f57c00"}}><b>{this.state.groupRequests}</b></tag> neue Gruppeneinladung(en)
             </Typography>
           </Card>
         </div>
