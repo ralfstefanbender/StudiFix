@@ -14,10 +14,10 @@ class ChatMessage extends Component {
     render() {
         
         return (
-            <bruh>
+            <div>
                 {this.state.user.firstname} : <Card variant='outlined' style={{backgroundColor:"#90EE90"}}>{this.state.chatMessage.text}</Card> {this.state.chatMessage.creation_date}
                 <Button size="small" onClick={() => this.props.deleteChatMessage(this.state.chatMessage.id)}>X</Button>
-            </bruh>
+            </div>
         )
     }
 }

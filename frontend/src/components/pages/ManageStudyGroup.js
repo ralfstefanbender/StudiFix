@@ -127,10 +127,12 @@ class ManageStudyGroup extends Component {
               />
 
         <br margin-top='20px' />
-        <bruh_moment><Button variant="contained" color="secondary" onClick={() => {this.openstudygroup(); this.handleMobileClose()}}>Create new Studygroup</Button></bruh_moment>
+        <div align="center"><Button variant="contained" color="secondary" onClick={() => {this.openstudygroup(); this.handleMobileClose()}}>Create new Studygroup</Button></div>
+        <br margin-top='20px' />
             <Typography variant='h6' component='h1' align='center'>
               Your Groups
             </Typography>
+            
             <Divider />
           
           <Grid>
