@@ -371,6 +371,26 @@ class Administration(object):
             if chatinvite.get_target_user() == source_id:
                 self.delete_chatinvitation(chatinvite)
 
+    def leave_group(self, user_id, group_id):
+        groups = self.get_accepted_groupinvites_by_target_user(user_id)
+
+        if type(groups) != list:
+            groups = [groups]
+
+        for group in groups:
+            if group.get_study_group_id() == group_id:
+                self.delete_groupinvitation(group)
+
+        groups = self.get_accepted_groupinvites_by_source_user(user_id)
+
+        if type(groups) != list:
+            groups = [groups]
+
+        for group in groups:
+            if group.get_study_group_id() == group_id:
+                self.delete_groupinvitation(group)
+
+
     def get_all_chatinvitations(self):
         """Alle Chatinvitations auslesen."""
         with ChatInvitationMapper() as mapper:
