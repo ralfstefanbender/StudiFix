@@ -7,24 +7,17 @@ export default class GroupRequestBO extends BusinessObject {
    * Constructs a new GroupRequestBO
    *
    */
-  constructor(aGroupId, aChatId, aGoogleId, aFirstName, aLastName, aEMail, aAdress) {
+  constructor(aGroupId, aGroupName, aGoogleId, aFirstName, aLastName) {
     super();
-    this.chat_id = aChatId;
+
     this.group_id = aGroupId;
+    this.group_name = aGroupName
     this.google_id = aGoogleId;
     this.firstname = aFirstName;
     this.lastname = aLastName;
-    this.email = aEMail;
-    this.adress = aAdress;
+
   }
 
-/**
- * Sets the user id of the GroupRequestBO .
- *
- */
-setChatId(aChatId) {
-this.chat_id = aChatId;
-}
 
 /**
  * Gets the user id of the GroupRequestBO .
@@ -32,6 +25,38 @@ this.chat_id = aChatId;
 getChatId() {
 return this.chat_id;
 }
+
+/**
+ * Sets the group_name of the GroupRequestBO .
+ *
+ */
+setGroupName(aGroupName) {
+this.group_name = aGroupName;
+}
+
+/**
+ * Gets the group_name of the GroupRequestBO .
+ */
+getGroupname() {
+return this.group_name;
+}
+
+/**
+ * Sets the group id of the GroupRequestBO .
+ *
+ */
+ setGroupId(aGroupId) {
+    this.group_id = aGroupId;
+    }
+    
+/**
+ * Gets the group id of the GroupRequestBO .
+ */
+getGroupId() {
+return this.group_id;
+}
+
+
 
 /** Sets the google_id of the user */
 setGoogleId(aGoogleId){

@@ -49,12 +49,12 @@ class ManageStudyGroup extends Component {
             }
 
   getUserGroupRequests = (google_id) => {
-    StudyFixAPI.getAPI().getUserPendingGroupInvites(google_id).then(grouprequests =>
+    StudyFixAPI.getAPI().getUserPendingGroupInvites(google_id).then((grouprequests) =>{
        this.setState({
            grouprequests: grouprequests,
            loadingInProgress: false,
            loadingError: null
-      })).catch(e =>
+      })}).catch(e =>
         this.setState({ // Reset state with error from catch
           loadingInProgress: false,
           loadingError: e
@@ -143,7 +143,8 @@ class ManageStudyGroup extends Component {
           <Grid>
             {
             grouprequests.map(friendRequests => <GroupsUserGroupRequests key={friendRequests.getID()} {...this.props}
-            firstName={friendRequests.getFirstName()} lastName={friendRequests.getLastName()} ID={friendRequests.getID()} />)
+            firstName={friendRequests.getFirstName()} lastName={friendRequests.getLastName()} ID={friendRequests.getID()} 
+            groupId={friendRequests.getGroupId()} groupName={friendRequests.getGroupname()} />)
             }
             <LoadingProgress show={loadingInProgress} />
             <ContextErrorMessage error={loadingError} contextErrorMsg={`The Requestlist could not be loaded.`} />

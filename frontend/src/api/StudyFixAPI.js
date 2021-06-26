@@ -8,6 +8,7 @@ import StudyGroupBO from './StudyGroupBO';
 import UserBO from './UserBO';
 import UserMatchBO from './UserMatchBO';
 import GroupMatchBO from './GroupMatchBO';
+import GroupRequestBO from './GroupRequestBO';
 
 
 export default class StudyFixAPI {
@@ -1334,7 +1335,7 @@ export default class StudyFixAPI {
 
     getUserPendingGroupInvites(id){
       return this.#fetchAdvanced(this.#getUserPendingGroupInvites(id)).then((responseJSON) => {
-        let users = UserBO.fromJSON(responseJSON);
+        let users = GroupRequestBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(users);
         })

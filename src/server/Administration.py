@@ -569,34 +569,29 @@ class Administration(object):
 
         return group_objects
 
-    def get_User_pending_invites_groups_by_google_id(self, google_id):
-        Invites = []
-        pend_Invites_User_id = []
-        pend_Invites_User = []
-        Groups = self.get_groups_by_google_id(google_id)
+    def get_user_pending_invites_groups_by_google_id(self, google_id):
+        invites_and_groups = []
+        groups = self.get_groups_by_google_id(google_id)
 
-        for x in Groups:
-            inv = self.get_groupinvitation_pend_invites_by_study_group(x.get_id())
-            if type(inv) != list:
-                Invites.append(inv)
-            else:
-                for i in inv:
-                    Invites.append(i)
+        if type(groups) != list:
+            groups = [groups]
 
-        if type(Invites) != list:
-            pend_Invites_User_id.append(Invites[0].get_source_user())
-        else:
-            for x in Invites:
-                pend_Invites_User_id.append(Invites[0].get_source_user())
+        for x in groups:
+            invs = self.get_groupinvitation_pend_invites_by_study_group(x.get_id())
+            if type(invs) != list:
+                invs = [invs]
+            for inv in invs:
+                group = self.get_studygroup_by_id(inv.get_study_group_id())
+                invites_and_groups.append([inv, group])
 
-        if pend_Invites_User_id != list():
-            pend_Invites_User.append(self.get_user_by_id(pend_Invites_User_id[0]))
-        else:
-            for x in pend_Invites_User_id:
-                pend_Invites_User.append(self.get_user_by_id(pend_Invites_User_id[x]))
+        result = []
 
+        for x in invites_and_groups:
+            source_user_id = x[0].get_source_user()
+            source_user = self.get_user_by_id(source_user_id)
+            result.append([source_user, x[1]])
 
-        return pend_Invites_User
+        return result
 
 
     # ChatMessage Methoden

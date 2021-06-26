@@ -23,13 +23,6 @@ class StudyGroupDetail extends Component{
     }
 
 
-
-componentDidMount(){
-  StudyFixAPI.getAPI().getLearningProfileGroupByGroupId(this.props.ID).then((learningProfile)=>{
-    console.log(learningProfile)})
-  }
-
-
 /** Renders the component */
 render() {
     const { classes, ID, nameID } = this.props;

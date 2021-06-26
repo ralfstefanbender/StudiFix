@@ -1410,11 +1410,16 @@ class GroupMatchingAlgorithmus(Resource):
 @studyfix.route('/pending_group_invites-by-google-id/<string:google_id>')
 @studyfix.response(500, 'when server has problems')
 class GroupsByGoogleId(Resource):
-    @studyfix.marshal_with(user)
+
     def get(self, google_id):
         adm = Administration()
-        pending_group_invites_by_google_id = adm.get_User_pending_invites_groups_by_google_id(google_id)
-        return pending_group_invites_by_google_id
+        result = []
+        pending_group_invites_by_google_id = adm.get_user_pending_invites_groups_by_google_id(google_id)
+        for inv in pending_group_invites_by_google_id:
+            result.append({"group_id": inv[1].get_id(), "group_name": inv[1].get_name(), "google_id": inv[0].get_google_id(),
+                           "firstname": inv[0].get_firstname(), "lastname": inv[0].get_lastname(),
+                           "id": inv[0].get_id()})
+        return result
 
 
 
