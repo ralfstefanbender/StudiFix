@@ -5,8 +5,10 @@ import { StudyFixAPI } from '../../api';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import UserGroupsDetail from './UserGroupsDetail';
+import DeleteBuddyDialog from '../dialogs/DeleteBuddyDialog';
 import UserGroupsFriendRequests from './UserGroupsFriendRequests';
 import firebase from 'firebase/app';
+import { set } from 'date-fns';
 
 
 class UserGroups extends Component {
@@ -19,7 +21,6 @@ class UserGroups extends Component {
       openpr:false,
       loadingInProgress: false,
       loadingError: null,
-      redirect: false,
       error: null,
       openDialog: false,
       userBO: null,
@@ -31,8 +32,8 @@ class UserGroups extends Component {
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     this.getUserByGoogleId();
-
   }
+
 
   getUserByGoogleId = () => {
     StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
@@ -40,7 +41,7 @@ class UserGroups extends Component {
           this.getFriends(user.google_id);
           this.getFriendRequests(user.google_id)
         })
-            }
+  }
 
   /** Fetches Friends for current user */
   getFriends = (google_id) => {
@@ -123,7 +124,7 @@ render(){
 
           <Grid>
             {
-            buddys.map(buddys => <UserGroupsDetail key={buddys.getID()} {...this.props}
+            buddys.map(buddys => <UserGroupsDetail key={buddys.getID()}
             firstName={buddys.getFirstName()} lastName={buddys.getLastName()} ID={buddys.getID()}
             adress={buddys.getAdress()} />)
             }
@@ -138,7 +139,7 @@ render(){
 
           <Grid>
             {
-            friendRequests.map(friendRequests => <UserGroupsFriendRequests key={friendRequests.getID()} userBO={this.state.userBO} {...this.props}
+            friendRequests.map(friendRequests => <UserGroupsFriendRequests key={friendRequests.getID()} userBO={this.state.userBO}
             firstName={friendRequests.getFirstName()} lastName={friendRequests.getLastName()} ID={friendRequests.getID()} />)
             }
             <LoadingProgress show={loadingInProgress} />

@@ -6,8 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { ThemeProvider} from "@material-ui/core"
-import Theme from "../../theme"
+import { ThemeProvider} from "@material-ui/core";
+import Theme from "../../theme";
 import StudyFixAPI from '../../api/StudyFixAPI';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -32,9 +32,11 @@ class DeleteBuddyDialog extends Component {
     
   };
 
+
   deleteBuddy = () =>{
     StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
-      StudyFixAPI.getAPI().removeFriend(user.id, this.props.buddyId)})}
+      StudyFixAPI.getAPI().removeFriend(user.id, this.props.buddyId)})
+  }
 
   render() {
     return (
@@ -50,11 +52,9 @@ class DeleteBuddyDialog extends Component {
             <DialogContentText>
               Willst du den Buddy wirklich löschen ? 
             </DialogContentText>
-
           </DialogContent>
-
           <DialogActions>
-            <Button  color='primary' onClick = {()=>{this.deleteBuddy()}}>
+            <Button variant='contained' color='secondary' onClick = {()=>{this.deleteBuddy(); this.handleClose()}} >
               Ja
             </Button>
             <Button  color='primary' onClick={this.handleClose}>
@@ -62,7 +62,6 @@ class DeleteBuddyDialog extends Component {
             </Button>
           </DialogActions>
         </Dialog>
-
       </ThemeProvider>
     )
   }
