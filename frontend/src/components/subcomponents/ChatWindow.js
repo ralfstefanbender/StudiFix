@@ -87,7 +87,7 @@ class ChatWindow extends Component {
                         onChange={(e) => this.handleMessageChange(e)}
                     />
                     <div style={{alignSelf:"center"}}>
-                        <Button color="secondary" onClick={() => this.sendChatMessage()}>
+                        <Button color="secondary" variant='contained' onClick={() => this.sendChatMessage()}>
                             Send
                         </Button>
                     </div>

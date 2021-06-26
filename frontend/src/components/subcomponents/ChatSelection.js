@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { makeStyles, withStyles, Card, Typography, FormHelperText} from '@material-ui/core';
+import { makeStyles, withStyles, Card, Typography, FormHelperText, ButtonGroup} from '@material-ui/core';
 
-import { List, Button } from '@material-ui/core';
+import { List, Button} from '@material-ui/core';
 
 class ChatSelection extends Component {
 
@@ -29,9 +29,11 @@ class ChatSelection extends Component {
             {this.state.activeChats?
                 this.state.activeChats.map((chat)=>{
                     return(
-                    <Button style={{width:"100%"}} key={chat.id} onClick={() => this.props.setSelectedChat(chat)}>
+                    
+                      <Button variant='outlined' color='secondary' style={{width:"100%"}} key={chat.id} onClick={() => this.props.setSelectedChat(chat)}>
                         {chat.name}
-                    </Button>
+                      </Button>
+                     
                     )
                 })
             :null}
