@@ -116,6 +116,7 @@ export default class StudyFixAPI {
     #acceptFriendRequest = (target_id, source_id) => `${this.#studyfixServerBaseURL}/acceptfriendrequests/${target_id}/${source_id}`;
     #declineFriendRequest = (target_id, source_id) => `${this.#studyfixServerBaseURL}/declinefriendrequests/${target_id}/${source_id}`;
     #removeFriend = (target_id, source_id) => `${this.#studyfixServerBaseURL}/removefriend/${target_id}/${source_id}`;
+    #leaveGroup = (target_id, group_id) => `${this.#studyfixServerBaseURL}/leavegroup/${target_id}/${group_id}`;
 
     /**
    * Get the Singelton instance
@@ -1361,11 +1362,8 @@ export default class StudyFixAPI {
         return this.#fetchAdvanced(this.#removeFriend(target_id, source_id))
         }
       
+      leaveGroup(target_id, group_id){
+        return this.#fetchAdvanced(this.#leaveGroup(target_id, group_id))
+        }
 
   }
-
-
-
-
-
-  

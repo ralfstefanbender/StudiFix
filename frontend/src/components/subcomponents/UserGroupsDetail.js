@@ -1,11 +1,8 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import { withStyles, Typography, Card, CardActions, CardContent, Button, CardActionArea  } from '@material-ui/core';
-import { StudyFixAPI } from '../../api';
+import { withStyles, Typography, Card, CardActions, CardContent, CardActionArea  } from '@material-ui/core';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import DeleteBuddyDialog from '../dialogs/DeleteBuddyDialog';
 import LoadingProgress from '../dialogs/LoadingProgress';
-
 
 
 class UserGroupsDetail extends Component{
@@ -33,7 +30,7 @@ render() {
             <Typography variant='h6' component='h2'>
             {firstName} {lastName}
             </Typography>
-            <Typography variant='body2' component='p'>
+            <Typography variant='body2' component='p' >
               ID: {ID} <br />
               Adress: {adress}
             </Typography>

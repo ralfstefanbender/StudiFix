@@ -26,7 +26,7 @@ class SignIn extends Component {
 				<Typography className={classes.root} align='center'>To use the services of StudiFix please</Typography>
 				<Grid container justify='center'>
 					<Grid item>
-						<Button variant='contained' color='primary' onClick={this.handleSignInButton}>
+						<Button variant='contained' color='secondary' onClick={this.handleSignInButton}>
 							Sign in with Google
       			</Button>
 					</Grid>

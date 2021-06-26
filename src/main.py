@@ -1457,14 +1457,25 @@ class GetChatByUserId(Resource):
         result = adm.remove_friend(current_user_id, chat_id)
         return result
 
+
 @studyfix.route('/create-study-group-package/<string:name>/<string:user_id>')
 @studyfix.response(500, 'when server has problems')
 class CreateStudyGroupPackage(Resource):
-
     def get(self, name, user_id):
         adm = Administration()
-        result = adm.create_studygroup_package(name,user_id)
+        result = adm.create_studygroup_package(name, user_id)
         return True
+
+@studyfix.route('/leavegroup/<int:current_user_id>/<int:group_id>')
+@studyfix.response(500, 'when server has problems')
+class LeaveGroup(Resource):
+
+def get(self, current_user_id, group_id):
+    adm = Administration()
+    result = adm.leave_group(current_user_id, group_id)
+    return result
+
+
 """
 Nachdem wir nun sämtliche Resourcen definiert haben, die wir via REST bereitstellen möchten,
 müssen nun die App auch tatsächlich zu starten.
@@ -1477,6 +1488,5 @@ if __name__ == '__main__':
     """print(Administration.get_matches_user(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1", .1))"""
     """print(Administration.get_matches_group(Administration(), 1, .1))"""
     """print(Administration.get_matches_user(Administration(),"16060601 6962", 0.5))"""
-    """print(Administration().create_studygroup_package("FINALFINAL",101))"""
     app.run(debug=True)
 

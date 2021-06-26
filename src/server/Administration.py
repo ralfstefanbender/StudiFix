@@ -360,7 +360,16 @@ class Administration(object):
 
         for chatinvite in friends:
             if chatinvite.get_source_user() == source_id:
+                chat = self.get_chat_by_id(chatinvite.get_chat_id())
                 self.delete_chatinvitation(chatinvite)
+
+                msgs = self.get_chatmessages_by_chat_id(chat.get_id())
+                if type(msgs) != list:
+                    msgs = [msgs]
+                for msg in msgs:
+                    self.delete_chatmessage(msg)
+
+                self.delete_chat(chat)
 
         friends = self.get_accepted_invites_by_source_user(target_id)
 
@@ -369,7 +378,36 @@ class Administration(object):
 
         for chatinvite in friends:
             if chatinvite.get_target_user() == source_id:
+                chat = self.get_chat_by_id(chatinvite.get_chat_id())
                 self.delete_chatinvitation(chatinvite)
+
+                msgs = self.get_chatmessages_by_chat_id(chat.get_id())
+                if type(msgs) != list:
+                    msgs = [msgs]
+                for msg in msgs:
+                    self.delete_chatmessage(msg)
+
+                self.delete_chat(chat)
+
+    def leave_group(self, user_id, group_id):
+        groups = self.get_accepted_groupinvites_by_target_user(user_id)
+
+        if type(groups) != list:
+            groups = [groups]
+
+        for group in groups:
+            if group.get_study_group_id() == group_id:
+                self.delete_groupinvitation(group)
+
+        groups = self.get_accepted_groupinvites_by_source_user(user_id)
+
+        if type(groups) != list:
+            groups = [groups]
+
+        for group in groups:
+            if group.get_study_group_id() == group_id:
+                self.delete_groupinvitation(group)
+
 
     def get_all_chatinvitations(self):
         """Alle Chatinvitations auslesen."""

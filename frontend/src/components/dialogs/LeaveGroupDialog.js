@@ -33,6 +33,9 @@ class LeaveGroupDialog extends Component {
 
   };
 
+  deleteGroup = () =>{
+    StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
+      StudyFixAPI.getAPI().leaveGroup(user.id, this.props.groupId)})}
 
   render() {
     console.log("props:", this.props)
@@ -53,7 +56,7 @@ class LeaveGroupDialog extends Component {
           </DialogContent>
 
           <DialogActions>
-            <Button  color='primary'>
+            <Button  color='primary' onClick = {()=>{this.deleteGroup()}}>
               Ja
             </Button>
             <Button  color='primary' onClick={this.handleClose}>

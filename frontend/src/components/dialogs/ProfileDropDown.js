@@ -74,7 +74,7 @@ class ProfileDropDown extends Component {
                 <Divider className={classes.divider} />
                 <Grid container justify='center'>
                   <Grid item>
-                    <Button color='primary' onClick={this.handleSignOutButtonClicked}>Logout</Button>
+                    <Button variant='contained' color='secondary' onClick={this.handleSignOutButtonClicked}>Logout</Button>
                   </Grid>
                 </Grid>
               </Paper>

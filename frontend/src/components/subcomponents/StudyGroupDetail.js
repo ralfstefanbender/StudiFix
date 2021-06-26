@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles, Typography, Card, CardActions, CardContent, Button, CardActionArea  } from '@material-ui/core';
 import { StudyFixAPI } from '../../api';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
-import DeleteBuddyDialog from '../dialogs/DeleteBuddyDialog';
+import LeaveGroupDialog from '../dialogs/LeaveGroupDialog';
 import LoadingProgress from '../dialogs/LoadingProgress';
 
 
@@ -39,7 +39,7 @@ render() {
           </CardContent>
         </CardActionArea>
           <CardActions style={{float: 'right'}}>
-            <DeleteBuddyDialog />
+            <LeaveGroupDialog groupId={ID} />
           </CardActions>
 
         <LoadingProgress show={loadingInProgress} />
