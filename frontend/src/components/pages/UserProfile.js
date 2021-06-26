@@ -129,6 +129,8 @@ updateProfile = () => {
 
     const profile = this.state.UserProfileBO
 
+    const {classes} = this.props
+
     const prev_knowledges = [
       {
           value: 1,
@@ -283,7 +285,9 @@ const semesters = [
 },
 ];
 
+
     return (
+    
     <Typography variant='h6' component='h1' align='center'>
         <Grid>
             <br margin-top='20px' />
@@ -292,9 +296,10 @@ const semesters = [
         <Divider />
 
             <br margin-top='20px' />
-
+            <Grid container spacing={3} justify="center">
+            <Grid item xs={4}>
             {profile ?
-                <TextField
+                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
                     id="standard-basic"
                     label="Profile Name "
                     onChange={this.handleProfileNameChange}
@@ -306,12 +311,11 @@ const semesters = [
                 />
 
                 : null}
-
-                <br margin-top='20px'></br>
-                <br></br>
-
+                </Grid>
+                
+                <Grid item xs={4}>  
             {profile ?
-                <TextField
+                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
                     id="standard-basic"
                     label="Interessiert in "
                     onChange={this.handleInterestChange}
@@ -323,11 +327,13 @@ const semesters = [
                 />
 
                 : null}
-                <br></br>
-                <br></br>
-            
+                </Grid>
+                
+                <br/>
+                <br/>
+                <Grid item xs={4}>
                 {profile ?
-                <TextField
+                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
                     id="standard-basic"
                     label="Studiengang "
                     onChange={this.handleDegreeCourseChange}
@@ -339,18 +345,19 @@ const semesters = [
                 />
 
                 : null}
+                </Grid>
                 <br></br>
                 <br></br>
-
+                <Grid item xs={4}>
                                 {profile ?
-                                <TextField
+                                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
                               
                                     id="standard-select-currency"
                                     select
                                     label="Vorkenntnisse"
                                     onChange={(event) => this.handlePrevKnowlegeChange(event.target.value)}
                                     defaultValue={profile.getPrevKnowledge()}
-                                    helperText="Bitte wählen sie den Grad der Vorkenntnisse"
+                                    helperText="Bitte wählen sie ihre Vorkenntnisse"
                                 >
                                     {prev_knowledges.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
@@ -359,18 +366,21 @@ const semesters = [
                                     ))}
                                 </TextField>
                                 : null}
+                                </Grid>
+                                
 
                                 <br></br>
                                 <br></br>
+                                <Grid item xs={4}>
                                 {profile ?
-                                <TextField
+                                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
                               
                                     id="standard-select-currency"
                                     select
                                     label="Extrovertiertheit"
                                     onChange={(event) => this.handleExtroversionChange(event.target.value)}
                                     defaultValue={profile.getExtroversion()}
-                                    helperText="Bitte wählen sie den Grad der Extrovertiertheit"
+                                    helperText="Bitte wählen sie ihre Extrovertiertheit"
                                 >
                                     {extroversions.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
@@ -378,12 +388,16 @@ const semesters = [
                                         </MenuItem>
                                     ))}
                                 </TextField>
+                                
                                 : null}
+                                </Grid>
+                                
 
                                 <br></br>
                                 <br></br>
+                                <Grid item xs={4}>
                                 {profile ?
-                                <TextField
+                                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
                               
                                     id="standard-select-currency"
                                     select
@@ -399,11 +413,13 @@ const semesters = [
                                     ))}
                                 </TextField>
                                 : null}
+                                </Grid>
                             
                                 <br></br>
                                 <br></br>
+                                <Grid item xs={4}>
                                 {profile ?
-                                <TextField
+                                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
                               
                                     id="standard-select-currency"
                                     select
@@ -419,11 +435,13 @@ const semesters = [
                                     ))}
                                 </TextField>
                                 : null}
+                                </Grid>
 
                                 <br></br>
                                 <br></br>
+                                <Grid item xs={4}>
                                 {profile ?
-                                <TextField
+                                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
                               
                                     id="standard-select-currency"
                                     select
@@ -439,11 +457,13 @@ const semesters = [
                                     ))}
                                 </TextField>
                                 : null}
+                                </Grid>
 
                                 <br></br>
                                 <br></br>
+                                <Grid item xs={4}>
                                 {profile ?
-                                <TextField
+                                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
                               
                                     id="standard-select-currency"
                                     select
@@ -459,10 +479,15 @@ const semesters = [
                                     ))}
                                 </TextField>
                                 : null}
+                                </Grid>
                                 <br></br>
                                 <br></br>
-                                <Button onClick={() => this.state.newProfileName != "" && this.state.newProfileName != null && this.state.newInterest != null && this.state.newInterest != "" && this.state.newDegreeCourse != null && this.state.newDegreeCourse != "" ? this.updateProfile() : console.log(this.state.newProfileName)}>Speichern</Button>
-
+                                <Grid item xs={12}>
+                                <Button style={{maxWidth:"30vh", minWidth:"30vh", maxHeight:"5vh", minHeight:"5vh"}} variant="outlined" color="secondary" onClick={() => this.state.newProfileName != "" && this.state.newProfileName != null && this.state.newInterest != null && this.state.newInterest != "" && this.state.newDegreeCourse != null && this.state.newDegreeCourse != "" ? this.updateProfile() : console.log(this.state.newProfileName)}>Speichern</Button>
+                                </Grid>
+                                </Grid>
+                                <br></br>
+                                
         <Divider />
 
             <br margin-top='20px' />
@@ -483,9 +508,13 @@ const styles = theme => ({
     marginBottom: theme.spacing(2),
     padding: theme.spacing(1)
   },
+  paper: {
+      backroundColer: 'orange'
+  },
   content: {
     margin: theme.spacing(1),
   }
+  
 });
 
 export default withStyles(styles)(UserProfile);

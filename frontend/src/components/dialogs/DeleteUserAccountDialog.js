@@ -44,7 +44,7 @@ class DeleteUserAccountDialog extends Component {
     return (
       <ThemeProvider theme={Theme}>
 
-        <Button variant="outlined" onClick={this.handleClickOpen}>
+        <Button  style={{maxWidth:"30vh", minWidth:"30vh", maxHeight:"5vh", minHeight:"5vh", color:"red", outlinedcolor:"red"}} variant="outlined"  onClick={this.handleClickOpen}>
           Account löschen
         </Button>
 
