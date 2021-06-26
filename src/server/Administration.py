@@ -560,6 +560,8 @@ class Administration(object):
         for obj in groupInv_by_source:
             groupPart_ids.append(obj.get_study_group_id())
 
+        groupPart_ids = list(dict.fromkeys(groupPart_ids))
+
         group_objects = []
         for num in groupPart_ids:
             group_objects.append(self.get_studygroup_by_id(num))
