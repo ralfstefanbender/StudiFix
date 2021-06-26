@@ -440,7 +440,7 @@ class Administration(object):
         print(studygroup)
         user = self.get_user_by_google_id(user_id)
         print(user)
-        self.create_groupinvitation(user.get_id(), 0, studygroup.get_id(),1)
+        self.create_groupinvitation(user.get_id(), user.get_id(), studygroup.get_id(),1)
 
     def get_studygroup_by_name(self, name):
         with StudyGroupMapper() as mapper:

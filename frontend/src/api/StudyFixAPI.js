@@ -69,7 +69,7 @@ export default class StudyFixAPI {
     #updateStudyGroupURL = (id) => `${this.#studyfixServerBaseURL}/studygroup/${id}`;
     #getStudyGroupByNameURL = (name) => `${this.#studyfixServerBaseURL}/studygroup/${name}`;
     #getUserPendingGroupInvites = (id) => `${this.#studyfixServerBaseURL}/pending_group_invites-by-google-id/${id}`;
-    #createStudyGroupPackage = (name, user_id) => `${this.#studyfixServerBaseURL}/studyfix/create-study-group-package/${name}/${user_id}`;
+    #createStudyGroupPackage = (name, user_id) => `${this.#studyfixServerBaseURL}/create-study-group-package/${name}/${user_id}`;
 
     //LearningProfileGroup
     #getAllLearningProfileGroupsURL = () => `${this.#studyfixServerBaseURL}/learningprofilegroup`;
