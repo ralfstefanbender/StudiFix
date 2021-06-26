@@ -78,6 +78,7 @@ export default class StudyFixAPI {
     #deleteLearningProfileGroupURL = (id) => `${this.#studyfixServerBaseURL}/learningprofilegroup/${id}`;
     #updateLearningProfileGroupURL = (id) => `${this.#studyfixServerBaseURL}/learningprofilegroup/${id}`;
     #getLearningProfileGroupByNameURL = (name) => `${this.#studyfixServerBaseURL}/learningprofilegroup-by-name/${name}`;
+    #getLearningProfileGroupByGroupIdURL = (id) => `${this.#studyfixServerBaseURL}/learningprofilegroup-by-group-id/${id}`;
 
     //LearningProfileUser
     #getAllLearningProfileUsersURL = () => `${this.#studyfixServerBaseURL}/learningprofileuser`;
@@ -481,6 +482,15 @@ export default class StudyFixAPI {
               resolve(responseLearningProfileGroupBO);
             })
           })
+    }
+
+    getLearningProfileGroupByGroupId(groupId){
+      return this.#fetchAdvanced(this.#getLearningProfileGroupByGroupIdURL(groupId)).then((responseJSON) => {
+        let responseLearningProfileGroupBO = LearningProfileGroupBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+          resolve(responseLearningProfileGroupBO);
+        })
+      })
     }
 
       /**

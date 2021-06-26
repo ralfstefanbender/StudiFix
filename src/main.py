@@ -1083,7 +1083,7 @@ class LearningProfileGroupListOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class LearningProfileGroupOperations(Resource):
     @studyfix.marshal_with(learningprofilegroup)
-    @secured
+
     def get(self, id):
         """reading out a specific learninprofileobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -1139,6 +1139,20 @@ class LearningProfileGroupByNameOperations(Resource):
         adm = Administration()
         learning_profile_by_name = adm.get_learningprofile_group_by_name(name)
         return learning_profile_by_name
+
+@studyfix.route('/learningprofilegroup-by-group-id/<int:group_id>')
+@studyfix.response(500, 'when server has problems')
+class LearningProfileGroupByNameOperations(Resource):
+    @studyfix.marshal_with(learningprofilegroup)
+    @secured
+    def get(self, group_id):
+        """Reading out studygroup objects that are determined by the lastname.
+        The objects to be read out are determined by '' name '' in the URI."""
+        adm = Administration()
+        learning_profile_by_group_id = adm.get_learningprofile_group_by_group_id(group_id)
+        return learning_profile_by_group_id
+
+
 
 @studyfix.route('/groups-by-google-id/<string:google_id>')
 @studyfix.response(500, 'when server has problems')

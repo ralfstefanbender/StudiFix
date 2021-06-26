@@ -437,6 +437,7 @@ class Administration(object):
 
     def create_studygroup_package (self, name, user_id):
         studygroup = self.create_studygroup(name)
+        self.create_learningprofile_group(studygroup.get_id(), studygroup.get_name(), 1, 1, 1, 1, 1, 1, "interest_preset", "degree_course_preset")
         print(studygroup)
         user = self.get_user_by_google_id(user_id)
         print(user)

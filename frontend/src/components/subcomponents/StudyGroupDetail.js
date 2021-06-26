@@ -18,8 +18,17 @@ class StudyGroupDetail extends Component{
         this.state = {
             loadingInProgress: false,
             loadingError: null,
+            learningProfile: null
       };
     }
+
+
+
+componentDidMount(){
+  StudyFixAPI.getAPI().getLearningProfileGroupByGroupId(this.props.ID).then((learningProfile)=>{
+    console.log(learningProfile)})
+  }
+
 
 /** Renders the component */
 render() {
