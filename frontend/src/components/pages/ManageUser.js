@@ -86,7 +86,7 @@ class ManageUser extends Component {
 
                 Mein Konto
                 <Divider />
-
+                <Grid container spacing={3} justify="center"></Grid>
                     <br margin-top='20px' />
 
                     {person ?
@@ -121,7 +121,7 @@ class ManageUser extends Component {
                         : null}
                         <br></br>
                         <br></br>
-                    <Button onClick={() => this.state.newFirstName != "" && this.state.newFirstName != null && this.state.newAdress != null && this.state.newAdress != "" ? this.updateUser() : console.log(this.state.newAdress)}>Speichern</Button>
+                    <Button style={{maxWidth:"30vh", minWidth:"30vh", maxHeight:"5vh", minHeight:"5vh"}} variant="outlined" color="secondary" onClick={() => this.state.newFirstName != "" && this.state.newFirstName != null && this.state.newAdress != null && this.state.newAdress != "" ? this.updateUser() : console.log(this.state.newAdress)}>Speichern</Button>
                     <Collapse in={this.state.alertOpen}>
                         <Alert
                             action={
@@ -150,6 +150,7 @@ class ManageUser extends Component {
                     <br margin-top='20px' />
 
                 <Divider />
+                
 
                     <br margin-top='20px' />
                 <UserProfile/>
