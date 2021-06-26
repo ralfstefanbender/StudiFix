@@ -12,6 +12,7 @@ import {
     Button,
     Grid} from'@material-ui/core';
 import {StudyFixAPI, StudyGroupBO, ChatBO} from '../../api';
+import firebase from "firebase";
 
 
 
@@ -24,6 +25,7 @@ class CreateStudyGroup extends Component {
 
       this.state = {
         creationDate: null,
+        current_user:null,
         name:'',
         openpr:null,
         studygroups:[],
@@ -66,22 +68,13 @@ class CreateStudyGroup extends Component {
               }
 
 
-
-
+    getCurrentUser(){
+    StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user) => {this.setState({current_user:user})})
+  }
 
     // Add Studygroup
      addStudyGroup = () => {
-        let newStudyGroup = new StudyGroupBO();
-        newStudyGroup.setDate(this.state.creationDate);
-        newStudyGroup.setName(this.state.name);
-        newStudyGroup.setChatId(this.state.chatidSelected);
-        StudyFixAPI.getAPI().addStudyGroup(newStudyGroup).then(studygroupBO => {
-            this.setState(this.baseState);
-        }).catch(e =>
-            this.setState({
-                error: e
-            }))
-
+        StudyFixAPI.getAPI().createStudyGroupPackage(this.state.name,this.state.current_user.google_id)
     }
 
 
@@ -101,6 +94,7 @@ class CreateStudyGroup extends Component {
     }
 
    componentDidMount(){
+        this.getCurrentUser();
         this.getAllStudyGroups();
         this.getAllChats();
     }
@@ -149,17 +143,6 @@ class CreateStudyGroup extends Component {
                     <Grid item>
                         <TextField fullWidth required variant="outlined" id="name" label="Name:" onChange={this.handleChange} value={this.state.name}/>
                     </Grid>
-                    <Grid item>
-                        <FormControl fullWidth required variant="outlined">
-                            <InputLabel>Chat</InputLabel>
-                            <Select name="chatidSelected" defaultValue="" label="Chat" onChange={this.handleSelectChange}>
-                                {this.state.chats.map((chat) => (
-                                        <MenuItem key={chat.getID()} value={chat.getID()}>{chat.getName()}</MenuItem>
-                                    ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
                  </Grid>
                   <Grid container spacing={2} justify="center" driection="row"  >
 

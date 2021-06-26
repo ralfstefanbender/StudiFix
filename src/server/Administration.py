@@ -387,14 +387,22 @@ class Administration(object):
             mapper.delete(id)
 
     # StudyGroup Methoden
-    def create_studygroup (self, name, chat_id):
+    def create_studygroup (self, name):
         studygroup = StudyGroup()
         studygroup.set_name(name)
-        studygroup.set_chat_id(chat_id)
+        chat = self.create_chat(name)
+        studygroup.set_chat_id(chat.get_id())
         studygroup.set_id(1)
 
         with StudyGroupMapper() as mapper:
             return mapper.insert(studygroup)
+
+    def create_studygroup_package (self, name, user_id):
+        studygroup = self.create_studygroup(name)
+        print(studygroup)
+        user = self.get_user_by_google_id(user_id)
+        print(user)
+        self.create_groupinvitation(user.get_id(), 0, studygroup.get_id(),1)
 
     def get_studygroup_by_name(self, name):
         with StudyGroupMapper() as mapper:
@@ -502,18 +510,17 @@ class Administration(object):
         # Where source user
         groupInv_by_target = self.get_accepted_groupinvites_by_target_user(user_id)
         if type(groupInv_by_target) != list:
-            groupPart_ids.append(groupInv_by_target.get_study_group_id())
-        else:
-            for obj in groupInv_by_target:
-                groupPart_ids.append(obj.get_study_group_id())
+            groupInv_by_target = [groupInv_by_target]
+        for obj in groupInv_by_target:
+            groupPart_ids.append(obj.get_study_group_id())
 
         # Where target user
         groupInv_by_source = self.get_accepted_groupinvites_by_source_user(user_id)
         if type(groupInv_by_source) != list:
-            groupPart_ids.append(groupInv_by_source.get_study_group_id())
-        else:
-            for obj in groupInv_by_source:
-                groupInv_by_source.append(obj.get_study_group_id())
+            groupInv_by_source = [groupInv_by_source]
+
+        for obj in groupInv_by_source:
+            groupPart_ids.append(obj.get_study_group_id())
 
         group_objects = []
         for num in groupPart_ids:

@@ -1017,7 +1017,17 @@ class StudyGroupLearningProfileOperations(Resource):
         studygroup = adm.get_studygroup_by_learning_profile_id(learning_profile_id)
         return studygroup
 
-
+@studyfix.route('/studygroup-create-package/<string:name>')
+@studyfix.response(500, 'when server has problems')
+class StudyGroupLearningProfileOperations(Resource):
+    @studyfix.expect()
+    @secured
+    def get(self, learning_profile_id):
+        """Reading out studygroup objects that are determined by the lastname.
+        The objects to be read out are determined by '' name '' in the URI."""
+        adm = Administration()
+        studygroup = adm.get_studygroup_by_learning_profile_id(learning_profile_id)
+        return studygroup
 
 # -------LearningProfileGroup---------
 
@@ -1447,7 +1457,14 @@ class GetChatByUserId(Resource):
         result = adm.remove_friend(current_user_id, chat_id)
         return result
 
+@studyfix.route('/create-study-group-package/<string:name>/<string:user_id>')
+@studyfix.response(500, 'when server has problems')
+class CreateStudyGroupPackage(Resource):
 
+    def get(self, name, user_id):
+        adm = Administration()
+        result = adm.create_studygroup_package(name,user_id)
+        return True
 """
 Nachdem wir nun sämtliche Resourcen definiert haben, die wir via REST bereitstellen möchten,
 müssen nun die App auch tatsächlich zu starten.
@@ -1460,6 +1477,6 @@ if __name__ == '__main__':
     """print(Administration.get_matches_user(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1", .1))"""
     """print(Administration.get_matches_group(Administration(), 1, .1))"""
     """print(Administration.get_matches_user(Administration(),"16060601 6962", 0.5))"""
-    Administration.remove_friend(Administration(), 9, 101)
+    """print(Administration().create_studygroup_package("FINALFINAL",101))"""
     app.run(debug=True)
 
