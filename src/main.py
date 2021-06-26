@@ -1470,10 +1470,10 @@ class CreateStudyGroupPackage(Resource):
 @studyfix.response(500, 'when server has problems')
 class LeaveGroup(Resource):
 
-def get(self, current_user_id, group_id):
-    adm = Administration()
-    result = adm.leave_group(current_user_id, group_id)
-    return result
+    def get(self, current_user_id, group_id):
+        adm = Administration()
+        result = adm.leave_group(current_user_id, group_id)
+        return result
 
 
 """
