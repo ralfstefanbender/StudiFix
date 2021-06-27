@@ -53,7 +53,7 @@ function About() {
 
           <br />
           <Typography variant='body2'>
-            © Hochschule der Medien 2020, all rights reserved.
+            © Hochschule der Medien 2021, all rights reserved.
         </Typography>
         </div>
       </Paper>

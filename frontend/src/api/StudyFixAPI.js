@@ -50,6 +50,9 @@ export default class StudyFixAPI {
     #getGroupInvitationAcceptedInvitesSourceURL = (source_user) => `${this.#studyfixServerBaseURL}/groupinvitation-accepted-invites-source/${source_user}`;
     #getGroupInvitationAcceptedInvitesTargetURL = (target_user) => `${this.#studyfixServerBaseURL}/groupinvitation-accepted-invites-target/${target_user}`;
 
+    #acceptGroupRequest = (group_id, user_id) => `${this.#studyfixServerBaseURL}/acceptgrouprequest/${group_id}/${user_id}`;
+    #declineGroupRequest = (group_id, user_id) => `${this.#studyfixServerBaseURL}/declinegrouprequest/${group_id}/${user_id}`;
+
     //User
     #getAllUsersURL = () => `${this.#studyfixServerBaseURL}/user`;
     #getUserByIdURL = (id) => `${this.#studyfixServerBaseURL}/user/${id}`;
@@ -1391,4 +1394,15 @@ export default class StudyFixAPI {
     getGroupUsersByGroupId(group_id){
         return this.#fetchAdvanced(this.#getGroupUsersByGroupId(group_id))
     }
+
+    acceptGroupRequest(group_id, user_id){
+      return this.#fetchAdvanced(this.#acceptGroupRequest(group_id, user_id))
+      }
+    
+    declineGroupRequest(group_id, user_id){
+      return this.#fetchAdvanced(this.#declineGroupRequest(group_id, user_id))
+      }
+
   }
+
+  

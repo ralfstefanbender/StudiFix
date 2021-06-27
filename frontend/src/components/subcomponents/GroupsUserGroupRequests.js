@@ -23,11 +23,11 @@ class GroupsUserGroupRequests extends Component{
     }
 
     acceptGroupRequest = (e, group_id, user_id) =>{
-      this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#90EE90"}})
+      StudyFixAPI.getAPI().acceptGroupRequest(group_id, user_id).then(() => {this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#90EE90"}})})
     }
 
     declineGroupRequest = (e, group_id, user_id) =>{
-      this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#F08080"}})
+      StudyFixAPI.getAPI().declineGroupRequest(group_id, user_id).then(() => {this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#F08080"}})})
     }
 
 /** Renders the component */

@@ -1395,7 +1395,7 @@ class GroupMatchingAlgorithmus(Resource):
             matching_score = matches[learningprofile_id]
             matching_score = str(round(matching_score*100)) + "%"
 
-            if interest != 'interest preset' and group_id not in groupPart_ids:
+            if interest != 'interest_preset' and group_id not in groupPart_ids:
                 result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score, "id": group_id})
 
 
@@ -1447,6 +1447,27 @@ class DeclineFriendInvites(Resource):
         adm = Administration()
         adm.decline_friend_request(target_id, source_id)
         return True
+
+
+@studyfix.route('/acceptgrouprequest/<int:group_id>/<int:user_id>')
+@studyfix.response(500, 'when server has problems')
+class AcceptGroupRequest(Resource):
+
+    def get(self, group_id, user_id):
+        adm = Administration()
+        adm.accept_group_request(group_id, user_id)
+        return True
+
+
+@studyfix.route('/declinegrouprequest/<int:group_id>/<int:user_id>')
+@studyfix.response(500, 'when server has problems')
+class DeclineGroupRequest(Resource):
+
+    def get(self, group_id, user_id):
+        adm = Administration()
+        adm.decline_group_request(group_id, user_id)
+        return True
+
 
 @studyfix.route('/chat-by-user-id/<int:user_id>')
 @studyfix.response(500, 'when server has problems')
