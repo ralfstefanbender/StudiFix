@@ -739,9 +739,27 @@ class Administration(object):
             chat_objs.append(self.get_chat_by_id(i))
         return chat_objs
 
-    def get_other_group_users_by_group_id(self, user_id, group_id):
+    def get_group_users_by_group_id(self, group_id):
 
-        pass
+        invites = self.get_groupinvitation_by_study_group_id(group_id)
+        if type(invites) != list:
+            invites = [invites]
+        acc_invites = []
+        for i in invites:
+            if i.get_is_accepted() == True:
+                acc_invites.append(i)
+        user_ids = []
+        for i in acc_invites:
+            if i.get_source_user() == i.get_target_user():
+                user_ids.append(i.get_source_user())
+            else:
+                user_ids.append(i.get_source_user())
+                user_ids.append(i.get_target_user())
+        users = []
+        for i in user_ids:
+            users.append(self.get_user_by_id(i))
+
+        return users
 
     # Matching Algorithmus
 

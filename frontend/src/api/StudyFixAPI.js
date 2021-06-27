@@ -71,6 +71,7 @@ export default class StudyFixAPI {
     #getStudyGroupByNameURL = (name) => `${this.#studyfixServerBaseURL}/studygroup/${name}`;
     #getUserPendingGroupInvites = (id) => `${this.#studyfixServerBaseURL}/pending_group_invites-by-google-id/${id}`;
     #createStudyGroupPackage = (name, user_id) => `${this.#studyfixServerBaseURL}/create-study-group-package/${name}/${user_id}`;
+    #getGroupUsersByGroupId = (group_id) => `${this.#studyfixServerBaseURL}/group_users_by_group_id/${group_id}`;
 
     //LearningProfileGroup
     #getAllLearningProfileGroupsURL = () => `${this.#studyfixServerBaseURL}/learningprofilegroup`;
@@ -1387,4 +1388,7 @@ export default class StudyFixAPI {
         return this.#fetchAdvanced(this.#leaveGroup(target_id, group_id))
         }
 
+    getGroupUsersByGroupId(group_id){
+        return this.#fetchAdvanced(this.getGroupUsersByGroupId(group_id))
+    }
   }
