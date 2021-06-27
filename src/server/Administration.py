@@ -708,8 +708,46 @@ class Administration(object):
                     other_user = i.get_source_user()
                     return self.get_user_by_id(other_user)
 
+    def get_group_chat_by_user_id(self, user_id):
+        acc_invites_source = self.get_accepted_groupinvites_by_source_user(user_id)
+        acc_invites_target = self.get_accepted_groupinvites_by_target_user(user_id)
+        print(acc_invites_source)
+        print(acc_invites_target)
+        if type(acc_invites_source) != list:
+            acc_invites_source = [acc_invites_source]
 
-                # Matching Algorithmus
+        if type(acc_invites_target) != list:
+            acc_invites_target = [acc_invites_target]
+
+        acc_invites = acc_invites_source + acc_invites_target
+
+        group_ids = []
+
+        for i in acc_invites:
+            group_ids.append(i.get_study_group_id())
+
+        group_ids = list(set(group_ids))
+
+        group_objects = []
+
+        for i in group_ids:
+            group_objects.append(Administration().get_studygroup_by_id(i))
+
+        chat_ids = []
+        for i in group_objects:
+            if i.get_chat_id() != 1:  # Id 1 ist eine platzhalter id
+                chat_ids.append(i.get_chat_id())
+
+        chat_objs = []
+        for i in chat_ids:
+            chat_objs.append(self.get_chat_by_id(i))
+        return chat_objs
+
+    def get_other_group_users_by_group_id(self, user_id, group_id):
+
+        pass
+
+    # Matching Algorithmus
 
     def get_matches_user(self, user_id, threshhold):
         """Output: {profile_id : 0,54, profile_id : 0,34}"""

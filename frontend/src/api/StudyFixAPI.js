@@ -105,6 +105,7 @@ export default class StudyFixAPI {
     #getOtherUserByChatId = (current_user, chat_id) => `${this.#studyfixServerBaseURL}/other-user-by-chat-id/${current_user}/${chat_id}`;
     #deleteChatURL = (id) => `${this.#studyfixServerBaseURL}/chat/${id}`;
     #updateChatURL = (id) => `${this.#studyfixServerBaseURL}/chat/${id}`;
+    #getGroupChatByUserId = (id) => `${this.#studyfixServerBaseURL}/group-chat-by-user-id/${id}`;
 
     //Matching
     #getMatches = (id) => `${this.#studyfixServerBaseURL}/matching/${id}`;
@@ -1342,6 +1343,15 @@ export default class StudyFixAPI {
 
     getChatByUserId(id){
       return this.#fetchAdvanced(this.#getChatByUserId(id)).then((responseJSON) => {
+        let chats = ChatBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(chats);
+        })
+      })
+      }
+
+    getGroupChatByUserId(id){
+      return this.#fetchAdvanced(this.#getGroupChatByUserId(id)).then((responseJSON) => {
         let chats = ChatBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(chats);

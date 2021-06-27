@@ -1475,6 +1475,15 @@ class LeaveGroup(Resource):
         result = adm.leave_group(current_user_id, group_id)
         return result
 
+@studyfix.route('/group-chat-by-user-id/<int:user_id>')
+@studyfix.response(500, 'when server has problems')
+class GetGroupChatByUserId(Resource):
+    @studyfix.marshal_with(chat)
+    def get(self, user_id):
+        adm = Administration()
+        result = adm.get_group_chat_by_user_id(user_id)
+        return result
+
 
 """
 Nachdem wir nun sämtliche Resourcen definiert haben, die wir via REST bereitstellen möchten,
