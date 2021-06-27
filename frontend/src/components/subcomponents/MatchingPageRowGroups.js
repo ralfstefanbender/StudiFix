@@ -18,7 +18,7 @@ class MatchingPageRow extends Component{
         var newInvite = new GroupInvitationBO()
         newInvite.setSourceOwner(this.props.user_id)
         newInvite.setIsAccepted(false)
-        newInvite.setTargetOwner(match_id)
+        newInvite.setTargetOwner(this.props.user_id)
         newInvite.setStudyGroupId(match_id)
         StudyFixAPI.getAPI().addGroupInvitation(newInvite).then(() => {this.setState({disabled:true})})
 

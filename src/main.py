@@ -1448,6 +1448,27 @@ class DeclineFriendInvites(Resource):
         adm.decline_friend_request(target_id, source_id)
         return True
 
+
+@studyfix.route('/acceptgrouprequest/<int:group_id>/<int:user_id>')
+@studyfix.response(500, 'when server has problems')
+class AcceptGroupRequest(Resource):
+
+    def get(self, group_id, user_id):
+        adm = Administration()
+        adm.accept_group_request(group_id, user_id)
+        return True
+
+
+@studyfix.route('/declinegrouprequest/<int:group_id>/<int:user_id>')
+@studyfix.response(500, 'when server has problems')
+class DeclineGroupRequest(Resource):
+
+    def get(self, group_id, user_id):
+        adm = Administration()
+        adm.decline_group_request(group_id, user_id)
+        return True
+
+
 @studyfix.route('/chat-by-user-id/<int:user_id>')
 @studyfix.response(500, 'when server has problems')
 class GetChatByUserId(Resource):

@@ -761,6 +761,39 @@ class Administration(object):
 
         return users
 
+    def accept_group_request(self, group_id, user_id):
+        group_requests_source = self.get_pend_groupinvites_by_source_user(user_id)
+        group_requests_target = self.get_pend_groupinvites_by_target_user(user_id)
+
+        if type(group_requests_source) != list:
+            group_requests_source = [group_requests_source]
+
+        if type(group_requests_target) != list:
+            group_requests_target = [group_requests_target]
+
+        group_requests = group_requests_source + group_requests_target
+
+        for req in group_requests:
+            if req.get_study_group_id() == group_id:
+                req.set_is_accepted(1)
+                self.save_groupinvitation(req)
+
+    def decline_group_request(self, group_id, user_id):
+        group_requests_source = self.get_pend_groupinvites_by_source_user(user_id)
+        group_requests_target = self.get_pend_groupinvites_by_target_user(user_id)
+
+        if type(group_requests_source) != list:
+            group_requests_source = [group_requests_source]
+
+        if type(group_requests_target) != list:
+            group_requests_target = [group_requests_target]
+
+        group_requests = group_requests_source + group_requests_target
+
+        for req in group_requests:
+            if req.get_study_group_id() == group_id:
+                self.delete_groupinvitation(req)
+
     # Matching Algorithmus
 
     def get_matches_user(self, user_id, threshhold):
