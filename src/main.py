@@ -1083,7 +1083,7 @@ class LearningProfileGroupListOperations(Resource):
 @studyfix.response(500, 'when server has problems')
 class LearningProfileGroupOperations(Resource):
     @studyfix.marshal_with(learningprofilegroup)
-    @secured
+
     def get(self, id):
         """reading out a specific learninprofileobject.
            The object to be read is determined by the '' id '' in the URI."""
@@ -1139,6 +1139,20 @@ class LearningProfileGroupByNameOperations(Resource):
         adm = Administration()
         learning_profile_by_name = adm.get_learningprofile_group_by_name(name)
         return learning_profile_by_name
+
+@studyfix.route('/learningprofilegroup-by-group-id/<int:group_id>')
+@studyfix.response(500, 'when server has problems')
+class LearningProfileGroupByNameOperations(Resource):
+    @studyfix.marshal_with(learningprofilegroup)
+    @secured
+    def get(self, group_id):
+        """Reading out studygroup objects that are determined by the lastname.
+        The objects to be read out are determined by '' name '' in the URI."""
+        adm = Administration()
+        learning_profile_by_group_id = adm.get_learningprofile_group_by_group_id(group_id)
+        return learning_profile_by_group_id
+
+
 
 @studyfix.route('/groups-by-google-id/<string:google_id>')
 @studyfix.response(500, 'when server has problems')
@@ -1396,11 +1410,16 @@ class GroupMatchingAlgorithmus(Resource):
 @studyfix.route('/pending_group_invites-by-google-id/<string:google_id>')
 @studyfix.response(500, 'when server has problems')
 class GroupsByGoogleId(Resource):
-    @studyfix.marshal_with(user)
+
     def get(self, google_id):
         adm = Administration()
-        pending_group_invites_by_google_id = adm.get_User_pending_invites_groups_by_google_id(google_id)
-        return pending_group_invites_by_google_id
+        result = []
+        pending_group_invites_by_google_id = adm.get_user_pending_invites_groups_by_google_id(google_id)
+        for inv in pending_group_invites_by_google_id:
+            result.append({"group_id": inv[1].get_id(), "group_name": inv[1].get_name(), "google_id": inv[0].get_google_id(),
+                           "firstname": inv[0].get_firstname(), "lastname": inv[0].get_lastname(),
+                           "id": inv[0].get_id()})
+        return result
 
 
 

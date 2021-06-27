@@ -38,7 +38,6 @@ class LeaveGroupDialog extends Component {
       StudyFixAPI.getAPI().leaveGroup(user.id, this.props.groupId)})}
 
   render() {
-    console.log("props:", this.props)
     return (
       <ThemeProvider theme={Theme}>
         <Button startIcon={<DeleteIcon/>} size='small' color='primary' onClick={this.handleClickOpen}>

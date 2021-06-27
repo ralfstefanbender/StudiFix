@@ -8,6 +8,7 @@ import StudyGroupBO from './StudyGroupBO';
 import UserBO from './UserBO';
 import UserMatchBO from './UserMatchBO';
 import GroupMatchBO from './GroupMatchBO';
+import GroupRequestBO from './GroupRequestBO';
 
 
 export default class StudyFixAPI {
@@ -78,6 +79,7 @@ export default class StudyFixAPI {
     #deleteLearningProfileGroupURL = (id) => `${this.#studyfixServerBaseURL}/learningprofilegroup/${id}`;
     #updateLearningProfileGroupURL = (id) => `${this.#studyfixServerBaseURL}/learningprofilegroup/${id}`;
     #getLearningProfileGroupByNameURL = (name) => `${this.#studyfixServerBaseURL}/learningprofilegroup-by-name/${name}`;
+    #getLearningProfileGroupByGroupIdURL = (id) => `${this.#studyfixServerBaseURL}/learningprofilegroup-by-group-id/${id}`;
 
     //LearningProfileUser
     #getAllLearningProfileUsersURL = () => `${this.#studyfixServerBaseURL}/learningprofileuser`;
@@ -482,6 +484,15 @@ export default class StudyFixAPI {
               resolve(responseLearningProfileGroupBO);
             })
           })
+    }
+
+    getLearningProfileGroupByGroupId(groupId){
+      return this.#fetchAdvanced(this.#getLearningProfileGroupByGroupIdURL(groupId)).then((responseJSON) => {
+        let responseLearningProfileGroupBO = LearningProfileGroupBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+          resolve(responseLearningProfileGroupBO);
+        })
+      })
     }
 
       /**
@@ -1325,7 +1336,7 @@ export default class StudyFixAPI {
 
     getUserPendingGroupInvites(id){
       return this.#fetchAdvanced(this.#getUserPendingGroupInvites(id)).then((responseJSON) => {
-        let users = UserBO.fromJSON(responseJSON);
+        let users = GroupRequestBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(users);
         })

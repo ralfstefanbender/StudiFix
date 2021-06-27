@@ -125,7 +125,7 @@ render(){
           <Grid>
             {
             buddys.map(buddys => <UserGroupsDetail key={buddys.getID()}
-            firstName={buddys.getFirstName()} lastName={buddys.getLastName()} ID={buddys.getID()}
+            firstName={buddys.getFirstName()} lastName={buddys.getLastName()} email={buddys.getEMail()} ID={buddys.getID()}
             adress={buddys.getAdress()} />)
             }
             <LoadingProgress show={loadingInProgress} />

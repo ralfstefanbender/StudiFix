@@ -17,20 +17,30 @@ class GroupsUserGroupRequests extends Component{
         this.state = {
             loadingInProgress: false,
             loadingError: null,
+            disabled:false,
+            colorStyle: {}
       };
+    }
+
+    acceptGroupRequest = (e, group_id, user_id) =>{
+      this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#90EE90"}})
+    }
+
+    declineGroupRequest = (e, group_id, user_id) =>{
+      this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#F08080"}})
     }
 
 /** Renders the component */
 render() {
-    const { classes, ID, firstName, lastName } = this.props;
+    const { classes, ID, firstName, lastName, groupName, groupId } = this.props;
     const {  loadingInProgress, loadingError } = this.state;
 
     return (
-      <Card variant='outlined' className={classes.root}>
+      <Card variant='outlined' className={classes.root} style={this.state.colorStyle}>
         <CardActionArea>
           <CardContent>
             <Typography variant='h6' component='h2'>
-                {firstName} {lastName}
+                {firstName} {lastName} <tag style={{color:"#f57c00"}}>wants to join</tag> {groupName}
             </Typography>
             <Typography variant='body2' component='p'>
               ID: {ID}
@@ -38,8 +48,8 @@ render() {
           </CardContent>
         </CardActionArea>
           <CardActions style={{float: 'right'}}>
-            <Button startIcon={<CheckIcon/>} size='small' color='primary'>Anfrage Annehmen</Button>
-            <Button startIcon={<ClearIcon/>} size='small' color='primary'>Anfrage Ablehnen</Button>
+            <Button disabled={this.state.disabled} startIcon={<CheckIcon/>} size='small' color='primary' onClick={(e)=>{this.acceptGroupRequest(e, groupId, ID)}}>Anfrage Annehmen</Button>
+            <Button disabled={this.state.disabled} startIcon={<ClearIcon/>} size='small' color='primary' onClick={(e)=>{this.declineGroupRequest(e, groupId, ID)}}>Anfrage Ablehnen</Button>
           </CardActions>
 
         <LoadingProgress show={loadingInProgress} />
