@@ -1389,6 +1389,6 @@ export default class StudyFixAPI {
         }
 
     getGroupUsersByGroupId(group_id){
-        return this.#fetchAdvanced(this.getGroupUsersByGroupId(group_id))
+        return this.#fetchAdvanced(this.#getGroupUsersByGroupId(group_id))
     }
   }

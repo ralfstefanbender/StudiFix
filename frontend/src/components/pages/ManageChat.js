@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import ChatWindow from '../subcomponents/ChatWindow'
 import ChatSelection from '../subcomponents/ChatSelection'
+import GroupChatSelection from "../subcomponents/GroupChatSelection";
+import GroupChatWindow from "../subcomponents/GroupChatWindow";
 import { StudyFixAPI } from '../../api'
 
 class ManageChat extends Component {
@@ -11,7 +13,9 @@ class ManageChat extends Component {
     this.state = {
       currentUser: null,
       chats:null,
+      groupchats:null,
       selectedChat: null,
+      selectedGroupChat:null,
     }
   }
 
@@ -24,19 +28,28 @@ class ManageChat extends Component {
   }
 
   getAllChats(id){
-    StudyFixAPI.getAPI().getChatByUserId(id).then((chats) => (this.setState({chats:chats})))
+    StudyFixAPI.getAPI().getChatByUserId(id).then((chats) => {this.setState({chats:chats})})
+    StudyFixAPI.getAPI().getGroupChatByUserId(id).then((groupchats) => (this.setState({groupchats:groupchats})))
   }
 
+  getAllGroupChats(id){
+    StudyFixAPI.getAPI().getGroupChatByUserId(id).then((groupchats) => (this.setState({chats:groupchats})))
+  }
   setSelectedChat = (selChat) =>{
     this.setState({selectedChat:selChat})
   }
+
 
   render(){
   return (
     <>
       <div className="Container" style={{display:"grid", gridTemplateColumns:"30% 70%"}}>
-        {this.state.chats?<ChatSelection chats={this.state.chats} setSelectedChat={this.setSelectedChat}/>:null}
-        {this.state.selectedChat? <ChatWindow key={this.state.selectedChat.id} chat={this.state.selectedChat} currentUser={this.state.currentUser}/>:null}
+        <div>
+        {this.state.chats? <ChatSelection chats={this.state.chats}  setSelectedChat={this.setSelectedChat}/>:null}
+        {this.state.groupchats? <GroupChatSelection groupchats={this.state.groupchats} setSelectedChat={this.setSelectedChat}/>:null}
+        </div>
+        {this.state.selectedChat? <ChatWindow key={this.state.selectedChat.id} chat={this.state.selectedChat} groupchats={this.state.selectedGroupChat}currentUser={this.state.currentUser}/>:null}
+        {this.state.selectedGroupChat? <GroupChatWindow key={this.state.selectedGroupChat.id} chat={this.state.selectedChat} groupchat={this.state.selectedGroupChat} currentUser={this.state.currentUser}/>:null}
       </div>
     </>
   )}

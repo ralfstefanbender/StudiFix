@@ -3,7 +3,7 @@ import { makeStyles, withStyles, Card, Typography, FormHelperText, ButtonGroup} 
 
 import { List, Button} from '@material-ui/core';
 
-class ChatSelection extends Component {
+class GroupChatSelection extends Component {
 
   constructor(props){
     super(props);
@@ -20,27 +20,26 @@ class ChatSelection extends Component {
     return (
       <div elevation={0} className={classes.root}>
         <div className={classes.content}>
-          <Card variant='outlined'>
           <Typography variant='h6' style={{textAlign:"center"}}>
-            My Chats
+            My GroupChats
           </Typography>
-          </Card>
           <Card variant='outlined'>
           <List className={classes.chatList} style={{display:"flex", flexDirection:"column"}}>
-            {this.state.activeChats?
-                this.state.activeChats.map((chat)=>{
+            {this.state.activeGroupChats?
+                this.state.activeGroupChats.map((groupchats)=>{
                     return(
-                    
-                      <Button variant='outlined' color='secondary' style={{width:"100%"}} key={chat.id} onClick={() => this.props.setSelectedChat(chat)}>
-                        {chat.name}
+
+                      <Button variant='outlined' color='secondary' style={{width:"100%"}} key={groupchats.id} onClick={() => this.props.setSelectedChat(groupchats)}>
+                        {groupchats.name}
                       </Button>
-                     
+
                     )
                 })
             :null}
-            
+
           </List>
           </Card>
+
         </div>
       </div>
     )
@@ -59,4 +58,4 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-export default withStyles(styles)(ChatSelection);
+export default withStyles(styles)(GroupChatSelection);
