@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { makeStyles, Paper, Typography, withStyles, Card, Divider} from '@material-ui/core';
+import { makeStyles, Grid, Paper, Button, Typography, withStyles, Card, CardContent, CardActions, Divider} from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 import StudyFixAPI from '../../api/StudyFixAPI';
 import firebase from 'firebase/app';
 
@@ -65,16 +66,40 @@ class Overview extends Component {
           <br margin-top='20px' />
           <Divider />
           <br margin-top='20px' />
+          <Grid>
+            <Card variant='outlined' style={{width:"50%"}}>
+              <CardContent>
+                <Typography fontSize='14' color='primary' gutterBottom>
+                  Freundschaftsanfragen
+                </Typography>
+                <Typography variant='body1' style={{textAlign:"center"}}>
+                  Du hast <tag style={{color:"#f57c00"}}><b>{this.state.friendRequests}</b></tag> neue Anfrage(n)
+                </Typography>
+              </CardContent>
+              <CardActions style={{justifyContent:"center"}}>
+                <Button size='small' variant="contained" color='secondary' component={RouterLink} to={`/lernpartner`}>
+                  Bring mich hin!
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+          <Grid>
           <Card variant='outlined' style={{width:"50%"}}>
-            <Typography variant='h6' style={{textAlign:"center"}}>
-              Du hast <tag style={{color:"#f57c00"}}><b>{this.state.friendRequests}</b></tag> neue Freundschaftsanfrage(n)
-            </Typography>
-          </Card>
-          <Card variant='outlined' style={{width:"50%"}}>
-            <Typography variant='h6' style={{textAlign:"center"}}>
-              Du hast <tag style={{color:"#f57c00"}}><b>{this.state.groupRequests}</b></tag> neue Gruppeneinladung(en)
-            </Typography>
-          </Card>
+            <CardContent>
+              <Typography fontSize='14' color='primary' gutterBottom>
+                Gruppeneinladungen
+              </Typography>
+              <Typography variant='body1' style={{textAlign:"center"}}>
+                Du hast <tag style={{color:"#f57c00"}}><b>{this.state.groupRequests}</b></tag> neue Gruppeneinladung(en)
+              </Typography>
+            </CardContent>
+            <CardActions style={{justifyContent:"center"}}>
+              <Button size='small' variant="contained" color='secondary' component={RouterLink} to={`/studygroup`}>
+                Bring mich hin!
+              </Button>
+            </CardActions>
+          </Card> 
+          </Grid> 
         </div>
       </Paper>
     )
