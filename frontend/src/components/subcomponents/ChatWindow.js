@@ -14,7 +14,7 @@ class ChatWindow extends Component {
             userBOs: null,
             chat: this.props.chat,
             chatMessages: null,
-            newMessage: null
+            newMessage: null,
         }
     }
 
@@ -32,8 +32,8 @@ class ChatWindow extends Component {
     }
 
     deleteChatMessage = (id) => {
-        this.setState({chatMessages:this.state.chatMessages.filter(message => message.id != id)})
-        StudyFixAPI.getAPI().deleteChatMessage(id)
+        if(id != 0){this.setState({chatMessages:this.state.chatMessages.filter(message => message.id != id)})
+        StudyFixAPI.getAPI().deleteChatMessage(id)}
     }
 
     handleMessageChange(e){
@@ -66,10 +66,10 @@ class ChatWindow extends Component {
                 <Typography variant='h5' style={{textAlign:"center"}}>{this.state.chat.name}</Typography>
                 </Card>
                 
-                <div style={{maxHeight:"50vh", minHeight:"50vh", overflowY: 'scroll'}}>
+                <div style={{maxHeight:"50vh", minHeight:"50vh", overflowY: 'scroll', display:"flex", flexDirection:"column"}}>
                     {this.state.chatMessages? 
                         this.state.chatMessages.map((chatMessage) =>
-                            <ChatMessage key={chatMessage.id} user={this.state.userBOs.concat(this.state.currentUser).filter((user) => user.id == chatMessage.user_id)} chatMessage={chatMessage} deleteChatMessage={this.deleteChatMessage}/>
+                            <ChatMessage key={chatMessage.id} currUser={this.state.currentUser} user={this.state.userBOs.concat(this.state.currentUser).filter((user) => user.id == chatMessage.user_id)} chatMessage={chatMessage} deleteChatMessage={this.deleteChatMessage}/>
                         )
                     : null}
                 </div>

@@ -133,16 +133,19 @@ class ChatMessageMapper(Mapper):
     def delete(self, chat_message):
 
         cursor = self._cnx.cursor()
-        command = "DELETE FROM chat_message WHERE id = ('{}')".format(chat_message.get_id())
-        cursor.execute(command)
+        try:
+            command = "DELETE FROM chat_message WHERE id = ('{}')".format(chat_message.get_id())
+            cursor.execute(command)
 
-        self._cnx.commit()
-        cursor.close()
+            self._cnx.commit()
+            cursor.close()
+        except:
+            pass
 
 if (__name__ == "__main__"):
     with ChatMessageMapper() as mapper:
         chat_message = ChatMessage()
-        chat_message.set_text("Beispiel Text: Blablabla")
+        chat_message.set_text("")
         chat_message.set_chat_id(1)
         chat_message.set_user_id(1)
 

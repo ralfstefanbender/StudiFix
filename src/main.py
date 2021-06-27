@@ -1395,7 +1395,7 @@ class GroupMatchingAlgorithmus(Resource):
             matching_score = matches[learningprofile_id]
             matching_score = str(round(matching_score*100)) + "%"
 
-            if interest != 'interest preset' and group_id not in groupPart_ids:
+            if interest != 'interest_preset' and group_id not in groupPart_ids:
                 result.append({"name": name, "semester": semester, "interest": interest, "matching_score": matching_score, "id": group_id})
 
 
