@@ -1183,7 +1183,7 @@ class LearningProfileUserListOperations(Resource):
 
     @studyfix.marshal_with(learningprofileuser, code=200)
     @studyfix.expect(learningprofileuser)  # We expect a user object from the client side.
-    @secured
+
     def post(self):
         """Create a new learningprofile group object. We take the data sent by the client as a suggestion.
         For example, assigning the ID is not the responsibility of the client.

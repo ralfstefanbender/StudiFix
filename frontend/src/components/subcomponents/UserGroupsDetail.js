@@ -3,6 +3,8 @@ import { withStyles, Typography, Card, CardActions, CardContent, CardActionArea 
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import DeleteBuddyDialog from '../dialogs/DeleteBuddyDialog';
 import LoadingProgress from '../dialogs/LoadingProgress';
+import { StudyFixAPI } from '../../api';
+import ShowBuddyProfileDialog from '../dialogs/ShowBuddyProfileDialog';
 
 
 class UserGroupsDetail extends Component{
@@ -15,8 +17,22 @@ class UserGroupsDetail extends Component{
         this.state = {
             loadingInProgress: false,
             loadingError: null,
+            userBO: this.props.userBO,
+            learningprofileBO: null,
+            open: false
       };
     }
+
+componentDidMount(){
+  StudyFixAPI.getAPI().getLearningProfileUserByUserId(this.state.userBO.id).then((profile) => {
+    this.setState({learningprofileBO:profile});
+    console.log(profile)
+  })
+}
+
+handleClickOpen = () => {
+  this.setState({ open: true });
+};
 
 /** Renders the component */
 render() {
@@ -25,7 +41,7 @@ render() {
 
     return (
       <Card variant='outlined' className={classes.root}>
-        <CardActionArea>
+        <CardActionArea onClick={() => this.handleClickOpen()}>
           <CardContent>
             <Typography variant='h6' component='h2'>
             {firstName} {lastName}
@@ -37,6 +53,7 @@ render() {
             </Typography>
           </CardContent>
         </CardActionArea>
+            {this.state.open? <ShowBuddyProfileDialog user={this.state.userBO} profileBO={this.state.learningprofileBO} open={this.state.open}></ShowBuddyProfileDialog>: false}        
           <CardActions style={{float: 'right'}}>
             <DeleteBuddyDialog buddyId ={ID} />   
           </CardActions>
