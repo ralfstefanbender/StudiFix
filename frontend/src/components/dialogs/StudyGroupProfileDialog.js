@@ -16,14 +16,14 @@ import StudyFixAPI from '../../api/StudyFixAPI';
  * @author Dominic
  */
 
-class UserProfile extends Component {
+class StudyGroupProfileDialog extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
+            GroupName: this.props.GroupName,
             open: false,
-            UserBO: null,
-            UserProfileBO: null,
+            GroupProfileBO: null,
             prev_knowledge: null,
             extroversion: null,
             studystate: null,
@@ -37,30 +37,24 @@ class UserProfile extends Component {
     }
 
     componentDidMount(){
-      this.getUserByGoogleId()
+      this.getLearningProfileGroupByGroupId()
     }
 
-    getUserByGoogleId = () => {
-      StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
-        this.setState({userBO:user});
-        this.getLearningProfileUserByUserId(user.getID()) 
-      })
-          }
 
-    getLearningProfileUserByUserId = (UserId) => {
-      StudyFixAPI.getAPI().getLearningProfileUserByUserId(UserId)
-        .then(UserProfileBO =>
+    getLearningProfileGroupByGroupId = () => {
+      StudyFixAPI.getAPI().getLearningProfileGroupByGroupId(this.props.groupId)
+        .then(GroupProfileBO =>
           this.setState({
-              UserProfileBO: UserProfileBO,
-              newProfileName: UserProfileBO.getName(),
-              newDegreeCourse: UserProfileBO.getDegreeCourse(),
-              newInterest: UserProfileBO.getInterest(),
-              prev_knowledge: UserProfileBO.getPrevKnowledge(),
-              extroversion: UserProfileBO.getExtroversion(),
-              studystate: UserProfileBO.getStudyState(),
-              frequency: UserProfileBO.getFrequency(),
-              learntyp: UserProfileBO.getLearntyp(),
-              semester: UserProfileBO.getSemester(),
+              GroupProfileBO: GroupProfileBO,
+              newProfileName: GroupProfileBO.getName(),
+              newDegreeCourse: GroupProfileBO.getDegreeCourse(),
+              newInterest: GroupProfileBO.getInterest(),
+              prev_knowledge: GroupProfileBO.getPrevKnowledge(),
+              extroversion: GroupProfileBO.getExtroversion(),
+              studystate: GroupProfileBO.getStudyState(),
+              frequency: GroupProfileBO.getFrequency(),
+              learntyp: GroupProfileBO.getLearntyp(),
+              semester: GroupProfileBO.getSemester(),
 
               
 
@@ -68,7 +62,7 @@ class UserProfile extends Component {
 }
 
 updateProfile = () => {
-  var profile = this.state.UserProfileBO
+  var profile = this.state.GroupProfileBO
   profile.setName(this.state.newProfileName)
   profile.setInterest(this.state.newInterest)
   profile.setDegreeCourse(this.state.newDegreeCourse)
@@ -78,12 +72,12 @@ updateProfile = () => {
   profile.setFrequency(this.state.frequency)
   profile.setLearntyp(this.state.learntyp)
   profile.setSemester(this.state.semester)
-  StudyFixAPI.getAPI().updateLearningProfileUser(profile)
+  StudyFixAPI.getAPI().updateLearningProfileGroup(profile)
       .then(function () {
-          StudyFixAPI.getAPI().getLearningProfileUserById(profile.getID())
-              .then(UserProfileBO =>
+          StudyFixAPI.getAPI().getLearningProfileGroupById(profile.getID())
+              .then(GroupProfileBO =>
                   this.setState({
-                      UserProfileBO: UserProfileBO
+                      GroupProfileBO: GroupProfileBO
                   }),
 
               )
@@ -141,7 +135,7 @@ handleClickOpen = () => {
 
   render(){
 
-    const profile = this.state.UserProfileBO
+    const profile = this.state.GroupProfileBO
 
 
 
@@ -311,7 +305,7 @@ const semesters = [
         </Button>
 
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Gruppenprofil anzeigen</DialogTitle>
+         {this.state.GroupName? <DialogTitle id="form-dialog-title">Gruppenprofil von {this.state.GroupName}</DialogTitle>  :null}
           <DialogContent>
         
 
@@ -548,4 +542,4 @@ const styles = theme => ({
   
 });
 
-export default withStyles(styles)(UserProfile);
+export default withStyles(styles)(StudyGroupProfileDialog);
