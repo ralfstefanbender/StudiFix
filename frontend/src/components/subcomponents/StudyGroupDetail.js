@@ -41,7 +41,7 @@ render() {
           </CardContent>
         </CardActionArea>
           <CardActions style={{float: 'right'}}>
-            <LeaveGroupDialog groupId={ID} />
+            <LeaveGroupDialog reload={() => this.props.reload()} groupId={ID} />
           </CardActions>
 
         <LoadingProgress show={loadingInProgress} />

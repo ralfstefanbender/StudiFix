@@ -28,6 +28,7 @@ class ManageStudyGroup extends Component {
       redirect: false,
       error: null,
       openDialog: false,
+      userBO: null
     };
 
   }
@@ -109,6 +110,9 @@ class ManageStudyGroup extends Component {
         })
       }
 
+    reload = () => {
+      this.getAllStudyGroups(this.state.userBO.google_id)
+    }
 
   /** Renders the component */
   render() {
@@ -117,7 +121,7 @@ class ManageStudyGroup extends Component {
 
     return (
       <div className={classes.root}>
-         < CreateStudyGroup
+         < CreateStudyGroup reload={this.reload}
            {...this.props}
            ManageStudyGroup ={ManageStudyGroup}
            openpr={this.state.openpr}
@@ -137,7 +141,7 @@ class ManageStudyGroup extends Component {
           
           <Grid>
             {
-            studygroups.map(studygroups => <StudyGroupDetail key={studygroups.getID()} {...this.props}
+            studygroups.map(studygroups => <StudyGroupDetail reload={this.reload} key={studygroups.getID()} {...this.props}
             nameID={studygroups.getName()}  ID={studygroups.getID()} />)
             }
           </Grid>
