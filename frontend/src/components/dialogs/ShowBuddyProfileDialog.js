@@ -24,15 +24,12 @@ class ShowBuddyProfileDialog extends Component {
         }
     }
 
-    handleClose = () => {
-        this.setState({ open: false });      
-    };
 
     render() {
         return(
             <div>
             {this.state.learningprofile? 
-            <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={this.state.open} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
                     Learning Profile von {this.state.user.firstname}
                 </DialogTitle>
@@ -50,7 +47,7 @@ class ShowBuddyProfileDialog extends Component {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button  color='primary' onClick={this.handleClose}>
+                    <Button  color='primary' onClick={() => this.props.handleClose()}>
                         Close
                     </Button>
                 </DialogActions>

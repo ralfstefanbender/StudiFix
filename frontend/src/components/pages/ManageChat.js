@@ -48,7 +48,7 @@ class ManageChat extends Component {
         {this.state.chats? <ChatSelection chats={this.state.chats}  setSelectedChat={this.setSelectedChat}/>:null}
         {this.state.groupchats? <GroupChatSelection groupchats={this.state.groupchats} setSelectedChat={this.setSelectedChat}/>:null}
         </div>
-        {this.state.selectedChat? <ChatWindow key={this.state.selectedChat.id} chat={this.state.selectedChat} groupchats={this.state.selectedGroupChat}currentUser={this.state.currentUser}/>:null}
+        {this.state.selectedChat? <ChatWindow key={this.state.selectedChat.id} chat={this.state.selectedChat} currentUser={this.state.currentUser}/>:null}
         {this.state.selectedGroupChat? <GroupChatWindow key={this.state.selectedGroupChat.id} chat={this.state.selectedChat} groupchat={this.state.selectedGroupChat} currentUser={this.state.currentUser}/>:null}
       </div>
     </>

@@ -34,6 +34,10 @@ handleClickOpen = () => {
   this.setState({ open: true });
 };
 
+handleClose = () => {
+  this.setState({ open: false });      
+};
+
 /** Renders the component */
 render() {
     const { classes, ID, adress, firstName, lastName, email} = this.props;
@@ -53,7 +57,7 @@ render() {
             </Typography>
           </CardContent>
         </CardActionArea>
-            {this.state.open? <ShowBuddyProfileDialog user={this.state.userBO} profileBO={this.state.learningprofileBO} open={this.state.open}></ShowBuddyProfileDialog>: false}        
+            {this.state.open? <ShowBuddyProfileDialog user={this.state.userBO} profileBO={this.state.learningprofileBO} open={this.state.open} handleClose={this.handleClose}></ShowBuddyProfileDialog>: false}        
           <CardActions style={{float: 'right'}}>
             <DeleteBuddyDialog buddyId ={ID} />   
           </CardActions>

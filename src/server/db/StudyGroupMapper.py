@@ -70,6 +70,29 @@ class StudyGroupMapper(Mapper):
 
         return result
 
+    def find_by_chat_id(self, chat_id):
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, creation_date, chat_id FROM studygroup " \
+                  "WHERE chat_id LIKE '{}' ".format(chat_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            result = self.build_bo(tuples)
+
+        except IndexError:
+            """Falls keine Study_Group mit der angegebenen id gefunden werden konnte,
+                wird hier None als RÃ¼ckgabewert deklariert"""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
     def find_by_group_name(self, name):
 
         result = None

@@ -683,6 +683,61 @@ class Administration(object):
 
         return chat_objs
 
+    def get_studygroup_by_chat_id(self, chat_id):
+        with StudyGroupMapper() as mapper:
+            return mapper.find_by_chat_id(chat_id)
+
+    def get_group_users_by_chat(self, current_user_id, chat_id):
+        group = self.get_studygroup_by_chat_id(chat_id)
+        group_ID = group.get_id()
+
+        invites = self.get_groupinvitation_by_study_group_id(group_ID)
+
+        if type(invites) != list:
+            invites = [invites]
+
+        acc_invites = []
+        for i in invites:
+            if i.get_is_accepted() == 1:
+                acc_invites.append(i)
+        user_ids = []
+
+        for i in acc_invites:
+            if i.get_source_user() == i.get_target_user():
+                user_ids.append(i.get_source_user())
+            else:
+                user_ids.append(i.get_source_user())
+                user_ids.append(i.get_target_user())
+        users = []
+        for i in user_ids:
+            users.append(self.get_user_by_id(i))
+
+        filtered_users = []
+        known_ids = []
+        for user in users:
+            if user.get_id() not in known_ids and user.get_id() != current_user_id:
+                known_ids.append(user.get_id())
+                filtered_users.append(user)
+            else:
+                pass
+
+        return filtered_users
+
+    def isgroupchat(self, chat_id):
+        all_study_groups = self.get_all_studygroups()
+        result = False
+
+        if type(all_study_groups) != list:
+            all_study_groups = [all_study_groups]
+
+        for group in all_study_groups:
+            if group.get_chat_id() == chat_id:
+                result = True
+                break
+
+        return result
+
+
     def get_other_user_by_chat_id(self,user_id, chat_id):
         acc_invites_source = self.get_accepted_invites_by_source_user(user_id)
         acc_invites_target = self.get_accepted_invites_by_target_user(user_id)

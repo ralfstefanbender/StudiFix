@@ -1485,7 +1485,11 @@ class GetChatByUserId(Resource):
     @studyfix.marshal_with(user)
     def get(self, current_user_id, chat_id):
         adm = Administration()
-        result = adm.get_other_user_by_chat_id(current_user_id, chat_id)
+        if adm.isgroupchat(chat_id):
+            result = adm.get_group_users_by_chat(current_user_id, chat_id)
+            print(result)
+        else:
+            result = adm.get_other_user_by_chat_id(current_user_id, chat_id)
         return result
 
 @studyfix.route('/removefriend/<int:current_user_id>/<int:chat_id>')

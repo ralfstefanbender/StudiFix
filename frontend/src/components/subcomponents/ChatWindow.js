@@ -24,7 +24,7 @@ class ChatWindow extends Component {
     }
 
     getUserBOInChat(){
-        StudyFixAPI.getAPI().getOtherUserByChatId(this.state.currentUser.id, this.state.chat.id).then((users) => this.setState({userBOs:users}))
+        StudyFixAPI.getAPI().getOtherUserByChatId(this.state.currentUser.id, this.state.chat.id).then((users) => {this.setState({userBOs:users}); console.log(users)})
     }
 
     getChatMessages(){
@@ -67,7 +67,7 @@ class ChatWindow extends Component {
                 </Card>
                 
                 <div style={{maxHeight:"50vh", minHeight:"50vh", overflowY: 'scroll', display:"flex", flexDirection:"column"}}>
-                    {this.state.chatMessages? 
+                    {this.state.chatMessages && this.state.userBOs? 
                         this.state.chatMessages.map((chatMessage) =>
                             <ChatMessage key={chatMessage.id} currUser={this.state.currentUser} user={this.state.userBOs.concat(this.state.currentUser).filter((user) => user.id == chatMessage.user_id)} chatMessage={chatMessage} deleteChatMessage={this.deleteChatMessage}/>
                         )
