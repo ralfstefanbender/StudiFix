@@ -35,7 +35,7 @@ class LeaveGroupDialog extends Component {
 
   deleteGroup = () =>{
     StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
-      StudyFixAPI.getAPI().leaveGroup(user.id, this.props.groupId)})}
+      StudyFixAPI.getAPI().leaveGroup(user.id, this.props.groupId).then(() => {this.props.reload(); this.handleClose()})})}
 
   render() {
     return (

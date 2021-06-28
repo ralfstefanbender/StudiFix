@@ -43,7 +43,8 @@ render() {
         </CardActionArea>
           <CardActions style={{float: 'right'}}>
           <StudyGroupProfileDialog groupId={ID} />
-          <LeaveGroupDialog groupId={ID} />
+          <LeaveGroupDialog reload={() => this.props.reload()} groupId={ID} />
+
           </CardActions>
           
 

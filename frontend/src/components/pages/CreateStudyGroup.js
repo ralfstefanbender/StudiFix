@@ -74,7 +74,7 @@ class CreateStudyGroup extends Component {
 
     // Add Studygroup
      addStudyGroup = () => {
-        StudyFixAPI.getAPI().createStudyGroupPackage(this.state.name,this.state.current_user.google_id)
+        StudyFixAPI.getAPI().createStudyGroupPackage(this.state.name,this.state.current_user.google_id).then(() => {this.props.closestudygroup(); this.props.reload()})
     }
 
 
