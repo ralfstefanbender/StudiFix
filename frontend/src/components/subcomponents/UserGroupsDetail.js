@@ -40,6 +40,7 @@ render() {
           <CardActions style={{float: 'right'}}>
             <DeleteBuddyDialog buddyId ={ID} />   
           </CardActions>
+          
         
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data could not be loaded.`} onReload={this.getLearningProfileUserById} />
