@@ -42,7 +42,7 @@ render() {
           </CardContent>
         </CardActionArea>
           <CardActions style={{float: 'right'}}>
-          <StudyGroupProfileDialog groupId={ID} />
+          <StudyGroupProfileDialog groupId={ID} GroupName ={nameID} />
           <LeaveGroupDialog groupId={ID} />
           </CardActions>
           
