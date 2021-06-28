@@ -20,9 +20,11 @@ class GroupChatSelection extends Component {
     return (
       <div elevation={0} className={classes.root}>
         <div className={classes.content}>
+          <Card variant='outlined'>
           <Typography variant='h6' style={{textAlign:"center"}}>
             My GroupChats
           </Typography>
+          </Card>
           <Card variant='outlined'>
           <List className={classes.chatList} style={{display:"flex", flexDirection:"column"}}>
             {this.state.activeGroupChats?

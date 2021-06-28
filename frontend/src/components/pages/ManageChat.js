@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import ChatWindow from '../subcomponents/ChatWindow'
 import ChatSelection from '../subcomponents/ChatSelection'
-import GroupChatSelection from "../subcomponents/GroupChatSelection";
-import GroupChatWindow from "../subcomponents/GroupChatWindow";
 import { StudyFixAPI } from '../../api'
+import GroupChatSelection from "../subcomponents/GroupChatSelection"
 
 class ManageChat extends Component {
 
@@ -49,7 +48,6 @@ class ManageChat extends Component {
         {this.state.groupchats? <GroupChatSelection groupchats={this.state.groupchats} setSelectedChat={this.setSelectedChat}/>:null}
         </div>
         {this.state.selectedChat? <ChatWindow key={this.state.selectedChat.id} chat={this.state.selectedChat} currentUser={this.state.currentUser}/>:null}
-        {this.state.selectedGroupChat? <GroupChatWindow key={this.state.selectedGroupChat.id} chat={this.state.selectedChat} groupchat={this.state.selectedGroupChat} currentUser={this.state.currentUser}/>:null}
       </div>
     </>
   )}

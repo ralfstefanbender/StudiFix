@@ -24,7 +24,7 @@ class ChatWindow extends Component {
     }
 
     getUserBOInChat(){
-        StudyFixAPI.getAPI().getOtherUserByChatId(this.state.currentUser.id, this.state.chat.id).then((users) => {this.setState({userBOs:users}); console.log(users)})
+        StudyFixAPI.getAPI().getOtherUserByChatId(this.state.currentUser.id, this.state.chat.id).then((users) => {this.setState({userBOs:users})})
     }
 
     getChatMessages(){
