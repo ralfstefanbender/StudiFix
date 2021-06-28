@@ -137,7 +137,7 @@ class ManageUser extends Component {
                                 </IconButton>
                             }
                         >
-                            Du heißt jetzt {this.state.newFirstName}!
+                            Daten wurden erfolgreich gespeichert!
                         </Alert>
                     </Collapse>
                     <br />
