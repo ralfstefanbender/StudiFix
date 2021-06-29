@@ -21,7 +21,7 @@ class UserGroupsFriendRequests extends Component{
     }
 
     acceptChatInvite = (e, user_id) =>{
-      StudyFixAPI.getAPI().acceptFriendRequest(this.props.userBO.id, user_id).then(() => {this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#90EE90"}})})
+      StudyFixAPI.getAPI().acceptFriendRequest(this.props.userBO.id, user_id).then(() => {this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#90EE90"}}); this.props.reload()})
     }
 
     declineChatInvite = (e, user_id) =>{

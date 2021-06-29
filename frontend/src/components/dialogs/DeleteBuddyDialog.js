@@ -35,7 +35,7 @@ class DeleteBuddyDialog extends Component {
 
   deleteBuddy = () =>{
     StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
-      StudyFixAPI.getAPI().removeFriend(user.id, this.props.buddyId)})
+      StudyFixAPI.getAPI().removeFriend(user.id, this.props.buddyId).then(() => {this.props.reload()})})
   }
 
   render() {

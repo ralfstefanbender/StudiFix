@@ -76,9 +76,9 @@ updateProfile = () => {
       .then(function () {
           StudyFixAPI.getAPI().getLearningProfileGroupById(profile.getID())
               .then(GroupProfileBO =>
-                  this.setState({
+                  {this.setState({
                       GroupProfileBO: GroupProfileBO
-                  }),
+                  }); this.handleClose()},
 
               )
       }.bind(this))
