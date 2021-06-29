@@ -1,9 +1,8 @@
 from src.server.bo import BusinessObject as bo
 
 
+# Chat Invitation Klasse
 class ChatInvitation (bo.BusinessObject):
-
-    "Realisierung der ChatInvitation"
 
     def __init__(self):
         super().__init__()
@@ -12,9 +11,8 @@ class ChatInvitation (bo.BusinessObject):
         self._chat_id = 0
         self._is_accepted = False
 
-
     def get_source_user (self):
-        "Auselsen des Absenders"
+        "Auslesen des Absenders"
         return self._source_user
 
     def set_source_user (self, source_user):
@@ -52,11 +50,9 @@ class ChatInvitation (bo.BusinessObject):
         else:
             self._is_accepted = True
 
-
-
+    # Chatinvitation aus dictionary erstellen
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in einer ChatInvitation"""
         obj = ChatInvitation()
         obj.set_id(dictionary["id"])
         obj.set_creation_date(dictionary["creation_date"])

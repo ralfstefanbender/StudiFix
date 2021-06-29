@@ -1,6 +1,7 @@
 from src.server.bo import BusinessObject as bo
 
 
+# Chat Message Klasse
 class ChatMessage(bo.BusinessObject):
 
     def __init__(self):
@@ -27,9 +28,9 @@ class ChatMessage(bo.BusinessObject):
     def set_text(self, value):
         self._text = value
 
+    # Chat Message erstellen von Dictionary
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in einen User()."""
         obj = ChatMessage()
         obj.set_id(dictionary["id"])
         obj.set_chat_id(dictionary["chat_id"])

@@ -1,11 +1,10 @@
 from src.server.bo import NamedBusinessObject as bo
 
+
 # Chat Klasse
 class Chat(bo.NamedBusinessObject):
     def __init__(self):
         super().__init__()
-
-
 
     # Chat erstellung fon Dictionary
     @staticmethod

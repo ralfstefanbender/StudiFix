@@ -1,6 +1,7 @@
 from src.server.bo import BusinessObject as bo
 
 
+# Group Invitation Klasse
 class GroupInvitation(bo.BusinessObject):
 
     def __init__(self):
@@ -9,7 +10,6 @@ class GroupInvitation(bo.BusinessObject):
         self._study_group_id = 0
         self._target_user = 0
         self._source_user = 0
-
 
     def get_study_group_id(self):
         return self._study_group_id
@@ -41,11 +41,9 @@ class GroupInvitation(bo.BusinessObject):
         else:
             self._is_accepted = True
 
-
-
+    # Erstellung von Group Invitation mit Dictionary
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in einer ChatInvitation"""
         obj = GroupInvitation()
         obj.set_id(dictionary["id"])
         obj.set_creation_date(dictionary["creation_date"])

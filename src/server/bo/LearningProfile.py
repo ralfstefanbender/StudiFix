@@ -1,5 +1,8 @@
 from src.server.bo import NamedBusinessObject as bo
 from abc import ABC, abstractmethod
+
+
+# LearningProfil Klasse (Abstrakte Klasse)
 class LearningProfile(bo.NamedBusinessObject, ABC):
 
     def __init__(self):
@@ -12,9 +15,6 @@ class LearningProfile(bo.NamedBusinessObject, ABC):
         self._semester = 0
         self._interest = ""
         self._degree_course = ""
-
-
-
 
     def get_frequency(self):
         return self._frequency
@@ -63,12 +63,3 @@ class LearningProfile(bo.NamedBusinessObject, ABC):
 
     def set_degree_course(self, value):
         self._degree_course = value
-
-    def get_group_id(self):
-        return self._group_id
-
-    def set_group_id(self, value):
-        self._group_id = value
-
-
-

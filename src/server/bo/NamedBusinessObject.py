@@ -1,6 +1,7 @@
 from src.server.bo import BusinessObject as bo
 
 
+# Named Business Object Klasse (abstrakt)
 class NamedBusinessObject(bo.BusinessObject):
 
     def __init__(self):

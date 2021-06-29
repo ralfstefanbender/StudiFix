@@ -1,13 +1,12 @@
 from src.server.bo import LearningProfile as bo
 
 
+# LearningProfil von User Klasse
 class LearningProfileUser(bo.LearningProfile):
 
     def __init__(self):
         super().__init__()
         self._user_id = 0
-
-
 
     def get_user_id(self):
         return self._user_id
@@ -15,10 +14,9 @@ class LearningProfileUser(bo.LearningProfile):
     def set_user_id(self, value):
         self._user_id = value
 
-
+    # Learningprofil aus Dictionary erstellen
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in ein Learningprofile Group()."""
         obj = LearningProfileUser()
         obj.set_id(dictionary["id"])
         obj.set_user_id(dictionary["user_id"])

@@ -1,12 +1,12 @@
 from src.server.bo import LearningProfile as bo
 
 
+# Lernprofil für Gruppe Klasse
 class LearningProfileGroup(bo.LearningProfile):
 
     def __init__(self):
         super().__init__()
         self._group_id = 0
-
 
     def get_group_id(self):
         return self._group_id
@@ -14,11 +14,9 @@ class LearningProfileGroup(bo.LearningProfile):
     def set_group_id(self, value):
         self._group_id = value
 
-
-
+    # Lernprofil Gruppe aus einem Dict erstellen
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in ein Learningprofile Group()."""
         obj = LearningProfileGroup()
         obj.set_id(dictionary["id"])
         obj.set_group_id(dictionary["group_id"])

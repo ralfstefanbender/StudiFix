@@ -1,6 +1,7 @@
 from src.server.bo import BusinessObject as bo
 
 
+# User Klasse
 class User(bo.BusinessObject):
 
     def __init__(self):
@@ -11,7 +12,6 @@ class User(bo.BusinessObject):
         self._email = ""
         self._adress = ""
 
-                
     def get_google_id(self):
         return self._google_id
     
@@ -42,15 +42,9 @@ class User(bo.BusinessObject):
     def set_adress(self, value):
         self._adress = value
 
-    def get_learning_profile_id(self):
-        return self._learning_profile_id
-
-    def set_learning_profile_id(self, value):
-        self._learning_profile_id = value
-
+    # User Object aus Dict erstellen
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in einen User()."""
         obj = User()
         obj.set_id(dictionary["id"])
         obj.set_creation_date(User.date_format(dictionary["creation_date"]))

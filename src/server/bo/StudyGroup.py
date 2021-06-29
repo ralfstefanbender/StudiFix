@@ -1,9 +1,8 @@
 from src.server.bo import NamedBusinessObject as bo
 
 
+# Studygroup Klasse (Gruppe)
 class StudyGroup(bo.NamedBusinessObject):
-
-    "Realisierung der StudyGroup"
 
     def __init__(self):
         super().__init__()
@@ -17,9 +16,9 @@ class StudyGroup(bo.NamedBusinessObject):
         "Festlegen einer Chat-ID"
         self._chat_id = chat_id
 
+    # Erstellung von Studygroup aus Dict
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in einen StudyGroup"""
         obj = StudyGroup()
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
