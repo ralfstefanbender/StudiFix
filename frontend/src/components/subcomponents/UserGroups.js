@@ -132,11 +132,17 @@ render(){
             <ContextErrorMessage error={loadingError} contextErrorMsg={`The Buddylist could not be loaded.`} />
           </Grid>
           <br margin-top='20px' />
+        {friendRequests.length > 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              Your Friend Requests
+              Your have {friendRequests.length} Friend Requests
             </Typography>
-            <Divider />
-
+        }
+        {friendRequests.length == 1 &&
+          <Typography variant='h6' component='h1' align='center'>
+              Your have {friendRequests.length} Friend Request
+            </Typography>
+        }
+        <Divider />
           <Grid>
             {
             friendRequests.map(friendRequests => <UserGroupsFriendRequests key={friendRequests.getID()} userBO={this.state.userBO}

@@ -142,11 +142,17 @@ class ManageStudyGroup extends Component {
             }
           </Grid>
           <br margin-top='20px' />
+          {grouprequests.length > 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              New people want to join your Group!
+              {grouprequests.length} People want to join your Group!
             </Typography>
+          }
+          {grouprequests.length == 1 &&
+          <Typography variant='h6' component='h1' align='center'>
+              {grouprequests.length} Person wants to join your Group!
+            </Typography>
+          }
             <Divider />
-
           <Grid>
             {
             grouprequests.map(friendRequests => <GroupsUserGroupRequests key={friendRequests.getID()} {...this.props}
