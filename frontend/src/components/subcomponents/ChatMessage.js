@@ -10,13 +10,13 @@ class ChatMessage extends Component {
             user: this.props.user[0],
             currUser: this.props.currUser,
             chatMessage: this.props.chatMessage,
-            style:{width:"fit-content", paddingLeft:"1vw", paddingRight:"1vw", textAlign:"right", minWidth:"12vw"},
+            style:{width:"fit-content", paddingLeft:"1vw", paddingRight:"1vw", textAlign:"right", minWidth:"8vw"},
             divStyle: {alignSelf:"flex-end"}
         }
     }
 
     componentDidMount(){
-        if(this.state.user == this.state.currUser){this.setState({style:{backgroundColor:"#90EE90",minWidth:"12vw", width:"fit-content", paddingLeft:"1vw", paddingRight:"1vw"}, divStyle:{}})}
+        if(this.state.user == this.state.currUser){this.setState({style:{backgroundColor:"#90EE90",minWidth:"8vw", width:"fit-content", paddingLeft:"1vw", paddingRight:"1vw"}, divStyle:{}})}
     }
         
     
