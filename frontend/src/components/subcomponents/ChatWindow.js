@@ -21,6 +21,7 @@ class ChatWindow extends Component {
     componentDidMount(){
         this.getUserBOInChat()
         this.getChatMessages()
+        this.refresh()
     }
 
     getUserBOInChat(){
@@ -53,10 +54,15 @@ class ChatWindow extends Component {
                 newMessage:""
             })
         } else {
-            // leerer Nachricht Errorhandling
+            // leere Nachricht Errorhandling
             console.log("Keine Nachricht gegeben")
         }  
     }
+
+    refresh(){
+        setTimeout(setInterval(() => (this.getChatMessages()), 5000), 5000)
+    }
+ 
 
     render() {
         return (
