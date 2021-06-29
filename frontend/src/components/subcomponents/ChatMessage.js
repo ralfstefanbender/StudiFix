@@ -11,7 +11,8 @@ class ChatMessage extends Component {
             currUser: this.props.currUser,
             chatMessage: this.props.chatMessage,
             style:{width:"fit-content", paddingLeft:"1vw", paddingRight:"1vw", textAlign:"right", minWidth:"8vw"},
-            divStyle: {alignSelf:"flex-end"}
+            divStyle: {alignSelf:"flex-end"},
+            unknownUser: "Unknown User"
         }
     }
 
@@ -25,7 +26,7 @@ class ChatMessage extends Component {
         
         return (
             <div style={this.state.divStyle}>
-                <Card variant='outlined' style={this.state.style}><b>{this.state.user.firstname}</b> <br/> {this.state.chatMessage.text}</Card> {this.state.chatMessage.creation_date.slice(0, 10)}
+                <Card variant='outlined' style={this.state.style}> {this.state.user?<b>{this.state.user.firstname}</b>: <b>{this.state.unknownUser}</b>} <br/> {this.state.chatMessage.text}</Card> {this.state.chatMessage.creation_date.slice(0, 10)}
                 {this.state.chatMessage.id != 0?<Button size="small" onClick={() => this.props.deleteChatMessage(this.state.chatMessage.id)}>x</Button>:null}
             </div>
         )
