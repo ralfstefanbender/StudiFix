@@ -59,8 +59,9 @@ render() {
         </CardActionArea>
             {this.state.open? <ShowBuddyProfileDialog user={this.state.userBO} profileBO={this.state.learningprofileBO} open={this.state.open} handleClose={this.handleClose}></ShowBuddyProfileDialog>: false}        
           <CardActions style={{float: 'right'}}>
-            <DeleteBuddyDialog buddyId ={ID} />   
+            <DeleteBuddyDialog reload={() => this.props.reload()} buddyId ={ID} />   
           </CardActions>
+          
         
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data could not be loaded.`} onReload={this.getLearningProfileUserById} />

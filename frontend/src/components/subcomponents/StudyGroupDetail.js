@@ -4,6 +4,7 @@ import { withStyles, Typography, Card, CardActions, CardContent, Button, CardAct
 import { StudyFixAPI } from '../../api';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LeaveGroupDialog from '../dialogs/LeaveGroupDialog';
+import StudyGroupProfileDialog from '../dialogs/StudyGroupProfileDialog';
 import LoadingProgress from '../dialogs/LoadingProgress';
 
 
@@ -41,8 +42,11 @@ render() {
           </CardContent>
         </CardActionArea>
           <CardActions style={{float: 'right'}}>
-            <LeaveGroupDialog groupId={ID} />
+          <StudyGroupProfileDialog groupId={ID} />
+          <LeaveGroupDialog reload={() => this.props.reload()} groupId={ID} />
+
           </CardActions>
+          
 
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={loadingError} contextErrorMsg={`The data could not be loaded.`} onReload={this.getLearningProfileUserById} />

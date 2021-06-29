@@ -103,6 +103,9 @@ class UserGroups extends Component {
       })
     }
 
+    reload = () => {
+      this.getFriends(this.state.userBO.google_id)
+    }
 
 render(){
   const { classes,} = this.props;
@@ -124,7 +127,7 @@ render(){
 
           <Grid>
             {
-            buddys.map(buddys => <UserGroupsDetail key={buddys.getID()}
+            buddys.map(buddys => <UserGroupsDetail reload={this.reload} key={buddys.getID()}
             firstName={buddys.getFirstName()} lastName={buddys.getLastName()} email={buddys.getEMail()} ID={buddys.getID()}
             adress={buddys.getAdress()} userBO={buddys} />)
             }
@@ -145,7 +148,7 @@ render(){
         <Divider />
           <Grid>
             {
-            friendRequests.map(friendRequests => <UserGroupsFriendRequests key={friendRequests.getID()} userBO={this.state.userBO}
+            friendRequests.map(friendRequests => <UserGroupsFriendRequests reload={this.reload} key={friendRequests.getID()} userBO={this.state.userBO}
             firstName={friendRequests.getFirstName()} lastName={friendRequests.getLastName()} ID={friendRequests.getID()} />)
             }
             <LoadingProgress show={loadingInProgress} />
