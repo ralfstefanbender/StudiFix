@@ -890,7 +890,7 @@ class Administration(object):
             similarity.append(score)
 
             # Study State
-            max_input = 5
+            max_input = 2
 
             score = max_input - (((self_profile.get_study_state() - profile.get_study_state())**2)**.5)
             if score != 0:
@@ -991,7 +991,7 @@ class Administration(object):
             similarity.append(score)
 
             # Study State
-            max_input = 5
+            max_input = 2
 
             score = max_input - (((self_profile.get_study_state() - profile.get_study_state())**2)**.5)
             if score != 0:
