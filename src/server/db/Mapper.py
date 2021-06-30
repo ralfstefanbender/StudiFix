@@ -12,9 +12,15 @@ class Mapper (AbstractContextManager, ABC):
 
     def __enter__(self):
 
-        self._cnx = connector.connect(user='root', password="root",
-                                  host='127.0.0.1',
-                                  database='studi_fix')
+        if True:
+            self._cnx = connector.connect(user='root', password="root",
+                                      host='127.0.0.1',
+                                      database='studi_fix')
+
+        else:
+            self._cnx = connector.connect(user='root', password="itprojekt21",
+                                    host='34.141.112.201',
+                                    database='studi_fix_database')
 
         return self
 
