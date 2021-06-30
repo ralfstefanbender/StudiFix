@@ -32,6 +32,7 @@ class ChatInvitationMapper(Mapper):
                 chat_invitation.set_target_user(target_user)
                 chat_invitation.set_source_user(source_user)
                 result = chat_invitation
+                
         else:
             "Baue mehrere"
 

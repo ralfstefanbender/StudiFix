@@ -3,15 +3,26 @@ from src.server.bo.LearningProfileUser import LearningProfileUser
 
 
 class LearningProfileUserMapper(Mapper):
+    """Mapper-Klasse, die LearningProfileUser-Objekte auf eine relationale
+    Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
+    gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
+    gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
+    in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+    """
 
     def __init__(self):
         super().__init__()
 
+
     def build_bo(self, tuples):
+        """BO wird aufgebaut und in späteren Methoden aufgegriffen.
+        So spart man sich das immer wieder aufbauen des BOs später"""
 
         result = []
 
         if len(tuples) == 1:
+            "Baue nur einen"
+
             for (id, user_id, name, prev_knowledge, extroversion, study_state, frequency,
                  learntyp, semester, interest, degree_course, creation_date) in tuples:
                 learning_profile_user = LearningProfileUser()
@@ -30,6 +41,8 @@ class LearningProfileUserMapper(Mapper):
                 result = learning_profile_user
 
         else:
+            "Baue mehrere"
+
             for (id, user_id, name, prev_knowledge, extroversion, study_state, frequency,
                  learntyp, semester, interest, degree_course, creation_date) in tuples:
                 learning_profile_user = LearningProfileUser()
@@ -49,7 +62,12 @@ class LearningProfileUserMapper(Mapper):
 
         return result
 
+
     def find_all(self):
+        """Auslesen aller LearningProfileUser in unserem System.
+
+        :return Eine Sammlung mit LearningProfileUser-Objekten.
+        """
 
         result = []
 
@@ -65,7 +83,15 @@ class LearningProfileUserMapper(Mapper):
 
         return result
 
+
     def find_by_id(self, id):
+        """Suchen eines LearningProfileUsers mit vorgegebener ID. Da diese eindeutig ist,
+        wird genau ein Objekt zurückgegeben.
+
+        :param id Primärschlüsselattribut (->DB)
+        :return LearningProfileUser-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+                nicht vorhandenem DB-Tupel.
+        """
 
         result = None
 
@@ -80,8 +106,9 @@ class LearningProfileUserMapper(Mapper):
             result = self.build_bo(tuples)
 
         except IndexError:
-            """Falls kein LearningProfile User mit der angegebenen id gefunden werden konnte,
-                wird hier None als Rückgabewert deklariert"""
+            """Der IndexError wird oben beim Zugriff auf self.build_bo(tuples) auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+
             result = None
 
         self._cnx.commit()
@@ -89,7 +116,15 @@ class LearningProfileUserMapper(Mapper):
 
         return result
 
+
     def find_by_user_id(self, user_id):
+        """Suchen eines LearningProfileUsers mit vorgegebener user_id. Da diese eindeutig ist,
+        wird genau ein Objekt zurückgegeben.
+
+        :param user_id 
+        :return LearningProfileUser-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+                nicht vorhandenem DB-Tupel.
+        """
 
         result = None
 
@@ -104,8 +139,9 @@ class LearningProfileUserMapper(Mapper):
             result = self.build_bo(tuples)
 
         except IndexError:
-            """Falls kein LearningProfile User mit der angegebenen user_id gefunden werden konnte,
-                wird hier None als Rückgabewert deklariert"""
+            """Der IndexError wird oben beim Zugriff auf self.build_bo(tuples) auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+
             result = None
 
         self._cnx.commit()
@@ -113,7 +149,15 @@ class LearningProfileUserMapper(Mapper):
 
         return result
 
+
     def get_user_id_by_learningprofile_id(self, id):
+        """Suchen eines LearningProfileUsers mit vorgegebener id. Da diese eindeutig ist,
+        wird genau ein Objekt zurückgegeben.
+
+        :param id 
+        :return LearningProfileUser-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+                nicht vorhandenem DB-Tupel.
+        """
 
 
         cursor = self._cnx.cursor()
@@ -125,9 +169,9 @@ class LearningProfileUserMapper(Mapper):
             result = tuples[0][0]
 
         except IndexError:
-
-            """Falls kein LearningProfile User mit der angegebenen user_id gefunden werden konnte,
+            """Falls kein LearningProfileUser mit der angegebenen user_id gefunden werden konnte,
                 wird hier None als Rückgabewert deklariert"""
+                
             result = None
 
         self._cnx.commit()
@@ -135,7 +179,14 @@ class LearningProfileUserMapper(Mapper):
 
         return result
 
+
     def find_by_name(self, name):
+        """Auslesen aller LearningProfileUser anhand des UserNames.
+
+        :param name 
+        :return Eine Sammlung mit LearningProfileUser-Objekten, die sämtliche LearningProfileGroups
+            mit dem gewünschten Namen enthält.
+        """
 
         result = None
 
@@ -150,6 +201,8 @@ class LearningProfileUserMapper(Mapper):
             result = self.build_bo(tuples)
 
         except IndexError:
+            """Der IndexError wird oben beim Zugriff auf self.build_bo(tuples) auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
 
             result = None
 
@@ -158,7 +211,17 @@ class LearningProfileUserMapper(Mapper):
 
         return result
 
+
     def insert(self, learning_profile_user):
+        """Einfügen eines LearningProfileUser-Objekts in die Datenbank.
+
+        Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
+        berichtigt.
+
+        :param learning_profile_user das zu speichernde Objekt
+        :return das bereits übergebene Objekt, jedoch mit ggf. korrigierter ID.
+        """
+
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM learning_profile_user ")
         tuples = cursor.fetchall()
@@ -171,7 +234,9 @@ class LearningProfileUserMapper(Mapper):
                   "learntyp, semester, interest, degree_course, creation_date) VALUES" \
                   " (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
-        data = (learning_profile_user.get_id(), learning_profile_user.get_user_id(), learning_profile_user.get_name(),
+        data = (learning_profile_user.get_id(),
+                learning_profile_user.get_user_id(),
+                learning_profile_user.get_name(),
                 learning_profile_user.get_prev_knowledge(),
                 learning_profile_user.get_extroversion(),
                 learning_profile_user.get_study_state(),
@@ -180,7 +245,8 @@ class LearningProfileUserMapper(Mapper):
                 learning_profile_user.get_semester(),
                 learning_profile_user.get_interest(),
                 learning_profile_user.get_degree_course(),
-                learning_profile_user.get_creation_date())
+                learning_profile_user.get_creation_date()
+                )
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -189,9 +255,11 @@ class LearningProfileUserMapper(Mapper):
         return learning_profile_user
 
 
-
-
     def update(self, learning_profile):
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param learning_profile ist das Objekt, das in die DB geschrieben werden soll
+        """
 
         cursor = self._cnx.cursor()
 
@@ -210,14 +278,20 @@ class LearningProfileUserMapper(Mapper):
                     learning_profile.get_interest(),
                     learning_profile.get_degree_course(),
                     learning_profile.get_creation_date(),
-                    learning_profile.get_id())
+                    learning_profile.get_id()
+                    )
 
         cursor.execute(command)
 
         self._cnx.commit()
         cursor.close()
 
+
     def delete(self, learning_profile_user):
+        """Löschen der Daten eines LearningProfileUser-Objekts aus der Datenbank.
+
+        :param learning_profile_user ist das aus der DB zu löschende "Objekt"
+        """
 
         cursor = self._cnx.cursor()
         command = "DELETE FROM learning_profile_user WHERE id = ('{}')".format(learning_profile_user.get_id())
@@ -226,6 +300,8 @@ class LearningProfileUserMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+
+# Zum Testen ausführen
 if (__name__ == "__main__"):
     with LearningProfileUserMapper() as mapper:
         learning_profile = LearningProfileUser()

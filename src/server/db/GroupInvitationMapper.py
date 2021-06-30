@@ -204,6 +204,7 @@ class GroupInvitationMapper(Mapper):
 
         return result
 
+
     def find_all_accepted_user_in_study_group(self, study_group_id):
         """Alle User einer StudyGroup auslesen, gibt nur die ID zurück 
         
@@ -278,6 +279,7 @@ class GroupInvitationMapper(Mapper):
 
         return result
 
+
     def find_accepted_invites_by_source_user(self, source_user):
         """Angenommene GroupInvites mit entsprechendem source_user auslesen
 
@@ -301,6 +303,7 @@ class GroupInvitationMapper(Mapper):
             result = None
 
         return result
+
 
     def find_accepted_invites_by_target_user(self, target_user):
         """Angenommene Invites mit entsprechendem target_user auslesen
