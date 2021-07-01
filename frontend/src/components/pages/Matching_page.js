@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { makeStyles, withStyles, Paper, Typography, Link } from '@material-ui/core';
+import { makeStyles, withStyles, Paper, Typography} from '@material-ui/core';
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../theme";
 import { Button } from '@material-ui/core';
@@ -10,7 +10,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
+import LoadingProgress from '../dialogs/LoadingProgress';
 
 import MatchingPageRow from '../subcomponents/MatchingPageRow';
 import MatchingPageRowGroups from '../subcomponents/MatchingPageRowGroups'
@@ -22,7 +22,8 @@ class Matching_page extends Component {
     this.state={
       current_user:null,
       matches:null,
-      group_matches:null
+      group_matches:null,
+      loadingInProgress:false
     }
   }
 
@@ -35,10 +36,11 @@ class Matching_page extends Component {
   }
 
   handleMatchSearch(){
-    StudyFixAPI.getAPI().getMatchesUser(this.state.current_user.getGoogleId()).then(UserMatchBO => this.setState({matches:UserMatchBO})); 
-    StudyFixAPI.getAPI().getMatchesGroup(this.state.current_user.getGoogleId()).then(GroupMatchBO => this.setState({group_matches:GroupMatchBO}))
+    this.setState({loadingInProgress:true});
+    StudyFixAPI.getAPI().getMatchesUser(this.state.current_user.getGoogleId()).then(UserMatchBO => {this.setState({matches:UserMatchBO}); this.setState({loadingInProgress:false})}); 
+    StudyFixAPI.getAPI().getMatchesGroup(this.state.current_user.getGoogleId()).then(GroupMatchBO => this.setState({group_matches:GroupMatchBO}));
+    
   }
-
 
 
   render(){
@@ -59,37 +61,41 @@ class Matching_page extends Component {
               <Button align="center" variant="contained" color="secondary" onClick={()=>{this.handleMatchSearch()}}>
                 Matches Suchen
               </Button>
+              <LoadingProgress show={this.state.loadingInProgress} />
               </div>
             <Typography variant='h6'>
-              User Matches
+              Buddy Matches
             </Typography>
+            <div style={{maxHeight:"50vh", overflowY: 'scroll'}}>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell align="left"><b>Name</b></TableCell>
                   <TableCell align="center"><b>Semester</b></TableCell>
-                  <TableCell align="center"><b>Interests</b></TableCell>
+                  <TableCell align="center"><b>Interessen</b></TableCell>
                   <TableCell align="center"><b>Matching Score</b></TableCell>
                   <TableCell align="center"></TableCell>
                 </TableRow>
               </TableHead>
+              
               <TableBody>
                 {this.state.matches? this.state.matches.map((match)=>(
                   <MatchingPageRow key={match.id} match={match} user_id={this.state.current_user.id}>  
                   </MatchingPageRow>
                 )):null}
-              </TableBody>
-              
+              </TableBody>             
             </Table>
+            </div>
             <Typography variant='h6'>
             <br />Gruppen Matches
             </Typography>
+            <div style={{maxHeight:"50vh", overflowY: 'scroll'}}>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell align="left"><b>Name</b></TableCell>
-                  <TableCell align="center"><b>Prefered Semester</b></TableCell>
-                  <TableCell align="center"><b>Interests</b></TableCell>
+                  <TableCell align="center"><b>Bevorzugtes Semester</b></TableCell>
+                  <TableCell align="center"><b>Interessen</b></TableCell>
                   <TableCell align="center"><b>Matching Score</b></TableCell>
                   <TableCell align="center"></TableCell>
                 </TableRow>
@@ -102,6 +108,7 @@ class Matching_page extends Component {
               </TableBody>
               
             </Table>
+            </div>
             </Typography>
           </div>
         </Paper>

@@ -40,9 +40,6 @@ class UserGroupsFriendRequests extends Component{
                 <Typography variant='h6' component='h2'>
                     {firstName} {lastName}
                 </Typography>
-                <Typography variant='body2' component='p'>
-                  ID: {ID}
-                </Typography>
               </CardContent>
             </CardActionArea>
               <CardActions style={{float: 'right'}}>

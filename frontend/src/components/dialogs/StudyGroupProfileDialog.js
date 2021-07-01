@@ -297,8 +297,7 @@ const semesters = [
     return (
     
     <Typography variant='h6' component='h1' align='center'>
-        <Grid>
-            <br margin-top='20px' />
+        
 
         <Button startIcon={<SaveIcon/>}  size='small' color='primary'  onClick={this.handleClickOpen}>
           Gruppenprofil ändern
@@ -511,15 +510,8 @@ const semesters = [
             </Button>
             </Grid>
           </DialogActions>
-                                </Dialog>
-                                
-        <Divider />
-
-            <br margin-top='20px' />
-
-        </Grid>
+        </Dialog>       
     </Typography>
-
     )
 
   }

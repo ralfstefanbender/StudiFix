@@ -53,9 +53,6 @@ render() {
             <Typography variant='h6' component='h2'>
             {nameID}
             </Typography>
-            <Typography variant='body2' component='p'>
-              ID: {ID}
-            </Typography>
           </CardContent>
         </CardActionArea>
         {this.state.open? <ShowGroupProfileDialog  profileBO={this.state.learningProfile} open={this.state.open} handleClose={this.handleClose}></ShowGroupProfileDialog>: false}
