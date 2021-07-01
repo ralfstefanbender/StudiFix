@@ -946,6 +946,10 @@ class Administration(object):
 
             sim_score /= len(similarity)
 
+            # Bei direkter Übereinstimmung nur 99 prozent speichern
+            if sim_score == 1:
+                sim_score = .99
+
             # Wenn Similarity Score über dem Threshhold ist, zum dict hinzufügen
             if sim_score >= threshhold:
                 matches[profile.get_id()] = sim_score
@@ -1046,6 +1050,10 @@ class Administration(object):
                 sim_score += similarity[attr] * weights[attr]
 
             sim_score /= len(similarity)
+
+            # Bei direkter Übereinstimmung nur 99 prozent speichern
+            if sim_score == 1:
+                sim_score = .99
 
             # Wenn Similarity Score über dem Threshhold ist, zum dict hinzufügen
             if sim_score >= threshhold:
