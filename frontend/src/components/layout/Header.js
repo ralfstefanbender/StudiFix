@@ -48,14 +48,14 @@ class Header extends Component {
         </Typography> <br></br>
          {
           user ?
-            <Tabs indicatorColor='primary' textColor='primary' value={this.state.tabindex} onChange={this.handleTabChange} >
+            <Tabs variant="scrollable" indicatorColor='primary' textColor='primary' value={this.state.tabindex} onChange={this.handleTabChange} >
               <Tab label='Home' component={RouterLink} to={`/overview`} />
               <Tab label='Mein Profil' component={RouterLink} to={`/ManageUser`} />
               <Tab label='Chat' component={RouterLink} to={`/chat`} />
               <Tab label='Lerngruppen' component={RouterLink} to={`/studygroup`} />
               <Tab label='Lernpartner' component={RouterLink} to={`/lernpartner`} />
               <Tab label='Matching' component={RouterLink} to={`/matching_page`} />
-              <Tab label='About' component={RouterLink} to={`/about`} />
+              <Tab label='Über Uns' component={RouterLink} to={`/about`} />
             </Tabs>
             : null
         }

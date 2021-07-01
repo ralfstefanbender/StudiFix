@@ -151,12 +151,12 @@ class ManageStudyGroup extends Component {
           <br margin-top='20px' />
           {grouprequests.length > 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              {grouprequests.length} Leute möchten deiner Gruppe beitretten!
+              {grouprequests.length} Leute möchten deiner Gruppe beitreten!
             </Typography>
           }
           {grouprequests.length == 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              {grouprequests.length} Jemand möchte deiner Gruppe beitretten!
+              {grouprequests.length} Jemand möchte deiner Gruppe beitreten!
             </Typography>
           }
             <Divider />
