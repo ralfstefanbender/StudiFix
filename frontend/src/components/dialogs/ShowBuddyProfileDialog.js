@@ -72,161 +72,21 @@ class ShowBuddyProfileDialog extends Component {
 
 
     render() {
-        const profile = this.state.learningprofile
+      const profile = this.state.learningprofile
 
-        const prev_knowledges = [
-            {
-                value: 1,
-                label: 'Keine Vorkenntnisse',
-            },
-            {
-                value: 2,
-                label: 'Geringe Vorkenntnisse',
-            },
-            {
-                value: 3,
-                label: 'Mittelmäßige Vorkenntnisse',
-            },
-            {
-                value: 4,
-                label: 'Gute Vorkenntnisse',
-            },
-            {
-                value: 5,
-                label: 'Sehr gute Vorkenntnisse',
-            },
-        ];
+      const prev_knowledges = ['','Keine Vorkenntnisse','Geringe Vorkenntnisse','Mittelmäßige Vorkenntnisse','Gute Vorkenntnisse','Sehr gute Vorkenntnisse']
       
-        const extroversions = [
-          {
-              value: 1,
-              label: 'Sehr Introvertiert',
-          },
-          {
-              value: 2,
-              label: 'Introvertiert',
-          },
-          {
-              value: 3,
-              label: 'Etwas Introvertiert',
-          },
-          {
-              value: 4,
-              label: 'Extrovertiert',
-          },
-          {
-              value: 5,
-              label: 'Sehr Extrovertiert',
-          },
-      ];
+      const extroversions = ['','Sehr Introvertiert','Introvertiert','Etwas Introvertiert','Extrovertiert','Sehr Extrovertiert']
       
-      const studystates = [
-        {
-            value: 1,
-            label: 'Online',
-        },
-        {
-            value: 2,
-            label: 'Offline',
-        },
-      ];
+      const studystates = ['','Online','Offline']
       
-      const frequencys = [
-        {
-            value: 1,
-            label: '1x im Monat',
-        },
-        {
-            value: 2,
-            label: '3x im Monat',
-        },
-        {
-            value: 3,
-            label: '1x die Woche',
-        },
-        {
-            value: 4,
-            label: '2x die Woche',
-        },
-        {
-            value: 5,
-            label: '4x die Woche',
-        },
-      ];
+      const frequencys = ['','1x im Monat','3x im Monat','1x die Woche','2x die Woche','4x die Woche']
+
+      const learntyps = ['','Visueller Lerntyp', 'Auditiver Lerntyp', 'Haptischer Lerntyp', 'Kommunikativer Lerntyp', 'Gemischter Lerntyp']
+          
       
-      const learntyps = [
-        {
-            value: 1,
-            label: 'Visueller Lerntyp',
-        },
-        {
-            value: 2,
-            label: 'Auditiver Lerntyp',
-        },
-        {
-            value: 3,
-            label: 'Haptischer Lerntyp',
-        },
-        {
-            value: 4,
-            label: 'Kommunikativer Lerntyp',
-        },
-        {
-            value: 5,
-            label: 'Gemischter Lerntyp',
-        },
-      ];
-      
-      const semesters = [
-        {
-            value: 1,
-            label: ' 1. Semester',
-        },
-        {
-            value: 2,
-            label: ' 2. Semester',
-        },
-        {
-            value: 3,
-            label: ' 3. Semester',
-        },
-        {
-            value: 4,
-            label: ' 4. Semester',
-        },
-        {
-            value: 5,
-            label: ' 5. Semester',
-        },
-        {
-          value: 6,
-          label: ' 6. Semester',
-      },
-      {
-          value: 7,
-          label: ' 7. Semester',
-      },
-      {
-          value: 8,
-          label: ' 8. Semester',
-      },
-      {
-          value: 9,
-          label: ' 9. Semester',
-      },
-      {
-          value: 10,
-          label: ' 10. Semester',
-      },
-      {
-        value: 11,
-        label: ' 11. Semester',
-      },
-      {
-        value: 12,
-        label: ' 12. Semester',
-      },
-      ];
+      const semesters = ['',' 1. Semester',' 2. Semester',' 3. Semester',' 4. Semester', ' 5. Semester',' 6. Semester', ' 7. Semester',' 8. Semester', ' 9. Semester', ' 10. Semester', ' 11. Semester', ' 12. Semester' ]
+        
         return(
             <div>
              
@@ -235,35 +95,23 @@ class ShowBuddyProfileDialog extends Component {
                     Learning Profile von {this.state.user.firstname}
                 </DialogTitle>
                 <DialogContent>
-                <Grid container spacing={3} justify="center">
+                <Grid container spacing={2} justify="center">
             <Grid item xs={4}>
             {profile ?
-                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
-                    id="standard-basic"
-                    label="Profile Name "
-                    onChange={this.handleProfileNameChange}
-                    defaultValue={profile.getName()}
-                    InputProps={{
-                        readOnly: false,
-                    }}
-                    
-                />
+                <div>
+                <b>Profilname:</b><br/>{this.state.newProfileName}
+
+                </div>
 
                 : null}
                 </Grid>
                 
                 <Grid item xs={4}>  
             {profile ?
-                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
-                    id="standard-basic"
-                    label="Interessiert in "
-                    onChange={this.handleInterestChange}
-                    defaultValue={profile.getInterest()}
-                    InputProps={{
-                        readOnly: false,
-                    }}
-                    
-                />
+                <div>
+                <b>Interessiert in:</b><br/>{this.state.newInterest}
+
+                </div>
 
                 : null}
                 </Grid>
@@ -272,16 +120,10 @@ class ShowBuddyProfileDialog extends Component {
                 <br/>
                 <Grid item xs={4}>
                 {profile ?
-                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
-                    id="standard-basic"
-                    label="Studiengang "
-                    onChange={this.handleDegreeCourseChange}
-                    defaultValue={profile.getDegreeCourse()}
-                    InputProps={{
-                        readOnly: false,
-                    }}
-                    
-                />
+                <div>
+                <b>Studiengang:</b><br/>{this.state.newDegreeCourse}
+
+                </div>
 
                 : null}
                 </Grid>
@@ -289,21 +131,10 @@ class ShowBuddyProfileDialog extends Component {
                 <br></br>
                 <Grid item xs={4}>
                                 {profile ?
-                                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
-                              
-                                    id="standard-select-currency"
-                                    select
-                                    label="Vorkenntnisse"
-                                    onChange={(event) => this.handlePrevKnowlegeChange(event.target.value)}
-                                    defaultValue={profile.getPrevKnowledge()}
-                                    helperText="Bitte wählen sie ihre Vorkenntnisse"
-                                >
-                                    {prev_knowledges.map((option) => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+                                <div>
+                                <b>Vorkenntnisse:</b><br/>{prev_knowledges[this.state.prev_knowledge]}
+
+                                </div>
                                 : null}
                                 </Grid>
                                 
@@ -312,21 +143,10 @@ class ShowBuddyProfileDialog extends Component {
                                 <br></br>
                                 <Grid item xs={4}>
                                 {profile ?
-                                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
-                              
-                                    id="standard-select-currency"
-                                    select
-                                    label="Extrovertiertheit"
-                                    onChange={(event) => this.handleExtroversionChange(event.target.value)}
-                                    defaultValue={profile.getExtroversion()}
-                                    helperText="Bitte wählen sie ihre Extrovertiertheit"
-                                >
-                                    {extroversions.map((option) => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+                                <div>
+                                <b>Extrovertiertheit:</b><br/>{extroversions[this.state.extroversion]}
+
+                                </div>
                                 
                                 : null}
                                 </Grid>
@@ -336,21 +156,10 @@ class ShowBuddyProfileDialog extends Component {
                                 <br></br>
                                 <Grid item xs={4}>
                                 {profile ?
-                                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
-                              
-                                    id="standard-select-currency"
-                                    select
-                                    label="Lernpräferenz"
-                                    onChange={(event) => this.handleStudyStateChange(event.target.value)}
-                                    defaultValue={profile.getStudyState()}
-                                    helperText="Bitte wählen sie die Lernpräferenz"
-                                >
-                                    {studystates.map((option) => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+                                <div>
+                                <b>Lernpräferenz:</b><br/>{studystates[this.state.studystate]}
+
+                                </div>
                                 : null}
                                 </Grid>
                             
@@ -358,21 +167,10 @@ class ShowBuddyProfileDialog extends Component {
                                 <br></br>
                                 <Grid item xs={4}>
                                 {profile ?
-                                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
-                              
-                                    id="standard-select-currency"
-                                    select
-                                    label="Frequenz"
-                                    onChange={(event) => this.handleFrequencyChange(event.target.value)}
-                                    defaultValue={profile.getFrequency()}
-                                    helperText="Bitte wählen sie die gewünschte Frequenz"
-                                >
-                                    {frequencys.map((option) => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+                                <div>
+                                <b>Frequenz:</b><br/>{frequencys[this.state.frequency]}
+
+                                </div>
                                 : null}
                                 </Grid>
 
@@ -380,21 +178,10 @@ class ShowBuddyProfileDialog extends Component {
                                 <br></br>
                                 <Grid item xs={4}>
                                 {profile ?
-                                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
-                              
-                                    id="standard-select-currency"
-                                    select
-                                    label="Lerntyp"
-                                    onChange={(event) => this.handleLearntypChange(event.target.value)}
-                                    defaultValue={profile.getLearntyp()}
-                                    helperText="Bitte wählen sie ihren Lerntyp aus"
-                                >
-                                    {learntyps.map((option) => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+                                <div> 
+                                <b>Lerntyp:</b><br/>{learntyps[this.state.learntyp]}
+
+                                </div>
                                 : null}
                                 </Grid>
 
@@ -402,21 +189,10 @@ class ShowBuddyProfileDialog extends Component {
                                 <br></br>
                                 <Grid item xs={4}>
                                 {profile ?
-                                <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
-                              
-                                    id="standard-select-currency"
-                                    select
-                                    label="Semester"
-                                    onChange={(event) => this.handleSemesterChange(event.target.value)}
-                                    defaultValue={profile.getSemester()}
-                                    helperText="Bitte wählen sie ihr Semester"
-                                >
-                                    {semesters.map((option) => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+                                <div>
+                                <b>Semester:</b><br/>{semesters[this.state.semester]}
+                                
+                                </div>
                                 : null}
                                 </Grid>
                                 </Grid>
