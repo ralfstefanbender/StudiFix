@@ -40,7 +40,7 @@ render() {
         <CardActionArea>
           <CardContent>
             <Typography variant='h6' component='h2'>
-                {firstName} {lastName} <tag style={{color:"#f57c00"}}>wants to join</tag> {groupName}
+                {firstName} {lastName} <tag style={{color:"#f57c00"}}>möchte</tag> {groupName} <tag style={{color:"#f57c00"}}>beitreten</tag>
             </Typography>
             <Typography variant='body2' component='p'>
               ID: {ID}

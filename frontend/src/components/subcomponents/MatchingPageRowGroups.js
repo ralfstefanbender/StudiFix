@@ -35,7 +35,7 @@ class MatchingPageRow extends Component{
                 <TableCell align="center">{match.interest}</TableCell>
                 <TableCell align="center"><b>{match.matching_score}</b></TableCell>
                 <TableCell align="center">
-                    <Button disabled={this.state.disabled} variant="contained" color="primary" onClick={(e)=>{this.handleGroupInvite(e, match.id)}}>
+                    <Button disabled={this.state.disabled} variant="contained" color="secondary" onClick={(e)=>{this.handleGroupInvite(e, match.id)}}>
                     Anfrage senden
                     </Button>
                 </TableCell>

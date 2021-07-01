@@ -1,17 +1,7 @@
 import React, {Component} from 'react';
-import {
-    MenuItem,
-    Dialog,
-    DialogTitle,
-    Select,
-    InputLabel,
-    TextField,
-    FormControl,
-    Typography,
-    Slider,
-    Button,
-    Grid} from'@material-ui/core';
+import {DialogContent, DialogActions, ThemeProvider, Dialog, DialogTitle, TextField, Button } from'@material-ui/core';
 import {StudyFixAPI, StudyGroupBO, ChatBO} from '../../api';
+import Theme from "../../theme";
 import firebase from "firebase";
 
 
@@ -38,12 +28,9 @@ class CreateStudyGroup extends Component {
         error:null
       }
 
-
       this.baseState = this.state;
 
-
     }
-
 
 
     getAllStudyGroups = () => {
@@ -60,7 +47,6 @@ class CreateStudyGroup extends Component {
     }
 
 
-
      show = () =>{
               this.setState({
                   notShowDrop: true,
@@ -70,13 +56,12 @@ class CreateStudyGroup extends Component {
 
     getCurrentUser(){
     StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user) => {this.setState({current_user:user})})
-  }
+    }
 
     // Add Studygroup
      addStudyGroup = () => {
         StudyFixAPI.getAPI().createStudyGroupPackage(this.state.name,this.state.current_user.google_id).then(() => {this.props.closestudygroup(); this.props.reload()})
     }
-
 
 
     getAllChats = () => {
@@ -124,55 +109,33 @@ class CreateStudyGroup extends Component {
     }
 
 
-
-
-
-
  render(){
 
         const { chats, studygroups } = this.state;
         const {classes}= this.props;
 
     return(
-
-        <Dialog open={this.props.openpr} onClose={this.props.closestudygroup} fullWidth maxWidth='md'>
-          <DialogTitle fontcolor='primary' >Create Studygroup</DialogTitle>
-            <Grid container spacing={2} justify="center" driection="row"  >
-
-                <Grid container item direction="column"  xs={6} md={6} spacing={2}>
-                    <Grid item>
-                        <TextField fullWidth required variant="outlined" id="name" label="Name:" onChange={this.handleChange} value={this.state.name}/>
-                    </Grid>
-                 </Grid>
-                  <Grid container spacing={2} justify="center" driection="row"  >
-
-
-                <Grid item>
-                    <Button variant="outlined" onClick={this.props.closestudygroup}>Cancel</Button>
-                </Grid>
-                <Grid item>
-                    <Button variant="contained" color="primary"
-                    onClick={this.addStudyGroup}>Submit</Button>
-                </Grid>
-                </Grid>
-
-
-                </Grid>
-
-
-
-
-
-
-          </Dialog>
-
+        <ThemeProvider theme={Theme}>
+            <Dialog open={this.props.openpr} onClose={this.props.closestudygroup}>
+                <DialogTitle id="form-dialog-title">
+                    Lerngruppe erstellen
+                </DialogTitle>
+                    <DialogContent>
+                        <TextField required variant="outlined" id="name" label="Name:" onChange={this.handleChange} value={this.state.name}/>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant="contained" color="secondary" onClick={this.addStudyGroup}>
+                            Erstellen
+                        </Button>
+                        <Button color='primary' onClick={this.props.closestudygroup}>
+                            Zurück
+                        </Button>
+                    </DialogActions>      
+            </Dialog>
+          </ThemeProvider>
     );
- }
-
-
 }
-
-
+}
 
 
 export default CreateStudyGroup;
