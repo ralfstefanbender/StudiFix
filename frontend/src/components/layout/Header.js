@@ -41,7 +41,7 @@ class Header extends Component {
       <Paper variant='outlined' >
         <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center' color="primary">
-          StudyFix
+          StudiFix
         </Typography>
         <Typography variant='h4' component='h2' align='center'>
           Find your perfect learn buddys!
