@@ -3,6 +3,7 @@ import ChatWindow from '../subcomponents/ChatWindow'
 import ChatSelection from '../subcomponents/ChatSelection'
 import { StudyFixAPI } from '../../api'
 import GroupChatSelection from "../subcomponents/GroupChatSelection"
+import {Card, Typography} from "@material-ui/core";
 
 class ManageChat extends Component {
 
@@ -47,6 +48,14 @@ class ManageChat extends Component {
         {this.state.chats? <ChatSelection chats={this.state.chats}  setSelectedChat={this.setSelectedChat}/>:null}
         {this.state.groupchats? <GroupChatSelection groupchats={this.state.groupchats} setSelectedChat={this.setSelectedChat}/>:null}
         </div>
+        {this.state.selectedChat == null &&
+          <Card variant='outlined'>
+                <Card variant='outlined'>
+                <Typography variant='h6' color ="primary "font-family = "-apple-system" align='center' color ="primary" font-family = "-apple-system">
+                  &#10094;&#10094;&nbsp; Wähle hier deinen Chat aus!</Typography>
+                </Card>
+          </Card>
+          }
         {this.state.selectedChat? <ChatWindow key={this.state.selectedChat.id} chat={this.state.selectedChat} currentUser={this.state.currentUser}/>:null}
       </div>
     </>

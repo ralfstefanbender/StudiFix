@@ -22,7 +22,7 @@ class GroupChatSelection extends Component {
         <div className={classes.content}>
           <Card variant='outlined'>
           <Typography variant='h6' style={{textAlign:"center"}}>
-            My GroupChats
+            Meine Gruppenchats
           </Typography>
           </Card>
           <Card variant='outlined'>
