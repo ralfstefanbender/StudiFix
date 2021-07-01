@@ -4,6 +4,7 @@ import { withStyles, Typography, Card, CardActions, CardContent, Button, CardAct
 import { StudyFixAPI } from '../../api';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LeaveGroupDialog from '../dialogs/LeaveGroupDialog';
+import ShowGroupProfileDialog from '../dialogs/ShowGroupProfileDialog';
 import StudyGroupProfileDialog from '../dialogs/StudyGroupProfileDialog';
 import LoadingProgress from '../dialogs/LoadingProgress';
 
@@ -19,9 +20,25 @@ class StudyGroupDetail extends Component{
         this.state = {
             loadingInProgress: false,
             loadingError: null,
-            learningProfile: null
+            learningProfile: null,
+            open: false
       };
     }
+
+    componentDidMount(){
+      StudyFixAPI.getAPI().getLearningProfileGroupByGroupId(this.props.ID).then((profile) => {
+        this.setState({learningProfile:profile});
+        console.log(profile)
+      })
+    }
+
+    handleClickOpen = () => {
+      this.setState({ open: true });
+    };
+    
+    handleClose = () => {
+      this.setState({ open: false });      
+    };
 
 
 /** Renders the component */
@@ -31,7 +48,7 @@ render() {
 
     return (
       <Card variant='outlined' className={classes.root}>
-        <CardActionArea>
+        <CardActionArea onClick={() => this.handleClickOpen()}>
           <CardContent>
             <Typography variant='h6' component='h2'>
             {nameID}
@@ -41,6 +58,7 @@ render() {
             </Typography>
           </CardContent>
         </CardActionArea>
+        {this.state.open? <ShowGroupProfileDialog  profileBO={this.state.learningProfile} open={this.state.open} handleClose={this.handleClose}></ShowGroupProfileDialog>: false}
           <CardActions style={{float: 'right'}}>
           <StudyGroupProfileDialog groupId={ID} />
           <LeaveGroupDialog reload={() => this.props.reload()} groupId={ID} />

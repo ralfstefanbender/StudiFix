@@ -12,13 +12,12 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 
-class ShowBuddyProfileDialog extends Component {
+class ShowGroupProfileDialog extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
           open: this.props.open,
-          user: this.props.user,
           learningprofile: this.props.profileBO,
           newProfileName: this.props.profileBO.getName(),
           newDegreeCourse: this.props.profileBO.getDegreeCourse(),
@@ -90,9 +89,11 @@ class ShowBuddyProfileDialog extends Component {
             <div>
              
             <Dialog open={this.state.open} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
+            {profile ?
                 <DialogTitle id="form-dialog-title">
-                    Learning Profile von {this.state.user.firstname}
+                    Learning Profile von {this.state.newProfileName}
                 </DialogTitle>
+                : null}
                 <DialogContent>
                 <Grid container spacing={2} justify="center">
             <Grid item xs={4}>
@@ -208,4 +209,4 @@ class ShowBuddyProfileDialog extends Component {
     }
 }
 
-export default ShowBuddyProfileDialog
+export default ShowGroupProfileDialog
