@@ -132,17 +132,17 @@ render(){
             adress={buddys.getAdress()} userBO={buddys} />)
             }
             <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={loadingError} contextErrorMsg={`The Buddylist could not be loaded.`} />
+            <ContextErrorMessage error={loadingError} contextErrorMsg={`Deine Buddys konnten nicht geladen werden`} />
           </Grid>
           <br margin-top='20px' />
         {friendRequests.length > 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              Du hast {friendRequests.length} Freundschaftsanfragen
+              Du hast <tag style={{color:"#f57c00"}}><b>{friendRequests.length}</b></tag> Freundschaftsanfragen
             </Typography>
         }
         {friendRequests.length == 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              Your have {friendRequests.length} Freundschaftsanfrage
+              Du hast <tag style={{color:"#f57c00"}}><b>{friendRequests.length}</b></tag> Freundschaftsanfrage
             </Typography>
         }
         <Divider />
@@ -152,7 +152,7 @@ render(){
             firstName={friendRequests.getFirstName()} lastName={friendRequests.getLastName()} ID={friendRequests.getID()} />)
             }
             <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={loadingError} contextErrorMsg={`The Requestlist could not be loaded.`} />
+            <ContextErrorMessage error={loadingError} contextErrorMsg={`Die Anfragenliste konnte nicht geladen werden`} />
           </Grid>
       </div>
     );
