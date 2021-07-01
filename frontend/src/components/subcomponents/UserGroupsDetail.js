@@ -51,7 +51,6 @@ render() {
             {firstName} {lastName}
             </Typography>
             <Typography variant='body2' component='p' >
-              ID: {ID} <br />
               E-mail: {email} <br />
               Adress: {adress}
             </Typography>
