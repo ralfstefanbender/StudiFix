@@ -283,7 +283,11 @@ class UserMapper(Mapper):
                         user.get_google_id(),
                         user.get_creation_date()
                         )
-        cursor.execute(command)
+
+        try:
+            cursor.execute(command)
+        except:
+            pass
 
         self._cnx.commit()
         cursor.close()
