@@ -33,8 +33,6 @@ class ManageStudyGroup extends Component {
 
   }
 
-
-
   
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
@@ -84,36 +82,39 @@ class ManageStudyGroup extends Component {
     });
   }
 
-
-
     // opens studygroup
     openstudygroup(){
         this.setState({
             openpr: true });
 
     }
+
+
     // close studygroup
     closestudygroup= () => {
-        this.setState({openpr:false});
+      this.setState({openpr:false});
     }
 
 
     handleMobileMenu = (event) => {
-        this.setState({
-          mobileAnchorEl: event.currentTarget,
-        })
-      }
+      this.setState({
+        mobileAnchorEl: event.currentTarget,
+      })
+    }
 
-      handleMobileClose = () => {
-        this.setState({
-          mobileAnchorEl: null
-        })
-      }
+
+    handleMobileClose = () => {
+      this.setState({
+        mobileAnchorEl: null
+      })
+    }
+
 
     reload = () => {
       this.getAllStudyGroups(this.state.userBO.google_id)
     }
 
+    
   /** Renders the component */
   render() {
     const { classes } = this.props;
@@ -131,14 +132,16 @@ class ManageStudyGroup extends Component {
               />
 
         <br margin-top='20px' />
-        <div align="center"><Button variant="contained" color="secondary" onClick={() => {this.openstudygroup(); this.handleMobileClose()}}>Create new Studygroup</Button></div>
+        <div align="center">
+          <Button variant="contained" color="secondary" onClick={() => {this.openstudygroup(); this.handleMobileClose()}}>
+            Neue Lerngruppe erstellen
+          </Button>
+        </div>
         <br margin-top='20px' />
             <Typography variant='h6' component='h1' align='center'>
-              Your Groups
+              Deine Gruppen
             </Typography>
-            
             <Divider />
-          
           <Grid>
             {
             studygroups.map(studygroups => <StudyGroupDetail reload={this.reload} key={studygroups.getID()} {...this.props}
@@ -148,12 +151,12 @@ class ManageStudyGroup extends Component {
           <br margin-top='20px' />
           {grouprequests.length > 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              {grouprequests.length} People want to join your Group!
+              {grouprequests.length} Leute möchten deiner Gruppe beitretten!
             </Typography>
           }
           {grouprequests.length == 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              {grouprequests.length} Person wants to join your Group!
+              {grouprequests.length} Jemand möchte deiner Gruppe beitretten!
             </Typography>
           }
             <Divider />
@@ -164,10 +167,10 @@ class ManageStudyGroup extends Component {
             groupId={friendRequests.getGroupId()} groupName={friendRequests.getGroupname()} />)
             }
             <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={loadingError} contextErrorMsg={`The Requestlist could not be loaded.`} />
+            <ContextErrorMessage error={loadingError} contextErrorMsg={`Die Anfragen konnten nicht geladen werden`} />
           </Grid>
           <LoadingProgress show={loadingInProgress} />
-          <ContextErrorMessage error={loadingError} contextErrorMsg={`The list of all studygroups not be loaded.`} />
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`Die Liste der Gruppen konnte nicht geladen werden`} />
       </div>
     );
   }
