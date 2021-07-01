@@ -301,7 +301,7 @@ const semesters = [
             <br margin-top='20px' />
 
         <Button startIcon={<SaveIcon/>}  size='small' color='primary'  onClick={this.handleClickOpen}>
-          Gruppenprofil anzeigen
+          Gruppenprofil ändern
         </Button>
 
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
