@@ -26,16 +26,18 @@ function About() {
         <div className={classes.content}>
           <Typography variant='h6'>
             StudiFix
-        </Typography>
+          </Typography>
           <br />
+          
+          <h4>Database</h4>
           <Typography>
-            <h4>Database</h4>
           Database written by <Link href='https://github.com/DominicHaffner'>Dominic Haffner</Link> <br />
           Database written by <Link href='https://github.com/FatihUenal'>Fatih Ünal</Link> <br />
           </Typography>
           <br />
+          
+          <h4> React Frontend</h4>
           <Typography>
-            <h4> React Frontend</h4>
           React Frontend written by <Link href='https://github.com/DominicHaffner'>Dominic Haffner</Link> <br />
           React Frontend written by <Link href='https://github.com/FatihUenal'>Fatih Ünal</Link> <br />
           (React Frontend written by <Link href='https://github.com/AyhanCoemert'>Ayhan Cömert</Link>) <br />
@@ -44,8 +46,9 @@ function About() {
           React Frontend written by <Link href='https://github.com/ralfstefanbender'>Ralf Bender</Link> <br />
           </Typography>
           <br />
+          
+          <h4>Python Backend </h4>
           <Typography>
-            <h4>Python Backend </h4>
           Python Backend written by <Link href='https://github.com/PatrickSinger'>Patrick Singer</Link> <br />
           Python Backend written by <Link href='https://github.com/RalfBender'>Ralf Bender</Link> <br />
           Python Backend written by <Link href='https://github.com/SarandaGojani'>Saranda Gojani</Link>

@@ -26,7 +26,6 @@ class UserGroupsDetail extends Component{
 componentDidMount(){
   StudyFixAPI.getAPI().getLearningProfileUserByUserId(this.state.userBO.id).then((profile) => {
     this.setState({learningprofileBO:profile});
-    console.log(profile)
   })
 }
 

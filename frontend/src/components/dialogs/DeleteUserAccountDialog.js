@@ -7,7 +7,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { ThemeProvider} from "@material-ui/core"
 import Theme from "../../theme"
-import RemoveIcon from '@material-ui/icons/Remove';
 import StudyFixAPI from '../../api/StudyFixAPI';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -40,7 +39,6 @@ class DeleteUserAccountDialog extends Component {
   }
 
   render() {
-    console.log("props:", this.props)
     return (
       <ThemeProvider theme={Theme}>
 

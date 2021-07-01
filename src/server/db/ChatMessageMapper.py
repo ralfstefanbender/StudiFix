@@ -29,6 +29,7 @@ class ChatMessageMapper(Mapper):
                 chat_message.set_text(text)
                 chat_message.set_chat_id(chat_id)
                 chat_message.set_user_id(user_id)
+                chat_message.set_creation_date(creation_date)
                 result = chat_message
 
         else:
@@ -40,6 +41,7 @@ class ChatMessageMapper(Mapper):
                 chat_message.set_text(text)
                 chat_message.set_chat_id(chat_id)
                 chat_message.set_user_id(user_id)
+                chat_message.set_creation_date(creation_date)
                 result.append(chat_message)
 
         return result
@@ -113,7 +115,6 @@ class ChatMessageMapper(Mapper):
                   "WHERE chat_id LIKE '{}' ".format(chat_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
-
         try:
             result = self.build_bo(tuples)
 

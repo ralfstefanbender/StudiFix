@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import { Typography, Grid, Button, withStyles } from '@material-ui/core';
-import { Divider } from '@material-ui/core'
-import { TextField, Collapse, IconButton } from '@material-ui/core'
-import Alert from '@material-ui/lab/Alert';
-import CloseIcon from '@material-ui/icons/Close';
+import { Typography, Grid, Button, withStyles, Divider, TextField } from '@material-ui/core';
 import firebase from 'firebase/app';
 import MenuItem from '@material-ui/core/MenuItem';
 import 'firebase/auth';
@@ -300,7 +296,7 @@ const semesters = [
             <Grid item xs={4}>
             {profile ?
                 <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
-                    id="standard-basic"
+                    id="standard-basic1"
                     label="Profile Name "
                     onChange={this.handleProfileNameChange}
                     defaultValue={profile.getName()}
@@ -316,7 +312,7 @@ const semesters = [
                 <Grid item xs={4}>  
             {profile ?
                 <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
-                    id="standard-basic"
+                    id="standard-basic2"
                     label="Interessiert in "
                     onChange={this.handleInterestChange}
                     defaultValue={profile.getInterest()}
@@ -334,7 +330,7 @@ const semesters = [
                 <Grid item xs={4}>
                 {profile ?
                 <TextField style={{maxWidth:"30vh", minWidth:"30vh"}}
-                    id="standard-basic"
+                    id="standard-basic3"
                     label="Studiengang "
                     onChange={this.handleDegreeCourseChange}
                     defaultValue={profile.getDegreeCourse()}
@@ -483,7 +479,7 @@ const semesters = [
                                 <br></br>
                                 <br></br>
                                 <Grid item xs={12}>
-                                <Button style={{maxWidth:"30vh", minWidth:"30vh", maxHeight:"5vh", minHeight:"5vh"}} variant="outlined" color="secondary" onClick={() => this.state.newProfileName != "" && this.state.newProfileName != null && this.state.newInterest != null && this.state.newInterest != "" && this.state.newDegreeCourse != null && this.state.newDegreeCourse != "" ? this.updateProfile() : console.log(this.state.newProfileName)}>Speichern</Button>
+                                <Button style={{maxWidth:"30vh", minWidth:"30vh", maxHeight:"5vh", minHeight:"5vh"}} variant="outlined" color="secondary" onClick={() => this.state.newProfileName != "" && this.state.newProfileName != null && this.state.newInterest != null && this.state.newInterest != "" && this.state.newDegreeCourse != null && this.state.newDegreeCourse != "" ? this.updateProfile() : null}>Speichern</Button>
                                 </Grid>
                                 </Grid>
                                 <br></br>

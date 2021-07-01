@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Typography, Grid, Button, withStyles } from '@material-ui/core';
-import { Divider } from '@material-ui/core'
-import { TextField, Collapse, IconButton } from '@material-ui/core'
+import { Typography, Grid, Button, withStyles, TextField, Collapse, IconButton, Divider } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import CloseIcon from '@material-ui/icons/Close';
 import firebase from 'firebase/app';
@@ -91,7 +89,7 @@ class ManageUser extends Component {
 
                     {person ?
                         <TextField
-                            id="outlined-read-only-input"
+                            id="outlined-read-only-input1"
                             label="Name: "
                             onChange={this.handleUserNameChange}
                             defaultValue={person.getFirstName()}
@@ -108,7 +106,7 @@ class ManageUser extends Component {
 
                     {person ?
                         <TextField
-                            id="outlined-read-only-input"
+                            id="outlined-read-only-input2"
                             label="Adresse: "
                             onChange={this.handleUserAdressChange}
                             defaultValue={person.getAdress()}
@@ -121,7 +119,7 @@ class ManageUser extends Component {
                         : null}
                         <br></br>
                         <br></br>
-                    <Button style={{maxWidth:"30vh", minWidth:"30vh", maxHeight:"5vh", minHeight:"5vh"}} variant="outlined" color="secondary" onClick={() => this.state.newFirstName != "" && this.state.newFirstName != null && this.state.newAdress != null && this.state.newAdress != "" ? this.updateUser() : console.log(this.state.newAdress)}>Speichern</Button>
+                    <Button style={{maxWidth:"30vh", minWidth:"30vh", maxHeight:"5vh", minHeight:"5vh"}} variant="outlined" color="secondary" onClick={() => this.state.newFirstName != "" && this.state.newFirstName != null && this.state.newAdress != null && this.state.newAdress != "" ? this.updateUser() : null}>Speichern</Button>
                     <Collapse in={this.state.alertOpen}>
                         <Alert
                             action={

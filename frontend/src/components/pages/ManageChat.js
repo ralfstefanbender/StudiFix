@@ -51,12 +51,12 @@ class ManageChat extends Component {
         {this.state.selectedChat == null &&
           <Card variant='outlined'>
                 <Card variant='outlined'>
-                <Typography variant='h6' color ="primary "font-family = "-apple-system" align='center' color ="primary" font-family = "-apple-system">
+                <Typography variant='h6' color ="primary" fontFamily = "-apple-system" align='center'>
                   &#10094;&#10094;&nbsp; Wähle hier deinen Chat aus!</Typography>
                 </Card>
           </Card>
           }
-        {this.state.selectedChat? <ChatWindow key={this.state.selectedChat.id} chat={this.state.selectedChat} currentUser={this.state.currentUser}/>:null}
+        {this.state.selectedChat && this.state.currentUser? <ChatWindow key={this.state.selectedChat.id} chat={this.state.selectedChat} currentUser={this.state.currentUser}/>:null}
       </div>
     </>
   )}

@@ -6,6 +6,8 @@ import { ChatMessageBO } from '../../api'
 import ChatMessage from './ChatMessage'
 
 class ChatWindow extends Component {
+    intervalID = 0;
+
     constructor(props){
         super(props)
 
@@ -15,6 +17,8 @@ class ChatWindow extends Component {
             chat: this.props.chat,
             chatMessages: null,
             newMessage: null,
+            autoscroll: true,
+            mounted: false
         }
     }
 
@@ -22,6 +26,11 @@ class ChatWindow extends Component {
         this.getUserBOInChat()
         this.getChatMessages()
         this.refresh()
+        this.setState({mounted:true})
+    }
+    
+    componentWillUnmount(){
+        clearInterval(this.intervalID);
     }
 
     getUserBOInChat(){
@@ -29,7 +38,7 @@ class ChatWindow extends Component {
     }
 
     getChatMessages(){
-        StudyFixAPI.getAPI().getChatMessageByChatId(this.state.chat.id).then((messages) => this.setState({chatMessages:messages}))
+        StudyFixAPI.getAPI().getChatMessageByChatId(this.state.chat.id).then((messages) => this.setState({chatMessages:messages}),this.updateScroll())
     }
 
     deleteChatMessage = (id) => {
@@ -49,10 +58,8 @@ class ChatWindow extends Component {
             message.setUserId(this.state.currentUser.id)
             message.setText(this.state.newMessage)
             StudyFixAPI.getAPI().addChatMessage(message)
-            this.setState({
-                chatMessages:this.state.chatMessages.concat(message),
-                newMessage:""
-            })
+            this.setState({chatMessages:this.state.chatMessages.concat(message),newMessage:""})
+            setTimeout(this.updateScroll(), 500)
         } else {
             // leere Nachricht Errorhandling
             console.log("Keine Nachricht gegeben")
@@ -60,19 +67,25 @@ class ChatWindow extends Component {
     }
 
     refresh(){
-        setTimeout(setInterval(() => (this.getChatMessages()), 5000), 5000)
+        this.intervalID = setInterval(() => (this.getChatMessages()), 5000)
     }
- 
+
+    updateScroll(){
+        if (this.state.autoscroll){
+        var element = document.getElementById("chat");
+        element.scrollTop = element.scrollHeight}
+    }
 
     render() {
         return (
+            <>
             <Card variant='outlined'>
                 <Card variant='outlined'>
-                <Typography variant='h6' style={{textAlign:"center"}}>Current Chat:</Typography>
+                <Typography variant='h6' style={{textAlign:"center"}}>Aktueller Chat:</Typography>
                 <Typography variant='h5' style={{textAlign:"center"}}>{this.state.chat.name}</Typography>
                 </Card>
                 
-                <div style={{maxHeight:"50vh", minHeight:"50vh", overflowY: 'scroll', display:"flex", flexDirection:"column"}}>
+                <div id="chat" style={{maxHeight:"50vh", minHeight:"50vh", overflowY: 'scroll', display:"flex", flexDirection:"column"}}>
                     {this.state.chatMessages && this.state.userBOs? 
                         this.state.chatMessages.map((chatMessage) =>
                             <ChatMessage key={chatMessage.id} currUser={this.state.currentUser} user={this.state.userBOs.concat(this.state.currentUser).filter((user) => user.id == chatMessage.user_id)} chatMessage={chatMessage} deleteChatMessage={this.deleteChatMessage}/>
@@ -99,6 +112,8 @@ class ChatWindow extends Component {
                     </div>
                 </div>
             </Card>
+            <Button style={{gridColumn:"2/3", width:"40%"}} onClick={() => this.setState({autoscroll : !this.state.autoscroll})}>{this.state.autoscroll? "Autoscroll ausschalten" : "Autoscroll einschalten"}</Button>
+            </>
         )
     }
 }

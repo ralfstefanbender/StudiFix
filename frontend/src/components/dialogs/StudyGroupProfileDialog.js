@@ -316,7 +316,7 @@ const semesters = [
             <Grid item xs={4}>
             {profile ?
                 <TextField style={{maxWidth:"20vh", minWidth:"20vh"}}
-                    id="standard-basic"
+                    id="standard-basic1"
                     label="Profile Name "
                     onChange={this.handleProfileNameChange}
                     defaultValue={profile.getName()}
@@ -332,7 +332,7 @@ const semesters = [
                 <Grid item xs={4}>  
             {profile ?
                 <TextField style={{maxWidth:"20vh", minWidth:"20vh"}}
-                    id="standard-basic"
+                    id="standard-basic2"
                     label="Interessiert in "
                     onChange={this.handleInterestChange}
                     defaultValue={profile.getInterest()}
@@ -350,7 +350,7 @@ const semesters = [
                 <Grid item xs={4}>
                 {profile ?
                 <TextField style={{maxWidth:"20vh", minWidth:"20vh"}}
-                    id="standard-basic"
+                    id="standard-basic3"
                     label="Studiengang "
                     onChange={this.handleDegreeCourseChange}
                     defaultValue={profile.getDegreeCourse()}
@@ -502,7 +502,7 @@ const semesters = [
 
           <DialogActions>
           <Grid item xs={6}>
-          <Button style={{maxWidth:"30vh", minWidth:"30vh", maxHeight:"5vh", minHeight:"5vh"}} variant="outlined" color="secondary" onClick={() => this.state.newProfileName != "" && this.state.newProfileName != null && this.state.newInterest != null && this.state.newInterest != "" && this.state.newDegreeCourse != null && this.state.newDegreeCourse != "" ? this.updateProfile() : console.log(this.state.newProfileName)}>Speichern</Button>
+          <Button style={{maxWidth:"30vh", minWidth:"30vh", maxHeight:"5vh", minHeight:"5vh"}} variant="outlined" color="secondary" onClick={() => this.state.newProfileName != "" && this.state.newProfileName != null && this.state.newInterest != null && this.state.newInterest != "" && this.state.newDegreeCourse != null && this.state.newDegreeCourse != "" ? this.updateProfile() : null}>Speichern</Button>
           </Grid>
           <Grid item xs={6}>
             <Button style={{maxWidth:"30vh", minWidth:"30vh", maxHeight:"5vh", minHeight:"5vh"}} variant="outlined" color="secondary" onClick={this.handleClose}>

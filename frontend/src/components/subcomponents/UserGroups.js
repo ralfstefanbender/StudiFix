@@ -137,12 +137,12 @@ render(){
           <br margin-top='20px' />
         {friendRequests.length > 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              Du hast <tag style={{color:"#f57c00"}}><b>{friendRequests.length}</b></tag> Freundschaftsanfragen
+              Du hast <b style={{color:"#f57c00"}}>{friendRequests.length}</b> Freundschaftsanfragen
             </Typography>
         }
         {friendRequests.length == 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              Du hast <tag style={{color:"#f57c00"}}><b>{friendRequests.length}</b></tag> Freundschaftsanfrage
+              Du hast <b style={{color:"#f57c00"}}>{friendRequests.length}</b> Freundschaftsanfrage
             </Typography>
         }
         <Divider />

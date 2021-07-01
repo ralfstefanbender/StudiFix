@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {DialogContent, DialogActions, ThemeProvider, Dialog, DialogTitle, TextField, Button } from'@material-ui/core';
-import {StudyFixAPI, StudyGroupBO, ChatBO} from '../../api';
+import {StudyFixAPI} from '../../api';
 import Theme from "../../theme";
 import firebase from "firebase";
 

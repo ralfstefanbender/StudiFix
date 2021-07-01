@@ -53,9 +53,9 @@ class Matching_page extends Component {
           <div className={classes.content}>
             
             <br />
-            <Typography>
+            <div>
               <div align="center">
-                <Typography variant='h8'>
+                <Typography variant='h6'>
                   Mit einem Klick nach passenden Matches suchen  <br />
                 </Typography>
               <Button align="center" variant="contained" color="secondary" onClick={()=>{this.handleMatchSearch()}}>
@@ -109,7 +109,7 @@ class Matching_page extends Component {
               
             </Table>
             </div>
-            </Typography>
+            </div>
           </div>
         </Paper>
       </ThemeProvider>

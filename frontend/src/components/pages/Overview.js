@@ -73,7 +73,7 @@ class Overview extends Component {
                   Freundschaftsanfragen
                 </Typography>
                 <Typography variant='body1' style={{textAlign:"center"}}>
-                  Du hast <tag style={{color:"#f57c00"}}><b>{this.state.friendRequests}</b></tag> neue Anfrage(n)
+                  Du hast <b style={{color:"#f57c00"}}>{this.state.friendRequests}</b> neue Anfrage(n)
                 </Typography>
               </CardContent>
               <CardActions style={{justifyContent:"center"}}>
@@ -90,7 +90,7 @@ class Overview extends Component {
                 Gruppeneinladungen
               </Typography>
               <Typography variant='body1' style={{textAlign:"center"}}>
-                Du hast <tag style={{color:"#f57c00"}}><b>{this.state.groupRequests}</b></tag> neue Gruppeneinladung(en)
+                Du hast <b style={{color:"#f57c00"}}>{this.state.groupRequests}</b> neue Gruppeneinladung(en)
               </Typography>
             </CardContent>
             <CardActions style={{justifyContent:"center"}}>

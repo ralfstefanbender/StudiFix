@@ -28,7 +28,6 @@ class StudyGroupDetail extends Component{
     componentDidMount(){
       StudyFixAPI.getAPI().getLearningProfileGroupByGroupId(this.props.ID).then((profile) => {
         this.setState({learningProfile:profile});
-        console.log(profile)
       })
     }
 

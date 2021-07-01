@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {withStyles, Grid, Button, Typography, Divider} from '@material-ui/core';
 import { StudyFixAPI } from '../../api';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
@@ -7,8 +6,6 @@ import LoadingProgress from '../dialogs/LoadingProgress';
 import CreateStudyGroup from './CreateStudyGroup';
 import StudyGroupDetail from '../subcomponents/StudyGroupDetail';
 import firebase from "firebase";
-import UserGroupsDetail from "../subcomponents/UserGroupsDetail";
-import UserGroupsFriendRequests from "../subcomponents/UserGroupsFriendRequests";
 import GroupsUserGroupRequests from "../subcomponents/GroupsUserGroupRequests";
 
 
@@ -151,12 +148,12 @@ class ManageStudyGroup extends Component {
           <br margin-top='20px' />
           {grouprequests.length > 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              <tag style={{color:"#f57c00"}}><b>{grouprequests.length}</b></tag> Leute möchten deiner Gruppe beitreten!
+             <b style={{color:"#f57c00"}}>{grouprequests.length}</b> Leute möchten deiner Gruppe beitreten!
             </Typography>
           }
           {grouprequests.length == 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              <tag style={{color:"#f57c00"}}><b>{grouprequests.length}</b></tag> Person möchte deiner Gruppe beitreten!
+              <b style={{color:"#f57c00"}}>{grouprequests.length}</b> Person möchte deiner Gruppe beitreten!
             </Typography>
           }
             <Divider />
