@@ -156,7 +156,7 @@ class ManageStudyGroup extends Component {
           }
           {grouprequests.length == 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              {grouprequests.length} Jemand möchte deiner Gruppe beitreten!
+              {grouprequests.length} Person möchte deiner Gruppe beitreten!
             </Typography>
           }
             <Divider />
