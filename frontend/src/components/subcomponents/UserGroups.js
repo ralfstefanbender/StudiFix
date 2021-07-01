@@ -121,7 +121,7 @@ render(){
         }
         
           <Typography variant='h6' component='h1' align='center'>
-              Your Buddies
+              Deine Buddies
             </Typography>
             <Divider />
 
@@ -137,12 +137,12 @@ render(){
           <br margin-top='20px' />
         {friendRequests.length > 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              Your have {friendRequests.length} Friend Requests
+              Du hast {friendRequests.length} Freundschaftsanfragen
             </Typography>
         }
         {friendRequests.length == 1 &&
           <Typography variant='h6' component='h1' align='center'>
-              Your have {friendRequests.length} Friend Request
+              Your have {friendRequests.length} Freundschaftsanfrage
             </Typography>
         }
         <Divider />

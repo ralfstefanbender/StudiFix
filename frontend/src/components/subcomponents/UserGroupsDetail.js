@@ -52,7 +52,7 @@ render() {
             </Typography>
             <Typography variant='body2' component='p' >
               E-mail: {email} <br />
-              Adress: {adress}
+              Adresse: {adress}
             </Typography>
           </CardContent>
         </CardActionArea>

@@ -64,7 +64,7 @@ class Matching_page extends Component {
               <LoadingProgress show={this.state.loadingInProgress} />
               </div>
             <Typography variant='h6'>
-              User Matches
+              Buddy Matches
             </Typography>
             <div style={{maxHeight:"50vh", overflowY: 'scroll'}}>
             <Table>
