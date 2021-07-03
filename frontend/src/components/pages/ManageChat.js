@@ -4,6 +4,7 @@ import ChatSelection from '../subcomponents/ChatSelection'
 import { StudyFixAPI } from '../../api'
 import GroupChatSelection from "../subcomponents/GroupChatSelection"
 import {Card, Typography} from "@material-ui/core";
+import firebase from 'firebase/app';
 
 class ManageChat extends Component {
 
@@ -24,7 +25,7 @@ class ManageChat extends Component {
   }
 
   getCurrentUser(){
-    StudyFixAPI.getAPI().getUserByGoogleId(this.props.currentUser.uid).then((user) => {this.setState({currentUser:user}); this.getAllChats(user.id)})
+    StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user) => {this.setState({currentUser:user}); this.getAllChats(user.id)})
   }
 
   getAllChats(id){

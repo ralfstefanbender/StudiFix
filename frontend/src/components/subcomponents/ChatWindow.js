@@ -46,7 +46,10 @@ class ChatWindow extends Component {
         StudyFixAPI.getAPI().deleteChatMessage(id)}
     }
 
+    handleMessageChange(e){
+        if(e.target.value.length <= 200){this.setState({newMessage:e.target.value})}
 
+    }
     sendChatMessage(){
         if(this.state.newMessage){
             const message = new ChatMessageBO()
@@ -99,6 +102,7 @@ class ChatWindow extends Component {
                             shrink: true,
                         }}
                         variant="outlined"
+                        onChange={(e) => this.handleMessageChange(e)}
                     />
                     <div style={{alignSelf:"center"}}>
                         <Button color="secondary" variant='contained' onClick={() => this.sendChatMessage()}>
