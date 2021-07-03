@@ -19,6 +19,7 @@ src/server/db/Mapper.py
 # Distribution / packaging
 .Python
 build/
+deployment
 develop-eggs/
 dist/
 downloads/

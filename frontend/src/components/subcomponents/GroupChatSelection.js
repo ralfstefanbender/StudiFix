@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { makeStyles, withStyles, Card, Typography, FormHelperText, ButtonGroup} from '@material-ui/core';
+import { Card, Typography } from '@material-ui/core';
 
 import { List, Button} from '@material-ui/core';
 
@@ -9,24 +9,23 @@ class GroupChatSelection extends Component {
     super(props);
 
     this.state = {
-      activeChats: this.props.chats,
       activeGroupChats: this.props.groupchats
     }
   }
 
   render(){
-    const { classes } = this.props;
+
 
     return (
-      <div elevation={0} className={classes.root}>
-        <div className={classes.content}>
+      <div elevation={0}>
+        <div >
           <Card variant='outlined'>
           <Typography variant='h6' style={{textAlign:"center"}}>
             Meine Gruppenchats
           </Typography>
           </Card>
           <Card variant='outlined'>
-          <List className={classes.chatList} style={{display:"flex", flexDirection:"column"}}>
+          <List  style={{display:"flex", flexDirection:"column"}}>
             {this.state.activeGroupChats?
                 this.state.activeGroupChats.map((groupchats)=>{
                     return(
@@ -48,16 +47,4 @@ class GroupChatSelection extends Component {
   }
 }
 
-const styles = makeStyles(theme => ({
-  root: {
-    width: '30%',
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    padding: theme.spacing(1)
-  },
-  content: {
-    margin: theme.spacing(1),
-  }
-}));
-
-export default withStyles(styles)(GroupChatSelection);
+export default GroupChatSelection;

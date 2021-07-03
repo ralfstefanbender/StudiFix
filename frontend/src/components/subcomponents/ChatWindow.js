@@ -48,8 +48,8 @@ class ChatWindow extends Component {
 
     handleMessageChange(e){
         if(e.target.value.length <= 200){this.setState({newMessage:e.target.value})}
-
     }
+    
     sendChatMessage(){
         if(this.state.newMessage){
             const message = new ChatMessageBO()
