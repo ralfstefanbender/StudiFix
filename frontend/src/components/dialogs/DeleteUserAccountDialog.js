@@ -22,11 +22,11 @@ class DeleteUserAccountDialog extends Component {
       user: props.user
     }
   }
-
+  // öffnet den Dialog
   handleClickOpen = () => {
     this.setState({ open: true });
   };
-
+  // schließt den Dialog
   handleClose = () => {
     this.setState({ open: false });
     

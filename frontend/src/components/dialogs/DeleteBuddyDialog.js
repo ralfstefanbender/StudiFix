@@ -22,17 +22,18 @@ class DeleteBuddyDialog extends Component {
       user: props.user
     }
   }
-
+  // öffnet den Dialog
   handleClickOpen = () => {
     this.setState({ open: true });
   };
 
+  // schließt den Dialog
   handleClose = () => {
     this.setState({ open: false });
     
   };
 
-
+  // löscht den Buddy aus der Freundesliste
   deleteBuddy = () =>{
     StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
       StudyFixAPI.getAPI().removeFriend(user.id, this.props.buddyId).then(() => {this.props.reload()})})

@@ -35,12 +35,12 @@ class StudyGroupProfileDialog extends Component {
             newInterest: null,
         }
     }
-
+    // wird direkt beim rendern der Seite ausgeführt
     componentDidMount(){
       this.getLearningProfileGroupByGroupId()
     }
 
-
+    // holt sich die zugehörige Gruppe per ID und setzt die Attribute im State
     getLearningProfileGroupByGroupId = () => {
       StudyFixAPI.getAPI().getLearningProfileGroupByGroupId(this.props.groupId)
         .then(GroupProfileBO =>
@@ -60,7 +60,7 @@ class StudyGroupProfileDialog extends Component {
 
           }))
 }
-
+// ermöglicht das updaten eines Gruppenprofiles
 updateProfile = () => {
   var profile = this.state.GroupProfileBO
   profile.setName(this.state.newProfileName)
@@ -85,48 +85,49 @@ updateProfile = () => {
 
 
 }
+// ermöglicht das Öffnen des Dialogs
 handleClickOpen = () => {
     this.setState({ open: true });
   };
-
-  handleClose = () => {
+// schließt den Dialog
+handleClose = () => {
     this.setState({ open: false });
     
   };
   
-    
+    // Value wird hier übergeben und setzt den state.prev_knowledge auf value
     handlePrevKnowlegeChange = (value) => {
       this.setState({ prev_knowledge: value })
         };
-      
+    // Value wird hier übergeben und setzt den state.extroversion auf value   
     handleExtroversionChange = (value) => {
       this.setState({ extroversion: value })
         };
-
+    // Value wird hier übergeben und setzt den state.studystate auf value
     handleStudyStateChange = (value) => {
       this.setState({ studystate: value })
         };
-    
+    // Value wird hier übergeben und setzt den state.frequency auf value
     handleFrequencyChange = (value) => {
       this.setState({ frequency: value })
         };
-
+    // Value wird hier übergeben und setzt den state.learntyp auf value
     handleLearntypChange = (value) => {
       this.setState({ learntyp: value })
         };
-    
+    // Value wird hier übergeben und setzt den state.semester auf value
     handleSemesterChange = (value) => {
       this.setState({ semester: value })
         };
-    
+    // ermöglicht das setzten einen neuen Profil Names
     handleProfileNameChange = (event) => {
       this.setState({ newProfileName: event.target.value })
       }
-    
+    // ermöglicht das setzten einer neuen Interesse
     handleInterestChange = (event) => {
       this.setState({ newInterest: event.target.value })
      }
-
+    // ermöglicht das setzten eines neuen DeegreeCourses
     handleDegreeCourseChange = (event) => {
       this.setState({ newDegreeCourse: event.target.value })
      }
