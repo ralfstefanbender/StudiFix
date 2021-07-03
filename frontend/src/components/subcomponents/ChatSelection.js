@@ -3,6 +3,7 @@ import { Card, Typography } from '@material-ui/core';
 
 import { List, Button} from '@material-ui/core';
 
+//** Component für das auflisten von EinzelChats auf der linken seite des chat tabs */
 class ChatSelection extends Component {
 
   constructor(props){
@@ -14,7 +15,7 @@ class ChatSelection extends Component {
   }
 
   render(){
-
+    //** Rendert alle Chats von buddies mit denen der Nutzer befreundet ist */
     return (
       <div elevation={0}>
         <div>
@@ -28,7 +29,7 @@ class ChatSelection extends Component {
             {this.state.activeChats?
                 this.state.activeChats.map((chat)=>{
                     return(
-                    
+                      //** Bei auswahl eines Chats wird selected chat auf der parent Componente gesetzt */
                       <Button variant='outlined' color='secondary' style={{width:"100%"}} key={chat.id} onClick={() => this.props.setSelectedChat(chat)}>
                         {chat.name}
                       </Button>

@@ -11,6 +11,7 @@ import firebase from 'firebase/app';
 import { set } from 'date-fns';
 
 
+//** Component Alle Buddys page */
 class UserGroups extends Component {
   constructor(props){
     super(props);
@@ -34,7 +35,7 @@ class UserGroups extends Component {
     this.getUserByGoogleId();
   }
 
-
+  //** Aktuellen User holen und freunde sowie freundesanfragen aus der db abrufen */
   getUserByGoogleId = () => {
     StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
           this.setState({userBO:user}); 
@@ -103,6 +104,7 @@ class UserGroups extends Component {
       })
     }
 
+    //** Bei Freundschafts anfrage annehmen neu laden */
     reload = () => {
       this.getFriends(this.state.userBO.google_id)
     }
@@ -113,13 +115,7 @@ render(){
 
   return(
     <div className={classes.root}>
-      < br/>
-        {
-        //<Button variant="contained" color='secondary' component={RouterLink} to={`/matching_page`}>
-        //Nach neuen Lernpartnern Suchen
-        //</Button>
-        }
-        
+      < br/>        
           <Typography variant='h6' component='h1' align='center'>
               Deine Buddies
             </Typography>

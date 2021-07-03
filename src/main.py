@@ -8,7 +8,6 @@ from src.server.Administration import Administration
 from src.server.bo.ChatInvitation import ChatInvitation
 
 from src.server.bo.ChatMessage import ChatMessage
-from src.server.bo.LearningProfile import LearningProfile
 from src.server.bo.GroupInvitation import GroupInvitation
 from src.server.bo.LearningprofileGroup import LearningProfileGroup
 from src.server.bo.LearningProfileUser import LearningProfileUser
@@ -68,10 +67,9 @@ studyFix-relevanten Operationen unter dem Präfix /studyfix zusammen."""
 studyfix = api.namespace('studyfix', description='Funktionen des studyFix')
 
 
-
 bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines BusinessObject'),
-    'creation_date': fields.DateTime(attribute='_creation_date', description='Das Erstellungsdatum eines Business Object ',
+    'creation_date': fields.DateTime(attribute='_creation_date', description='Das Erstellungsdatum eines bo',
                                      dt_format='iso8601')
 })
 
@@ -136,12 +134,6 @@ user = api.inherit('User', bo, {
     'adress': fields.String(attribute='_adress', description='Adresse des Profilinhabers')
 })
 
-
-@app.route('/hello')
-def hello():
-    return 'Hello World!'
-
-
 # -----User-----
 
 
@@ -159,7 +151,7 @@ class UserListOperations(Resource):
         return users
 
     @studyfix.marshal_with(user, code=200)
-    @studyfix.expect(user)  #Wir erwarten ein User-Objekt von Client-Seite.
+    @studyfix.expect(user)
     @secured
     def post(self):
         """Anlegen eines neuen User-Objekts.
@@ -203,7 +195,7 @@ class UserOperations(Resource):
         return single_user
 
     @studyfix.marshal_with(user)
-    @studyfix.expect(user, validate=True)   #Wir erwarten ein User-Objekt von Client-Seite.
+    @studyfix.expect(user, validate=True)
     @secured
     def put(self, id):
         """Update eines bestimmten User-Objekts.
@@ -306,7 +298,6 @@ class UserGoogleOperations(Resource):
         users = adm.get_user_by_learning_profile_id(learning_profile_id)
         return users
 
-
 # ----ChatInvitation-----
 
 
@@ -324,7 +315,7 @@ class ChatInvitationListOperations(Resource):
         return chatinvitations
 
     @studyfix.marshal_with(chatinvitation, code=200)
-    @studyfix.expect(chatinvitation)   #Wir erwarten ein ChatInvitation-Objekt von Client-Seite.
+    @studyfix.expect(chatinvitation)
 
     def post(self):
         """Anlegen eines neuen ChatInvitation-Objekts.
@@ -386,7 +377,6 @@ class ChatInvitationOperations(Resource):
 
         else:
             return '', 500
-
 
     @studyfix.marshal_with(chatinvitation)
     @studyfix.expect(chatinvitation, validate=True)  #Wir erwarten ein ChatInvitation-Objekt von Client-Seite.
@@ -522,8 +512,6 @@ class ChatInvitationsAcceptedInvitesByTargetUserOperations(Resource):
         chatinvitation_accepted_invites_target_user = adm.get_accepted_invites_by_target_user(target_user)
         return chatinvitation_accepted_invites_target_user
 
-
-
 # ---------Chatmessage--------
 
 
@@ -541,7 +529,7 @@ class ChatMessageListOperations(Resource):
         return chatmessages
 
     @studyfix.marshal_with(chatmessage, code=200)
-    @studyfix.expect(chatmessage)  #Wir erwarten ein ChatMessage-Objekt von Client-Seite.
+    @studyfix.expect(chatmessage)
 
     def post(self):
         """Anlegen eines neuen ChatMessage-Objekts.
@@ -582,7 +570,7 @@ class ChatMessageOperations(Resource):
         return single_chatmessage
 
     @studyfix.marshal_with(chatmessage)
-    @studyfix.expect(chatmessage, validate=True)  #Wir erwarten ein ChatMessage-Objekt von Client-Seite.
+    @studyfix.expect(chatmessage, validate=True)
     @secured
     def put(self, id):
         """Update eines bestimmten ChatMessage-Objekts.
@@ -645,7 +633,6 @@ class ChatListOperations(Resource):
         chats = adm.get_all_chats()
         return chats
 
-
     @studyfix.marshal_with(chat, code=200)
     @studyfix.expect(chat)  #Wir erwarten ein ChatMessage-Objekt von Client-Seite.
     @secured
@@ -702,7 +689,7 @@ class ChatOperations(Resource):
             return '', 500
 
     @studyfix.marshal_with(chat)
-    @studyfix.expect(chat, validate=True)  #Wir erwarten ein ChatMessage-Objekt von Client-Seite.
+    @studyfix.expect(chat, validate=True)
     @secured
     def put(self, id):
         """Update eines bestimmten Chat-Objekts.
@@ -742,7 +729,7 @@ class GroupInvitationListOperations(Resource):
         return groupinvitations
 
     @studyfix.marshal_with(groupinvitation, code=200)
-    @studyfix.expect(groupinvitation)   #Wir erwarten ein ChatMessage-Objekt von Client-Seite.
+    @studyfix.expect(groupinvitation)
     
     def post(self):
         """Anlegen eines neuen GroupInvitation-Objekts.
@@ -866,7 +853,8 @@ class GroupInvitationsPendInvitesByStudyGroupOperations(Resource):
     @studyfix.marshal_list_with(groupinvitation)
     @secured
     def get(self, study_group_id):
-        """Auslesen von allen GroupInvitation-Objekten die weder akzeptiert noch angenommen wurden über die StudyGroupID."""
+        """Auslesen von allen GroupInvitation-Objekten die weder akzeptiert noch angenommen
+         wurden über die StudyGroupID."""
 
         adm = Administration()
         groupinvitation_pend_invites_by_study_group = adm.get_groupinvitation_pend_invites_by_study_group(
@@ -1028,7 +1016,6 @@ class StudyGroupOperations(Resource):
         else:
             return '', 500
 
-
     @studyfix.marshal_with(studygroup)
     @studyfix.expect(studygroup, validate=True)  #Wir erwarten ein ChatMessage-Objekt von Client-Seite.
     @secured
@@ -1076,6 +1063,7 @@ class StudyGroupLearningProfileOperations(Resource):
         adm = Administration()
         studygroup = adm.get_studygroup_by_learning_profile_id(learning_profile_id)
         return studygroup
+
 
 @studyfix.route('/studygroup-create-package/<string:name>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
@@ -1197,6 +1185,7 @@ class LearningProfileGroupOperations(Resource):
         else:
             return '', 500
 
+
 @studyfix.route('/learningprofilegroup-by-name/<string:name>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class LearningProfileGroupByNameOperations(Resource):
@@ -1209,6 +1198,7 @@ class LearningProfileGroupByNameOperations(Resource):
         adm = Administration()
         learning_profile_by_name = adm.get_learningprofile_group_by_name(name)
         return learning_profile_by_name
+
 
 @studyfix.route('/learningprofilegroup-by-group-id/<int:group_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
@@ -1364,7 +1354,6 @@ class LearningProfileUserByNameOperations(Resource):
         learning_profile_by_name = adm.get_learningprofile_user_by_name(name)
         return learning_profile_by_name
 
-#
 
 @studyfix.route('/friend-requests-by-google-id/<string:google_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
@@ -1377,6 +1366,7 @@ class FriendRequestsByGoogleId(Resource):
         friend_requests_by_google_id = adm.get_friend_requests_by_google_id(google_id)
         return friend_requests_by_google_id
 
+
 @studyfix.route('/friends-by-google-id/<string:google_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class FriendsByGoogleId(Resource):
@@ -1388,11 +1378,13 @@ class FriendsByGoogleId(Resource):
         friends_by_google_id = adm.get_friends_by_google_id(google_id)
         return friends_by_google_id
 
+
 @studyfix.route('/matching/<string:id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class MatchingAlgorithmus(Resource):
     def get(self, id):
-        """Hier wurde der Matchin Algorithmus für die Freunde geschrieben"""
+        """Hier wird der Matching Algorithmus für die Freunde aufgerufen und für das frontend aufgehübscht
+         (namen statt zahlen usw.)"""
 
         adm = Administration()
         matches = adm.get_matches_user(id, .2)
@@ -1449,7 +1441,8 @@ class MatchingAlgorithmus(Resource):
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class GroupMatchingAlgorithmus(Resource):
     def get(self, id):
-        """Hier wurde der Matchin Algorithmus für die Gruppen geschrieben"""
+        """Hier wird der Matching Algorithmus für die Gruppen aufgerufen und für das frontend aufgehübscht
+         (namen statt zahlen usw.)"""
 
         adm = Administration()
         matches = adm.get_matches_group(id, .1)
@@ -1502,7 +1495,7 @@ class GroupMatchingAlgorithmus(Resource):
 @studyfix.route('/pending_group_invites-by-google-id/<string:google_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class GroupsByGoogleId(Resource):
-
+    """Alle Gruppen invites die noch nicht angenommen wurden ausgeben"""
     def get(self, google_id):
         adm = Administration()
         result = []
@@ -1514,27 +1507,29 @@ class GroupsByGoogleId(Resource):
         return result
 
 
-
 @studyfix.route('/auth')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class Authorisation(Resource):
+    """authorisierung des nutzer (inzwischen legacy code)"""
     @secured
     def get(self):
         return True
 
+
 @studyfix.route('/acceptfriendrequests/<int:target_id>/<int:source_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class AcceptFriendInvites(Resource):
-
+    """Freundschaftsanfrage akzeptieren"""
     def get(self, target_id, source_id):
         adm = Administration()
         adm.accept_friend_request(target_id, source_id)
         return True
 
+
 @studyfix.route('/declinefriendrequests/<int:target_id>/<int:source_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class DeclineFriendInvites(Resource):
-
+    """Freundschaftsanfrage ablehnen"""
     def get(self, target_id, source_id):
         adm = Administration()
         adm.decline_friend_request(target_id, source_id)
@@ -1544,7 +1539,7 @@ class DeclineFriendInvites(Resource):
 @studyfix.route('/acceptgrouprequest/<int:group_id>/<int:user_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class AcceptGroupRequest(Resource):
-
+    """Gruppenanfrage akzeptieren"""
     def get(self, group_id, user_id):
         adm = Administration()
         adm.accept_group_request(group_id, user_id)
@@ -1554,7 +1549,7 @@ class AcceptGroupRequest(Resource):
 @studyfix.route('/declinegrouprequest/<int:group_id>/<int:user_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class DeclineGroupRequest(Resource):
-
+    """Gruppenanfrage ablehnen"""
     def get(self, group_id, user_id):
         adm = Administration()
         adm.decline_group_request(group_id, user_id)
@@ -1564,6 +1559,7 @@ class DeclineGroupRequest(Resource):
 @studyfix.route('/chat-by-user-id/<int:user_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class GetChatByUserId(Resource):
+    """alle chats für user id ausgeben"""
     @studyfix.marshal_with(chat)
     def get(self, user_id):
         adm = Administration()
@@ -1574,6 +1570,7 @@ class GetChatByUserId(Resource):
 @studyfix.route('/other-user-by-chat-id/<int:current_user_id>/<int:chat_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class GetChatByUserId(Resource):
+    """anderen nutzer aus aktuellem chat herausgeben"""
     @studyfix.marshal_with(user)
     def get(self, current_user_id, chat_id):
         adm = Administration()
@@ -1584,10 +1581,11 @@ class GetChatByUserId(Resource):
             result = adm.get_other_user_by_chat_id(current_user_id, chat_id)
         return result
 
+
 @studyfix.route('/removefriend/<int:current_user_id>/<int:chat_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class GetChatByUserId(Resource):
-
+    """freund entfernen"""
     def get(self, current_user_id, chat_id):
         adm = Administration()
         result = adm.remove_friend(current_user_id, chat_id)
@@ -1597,49 +1595,45 @@ class GetChatByUserId(Resource):
 @studyfix.route('/create-study-group-package/<string:name>/<string:user_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class CreateStudyGroupPackage(Resource):
+    """Gruppe erstellen inc. aller anderen benötigten objekte für eine gruppe"""
     def get(self, name, user_id):
         adm = Administration()
         result = adm.create_studygroup_package(name, user_id)
         return True
 
+
 @studyfix.route('/leavegroup/<int:current_user_id>/<int:group_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class LeaveGroup(Resource):
-
+    """Gruppe verlassen"""
     def get(self, current_user_id, group_id):
         adm = Administration()
         result = adm.leave_group(current_user_id, group_id)
         return result
 
+
 @studyfix.route('/group-chat-by-user-id/<int:user_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class GetGroupChatByUserId(Resource):
+    """gruppenchats nach user id ausgeben"""
     @studyfix.marshal_with(chat)
     def get(self, user_id):
         adm = Administration()
         result = adm.get_group_chat_by_user_id(user_id)
         return result
 
+
 @studyfix.route('/group_users_by_group_id/<int:group_id>')
 @studyfix.response(500, 'Wenn ein Server-seitiger Fehler aufkommt')
 class GetGroupUsersByGroupId(Resource):
+    """Alle Gruppenmitglieder nach group id ausgeben"""
     @studyfix.marshal_with(user)
     def get(self, group_id):
         adm = Administration()
         result = adm.get_group_users_by_group_id(group_id)
         return result
 
-"""
-Nachdem wir nun sämtliche Resourcen definiert haben, die wir via REST bereitstellen möchten,
-müssen nun die App auch tatsächlich zu starten.
-Diese Zeile ist leider nicht Teil der Flask-Doku! In jener Doku wird von einem Start via Kommandozeile ausgegangen.
-Dies ist jedoch für uns in der Entwicklungsumgebung wenig komfortabel. Deshlab kommt es also schließlich zu den 
-folgenden Zeilen. 
-**ACHTUNG:** Diese Zeile wird nur in der lokalen Entwicklungsumgebung ausgeführt und hat in der Cloud keine Wirkung!
-"""
+
 if __name__ == '__main__':
-    """print(Administration.get_matches_user(Administration(), "bUIElVVYTQPW22h4Sc4SvzjnMLx1", .1))"""
-    """print(Administration.get_matches_group(Administration(), 1, .1))"""
-    """print(Administration.get_matches_user(Administration(),"16060601 6962", 0.5))"""
     app.run(debug=True)
 
