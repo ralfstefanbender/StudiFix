@@ -19,8 +19,8 @@ from .db.GroupInvitationMapper import *
 
 
 class Administration(object):
+    
     """Diese Klasse aggregiert nahezu sämtliche Applikationslogik (engl. Business Logic).
-
     Sie ist wie eine Spinne, die sämtliche Zusammenhänge in ihrem Netz (in unserem
     Fall die Daten der Applikation) überblickt und für einen geordneten Ablauf und
     dauerhafte Konsistenz der Daten und Abläufe sorgt.
@@ -33,39 +33,20 @@ class Administration(object):
     Zustand überführen. Wenn dies zwischenzeitig scheitern sollte, dann ist das
     jeweilige Transaction Script dafür verwantwortlich, eine Fehlerbehandlung
     durchzuführen.
-
-    Diese Klasse steht mit einer Reihe weiterer Datentypen in Verbindung. Dies
+    Diese Klasse steht mit einer Reihe weiterer Datentypen in Verbindung. Diese
     sind:
     - die Klassen BusinessObject und deren Subklassen,
-    - die Mapper-Klassen für den DB-Zugriff.
+    - die Mapper-Klassen für den DB-Zugriff."""
 
-    BankAdministration bilden nur die Server-seitige Sicht der
-    Applikationslogik ab. Diese basiert vollständig auf synchronen
-    Funktionsaufrufen.
-
-    **Wichtiger Hinweis:** Diese Klasse bedient sich sogenannter
-    Mapper-Klassen. Sie gehören der Datenbank-Schicht an und bilden die
-    objektorientierte Sicht der Applikationslogik auf die relationale
-    organisierte Datenbank ab. Zuweilen kommen "kreative" Zeitgenossen auf die
-    Idee, in diesen Mappern auch Applikationslogik zu realisieren. Siehe dazu
-    auch die Hinweise in der Methode zum Löschen von Customer-Objekten.
-    Einzig nachvollziehbares Argument für einen solchen Ansatz ist die Steigerung
-    der Performance umfangreicher Datenbankoperationen. Doch auch dieses Argument
-    zieht nur dann, wenn wirklich große Datenmengen zu handhaben sind. In einem
-    solchen Fall würde man jedoch eine entsprechend erweiterte Architektur realisieren,
-    die wiederum sämtliche Applikationslogik in der Applikationsschicht isolieren
-    würde. Also: keine Applikationslogik in die Mapper-Klassen "stecken" sondern
-    dies auf die Applikationsschicht konzentrieren!
-
-    Es gibt sicherlich noch viel mehr über diese Klasse zu schreiben. Weitere
-    Infos erhalten Sie in der Lehrveranstaltung.
-    """
     def __init__(self):
         pass
 
+
     # User Methoden
+
     def create_user(self, google_id, first_name, last_name, email, adress):
         """Einen User anlegen"""
+
         user = User()  # Name von NamedBusinessObject
         user.set_google_id(google_id)
         user.set_firstname(first_name)
@@ -82,54 +63,71 @@ class Administration(object):
 
     def get_user_by_name(self, name):
         """Alle User mit Namen name auslesen."""
+
         with UserMapper() as mapper:
             return mapper.find_by_name(name)
 
     def get_user_by_id(self, number):
         """Den User mit der gegebenen ID auslesen."""
+
         with UserMapper() as mapper:
             return mapper.find_by_id(number)
 
     def get_user_by_email(self, email):
         """Alle User mit gegebener E-Mail-Adresse auslesen."""
+
         with UserMapper() as mapper:
             return mapper.find_user_by_email(email)
 
     def get_user_by_google_id(self, id):
         """Den User mit der gegebenen Google ID auslesen."""
+
         with UserMapper() as mapper:
             return mapper.find_user_by_google_id(id)
 
     def get_user_by_firstname(self, first_name):
+        """Den User mit der gegebenen FirstName auslesen"""
+
         with UserMapper() as mapper:
             return mapper.find_user_by_firstname(first_name)
 
     def get_user_by_lastname(self, last_name):
+        """Den User mit der gegebenen LastName auslesen"""
+
         with UserMapper() as mapper:
             return mapper.find_user_by_lastname(last_name)
 
     def get_all_users(self):
         """Alle User auslesen."""
+
         with UserMapper() as mapper:
             return mapper.find_all()
 
     def get_user_by_learning_profile_id(self,learning_profile_id):
+        """Den User mit der gegebenen LearningProfileID auslesen"""
+
         with UserMapper() as mapper:
             return mapper.find_user_by_learning_profile_id(learning_profile_id)
 
     def save_user(self, user):
         """Den gegebenen User speichern."""
+
         with UserMapper() as mapper:
             mapper.update(user)
 
     def delete_user(self, user):
         """Den gegebenen User aus unserem System löschen."""
+
         with UserMapper() as mapper:
             mapper.delete(user)
 
+
     # LearningProfile Group Methoden
+
     def create_learningprofile_group(self, group_id, name, frequency, study_state, extroversion, prev_knowledge,
                                      learntyp, semester, interest, degree_course):
+        """LearningProfileGruppe wird erstellt"""
+
         learningprofilegroup = LearningProfileGroup()
         learningprofilegroup.set_group_id(group_id)
         learningprofilegroup.set_name(name)
@@ -147,35 +145,47 @@ class Administration(object):
             return mapper.insert(learningprofilegroup)
 
     def get_learningprofile_group_by_name(self, name):
+        """Die LearningProfileGroup mit gegebenem Namen Auslesen"""
         with LearningProfileGroupMapper() as mapper:
             return mapper.find_by_name(name)
 
     def get_learningprofile_group_by_id(self, number):
+        """Die LearningProfileGroup mit gegebener ID Auslesen"""
+
         with LearningProfileGroupMapper() as mapper:
             return mapper.find_by_id(number)
 
     def get_learningprofile_group_by_group_id(self, group_id):
+        """Den LearningProfileGroup mit gegebener GroupID Auslesen"""
+
         with LearningProfileGroupMapper() as mapper:
             return mapper.find_by_group_id(group_id)
 
     def get_all_learningprofiles_group(self):
-        """Alle Learningprofiles group auslesen."""
+        """Alle LearningProfileGroup auslesen."""
+
         with LearningProfileGroupMapper() as mapper:
             return mapper.find_all()
 
     def save_learningprofile_group(self, learningprofile):
-        """Das gegebene Learningprofile group speichern."""
+        """Die gegebene LearningProfileGroup speichern."""
+
         with LearningProfileGroupMapper() as mapper:
             mapper.update(learningprofile)
 
     def delete_learningprofile_group(self, learningprofile):
-        """Das gegebene LearningProfile group aus unserem System löschen."""
+        """Die gegebene LearningProfileGroup aus unserem System löschen."""
+
         with LearningProfileGroupMapper() as mapper:
             mapper.delete(learningprofile)
 
+
     # LearningProfile User Methoden
+
     def create_learningprofile_user(self, user_id, name, frequency, study_state, extroversion, prev_knowledge,
                                          learntyp, semester, interest, degree_course):
+        """LearningProfileUser wird erstellt"""
+
         learningprofileuser = LearningProfileUser()
         learningprofileuser.set_user_id(user_id)
         learningprofileuser.set_name(name)
@@ -193,40 +203,54 @@ class Administration(object):
             return mapper.insert(learningprofileuser)
 
     def get_learningprofile_user_by_name(self, name):
+        """Den LearningProfileUser über den gegebenen Namen Auslesen"""
+
         with LearningProfileUserMapper() as mapper:
             return mapper.find_by_name(name)
 
     def get_learningprofile_user_by_id(self, number):
+        """Die LearningProfileUser mit gegebener ID Auslesen"""
+
         with LearningProfileUserMapper() as mapper:
             return mapper.find_by_id(number)
 
     def get_learningprofile_user_by_user_id(self, user_id):
+        """Die LearningProfileUser mit gegebener ID Auslesen"""
+
         with LearningProfileUserMapper() as mapper:
             return mapper.find_by_user_id(user_id)
 
     def get_all_learningprofiles_user(self):
-        """Alle Learningprofiles user auslesen."""
+        """Alle LearningProfileUser auslesen."""
+
         with LearningProfileUserMapper() as mapper:
             return mapper.find_all()
 
     def save_learningprofile_user(self, learningprofile):
-        """Das gegebene Learningprofile user speichern."""
+        """Den gegebenen LearningProfileUser speichern."""
+
         with LearningProfileUserMapper() as mapper:
             mapper.update(learningprofile)
 
     def get_user_id_by_learningprofile_id(self, id):
+        """Die UserID über die gegebene ID Auslesen"""
+
         with LearningProfileUserMapper() as mapper:
             return mapper.get_user_id_by_learningprofile_id(id)
 
 
     def delete_learningprofile_user(self, learningprofile):
-        """Das gegebene LearningProfile user aus unserem System löschen."""
-        with LearningProfileUserMapper() as mapper:
+        """Den gegebenen LearningProfileUser aus unserem System löschen."""
 
+        with LearningProfileUserMapper() as mapper:
             mapper.delete(learningprofile)
 
+
     # ChatInvitation Methoden
+
     def create_chatinvitation(self, source_user, target_user, chat_id, is_accepted):
+        """ChatInvitation wird erstellt"""
+
         chatinvitation = ChatInvitation()
         chatinvitation.set_source_user(source_user)
         chatinvitation.set_target_user(target_user)
@@ -238,42 +262,62 @@ class Administration(object):
             return mapper.insert(chatinvitation)
 
     def get_chatinvitation_by_id(self, number):
+        """Die ChatInvitation mit gegebener ID Auslesen"""
+
         with ChatInvitationMapper() as mapper:
             return mapper.find_by_id(number)
 
     def get_all_invites_by_target_user(self, target_user):
+        """Alle ChatInvitations über einen gegebenen TargetUser Auslesen"""
+
         with ChatInvitationMapper() as mapper:
             return mapper.find_all_invites_by_target_user(target_user)
 
     def get_all_invites_by_source_user(self, source_user):
+        """Alle ChatInvitations über einen gegebenen SourceUser Auslesen"""
+
         with ChatInvitationMapper() as mapper:
             return mapper.find_all_invites_by_source_user(source_user)
 
     def get_all_accepted_user_in_chat(self, chat_id):
+        """Alle User eines Chats über die gegebene ChatID Auslesen"""
+
         with ChatInvitationMapper() as mapper:
             return mapper.find_all_accepted_user_in_chat(chat_id)
 
     def get_all_pend_invites(self):
+        """Auslesen aller nicht akzeptierten oder gelöschten ChatInvitations"""
+
         with ChatInvitationMapper() as mapper:
             return mapper.find_all_pend_invites()
 
     def get_pend_invites_by_target_user(self, target_user):
+        """Auslesen aller nicht akzeptierten oder gelöschten ChatInvitations des TargetUsers"""
+
         with ChatInvitationMapper() as mapper:
             return mapper.find_pend_invites_by_target_user(target_user)
 
     def get_pend_invites_by_source_user(self, source_user):
+        """Auslesen aller nicht akzeptierten oder gelöschten ChatInvitations des SourceUsers"""
+
         with ChatInvitationMapper() as mapper:
             return mapper.find_pend_invites_by_source_user(source_user)
 
     def get_accepted_invites_by_source_user(self, source_user):
+        """Auslesen aller akzeptierten ChatInvitations des gegebenen SourceUsers"""
+
         with ChatInvitationMapper() as mapper:
             return mapper.find_accepted_invites_by_source_user(source_user)
 
     def get_accepted_invites_by_target_user(self, target_user):
+        """Auslesen aller akzeptierten ChatInvitations des gegebenen TargetUsers"""
+
         with ChatInvitationMapper() as mapper:
             return mapper.find_accepted_invites_by_target_user(target_user)
 
     def get_friend_requests_by_google_id(self, google_id):
+        """Freundschaftsanfragen über die gegebene GoogleID Auslesen"""
+
         user = self.get_user_by_google_id(google_id)
         user_id = user.get_id()
         request_ids = []
@@ -293,10 +337,14 @@ class Administration(object):
         return friend_request_objects
 
     def get_friends_by_google_id(self, google_id):
+        """Freunde über die gegebene GoogleID Auslesen"""
+
         user = self.get_user_by_google_id(google_id)
         user_id = user.get_id()
         friends_ids = []
-        # Where source user
+
+        # Wo SourceUser
+
         friends_by_target = self.get_accepted_invites_by_target_user(user_id)
         if type(friends_by_target) != list:
             friends_ids.append(friends_by_target.get_source_user())
@@ -304,7 +352,8 @@ class Administration(object):
             for obj in friends_by_target:
                 friends_ids.append(obj.get_source_user())
 
-        # Where target user
+        # Wo TargetUser
+
         friends_by_source = self.get_accepted_invites_by_source_user(user_id)
         if type(friends_by_source) != list:
             friends_ids.append(friends_by_source.get_target_user())
@@ -319,6 +368,8 @@ class Administration(object):
         return friends_objects
 
     def accept_friend_request(self, target_id, source_id):
+        """Freundschaftsanfrage akzeptieren und automatisch einen Chat erstellen"""
+
         friend_request = self.get_pend_invites_by_target_user(target_id)
 
         if type(friend_request) != list:
@@ -340,6 +391,8 @@ class Administration(object):
                     self.save_chatinvitation(obj)
 
     def decline_friend_request(self, target_id, source_id):
+        """Freundschaftsanfragen ablehnen"""
+
         friend_request = self.get_pend_invites_by_target_user(target_id)
 
         if type(friend_request) != list:
@@ -353,6 +406,8 @@ class Administration(object):
                     self.delete_chatinvitation(obj)
 
     def remove_friend(self, target_id, source_id):
+        """Freund entfernen und automatisch den dazugehörigen Chat löschen"""
+
         friends = self.get_accepted_invites_by_target_user(target_id)
 
         if type(friends) != list:
@@ -390,6 +445,8 @@ class Administration(object):
                 self.delete_chat(chat)
 
     def leave_group(self, user_id, group_id):
+        """Eine Gruppe verlassen"""
+
         groups = self.get_accepted_groupinvites_by_target_user(user_id)
 
         if type(groups) != list:
@@ -410,22 +467,29 @@ class Administration(object):
 
 
     def get_all_chatinvitations(self):
-        """Alle Chatinvitations auslesen."""
+        """Alle ChatInvitations auslesen."""
+
         with ChatInvitationMapper() as mapper:
             return mapper.find_all()
 
     def save_chatinvitation(self, invite):
-        """Die gegebene chatinvitation speichern."""
+        """Die gegebene ChatInvitation speichern."""
+
         with ChatInvitationMapper() as mapper:
             mapper.update(invite)
 
     def delete_chatinvitation(self, id):
-        """Die gegebene chatinvitation aus unserem System löschen."""
+        """Die gegebene ChatInvitation aus unserem System löschen."""
+
         with ChatInvitationMapper() as mapper:
             mapper.delete(id)
 
+
     # StudyGroup Methoden
+
     def create_studygroup (self, name):
+        """StudyGroup wird erstellt"""
+
         studygroup = StudyGroup()
         studygroup.set_name(name)
         chat = self.create_chat(name)
@@ -436,42 +500,61 @@ class Administration(object):
             return mapper.insert(studygroup)
 
     def create_studygroup_package (self, name, user_id):
+        """StudyGroup wird zusammen mit LearninProfileGroup, GoogleID und einer GroupInvitation kreiert"""
+
         studygroup = self.create_studygroup(name)
-        self.create_learningprofile_group(studygroup.get_id(), studygroup.get_name(), 1, 1, 1, 1, 1, 1, "interest_preset", "degree_course_preset")
+        self.create_learningprofile_group(studygroup.get_id(),studygroup.get_name(),
+            1, 1, 1, 1, 1, 1, "interest_preset", "degree_course_preset"
+            )
         print(studygroup)
+
         user = self.get_user_by_google_id(user_id)
         print(user)
+
         self.create_groupinvitation(user.get_id(), user.get_id(), studygroup.get_id(),1)
 
     def get_studygroup_by_name(self, name):
+        """Den StudyGroup über den gegebenen Namen Auslesen"""
+
         with StudyGroupMapper() as mapper:
             return mapper.find_by_group_name(name)
 
     def get_studygroup_by_id(self, id):
+        """StudyGroup mit gegebener ID Auslesen"""
+
         with StudyGroupMapper() as mapper:
             return mapper.find_by_id(id)
 
     def get_studygroup_by_learning_profile_id(self, learning_profile_id):
+        """StudyGroup über die gegebene LearningProfileID auslesen"""
+
         with StudyGroupMapper() as mapper:
             return mapper.find_group_by_learning_profile_id(learning_profile_id)
 
     def get_all_studygroups(self):
+        """Auslesen aller StudyGroups in unserem System"""
+
         with StudyGroupMapper() as mapper:
             return mapper.find_all()
 
     def save_studygroup(self, studygroup):
+        """Die gegebene StudyGroup speichern."""
+
         with StudyGroupMapper() as mapper:
             mapper.update(studygroup)
 
     def delete_studygroup(self, studygroup):
+        """Die gegebene StudyGroup aus unserem System löschen."""
+
         with StudyGroupMapper() as mapper:
             mapper.delete(studygroup)
 
 
     # GroupInvitation Methoden
 
-
     def create_groupinvitation(self, source_user, target_user, studygroup_id, is_accepted):
+        """GroupInvitation wird erstellt"""
+
         groupinvitation = GroupInvitation()
         groupinvitation.set_source_user(source_user)
         groupinvitation.set_target_user(target_user)
@@ -483,77 +566,106 @@ class Administration(object):
             return mapper.insert(groupinvitation)
 
     def get_groupinvitation_by_id(self,id):
+        """GroupInvitation mit gegebener ID Auslesen"""
+
         with GroupInvitationMapper() as mapper:
             return mapper.find_by_id(id)
 
     def get_groupinvitations_by_source_user(self, source_user):
+        """Alle GroupInvitations über den gegebenen SourceUser Auslesen"""
+
         with GroupInvitationMapper() as mapper:
             return mapper.find_all_group_invitations_by_source_user(source_user)
 
     def get_groupinvitations_by_target_user(self, target_user):
+        """Alle GroupInvitations über den gegebenen TargetUser Auslesen"""
+
         with GroupInvitationMapper() as mapper:
             return mapper.find_all_group_invitations_by_target_user(target_user)
 
     def get_all_pend_groupinvites(self):
+        """Auslesen aller nicht akzeptierten oder gelöschten GroupInvitations in unserem System"""
+
         with GroupInvitationMapper() as mapper:
             return mapper.find_all_pend_invites()
 
     def get_pend_groupinvites_by_target_user(self, target_user):
+        """Auslesen aller nicht akzeptierten oder gelöschten GroupInvitations des TargetUsers"""
+
         with GroupInvitationMapper() as mapper:
             return mapper.find_pend_invites_by_target_user(target_user)
 
     def get_pend_groupinvites_by_source_user(self, source_user):
+        """Auslesen aller nicht akzeptierten oder gelöschten GroupInvitations des SourceUsers"""
+
         with GroupInvitationMapper() as mapper:
             return mapper.find_pend_invites_by_source_user(source_user)
 
     def get_accepted_groupinvites_by_source_user(self, source_user):
+        """Auslesen von akzeptierten GroupInvitations des gegebenen SourceUsers"""
+
         with GroupInvitationMapper() as mapper:
             return mapper.find_accepted_invites_by_source_user(source_user)
 
     def get_accepted_groupinvites_by_target_user(self, target_user):
+        """Auslesen von akzeptierten GroupInvitations des gegebenen TargetUsers"""
+
         with GroupInvitationMapper() as mapper:
             return mapper.find_accepted_invites_by_target_user(target_user)
 
     def get_groupinvitation_by_study_group_id(self, study_group_id):
+        """Auslesen von GroupInvitations über die StudyGroupID"""
+
         with GroupInvitationMapper() as mapper:
             return mapper.find_all_group_invitations_by_StudyGroup(study_group_id)
 
-
     def get_accepted_groupinvitation_by_study_group_id(self, study_group_id):
+        """Auslesen von akzeptierten GroupInvitations über die StudyGroupID"""
+
         with GroupInvitationMapper() as mapper:
             return mapper.find_all_accepted_user_in_study_group(study_group_id)
 
     def get_groupinvitation_pend_invites_by_study_group(self, study_group):
+        """Auslesen aller nicht akzeptierten oder gelöschten GroupInvitations über die StudyGroup"""
+
         with GroupInvitationMapper() as mapper:
             return mapper.find_all_pend_user_in_study_group(study_group)
 
     def get_all_groupinvitations(self):
-        """Alle Chatinvitations auslesen."""
+        """Alle GroupInvitations in unserem System Auslesen."""
+
         with GroupInvitationMapper() as mapper:
             return mapper.find_all()
 
     def save_groupinvitation(self, group_invite):
-        """Die gegebene chatinvitation speichern."""
+        """Die gegebene GroupInvitation speichern."""
+
         with GroupInvitationMapper() as mapper:
             mapper.update(group_invite)
 
     def delete_groupinvitation(self, group_invite):
-        """Die gegebene chatinvitation aus unserem System löschen."""
+        """Die gegebene GroupInvitation aus unserem System löschen."""
+
         with GroupInvitationMapper() as mapper:
             mapper.delete(group_invite)
 
     def get_groups_by_google_id(self, google_id):
+        """Groups über die gegebene GoogleID Auslesen"""
+
         user = self.get_user_by_google_id(google_id)
         user_id = user.get_id()
         groupPart_ids = []
-        # Where source user
+
+        # Wo SourceUser
+
         groupInv_by_target = self.get_accepted_groupinvites_by_target_user(user_id)
         if type(groupInv_by_target) != list:
             groupInv_by_target = [groupInv_by_target]
         for obj in groupInv_by_target:
             groupPart_ids.append(obj.get_study_group_id())
 
-        # Where target user
+        # Wo TargetUser
+
         groupInv_by_source = self.get_accepted_groupinvites_by_source_user(user_id)
         if type(groupInv_by_source) != list:
             groupInv_by_source = [groupInv_by_source]
@@ -570,6 +682,8 @@ class Administration(object):
         return group_objects
 
     def get_user_pending_invites_groups_by_google_id(self, google_id):
+        """Nicht akzeptierte oder gelöschte GroupInvitations über die gegebene GoogleID Auslesen"""
+
         invites_and_groups = []
         groups = self.get_groups_by_google_id(google_id)
 
@@ -595,7 +709,10 @@ class Administration(object):
 
 
     # ChatMessage Methoden
+
     def create_chatmessage(self, chat_id, user_id, text):
+        """ChatMessage wird erstellt"""
+
         chatmessage = ChatMessage()
         chatmessage.set_chat_id(chat_id)
         chatmessage.set_user_id(user_id)
@@ -606,33 +723,47 @@ class Administration(object):
             return mapper.insert(chatmessage)
 
     def get_chatmessage_by_id(self,id):
+        """ChatMessage mit gegebener ID Auslesen"""
+
         with ChatMessageMapper() as mapper:
             return mapper.find_by_id(id)
 
     def get_chatmessages_by_chat_id(self, chat_id):
+        """ChatMessage mit gegebener ChatID Auslesen"""
+
         with ChatMessageMapper() as mapper:
             return mapper.find_all_by_chat_id(chat_id)
 
     def get_all_chatmessages(self):
+        """Auslesen aller ChatMessages in unserem System"""
+
         with ChatMessageMapper() as mapper:
             return mapper.find_all()
 
     def get_chatmessages_by_user_id(self,user_id):
+        """ChatMessage über die gegebene UserID Auslesen"""
+
         with ChatMessageMapper() as mapper:
-            #### find by user_id fehlt? brauchen wir das?
             return mapper.find_all_by_user_id(user_id)
 
     def save_chatmessage(self, chatmessage):
+        """Die gegebene ChatMessage speichern"""
+
         with ChatMessageMapper() as mapper:
             mapper.update(chatmessage)
 
     def delete_chatmessage(self, chatmessage):
+        """Die gegebene ChatMessage löschen"""
+
         with ChatMessageMapper() as mapper:
             mapper.delete(chatmessage)
+
 
     # Chat Methoden
 
     def create_chat(self, name):
+        """Chat wird erstellt"""
+
         chat = Chat()
         chat.set_name(name)
         chat.set_id(1)
@@ -641,26 +772,38 @@ class Administration(object):
             return mapper.insert(chat)
 
     def get_chat_by_id(self, id):
+        """ChatMessage mit gegebener ID Auslesen"""
+
         with ChatMapper() as mapper:
             return mapper.find_by_id(id)
 
     def get_chat_by_name(self, name):
+        """Auslesen des Chats über den gegebenen Namen"""
+
         with ChatMapper() as mapper:
             return mapper.find_by_name(name)
 
     def get_all_chats(self):
+        """Auslesen aller Chats in unserem System"""
+
         with ChatMapper() as mapper:
             return mapper.find_all()
 
     def save_chat(self, chat):
+        """Den gegebenen Chat speichern"""
+
         with ChatMapper() as mapper:
             mapper.update(chat)
 
     def delete_chat(self, single_chat):
+        """Den gegebenen Chat löschen"""
+
         with ChatMapper() as mapper:
             mapper.delete(single_chat)
 
     def get_chat_by_user_id(self, user_id):
+        """Auslesen des Chats über die gegebene UserID"""
+
         acc_invites_source = self.get_accepted_invites_by_source_user(user_id)
         acc_invites_target = self.get_accepted_invites_by_target_user(user_id)
 
@@ -684,10 +827,14 @@ class Administration(object):
         return chat_objs
 
     def get_studygroup_by_chat_id(self, chat_id):
+        """Auslesen der StudyGroup über die gegebene ChatID"""
+
         with StudyGroupMapper() as mapper:
             return mapper.find_by_chat_id(chat_id)
 
     def get_group_users_by_chat(self, current_user_id, chat_id):
+        """Auslesen aller User in der Group über den Chat"""
+
         group = self.get_studygroup_by_chat_id(chat_id)
         group_ID = group.get_id()
 
@@ -724,6 +871,8 @@ class Administration(object):
         return filtered_users
 
     def isgroupchat(self, chat_id):
+        """Schaut ob es sich hier um einen GroupChat handelt"""
+
         all_study_groups = self.get_all_studygroups()
         result = False
 
@@ -739,6 +888,8 @@ class Administration(object):
 
 
     def get_other_user_by_chat_id(self,user_id, chat_id):
+        """Auslesen anderer User über die ChatID"""
+
         acc_invites_source = self.get_accepted_invites_by_source_user(user_id)
         acc_invites_target = self.get_accepted_invites_by_target_user(user_id)
 
@@ -760,6 +911,8 @@ class Administration(object):
                     return self.get_user_by_id(other_user)
 
     def get_group_chat_by_user_id(self, user_id):
+        """Auslesen des GroupChats über die UserID"""
+
         acc_invites_source = self.get_accepted_groupinvites_by_source_user(user_id)
         acc_invites_target = self.get_accepted_groupinvites_by_target_user(user_id)
         print(acc_invites_source)
@@ -795,6 +948,7 @@ class Administration(object):
         return chat_objs
 
     def get_group_users_by_group_id(self, group_id):
+        """Auslesen aller GroupUsers über die GroupID"""
 
         invites = self.get_groupinvitation_by_study_group_id(group_id)
         if type(invites) != list:
@@ -817,6 +971,8 @@ class Administration(object):
         return users
 
     def accept_group_request(self, group_id, user_id):
+        """Gruppeneinladung akzeptieren"""
+
         group_requests_source = self.get_pend_groupinvites_by_source_user(user_id)
         group_requests_target = self.get_pend_groupinvites_by_target_user(user_id)
 
@@ -834,6 +990,8 @@ class Administration(object):
                 self.save_groupinvitation(req)
 
     def decline_group_request(self, group_id, user_id):
+        """Gruppeneinladung ablehnen"""
+
         group_requests_source = self.get_pend_groupinvites_by_source_user(user_id)
         group_requests_target = self.get_pend_groupinvites_by_target_user(user_id)
 
@@ -849,12 +1007,13 @@ class Administration(object):
             if req.get_study_group_id() == group_id:
                 self.delete_groupinvitation(req)
 
+
     # Matching Algorithmus
 
     def get_matches_user(self, user_id, threshhold):
         """Output: {profile_id : 0,54, profile_id : 0,34}"""
 
-        # Matches for other Users
+        # Matches für anderen User
         user = self.get_user_by_google_id(user_id)
         self_profile = self.get_learningprofile_user_by_user_id(user.get_id())
         all_profiles = self.get_all_learningprofiles_user()
@@ -868,6 +1027,7 @@ class Administration(object):
         for profile in other_profiles:
             """Alle Vergleichswerte (Range von 0 bis 1) 0 = Verschieden; 1 = Gleich"""
             """Reihenfolge: Prev_Knowledge, Extroversion, Study State, Frequency, Learntyp, Semester, Interest, Degree_course"""
+
             similarity = []
             weights = [1, 1, 1, 1, 1, 1, 1, 1]
 
@@ -973,6 +1133,7 @@ class Administration(object):
         for profile in other_profiles:
             """Alle Vergleichswerte (Range von 0 bis 1) 0 = Verschieden; 1 = Gleich"""
             """Reihenfolge: Prev_Knowledge, Extroversion, Study State, Frequency, Learntyp, Semester, Interest, Degree_course"""
+            
             similarity = []
             weights = [1, 1, 1, 1, 1, 1, 1, 1]
 
