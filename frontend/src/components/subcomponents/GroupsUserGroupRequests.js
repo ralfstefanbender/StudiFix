@@ -6,7 +6,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 
-
+//** Nutzer anfragen für Gruppen die der current user hat */
 class GroupsUserGroupRequests extends Component{
 
     constructor(props){
@@ -22,10 +22,12 @@ class GroupsUserGroupRequests extends Component{
       };
     }
 
+    //** Gruppenanfrage annehmen */
     acceptGroupRequest = (e, group_id, user_id) =>{
       StudyFixAPI.getAPI().acceptGroupRequest(group_id, user_id).then(() => {this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#90EE90"}})})
     }
 
+    //** Gruppenanfrage ablehnen */
     declineGroupRequest = (e, group_id, user_id) =>{
       StudyFixAPI.getAPI().declineGroupRequest(group_id, user_id).then(() => {this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#F08080"}})})
     }

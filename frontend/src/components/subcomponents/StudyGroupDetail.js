@@ -9,7 +9,7 @@ import StudyGroupProfileDialog from '../dialogs/StudyGroupProfileDialog';
 import LoadingProgress from '../dialogs/LoadingProgress';
 
 
-
+//** Conmponent für Studygroups in denen der User ist */
 class StudyGroupDetail extends Component{
 
     constructor(props){
@@ -25,16 +25,19 @@ class StudyGroupDetail extends Component{
       };
     }
 
+    //** Das Learningprofile der Gruppe aufrufen*/
     componentDidMount(){
       StudyFixAPI.getAPI().getLearningProfileGroupByGroupId(this.props.ID).then((profile) => {
         this.setState({learningProfile:profile});
       })
     }
 
+    //** Dialog Öffnen */
     handleClickOpen = () => {
       this.setState({ open: true });
     };
     
+    //** Dialog schließen */
     handleClose = () => {
       this.setState({ open: false });      
     };

@@ -3,6 +3,7 @@ import { Card, Typography } from '@material-ui/core';
 
 import { List, Button} from '@material-ui/core';
 
+//**Chat auflistung für Gruppenchats Component */
 class GroupChatSelection extends Component {
 
   constructor(props){
@@ -15,7 +16,7 @@ class GroupChatSelection extends Component {
 
   render(){
 
-
+    //** Rendern aller Gruppenchats die der Nutzer hat */
     return (
       <div elevation={0}>
         <div >

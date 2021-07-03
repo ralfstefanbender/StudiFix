@@ -5,6 +5,7 @@ import { Button } from '@material-ui/core';
 import GroupInvitationBO from '../../api/GroupInvitationBO';
 import StudyFixAPI from '../../api/StudyFixAPI';
 
+//** Component für alle Matching Results für Gruppen */
 class MatchingPageRow extends Component{
     constructor(props){
         super(props)
@@ -14,6 +15,7 @@ class MatchingPageRow extends Component{
 
     }
 
+    //** Groupinvitation erstellen und davor bo bauen */
     handleGroupInvite = (e, match_id) =>{
         var newInvite = new GroupInvitationBO()
         newInvite.setSourceOwner(this.props.user_id)
@@ -27,7 +29,7 @@ class MatchingPageRow extends Component{
 
     render(){
         const match = this.props.match
-
+        //**Rendern von Matching Result */
         return(
             <TableRow key={match.name}>
                 <TableCell align="left">{match.name}</TableCell>
