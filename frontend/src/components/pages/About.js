@@ -15,6 +15,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+/**
+ * Zeigt die About Page mit den Verantwortlichen, die Autoren und ihre Bereiche an; inklusive Verlinkung zu den Github Profilen
+ */
 
 function About() {
 

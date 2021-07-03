@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import StudyFixAPI from '../../api/StudyFixAPI';
 import firebase from 'firebase/app';
 
+/** Component spezifische styles */
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -15,6 +16,10 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
   }
 }));
+
+/**
+ * Beschreibt die Komponente der Hauptseite mit den austehenden User- und Gruppeneinladungen
+ */
 
 class Overview extends Component {
   constructor(props){
@@ -28,11 +33,12 @@ class Overview extends Component {
     };
   }
 
-
+  //** Einmaliges aufrufen nach dem Rendering */
   componentDidMount(){
     this.getUserByGoogleId()
   }
 
+  //** Fetch den User aus dem Backend */
   getUserByGoogleId = () => {
     StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
           this.setState({userBO:user}); 
@@ -41,17 +47,20 @@ class Overview extends Component {
           this.getUserGroupRequests(user.google_id)
         })
             }
-  
+
+  //** Holt alle Useranfragen aus dem Backend */
   getFriendRequests = (google_id) => {
     StudyFixAPI.getAPI().getFriendRequestsByGoogleId(google_id).then(friendRequests =>
       this.setState({friendRequests: friendRequests.length})
     )}
 
+  //** Holt alle Gruppenanfragen aus dem Backend */
   getUserGroupRequests = (google_id) => {
     StudyFixAPI.getAPI().getUserPendingGroupInvites(google_id).then(groupRequests =>
         this.setState({groupRequests: groupRequests.length})
     )}
 
+  /** Rendert die Komponente */
   render(){  
     const { classes } = this.props;
 

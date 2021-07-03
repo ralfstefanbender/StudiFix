@@ -6,6 +6,9 @@ import LoadingProgress from '../dialogs/LoadingProgress';
 import { StudyFixAPI } from '../../api';
 import ShowBuddyProfileDialog from '../dialogs/ShowBuddyProfileDialog';
 
+/**
+ * Beschreibt die Komponente zum Anzeigen  des Gruppenprofils
+ */
 
 class UserGroupsDetail extends Component{
 
@@ -23,21 +26,24 @@ class UserGroupsDetail extends Component{
       };
     }
 
+//** Einmaliges aufrufen nach dem Rendering */
 componentDidMount(){
   StudyFixAPI.getAPI().getLearningProfileUserByUserId(this.state.userBO.id).then((profile) => {
     this.setState({learningprofileBO:profile});
   })
 }
 
+//** Öffnet das Dialogfenster des Gruppenprofils */
 handleClickOpen = () => {
   this.setState({ open: true });
 };
 
+//** Schließt das Dialogfenster des Gruppenprofils */
 handleClose = () => {
   this.setState({ open: false });      
 };
 
-/** Renders the component */
+/** Rendert die Komponente */
 render() {
     const { classes, ID, adress, firstName, lastName, email} = this.props;
     const {  loadingInProgress, loadingError} = this.state;
@@ -68,7 +74,7 @@ render() {
   }
 }
 
-/** Component specific styles */
+/** Component spezifische styles */
 const styles = theme => ({
   root: {
     width: '100%',

@@ -103,6 +103,7 @@ class App extends Component {
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
 	}
 
+	/** Rendert die ganze App*/
 	render() {
 	        const { currentUser, appError, authError, authLoading } = this.state;
 

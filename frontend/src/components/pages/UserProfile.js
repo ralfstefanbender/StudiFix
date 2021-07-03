@@ -4,8 +4,9 @@ import firebase from 'firebase/app';
 import MenuItem from '@material-ui/core/MenuItem';
 import 'firebase/auth';
 import StudyFixAPI from '../../api/StudyFixAPI';
+
 /**
- * @author Dominic
+ * Beschreibt die Komponente zum Verändern des Lernprofils
  */
 
 class UserProfile extends Component {
@@ -27,10 +28,12 @@ class UserProfile extends Component {
         }
     }
 
+    //** Einmaliges aufrufen nach dem Rendering */
     componentDidMount(){
       this.getUserByGoogleId()
     }
 
+    //** Fetch den User aus dem Backend */
     getUserByGoogleId = () => {
       StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
         this.setState({userBO:user});
@@ -38,6 +41,7 @@ class UserProfile extends Component {
       })
           }
 
+    //** Holt das Lernprofil des Users aus dem Backend */
     getLearningProfileUserByUserId = (UserId) => {
       StudyFixAPI.getAPI().getLearningProfileUserByUserId(UserId)
         .then(UserProfileBO =>
@@ -58,6 +62,7 @@ class UserProfile extends Component {
           }))
 }
 
+//** Lädt die Veränderungen des Lernprofils ins Backend */
 updateProfile = () => {
   var profile = this.state.UserProfileBO
   profile.setName(this.state.newProfileName)
@@ -82,45 +87,52 @@ updateProfile = () => {
 
 
 }
-    
+    //** Setzt die Änderung des Vorwissens in den State */
     handlePrevKnowlegeChange = (value) => {
       this.setState({ prev_knowledge: value })
         };
-      
+
+    //** Setzt die Änderung der Extrovertiertheit in den State */
     handleExtroversionChange = (value) => {
       this.setState({ extroversion: value })
         };
 
+    //** Setzt die Änderung der Lernpräferenz in den State */
     handleStudyStateChange = (value) => {
       this.setState({ studystate: value })
         };
-    
+
+    //** Setzt die Änderung der Lernfrequenz in den State */
     handleFrequencyChange = (value) => {
       this.setState({ frequency: value })
         };
 
+    //** Setzt die Änderung des Lerntyps in den State */
     handleLearntypChange = (value) => {
       this.setState({ learntyp: value })
         };
-    
+
+    //** Setzt die Änderung des Semesters in den State */
     handleSemesterChange = (value) => {
       this.setState({ semester: value })
         };
-    
+
+    //** Setzt die Änderung des Profilnamens in den State */
     handleProfileNameChange = (event) => {
       this.setState({ newProfileName: event.target.value })
       }
-    
+
+    //** Setzt die Änderung der Interesse in den State */
     handleInterestChange = (event) => {
       this.setState({ newInterest: event.target.value })
      }
 
+    //** Setzt die Änderung des Studiengangs in den State */
     handleDegreeCourseChange = (event) => {
       this.setState({ newDegreeCourse: event.target.value })
      }
     
-
-
+  /** Rendert die Komponente */
   render(){
 
     const profile = this.state.UserProfileBO
@@ -497,6 +509,7 @@ const semesters = [
 
 }
 
+/** Component spezifische styles */
 const styles = theme => ({
   root: {
     width: '100%',

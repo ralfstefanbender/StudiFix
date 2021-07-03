@@ -15,6 +15,10 @@ import LoadingProgress from '../dialogs/LoadingProgress';
 import MatchingPageRow from '../subcomponents/MatchingPageRow';
 import MatchingPageRowGroups from '../subcomponents/MatchingPageRowGroups'
 
+/**
+ * Beschreibt die Komponente für das Matching von anderen Usern und Gruppen
+ */
+
 class Matching_page extends Component {
 
   constructor(props){
@@ -27,14 +31,17 @@ class Matching_page extends Component {
     }
   }
 
+  //** Einmaliges aufrufen nach dem Rendering */
   componentDidMount(){
     this.getCurrentUser()
   }
 
+  //** Fetch den User aus dem Backend */
   getCurrentUser(){
     StudyFixAPI.getAPI().getUserByGoogleId(this.props.currentUser.uid).then((user) => {this.setState({current_user:user})})
   }
 
+  //** Holt alle Gruppen- und Usermatches aus dem Backend */
   handleMatchSearch(){
     this.setState({loadingInProgress:true});
     StudyFixAPI.getAPI().getMatchesUser(this.state.current_user.getGoogleId()).then(UserMatchBO => {this.setState({matches:UserMatchBO}); this.setState({loadingInProgress:false})}); 
@@ -42,7 +49,7 @@ class Matching_page extends Component {
     
   }
 
-
+  /** Rendert die Komponente */
   render(){
 
     const { classes } = this.props;
@@ -117,6 +124,7 @@ class Matching_page extends Component {
   }
 }
 
+/** Component spezifische styles */
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',

@@ -8,6 +8,9 @@ import StudyGroupDetail from '../subcomponents/StudyGroupDetail';
 import firebase from "firebase";
 import GroupsUserGroupRequests from "../subcomponents/GroupsUserGroupRequests";
 
+/**
+ * Übersichtsseite der StudyGroups
+ */
 
 class ManageStudyGroup extends Component {
 
@@ -30,12 +33,12 @@ class ManageStudyGroup extends Component {
 
   }
 
-  
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  //** Einmaliges aufrufen nach dem Rendering */
   componentDidMount() {
     this.getUserByGoogleId();
   }
 
+  //** Fetch den User und setzt ihn in den State  */
   getUserByGoogleId = () => {
     StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
           this.setState({userBO:user});
@@ -44,6 +47,7 @@ class ManageStudyGroup extends Component {
         })
             }
 
+  //** Holt alle Anfragen für Gruppen aus dem Backend  */
   getUserGroupRequests = (google_id) => {
     StudyFixAPI.getAPI().getUserPendingGroupInvites(google_id).then((grouprequests) =>{
        this.setState({
@@ -58,7 +62,7 @@ class ManageStudyGroup extends Component {
       );
   }
 
-  /** gets the account list for this account */
+  //** Holt StudyGroups des eingeloggten Users aus dem Backend  */
   getAllStudyGroups = (google_id) => {
     StudyFixAPI.getAPI().getGroupsByGoogleId(google_id).then(studygroups =>
       this.setState({
@@ -72,14 +76,14 @@ class ManageStudyGroup extends Component {
         })
       );
 
-    // set loading to true
+    //** Setzt den state von loading auf true */
     this.setState({
       loadingInProgress: true,
       loadingError: null
     });
   }
 
-    // opens studygroup
+    //**  Öffnet beim klicken auf eine Studygroup das Dialogfenster */
     openstudygroup(){
         this.setState({
             openpr: true });
@@ -87,32 +91,32 @@ class ManageStudyGroup extends Component {
     }
 
 
-    // close studygroup
+    //** Schließt beim klicken auf eine Studygroup das Dialogfenster */
     closestudygroup= () => {
       this.setState({openpr:false});
     }
 
-
+    //**  Öffnet das MobileMenu */
     handleMobileMenu = (event) => {
       this.setState({
         mobileAnchorEl: event.currentTarget,
       })
     }
 
-
+    //**  Schließt  das MobileMenu */
     handleMobileClose = () => {
       this.setState({
         mobileAnchorEl: null
       })
     }
 
-
+    //**  Aktualisiert die Seite beim Annehmen einer Anfrage  */
     reload = () => {
       this.getAllStudyGroups(this.state.userBO.google_id)
     }
 
     
-  /** Renders the component */
+  /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
     const { studygroups, grouprequests, loadingInProgress, loadingError } = this.state;
@@ -173,7 +177,7 @@ class ManageStudyGroup extends Component {
   }
 }
 
-/** Component specific styles */
+/** Component spezifische styles */
 const styles = theme => ({
   root: {
     width: '100%',

@@ -6,6 +6,9 @@ import CheckIcon from '@material-ui/icons/Check';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 
+/**
+ * Beschreibt die Komponente zum Anzeigen  der Usereinladungen
+ */
 
 class UserGroupsFriendRequests extends Component{
 
@@ -20,15 +23,17 @@ class UserGroupsFriendRequests extends Component{
       };
     }
 
+    //** Akzeptiert die Chateinladung beim Annehmen der Anfrage und lädt die Seite neu */
     acceptChatInvite = (e, user_id) =>{
       StudyFixAPI.getAPI().acceptFriendRequest(this.props.userBO.id, user_id).then(() => {this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#90EE90"}}); this.props.reload()})
     }
 
+    //** Lehnt die Chateinladung ab  */
     declineChatInvite = (e, user_id) =>{
       StudyFixAPI.getAPI().declineFriendRequest(this.props.userBO.id, user_id).then(() => {this.setState({disabled:true}); this.setState({colorStyle: {backgroundColor:"#F08080"}})})  
     }
 
-
+    /** Rendert die Komponente */
     render() {
         const { classes, ID, firstName, lastName } = this.props;
         const {  loadingInProgress, loadingError } = this.state;
@@ -54,6 +59,7 @@ class UserGroupsFriendRequests extends Component{
       }
     }
 
+    /** Component spezifische styles */
     const styles = theme => ({
       root: {
         width: '100%',

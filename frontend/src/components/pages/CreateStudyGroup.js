@@ -4,7 +4,9 @@ import {StudyFixAPI} from '../../api';
 import Theme from "../../theme";
 import firebase from "firebase";
 
-
+/**
+ * Beschreibt die Komponente für das Erstellen einer StudyGroup
+ */
 
 class CreateStudyGroup extends Component {
 
@@ -77,7 +79,7 @@ class CreateStudyGroup extends Component {
                     error: e
                 }))
     }
-
+    //** Einmaliges aufrufen nach dem Rendering */
    componentDidMount(){
         this.getCurrentUser();
         this.getAllStudyGroups();

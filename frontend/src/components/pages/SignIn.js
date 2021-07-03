@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Grid, Typography, withStyles } from '@material-ui/core';
 
 /**
-Sign In
+Beschreibt die Komponente der Sign-In Seite
  */
 class SignIn extends Component {
 
@@ -15,7 +15,7 @@ class SignIn extends Component {
 		this.props.onSignIn();
 	}
 
-	/** Renders the sign in page, if user objext is null */
+	/** Rendert die Seite zum Einloggen in die Applikation */
 	render() {
 		const { classes } = this.props;
 
@@ -36,7 +36,7 @@ class SignIn extends Component {
 	}
 }
 
-/** Component specific styles */
+/** Component spezifische styles */
 const styles = theme => ({
 	root: {
 		margin: theme.spacing(2)

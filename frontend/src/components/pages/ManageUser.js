@@ -7,8 +7,9 @@ import 'firebase/auth';
 import UserProfile from '../pages/UserProfile';
 import DeleteUserAccountDialog from '../dialogs/DeleteUserAccountDialog'
 import StudyFixAPI from '../../api/StudyFixAPI';
+
 /**
- * @author Dominic
+ * Beschreibt die Komponente für das Verändern des Profils und Lerprofils eines Users
  */
 
 class ManageUser extends Component {
@@ -24,6 +25,7 @@ class ManageUser extends Component {
 
         }
     }
+
     //** Einmaliges aufrufen nach dem Rendering */
     componentDidMount() {
         this.getUserByGoogleId()
@@ -39,6 +41,7 @@ class ManageUser extends Component {
 
                 }))
     }
+
     //** updaten des Users */
     updateUser = () => {
         var user = this.state.userBO
@@ -59,21 +62,22 @@ class ManageUser extends Component {
 
     }
 
-    
-
     //** Funktion für die Namensändeurng eines Users */
     handleUserNameChange = (event) => {
         this.setState({ newFirstName: event.target.value })
     }
 
+    //** Funktion für die Adressänderung eines Users */
     handleUserAdressChange = (event) => {
         this.setState({ newAdress: event.target.value })
     }
 
+    //** Zeigt den Alert bei erfolgreicher Änderung der Daten an */
     setAlertOpen = (opened) => {
         this.setState({ alertOpen: opened })
     }
 
+     /** Rendert die Komponente */
     render() {
         const person = this.state.userBO
 
@@ -161,6 +165,7 @@ class ManageUser extends Component {
 
 }
 
+/** Component spezifische styles */
 const styles = theme => ({
     root: {
       width: '100%',
