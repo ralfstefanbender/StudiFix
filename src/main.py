@@ -49,7 +49,6 @@ Instanzieren von Flask. Am Ende dieser Datei erfolgt dann erst der 'Start' von F
 CORS(app, resources=r'/studyfix/*')
 
 
-
 """
 Alle Ressourcen mit dem Präfix /studyfix für **Cross-Origin Resource Sharing** (CORS) freigeben.
 Diese eine Zeile setzt die Installation des Package flask-cors voraus. 
@@ -136,6 +135,12 @@ user = api.inherit('User', bo, {
     'email': fields.String(attribute='_email', description='Email Adresse eines Users'),
     'adress': fields.String(attribute='_adress', description='Adresse des Profilinhabers')
 })
+
+
+@app.route('/hello')
+def hello():
+    return 'Hello World!'
+
 
 # -----User-----
 

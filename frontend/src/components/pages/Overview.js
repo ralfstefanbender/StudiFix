@@ -30,7 +30,6 @@ class Overview extends Component {
 
 
   componentDidMount(){
-    StudyFixAPI.getAPI().getAuth();
     this.getUserByGoogleId()
   }
 
