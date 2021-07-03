@@ -23,16 +23,16 @@ class LeaveGroupDialog extends Component {
       user: props.user
     }
   }
-
+  // öffnet den Dialog
   handleClickOpen = () => {
     this.setState({ open: true });
   };
-
+  // schließt den Dialog
   handleClose = () => {
     this.setState({ open: false });
 
   };
-
+  // Ermöglicht das löschen eines Users aus einer Gruppe
   deleteGroup = () =>{
     StudyFixAPI.getAPI().getUserByGoogleId(firebase.auth().currentUser.uid).then((user)=>{
       StudyFixAPI.getAPI().leaveGroup(user.id, this.props.groupId).then(() => {this.props.reload(); this.handleClose()})})}

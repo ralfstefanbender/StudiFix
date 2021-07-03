@@ -8,7 +8,7 @@ from src.server.Administration import Administration
 def secured(function):
     """Decorator zur Google Firebase-basierten Authentifizierung von Benutzern
 
-    Da es sich bei diesem System um eine basale Fallstudie zu Lehrzwecken handelt, wurde hier
+    Da es sich bei diesem System um eine basales Projekt zu Lehrzwecken handelt, wurde hier
     bewusst auf ein ausgefeiltes Berechtigungskonzept verzichtet. Vielmehr soll dieses Decorator
     einen Weg aufzeigen, wie man technisch mit vertretbarem Aufwand in eine Authentifizierung
     einsteigen kann.
